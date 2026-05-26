@@ -1,12 +1,9 @@
-"use client";
-
 import { ArrowRight, Mail } from "lucide-react";
 import { TRACK_RECORD } from "@/lib/data";
 import { SITE_EMAIL } from "@/lib/config";
 import styles from "@/styles/sections/hero-section.module.css";
 
 export function HeroSection() {
-  const goto = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center overflow-hidden bg-background pt-[52px]">
@@ -66,12 +63,12 @@ export function HeroSection() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-8">
-              <button onClick={() => goto("projects")} className="btn-primary">
+              <a href="#projects" className="btn-primary no-underline">
                 View Case Studies <ArrowRight size={14} />
-              </button>
-              <button onClick={() => goto("contact")} className="btn-outline">
+              </a>
+              <a href="#contact" className="btn-outline no-underline">
                 Get in touch <Mail size={14} />
-              </button>
+              </a>
             </div>
 
             <div className="flex flex-wrap gap-x-5 gap-y-1.5 justify-center lg:justify-start">
