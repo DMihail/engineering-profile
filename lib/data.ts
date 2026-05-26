@@ -289,7 +289,7 @@ export const XP_ENTRIES: XP[] = [
 export const SOCIAL_LINKS: SocialLink[] = [
   { label: "GitHub",   hint: "github.com/mykhailo-dzhezhelo",     icon: GithubIcon,   href: "https://github.com/DMihail" },
   { label: "LinkedIn", hint: "linkedin.com/in/mykhailo-dzhezhelo", icon: LinkedinIcon, href: "https://www.linkedin.com/in/mihail-dzhezhelo-27a41114a/" },
-  { label: "Email",    hint: SITE_EMAIL,                           icon: Mail,         href: `mailto:${SITE_EMAIL}` },
+  { label: "Email",    hint: SITE_EMAIL,                           icon: Mail,         href: `mailto:${SITE_EMAIL}?subject=Project%20Inquiry` },
 ];
 
 export const TRACK_RECORD = [

@@ -19,19 +19,21 @@ export function Footer() {
 
         <nav aria-label="Social links">
           <ul className="flex items-center gap-4 list-none m-0 p-0">
-            {SOCIAL_LINKS.map((link) => (
-              <li key={link.label}>
-                <a
-                  href={link.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={link.label}
-                  className="mono-sm text-text-dim no-underline transition-colors hover:text-primary"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
+            {SOCIAL_LINKS.map((link) => {
+              const isMailto = link.href.startsWith("mailto:");
+              return (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    {...(!isMailto && { target: "_blank", rel: "noreferrer" })}
+                    aria-label={link.label}
+                    className="mono-sm text-text-dim no-underline transition-colors hover:text-primary"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              );
+            })}
             <li aria-hidden="true">
               <span className="status-dot animate-pulse" />
             </li>

@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useFormStatus } from "react-dom";
-import { Send, CheckCircle, Loader2, ExternalLink, Download } from "lucide-react";
+import { Send, CheckCircle, Loader2, ExternalLink, Download, Copy, Check } from "lucide-react";
 import { useFadeIn } from "@/lib/hooks";
 import { SectionLabel } from "@/components/ui/primitives";
 import { SOCIAL_LINKS } from "@/lib/data";
@@ -75,10 +75,45 @@ function ResumeButton() {
   );
 }
 
+function EmailCard({ link }: { link: typeof SOCIAL_LINKS[number] }) {
+  const [copied, setCopied] = useState(false);
+  const LinkIcon = link.icon;
+  const email = link.hint;
+
+  const handleClick = () => {
+    window.location.href = link.href;
+    setTimeout(() => {
+      navigator.clipboard.writeText(email).then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      });
+    }, 300);
+  };
+
+  return (
+    <button type="button" onClick={handleClick} className={`${styles.linkCard} group w-full text-left`}>
+      <div className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0 bg-[rgba(56,189,248,0.1)]">
+        <LinkIcon size={14} className="text-primary" />
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="text-xs font-semibold text-foreground">{link.label}</div>
+        <div className="mono-sm text-text-dim truncate">{email}</div>
+      </div>
+      {copied
+        ? <Check size={13} className="text-success shrink-0" />
+        : <Copy size={11} className="text-text-dim shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+      }
+    </button>
+  );
+}
+
 function SocialLinks() {
   return (
     <div className="space-y-2.5">
       {SOCIAL_LINKS.map((link) => {
+        if (link.href.startsWith("mailto:")) {
+          return <EmailCard key={link.label} link={link} />;
+        }
         const LinkIcon = link.icon;
         return (
           <a key={link.label} href={link.href} target="_blank" rel="noreferrer" className={`${styles.linkCard} group`}>

@@ -1,36 +1,119 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# dzhezhelo.dev
+
+Personal engineering portfolio for **Mykhailo Dzhezhelo** — React Native Engineer.
+
+Built with Next.js 16, React 19, Tailwind CSS 4, and TypeScript.
+
+**Live:** [engineering-profile.vercel.app](https://engineering-profile.vercel.app)
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16 (App Router, Turbopack) |
+| UI | React 19, Tailwind CSS 4, CSS Modules |
+| Language | TypeScript 5 |
+| Icons | Lucide React |
+| Fonts | Inter, JetBrains Mono (Google Fonts) |
+| Deployment | Vercel |
+
+## Project Structure
+
+```
+app/
+  layout.tsx            # Root layout, metadata, fonts
+  page.tsx              # Home page
+  not-found.tsx         # Custom 404 page
+  globals.css           # Design tokens, Tailwind theme, global styles
+  manifest.ts           # PWA web manifest
+  robots.ts             # robots.txt generation
+  sitemap.ts            # sitemap.xml generation
+  opengraph-image.tsx   # Dynamic OG image (1200x630)
+  apple-icon.tsx        # Dynamic Apple touch icon (180x180)
+  favicon.ico           # Multi-size favicon (16/32/48px)
+  icon.svg              # SVG favicon
+
+components/
+  layout/
+    nav-bar.tsx         # Sticky navbar with scroll spy
+    footer.tsx          # Footer with social links
+  sections/
+    hero-section.tsx    # Hero with terminal card
+    impact-section.tsx  # Key capabilities
+    case-studies-section.tsx  # Expandable case studies (<details>)
+    skills-section.tsx  # Skill layers grid
+    experience-section.tsx   # Work history timeline
+    contact-section.tsx # Contact form and links
+    lazy-sections.tsx   # Lazy-loaded section wrapper
+  ui/
+    icons.tsx           # MDLogo, GitHub, LinkedIn icons
+    primitives.tsx      # SectionLabel, Chip components
+    fade-in.tsx         # Intersection Observer fade-in
+    lazy-section.tsx    # Lazy section loading utility
+
+lib/
+  config.ts             # Site-wide constants (URL, author, email)
+  data.ts               # All content data arrays
+  types.ts              # TypeScript interfaces
+  hooks.ts              # Custom hooks (useFadeIn)
+  utils.ts              # Utility functions
+
+styles/
+  sections/             # CSS Modules for sections
+  layout/               # CSS Modules for layout
+```
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install dependencies
+npm install
+
+# Start dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Production build
+npm run build
+
+# Start production server
+npm start
+
+# Lint
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Requires **Node.js 20+**.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Configuration
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+All site-wide constants are in `lib/config.ts`:
 
-## Learn More
+```typescript
+export const SITE_URL = "https://engineering-profile.vercel.app";
+export const SITE_AUTHOR = "Mykhailo Dzhezhelo";
+export const SITE_EMAIL = "dzhezhelomikhail@gmail.com";
+```
 
-To learn more about Next.js, take a look at the following resources:
+Content data (experience, case studies, skills, etc.) lives in `lib/data.ts`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Search Engine Verification
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+After deploying, register the site and fill in the verification codes in `app/layout.tsx`:
 
-## Deploy on Vercel
+```html
+<meta name="google-site-verification" content="YOUR_CODE" />
+<meta name="yandex-verification" content="YOUR_CODE" />
+<meta name="msvalidate.01" content="YOUR_CODE" />
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploy to Vercel
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npx vercel
+```
+
+Or connect the GitHub repository in the [Vercel Dashboard](https://vercel.com/new) — auto-detected as Next.js, zero config needed.
+
+## License
+
+Private project. All rights reserved.

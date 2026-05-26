@@ -1,4 +1,4 @@
-export const SITE_URL = "https://dzhezhelo.dev";
+export const SITE_URL = "https://engineering-profile.vercel.app";
 export const SITE_AUTHOR = "Mykhailo Dzhezhelo";
 export const SITE_EMAIL = "dzhezhelomikhail@gmail.com";
 export const SITE_ROLE = "React Native Engineer";
