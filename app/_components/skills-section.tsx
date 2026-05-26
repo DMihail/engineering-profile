@@ -15,7 +15,7 @@ export function SkillsSection() {
           Technical systems
         </h2>
         <p style={{ fontFamily: T.mono, fontSize: "11px", color: T.m, marginBottom: "36px" }}>
-          // 6 engineering domains — primary tools highlighted · production-verified
+          {"// 6 engineering domains — primary tools highlighted · production-verified"}
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -31,7 +31,7 @@ export function SkillsSection() {
                 <div style={{ fontFamily: T.mono, fontSize: "10px", fontWeight: 600, color: T.blue, letterSpacing: "0.04em" }}>{layer.layer}</div>
                 <div style={{ fontFamily: T.mono, fontSize: "9px", color: T.d, marginTop: "2px" }}>{layer.desc}</div>
                 <div className="flex items-center justify-between mt-3">
-                  <span style={{ fontFamily: T.mono, fontSize: "9px", color: T.f }}>// {layer.projectRefs}</span>
+                  <span style={{ fontFamily: T.mono, fontSize: "9px", color: T.f }}>{"// "}{layer.projectRefs}</span>
                   <span style={{ fontFamily: T.mono, fontSize: "8px", color: T.d, letterSpacing: "0.08em", textTransform: "uppercase" as const }}>{layer.scope}</span>
                 </div>
               </div>

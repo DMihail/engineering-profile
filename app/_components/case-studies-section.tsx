@@ -8,10 +8,8 @@ import { CASE_STUDIES } from "./data";
 import { useFadeIn } from "./hooks";
 import { SectionLabel, Chip } from "./primitives";
 
-function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
-  const [open, setOpen] = useState(false);
-
-  const SL = ({ n, children, accent = T.blue }: { n: string; children: string; accent?: string }) => (
+function StudyLabel({ n, children, accent = T.blue }: { n: string; children: string; accent?: string }) {
+  return (
     <div style={{
       fontFamily: T.mono, fontSize: "9px", letterSpacing: "0.14em",
       color: accent, textTransform: "uppercase" as const,
@@ -20,9 +18,13 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
       display: "flex", alignItems: "center", gap: "8px",
     }}>
       <span style={{ color: accent === T.blue ? "rgba(56,189,248,0.35)" : "rgba(34,197,94,0.35)", fontWeight: 500 }}>{n}</span>
-      <span>// {children}</span>
+      <span>{"// "}{children}</span>
     </div>
   );
+}
+
+function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
+  const [open, setOpen] = useState(false);
 
   return (
     <div
@@ -102,36 +104,36 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
         <div style={{ borderTop: "1px solid rgba(56,189,248,0.1)", background: "rgba(9,13,22,0.8)", padding: "32px 24px" }}>
 
           <div style={{ marginBottom: "28px" }}>
-            <SL n="01">Context</SL>
+            <StudyLabel n="01">Context</StudyLabel>
             <p style={{ fontSize: "13px", color: T.m, lineHeight: "1.78", fontStyle: "italic" }}>{cs.context}</p>
           </div>
 
           <div style={{ marginBottom: "32px", padding: "20px", borderRadius: "10px", background: "rgba(56,189,248,0.03)", border: "1px solid rgba(56,189,248,0.08)" }}>
-            <SL n="02">Problem Statement</SL>
+            <StudyLabel n="02">Problem Statement</StudyLabel>
             <p style={{ fontSize: "14px", color: T.s, lineHeight: "1.8" }}>{cs.problem}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6" style={{ marginBottom: "32px" }}>
             <div>
-              <SL n="03">Technical Constraints</SL>
+              <StudyLabel n="03">Technical Constraints</StudyLabel>
               <ul className="space-y-3">
                 {cs.constraints.map((c, i) => (
                   <li key={i} className="flex items-start gap-2.5">
-                    <span style={{ fontFamily: T.mono, fontSize: "10px", color: T.d, marginTop: "3px", flexShrink: 0 }}>//</span>
+                    <span style={{ fontFamily: T.mono, fontSize: "10px", color: T.d, marginTop: "3px", flexShrink: 0 }}>{"//"}  </span>
                     <span style={{ fontSize: "12px", color: T.m, lineHeight: "1.7" }}>{c}</span>
                   </li>
                 ))}
               </ul>
             </div>
             <div>
-              <SL n="04">Technical Approach</SL>
+              <StudyLabel n="04">Technical Approach</StudyLabel>
               <p style={{ fontSize: "13px", color: T.s, lineHeight: "1.8" }}>{cs.approach}</p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6" style={{ marginBottom: "32px" }}>
             <div>
-              <SL n="05">Architecture Decisions</SL>
+              <StudyLabel n="05">Architecture Decisions</StudyLabel>
               <div className="hidden sm:block">
                 <div style={{ display: "grid", gridTemplateColumns: "auto 14px 1fr", gap: "8px 8px", alignItems: "baseline" }}>
                   {cs.architecture.flatMap((a, i) => [
@@ -152,7 +154,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
             </div>
 
             <div>
-              <SL n="06">Trade-offs Considered</SL>
+              <StudyLabel n="06">Trade-offs Considered</StudyLabel>
               <div className="hidden sm:block">
                 <div style={{ display: "grid", gridTemplateColumns: "auto 14px 1fr", gap: "8px 8px", alignItems: "baseline" }}>
                   {cs.tradeoffs.flatMap((tr, i) => [
@@ -174,14 +176,14 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
           </div>
 
           <div style={{ marginBottom: "24px", paddingBottom: "24px", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
-            <div style={{ fontFamily: T.mono, fontSize: "9px", letterSpacing: "0.14em", color: T.d, textTransform: "uppercase" as const, marginBottom: "10px" }}>// Tech Stack</div>
+            <div style={{ fontFamily: T.mono, fontSize: "9px", letterSpacing: "0.14em", color: T.d, textTransform: "uppercase" as const, marginBottom: "10px" }}>{"// Tech Stack"}</div>
             <div className="flex flex-wrap gap-2">
               {cs.stack.map((t) => <Chip key={t} label={t} variant="blue" />)}
             </div>
           </div>
 
           <div>
-            <SL n="07" accent={T.green}>Measurable Results</SL>
+            <StudyLabel n="07" accent={T.green}>Measurable Results</StudyLabel>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {cs.results.map((r) => (
                 <div key={r.label} className="py-5 px-5 rounded-xl" style={{ background: "rgba(34,197,94,0.05)", border: "1px solid rgba(34,197,94,0.12)" }}>

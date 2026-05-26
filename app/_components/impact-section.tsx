@@ -19,7 +19,7 @@ export function ImpactSection() {
               Engineering capability matrix
             </h2>
             <p style={{ fontFamily: T.mono, fontSize: "11px", color: T.m }}>
-              // production-verified · performance-validated · applied across real systems
+              {"// production-verified · performance-validated · applied across real systems"}
             </p>
           </div>
           <div className="flex items-center gap-2 shrink-0">
@@ -67,7 +67,7 @@ export function ImpactSection() {
                   <div className="flex flex-wrap gap-1 mb-2">
                     {cap.tags.slice(0, 3).map((tag) => <Chip key={tag} label={tag} />)}
                   </div>
-                  <div style={{ fontFamily: T.mono, fontSize: "9px", color: T.f }}>// {cap.appliedIn}</div>
+                  <div style={{ fontFamily: T.mono, fontSize: "9px", color: T.f }}>{"// "}{cap.appliedIn}</div>
                 </div>
 
                 <p style={{ fontSize: "13px", color: T.s, lineHeight: "1.68" }}>{cap.desc}</p>
@@ -112,7 +112,7 @@ export function ImpactSection() {
                   </div>
                   <p style={{ fontSize: "12px", color: T.s, lineHeight: "1.68", marginBottom: "8px" }}>{cap.desc}</p>
                   <div className="flex flex-wrap gap-1.5 mb-2">{cap.tags.map((t) => <Chip key={t} label={t} />)}</div>
-                  <div style={{ fontFamily: T.mono, fontSize: "9px", color: T.f }}>// {cap.appliedIn}</div>
+                  <div style={{ fontFamily: T.mono, fontSize: "9px", color: T.f }}>{"// "}{cap.appliedIn}</div>
                 </div>
               </div>
             );

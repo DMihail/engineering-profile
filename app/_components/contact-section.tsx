@@ -71,7 +71,7 @@ export function ContactSection() {
 
           <div>
             <div style={{ fontFamily: T.mono, fontSize: "9px", letterSpacing: "0.12em", color: T.d, textTransform: "uppercase" as const, marginBottom: "14px" }}>
-              // System Metadata
+              {"// System Metadata"}
             </div>
 
             <div className="space-y-2.5">
@@ -107,7 +107,7 @@ export function ContactSection() {
 
             <div style={{ paddingTop: "16px", borderTop: `1px solid ${T.bd}`, marginTop: "16px" }}>
               <div style={{ fontFamily: T.mono, fontSize: "9px", letterSpacing: "0.12em", color: T.d, textTransform: "uppercase" as const, marginBottom: "10px" }}>
-                // Resume
+                {"// Resume"}
               </div>
               <div className="space-y-2">
                 {[
