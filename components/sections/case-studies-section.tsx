@@ -180,9 +180,9 @@ export function CaseStudiesSection() {
     <section id="projects" className="bg-background py-[88px]">
       <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6" style={fade}>
         <SectionLabel n="02" label="Case Studies" />
-        <h2 className="section-heading">Engineering case studies</h2>
+        <h2 className="section-heading">Case studies</h2>
         <p className="section-comment mb-9">
-          {"// expand any study → 7-section breakdown: context · problem · constraints · approach · architecture · trade-offs · results"}
+          Expand any study for full technical breakdown
         </p>
         <div className="space-y-4">
           {CASE_STUDIES.map((cs) => <CaseStudyPanel key={cs.id} cs={cs} />)}

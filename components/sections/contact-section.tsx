@@ -271,8 +271,12 @@ export function ContactSection() {
       <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6" style={fade}>
         <SectionLabel n="05" label="Contact" />
         <h2 className="section-heading">{"Let's build something"}</h2>
+        <div className="flex items-center gap-2 mb-3">
+          <span className="status-dot-sm animate-pulse" />
+          <span className="mono-sm text-success tracking-[0.04em]">Available for contract work</span>
+        </div>
         <p className="text-sm text-muted-foreground mb-10 max-w-110 leading-[1.68]">
-          Available for contract work globally — EU, US, and remote. If you have a challenging mobile or frontend systems problem, reach out.
+          Open to remote and onsite opportunities globally — EU, US, and worldwide. If you have a challenging mobile or frontend systems problem, reach out.
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-10">

@@ -12,7 +12,7 @@ export const NAV = ["impact", "projects", "skills", "experience", "contact"];
 
 export const CAPABILITIES: Capability[] = [
   {
-    id: "perf", mod: "performance", kpi: "< 16ms", kpiSub: "frame budget",
+    id: "perf", kpi: "< 16ms", kpiSub: "frame budget",
     icon: Gauge,
     title: "Mobile Performance",
     desc: "Profiling and eliminating unnecessary re-renders for consistent 60fps. JS thread optimization, Hermes tuning, and bundle size reduction across production apps.",
@@ -20,7 +20,7 @@ export const CAPABILITIES: Capability[] = [
     appliedIn: "FocusGuard · 3 client productions",
   },
   {
-    id: "rt", mod: "realtime", kpi: "< 100ms", kpiSub: "latency",
+    id: "rt", kpi: "< 100ms", kpiSub: "latency",
     icon: Network,
     title: "Real-time Systems",
     desc: "Camera frame pipelines with OpenCV for on-device vision. WebSocket architectures for live bidding and location tracking at 2,000+ concurrent users.",
@@ -28,7 +28,7 @@ export const CAPABILITIES: Capability[] = [
     appliedIn: "Waddingtons · Vitadrop",
   },
   {
-    id: "native", mod: "native", kpi: "zero-copy", kpiSub: "JSI bridge",
+    id: "native", kpi: "zero-copy", kpiSub: "JSI bridge",
     icon: Terminal,
     title: "Native Integration",
     desc: "Swift and Kotlin modules via JSI and TurboModules for OS-level capabilities — screen-time enforcement, background tasks, biometric auth, and file system access.",
@@ -36,7 +36,7 @@ export const CAPABILITIES: Capability[] = [
     appliedIn: "FocusGuard · Vitadrop · 4 clients",
   },
   {
-    id: "arch", mod: "architecture", kpi: "iOS + Android", kpiSub: "+ Web",
+    id: "arch", kpi: "iOS + Android", kpiSub: "+ Web",
     icon: Layers,
     title: "Cross-platform Architecture",
     desc: "Offline-first apps with local persistence and background sync. Shared code across iOS, Android, and web while preserving native UX patterns.",
@@ -44,7 +44,7 @@ export const CAPABILITIES: Capability[] = [
     appliedIn: "Vitadrop · client monorepos",
   },
   {
-    id: "state", mod: "state", kpi: "normalized", kpiSub: "cache",
+    id: "state", kpi: "normalized", kpiSub: "cache",
     icon: Workflow,
     title: "State Management",
     desc: "Redux Toolkit with normalized caches, RTK Query for server state, and Zustand for feature-scoped state. Predictable data flow in complex multi-screen apps.",
@@ -55,7 +55,7 @@ export const CAPABILITIES: Capability[] = [
 
 export const SKILL_LAYERS: SkillLayer[] = [
   {
-    id: "mobile", layer: "Mobile Development", desc: "Core runtime, animation, device capabilities",
+    id: "mobile", layer: "Mobile Development", desc: "60fps animations, gesture systems, offline-first storage, camera pipelines",
     scope: "primary", projectRefs: "FocusGuard · Vitadrop",
     skills: [
       { name: "React Native", primary: true,  icon: Smartphone },
@@ -67,7 +67,7 @@ export const SKILL_LAYERS: SkillLayer[] = [
     ],
   },
   {
-    id: "realtime", layer: "Real-time & Backend", desc: "Streaming, messaging, event pipelines",
+    id: "realtime", layer: "Real-time & Backend", desc: "WebSocket messaging, push notifications, low-latency event streaming",
     scope: "backend", projectRefs: "Waddingtons · Vitadrop",
     skills: [
       { name: "WebSockets",  primary: true,  icon: Wifi     },
@@ -79,7 +79,7 @@ export const SKILL_LAYERS: SkillLayer[] = [
     ],
   },
   {
-    id: "frontend", layer: "Frontend & Web", desc: "Web interfaces, rendering, component systems",
+    id: "frontend", layer: "Frontend & Web", desc: "SSR/SSG rendering, component libraries, responsive design systems",
     scope: "web", projectRefs: "Waddingtons · client work",
     skills: [
       { name: "React",        primary: true,  icon: Globe     },
@@ -91,7 +91,7 @@ export const SKILL_LAYERS: SkillLayer[] = [
     ],
   },
   {
-    id: "native", layer: "Native Integration", desc: "OS bridges, platform APIs, binary modules",
+    id: "native", layer: "Native Integration", desc: "Swift/Kotlin modules, JSI bridging, background tasks, platform sensors",
     scope: "platform", projectRefs: "FocusGuard · Vitadrop",
     skills: [
       { name: "Swift",           primary: true,  icon: Cpu      },
@@ -103,7 +103,7 @@ export const SKILL_LAYERS: SkillLayer[] = [
     ],
   },
   {
-    id: "perf", layer: "Performance Tooling", desc: "Profiling, instrumentation, bundle analysis",
+    id: "perf", layer: "Performance Tooling", desc: "Frame profiling, memory leak detection, bundle splitting, startup optimization",
     scope: "optimization", projectRefs: "FocusGuard · contract work",
     skills: [
       { name: "Flipper",           primary: true,  icon: Activity  },
@@ -115,7 +115,7 @@ export const SKILL_LAYERS: SkillLayer[] = [
     ],
   },
   {
-    id: "state", layer: "State Management", desc: "Global state, server cache, reactive patterns",
+    id: "state", layer: "State Management", desc: "Normalized caches, optimistic updates, server-state sync, reactive subscriptions",
     scope: "data layer", projectRefs: "Vitadrop · Waddingtons",
     skills: [
       { name: "Redux Toolkit", primary: true,  icon: Workflow  },
