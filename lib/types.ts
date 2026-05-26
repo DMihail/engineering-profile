@@ -11,7 +11,7 @@ type Icon = React.ComponentType<{ size?: number; className?: string; style?: Rea
 
 interface SkillItem  { name: string; primary: boolean; icon: Icon }
 export interface SkillLayer { id: string; layer: string; desc: string; scope: string; projectRefs: string; skills: SkillItem[] }
-export interface Capability { id: string; mod: string; title: string; desc: string; kpi: string; kpiSub: string; tags: string[]; appliedIn: string; icon: Icon }
+export interface Capability { id: string; title: string; desc: string; kpi: string; kpiSub: string; tags: string[]; appliedIn: string; icon: Icon }
 interface ArchDecision { decision: string; rationale: string }
 interface TradeOff     { chosen: string; rationale: string }
 interface Result       { metric: string; label: string }
