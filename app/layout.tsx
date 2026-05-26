@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import { SITE_URL, SITE_AUTHOR, SITE_ROLE, SITE_DESCRIPTION, SITE_SHORT_DESCRIPTION } from "@/lib/config";
 import "./globals.css";
 
 const inter = Inter({
@@ -14,23 +15,14 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+const title = `${SITE_AUTHOR} — ${SITE_ROLE}`;
+
 export const metadata: Metadata = {
-  title: "Mykhailo Dzhezhelo — React Native Engineer",
-  description:
-    "React Native Engineer specializing in real-time systems, native integrations, and performance-critical mobile applications. 6+ years production across iOS, Android, and web.",
-  openGraph: {
-    title: "Mykhailo Dzhezhelo — React Native Engineer",
-    description:
-      "Building high-performance mobile systems, real-time applications, and scalable frontend architectures.",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Mykhailo Dzhezhelo — React Native Engineer",
-    description:
-      "Building high-performance mobile systems, real-time applications, and scalable frontend architectures.",
-  },
-  metadataBase: new URL("https://dzhezhelo.dev"),
+  title,
+  description: SITE_DESCRIPTION,
+  openGraph: { title, description: SITE_SHORT_DESCRIPTION, type: "website" },
+  twitter: { card: "summary_large_image", title, description: SITE_SHORT_DESCRIPTION },
+  metadataBase: new URL(SITE_URL),
 };
 
 export default function RootLayout({

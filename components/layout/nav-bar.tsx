@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { NAV } from "@/lib/data";
+import styles from "@/styles/layout/nav-bar.module.css";
 
 const SECTION_IDS = ["hero", "impact", "projects", "skills", "experience", "contact"];
 
@@ -32,7 +33,7 @@ export function NavBar() {
 
   return (
     <>
-      <nav className="nav-glass fixed top-0 left-0 right-0 z-50">
+      <nav className={`${styles.navGlass} fixed top-0 left-0 right-0 z-50`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-[52px]">
           <button onClick={() => goto("hero")} className="mono-base text-primary tracking-[0.02em] bg-transparent border-none cursor-pointer p-0">
             md://portfolio
@@ -43,7 +44,7 @@ export function NavBar() {
               <button
                 key={item}
                 onClick={() => goto(item)}
-                className={`nav-link ${active === item ? "text-primary bg-[rgba(56,189,248,0.08)]" : "text-muted-foreground bg-transparent hover:text-text-secondary"}`}
+                className={`${styles.navLink} ${active === item ? "text-primary bg-[rgba(56,189,248,0.08)]" : "text-muted-foreground bg-transparent hover:text-text-secondary"}`}
               >
                 {item}
               </button>

@@ -5,6 +5,8 @@ import { Mail, Send, CheckCircle, ExternalLink, Download } from "lucide-react";
 import { useFadeIn } from "@/lib/hooks";
 import { SectionLabel } from "@/components/ui/primitives";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
+import { SITE_EMAIL } from "@/lib/config";
+import styles from "@/styles/sections/contact-section.module.css";
 
 export function ContactSection() {
   const { ref, fade } = useFadeIn();
@@ -32,17 +34,17 @@ export function ContactSection() {
           <form onSubmit={onSubmit} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="form-label">NAME</label>
-                <input type="text" required placeholder="Your name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="input-field" />
+                <label className={styles.formLabel}>NAME</label>
+                <input type="text" required placeholder="Your name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className={styles.inputField} />
               </div>
               <div>
-                <label className="form-label">EMAIL</label>
-                <input type="email" required placeholder="you@example.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="input-field" />
+                <label className={styles.formLabel}>EMAIL</label>
+                <input type="email" required placeholder="you@example.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className={styles.inputField} />
               </div>
             </div>
             <div>
-              <label className="form-label">MESSAGE</label>
-              <textarea required rows={5} placeholder="Tell me about the project..." value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className="input-field resize-none leading-[1.6]" />
+              <label className={styles.formLabel}>MESSAGE</label>
+              <textarea required rows={5} placeholder="Tell me about the project..." value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className={`${styles.inputField} resize-none leading-[1.6]`} />
             </div>
             <button
               type="submit"
@@ -61,11 +63,11 @@ export function ContactSection() {
               {[
                 { label: "GitHub",   hint: "github.com/mykhailo-dzhezhelo",     icon: GithubIcon,   href: "https://github.com" },
                 { label: "LinkedIn", hint: "linkedin.com/in/mykhailo-dzhezhelo", icon: LinkedinIcon, href: "https://linkedin.com" },
-                { label: "Email",    hint: "hello@dzhezhelo.dev",               icon: Mail,         href: "mailto:hello@dzhezhelo.dev" },
+                { label: "Email",    hint: SITE_EMAIL,               icon: Mail,         href: `mailto:${SITE_EMAIL}` },
               ].map((link) => {
                 const LinkIcon = link.icon;
                 return (
-                  <a key={link.label} href={link.href} target="_blank" rel="noreferrer" className="link-card group">
+                  <a key={link.label} href={link.href} target="_blank" rel="noreferrer" className={`${styles.linkCard} group`}>
                     <div className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0 bg-[rgba(56,189,248,0.1)]">
                       <LinkIcon size={14} className="text-primary" />
                     </div>
@@ -88,7 +90,7 @@ export function ContactSection() {
                   { label: "Resume (EU format)", file: "cv-eu-mykhailo-dzhezhelo.pdf" },
                   { label: "Resume (US format)", file: "cv-us-mykhailo-dzhezhelo.pdf" },
                 ].map((cv) => (
-                  <a key={cv.file} href={`/${cv.file}`} download className="resume-link">
+                  <a key={cv.file} href={`/${cv.file}`} download className={styles.resumeLink}>
                     <div className="flex items-center justify-center w-7 h-7 rounded-lg shrink-0 bg-[rgba(56,189,248,0.12)]">
                       <Download size={13} className="text-primary" />
                     </div>

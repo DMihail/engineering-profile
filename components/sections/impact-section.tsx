@@ -1,15 +1,12 @@
-"use client";
-
 import { CAPABILITIES } from "@/lib/data";
-import { useFadeIn } from "@/lib/hooks";
 import { SectionLabel, Chip } from "@/components/ui/primitives";
+import { FadeIn } from "@/components/ui/fade-in";
+import styles from "@/styles/sections/impact-section.module.css";
 
 export function ImpactSection() {
-  const { ref, fade } = useFadeIn();
-
   return (
     <section id="impact" className="bg-secondary border-t border-[rgba(56,189,248,0.1)] py-24">
-      <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6" style={fade}>
+      <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6">
         <SectionLabel n="01" label="Engineering Capabilities" />
 
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-10">
@@ -43,7 +40,7 @@ export function ImpactSection() {
                 <div>
                   <div className="mono-xs text-text-dim tracking-[0.08em] mb-[5px]">{cap.mod}</div>
                   <div className="flex items-center gap-2 mb-3">
-                    <div className="icon-box">
+                    <div className={styles.iconBox}>
                       <CapIcon size={13} className="text-primary" />
                     </div>
                     <span className="font-sans text-[13px] font-semibold text-foreground tracking-[-0.01em]">{cap.title}</span>
@@ -102,7 +99,7 @@ export function ImpactSection() {
             );
           })}
         </div>
-      </div>
+      </FadeIn>
     </section>
   );
 }

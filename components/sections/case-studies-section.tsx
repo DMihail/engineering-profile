@@ -6,10 +6,11 @@ import type { CaseStudy } from "@/lib/types";
 import { CASE_STUDIES } from "@/lib/data";
 import { useFadeIn } from "@/lib/hooks";
 import { SectionLabel, Chip } from "@/components/ui/primitives";
+import styles from "@/styles/sections/case-studies-section.module.css";
 
 function StudyLabel({ n, children, accent = "blue" }: { n: string; children: string; accent?: "blue" | "green" }) {
   return (
-    <div className={`study-label ${accent === "blue" ? "study-label-blue" : "study-label-green"}`}>
+    <div className={`${styles.studyLabel} ${accent === "blue" ? styles.studyLabelBlue : styles.studyLabelGreen}`}>
       <span className={accent === "blue" ? "text-[rgba(56,189,248,0.35)]" : "text-[rgba(34,197,94,0.35)]"} style={{ fontWeight: 500 }}>{n}</span>
       <span>{"// "}{children}</span>
     </div>
@@ -89,7 +90,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
             <p className="text-[13px] text-muted-foreground leading-[1.78] italic">{cs.context}</p>
           </div>
 
-          <div className="problem-box mb-8">
+          <div className={`${styles.problemBox} mb-8`}>
             <StudyLabel n="02">Problem Statement</StudyLabel>
             <p className="text-sm text-text-secondary leading-[1.8]">{cs.problem}</p>
           </div>
@@ -167,7 +168,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
             <StudyLabel n="07" accent="green">Measurable Results</StudyLabel>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {cs.results.map((r) => (
-                <div key={r.label} className="result-card">
+                <div key={r.label} className={styles.resultCard}>
                   <div className="font-sans text-[28px] font-extrabold text-success tracking-[-0.04em] leading-none mb-1.5">{r.metric}</div>
                   <div className="mono-md text-[rgba(34,197,94,0.5)]">{r.label}</div>
                 </div>

@@ -1,15 +1,12 @@
-"use client";
-
 import { MapPin } from "lucide-react";
 import { XP_ENTRIES } from "@/lib/data";
-import { useFadeIn } from "@/lib/hooks";
 import { SectionLabel } from "@/components/ui/primitives";
+import { FadeIn } from "@/components/ui/fade-in";
 
 export function ExperienceSection() {
-  const { ref, fade } = useFadeIn();
   return (
     <section id="experience" className="section-dark">
-      <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6" style={fade}>
+      <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6">
         <SectionLabel n="04" label="Experience" />
         <h2 className="section-heading mb-10">Engineering history</h2>
 
@@ -61,7 +58,7 @@ export function ExperienceSection() {
             ))}
           </div>
         </div>
-      </div>
+      </FadeIn>
     </section>
   );
 }

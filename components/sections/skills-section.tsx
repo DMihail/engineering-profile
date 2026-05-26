@@ -1,14 +1,11 @@
-"use client";
-
 import { SKILL_LAYERS } from "@/lib/data";
-import { useFadeIn } from "@/lib/hooks";
 import { SectionLabel } from "@/components/ui/primitives";
+import { FadeIn } from "@/components/ui/fade-in";
 
 export function SkillsSection() {
-  const { ref, fade } = useFadeIn();
   return (
     <section id="skills" className="section-surface">
-      <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6" style={fade}>
+      <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6">
         <SectionLabel n="03" label="System Modules" />
         <h2 className="section-heading mb-2">Technical systems</h2>
         <p className="section-comment mb-9">
@@ -45,7 +42,7 @@ export function SkillsSection() {
             </div>
           ))}
         </div>
-      </div>
+      </FadeIn>
     </section>
   );
 }

@@ -1,17 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { ArrowRight, Mail } from "lucide-react";
 import { TRACK_RECORD } from "@/lib/data";
+import { SITE_EMAIL } from "@/lib/config";
+import styles from "@/styles/sections/hero-section.module.css";
 
 export function HeroSection() {
-  const [cursor, setCursor] = useState(true);
-  const [rdy, setRdy] = useState(false);
-  useEffect(() => {
-    const c = setInterval(() => setCursor((v) => !v), 540);
-    const r = setTimeout(() => setRdy(true), 80);
-    return () => { clearInterval(c); clearTimeout(r); };
-  }, []);
   const goto = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
   return (
@@ -19,17 +13,14 @@ export function HeroSection() {
 
       <div className="absolute inset-0 pointer-events-none bg-grid" />
       <div className="absolute inset-0 pointer-events-none bg-vignette" />
-      <div className="absolute top-0 inset-x-0 h-px pointer-events-none hero-line" />
+      <div className={`absolute top-0 inset-x-0 h-px pointer-events-none ${styles.heroLine}`} />
 
-      <div
-        className="relative w-full max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24"
-        style={{ opacity: rdy ? 1 : 0, transform: rdy ? "none" : "translateY(24px)", transition: "opacity 700ms ease, transform 700ms cubic-bezier(0.2,0.8,0.2,1)" }}
-      >
+      <div className={`relative w-full max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24 ${styles.heroEntrance}`}>
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-12 lg:gap-16 items-center">
 
           <div className="text-center lg:text-left">
 
-            <div className="badge-available mb-8">
+            <div className={`${styles.badgeAvailable} mb-8`}>
               <span className="status-dot-sm animate-pulse" />
               <span className="mono-md tracking-[0.04em] text-text-secondary">open to contracts · EU / US / Remote</span>
             </div>
@@ -87,7 +78,7 @@ export function HeroSection() {
               {[
                 { t: "github.com/mykhailo-dzhezhelo", h: "https://github.com" },
                 { t: "linkedin.com/in/mykhailo-dzhezhelo", h: "https://linkedin.com" },
-                { t: "hello@dzhezhelo.dev", h: "mailto:hello@dzhezhelo.dev" },
+                { t: SITE_EMAIL, h: `mailto:${SITE_EMAIL}` },
               ].map((l) => (
                 <a key={l.t} href={l.h} target="_blank" rel="noreferrer" className="mono-sm text-text-faint no-underline transition-colors hover:text-primary">
                   {l.t}
@@ -97,12 +88,12 @@ export function HeroSection() {
           </div>
 
           <div className="hidden lg:block">
-            <div className="terminal-card">
+            <div className={styles.terminalCard}>
 
-              <div className="terminal-header">
-                <span className="terminal-dot bg-[#FF5F57]" />
-                <span className="terminal-dot bg-[#FEBC2E]" />
-                <span className="terminal-dot bg-[#28C840]" />
+              <div className={styles.terminalHeader}>
+                <span className={`${styles.terminalDot} bg-[#FF5F57]`} />
+                <span className={`${styles.terminalDot} bg-[#FEBC2E]`} />
+                <span className={`${styles.terminalDot} bg-[#28C840]`} />
                 <span className="ml-auto flex items-center gap-1.5">
                   <span className="mono-sm text-muted-foreground">developer.sys</span>
                   <span className="status-dot-sm animate-pulse ml-2" />
@@ -159,7 +150,7 @@ export function HeroSection() {
               <div className="px-5 pb-4">
                 <span className="mono-md text-primary">$ </span>
                 <span className="mono-md text-muted-foreground">ready --hire</span>
-                <span className={`inline-block w-[7px] h-[13px] bg-primary ml-[3px] align-middle transition-opacity duration-75 ${cursor ? "opacity-100" : "opacity-0"}`} />
+                <span className={`inline-block w-[7px] h-[13px] bg-primary ml-[3px] align-middle ${styles.cursorBlink}`} />
               </div>
 
               <div className="grid grid-cols-3 border-t border-border">

@@ -1,20 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { ArrowLeft, Terminal } from "lucide-react";
+import styles from "@/styles/pages/not-found.module.css";
 
 export default function NotFound() {
   const router = useRouter();
   const pathname = usePathname();
-  const [cursor, setCursor] = useState(true);
-  const [rdy, setRdy] = useState(false);
-
-  useEffect(() => {
-    const c = setInterval(() => setCursor((v) => !v), 540);
-    const r = setTimeout(() => setRdy(true), 60);
-    return () => { clearInterval(c); clearTimeout(r); };
-  }, []);
 
   return (
     <div className="bg-background min-h-screen flex items-center justify-center relative overflow-hidden font-sans">
@@ -22,15 +14,8 @@ export default function NotFound() {
       <div className="absolute inset-0 pointer-events-none bg-grid" />
       <div className="absolute inset-0 pointer-events-none bg-vignette-sm" />
 
-      <div
-        className="relative text-center px-6"
-        style={{
-          opacity: rdy ? 1 : 0,
-          transform: rdy ? "none" : "translateY(20px)",
-          transition: "opacity 600ms ease, transform 600ms cubic-bezier(0.2,0.8,0.2,1)",
-        }}
-      >
-        <div className="badge-system mb-8">
+      <div className={`relative text-center px-6 ${styles.fadeUp}`}>
+        <div className={`${styles.badgeSystem} mb-8`}>
           <Terminal size={11} className="text-primary" />
           <span className="mono-md tracking-[0.04em] text-muted-foreground">
             {"sys.error // route_not_found"}
@@ -48,7 +33,7 @@ export default function NotFound() {
           The route you requested doesn&apos;t exist in this system.
         </p>
 
-        <div className="panel-sm p-[18px_22px] max-w-[440px] mx-auto mb-9 text-left">
+        <div className={`${styles.panelSm} p-[18px_22px] max-w-[440px] mx-auto mb-9 text-left`}>
           <div className="mono-label mb-3">
             {"// error trace"}
           </div>
@@ -67,7 +52,7 @@ export default function NotFound() {
             No route matches path &quot;<span className="text-primary">{pathname}</span>&quot;
           </div>
           <div className="mono-md text-primary mt-2">
-            {"$ navigate --to /"}{cursor && <span className="inline-block w-[7px] h-[11px] bg-primary ml-0.5 align-middle" />}
+            {"$ navigate --to /"}<span className={`inline-block w-[7px] h-[11px] bg-primary ml-0.5 align-middle ${styles.cursorBlink}`} />
           </div>
         </div>
 
