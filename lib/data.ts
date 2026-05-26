@@ -12,51 +12,51 @@ export const NAV = ["impact", "projects", "skills", "experience", "contact"];
 
 export const CAPABILITIES: Capability[] = [
   {
-    id: "perf", mod: "sys.mobile.performance", kpi: "< 16ms", kpiSub: "frame budget",
+    id: "perf", mod: "performance", kpi: "< 16ms", kpiSub: "frame budget",
     icon: Gauge,
-    title: "Mobile Performance Engineering",
-    desc: "Frame-level profiling and re-render elimination for sustained 60fps on constrained hardware. JS thread optimization, Hermes engine tuning, TTI reduction, and Metro bundle audits.",
+    title: "Mobile Performance",
+    desc: "Profiling and eliminating unnecessary re-renders for consistent 60fps. JS thread optimization, Hermes tuning, and bundle size reduction across production apps.",
     tags: ["react-native", "hermes", "flipper", "60fps"],
-    appliedIn: "FocusGuard · 3 client React Native productions",
+    appliedIn: "FocusGuard · 3 client productions",
   },
   {
-    id: "rt", mod: "sys.realtime.camera", kpi: "< 100ms", kpiSub: "frame latency",
+    id: "rt", mod: "realtime", kpi: "< 100ms", kpiSub: "latency",
     icon: Network,
-    title: "Real-time Camera & Frame Processing",
-    desc: "Vision Camera frame pipelines with OpenCV for on-device computer vision. WebSocket pub-sub architectures for competitive bidding and live location tracking at 2,000+ concurrent sessions.",
+    title: "Real-time Systems",
+    desc: "Camera frame pipelines with OpenCV for on-device vision. WebSocket architectures for live bidding and location tracking at 2,000+ concurrent users.",
     tags: ["vision-camera", "opencv", "websocket", "redis"],
-    appliedIn: "Waddingtons bidding engine · Vitadrop location tracking",
+    appliedIn: "Waddingtons · Vitadrop",
   },
   {
-    id: "native", mod: "sys.native.integration", kpi: "zero-copy", kpiSub: "JSI bridge",
+    id: "native", mod: "native", kpi: "zero-copy", kpiSub: "JSI bridge",
     icon: Terminal,
-    title: "Native Module Integration",
-    desc: "Swift and Kotlin modules bridged via JSI and TurboModules for OS-level capabilities — DeviceActivity, BGTaskScheduler, screen-time enforcement, biometric auth, and file system access.",
+    title: "Native Integration",
+    desc: "Swift and Kotlin modules via JSI and TurboModules for OS-level capabilities — screen-time enforcement, background tasks, biometric auth, and file system access.",
     tags: ["swift", "kotlin", "jsi", "turbomodules"],
-    appliedIn: "FocusGuard (Swift JSI) · Vitadrop · 4 client codebases",
+    appliedIn: "FocusGuard · Vitadrop · 4 clients",
   },
   {
-    id: "arch", mod: "sys.platform.architecture", kpi: "iOS + Android", kpiSub: "+ Web shared",
+    id: "arch", mod: "architecture", kpi: "iOS + Android", kpiSub: "+ Web",
     icon: Layers,
     title: "Cross-platform Architecture",
-    desc: "Offline-first systems with local-first persistence and async sync queues. Shared component layers across iOS, Android, and web with full platform idiom preservation and code-sharing strategies.",
+    desc: "Offline-first apps with local persistence and background sync. Shared code across iOS, Android, and web while preserving native UX patterns.",
     tags: ["mmkv", "offline-first", "monorepo", "ios", "android"],
-    appliedIn: "Vitadrop · client monorepo work",
+    appliedIn: "Vitadrop · client monorepos",
   },
   {
-    id: "state", mod: "sys.state.architecture", kpi: "normalized", kpiSub: "entity cache",
+    id: "state", mod: "state", kpi: "normalized", kpiSub: "cache",
     icon: Workflow,
-    title: "State Management Architecture",
-    desc: "Redux Toolkit entity adapters with normalized caches, RTK Query for server state, and Zustand for feature-scoped state. Designed for predictable data flow in complex multi-screen mobile applications.",
+    title: "State Management",
+    desc: "Redux Toolkit with normalized caches, RTK Query for server state, and Zustand for feature-scoped state. Predictable data flow in complex multi-screen apps.",
     tags: ["redux-toolkit", "rtk-query", "zustand", "react-query"],
-    appliedIn: "Waddingtons · Vitadrop · all client work",
+    appliedIn: "Waddingtons · Vitadrop · all clients",
   },
 ];
 
 export const SKILL_LAYERS: SkillLayer[] = [
   {
-    id: "mobile", layer: "Mobile Systems Engineering", desc: "Core runtime, animation, device capabilities",
-    scope: "primary platform layer", projectRefs: "FocusGuard · Vitadrop",
+    id: "mobile", layer: "Mobile Development", desc: "Core runtime, animation, device capabilities",
+    scope: "primary", projectRefs: "FocusGuard · Vitadrop",
     skills: [
       { name: "React Native", primary: true,  icon: Smartphone },
       { name: "Expo",         primary: true,  icon: Layers     },
@@ -67,8 +67,8 @@ export const SKILL_LAYERS: SkillLayer[] = [
     ],
   },
   {
-    id: "realtime", layer: "Real-time Processing Systems", desc: "Streaming, messaging, event pipelines",
-    scope: "data flow & pub-sub", projectRefs: "Waddingtons · Vitadrop",
+    id: "realtime", layer: "Real-time & Backend", desc: "Streaming, messaging, event pipelines",
+    scope: "backend", projectRefs: "Waddingtons · Vitadrop",
     skills: [
       { name: "WebSockets",  primary: true,  icon: Wifi     },
       { name: "Firebase",    primary: true,  icon: Shield   },
@@ -79,8 +79,8 @@ export const SKILL_LAYERS: SkillLayer[] = [
     ],
   },
   {
-    id: "frontend", layer: "Frontend Architecture Systems", desc: "Web interfaces, rendering, component systems",
-    scope: "web surface layer", projectRefs: "Waddingtons · client work",
+    id: "frontend", layer: "Frontend & Web", desc: "Web interfaces, rendering, component systems",
+    scope: "web", projectRefs: "Waddingtons · client work",
     skills: [
       { name: "React",        primary: true,  icon: Globe     },
       { name: "Next.js",      primary: true,  icon: Monitor   },
@@ -91,8 +91,8 @@ export const SKILL_LAYERS: SkillLayer[] = [
     ],
   },
   {
-    id: "native", layer: "Native Integration Layer", desc: "OS bridges, platform APIs, binary modules",
-    scope: "platform boundary", projectRefs: "FocusGuard · Vitadrop",
+    id: "native", layer: "Native Integration", desc: "OS bridges, platform APIs, binary modules",
+    scope: "platform", projectRefs: "FocusGuard · Vitadrop",
     skills: [
       { name: "Swift",           primary: true,  icon: Cpu      },
       { name: "Kotlin",          primary: true,  icon: Cpu      },
@@ -103,8 +103,8 @@ export const SKILL_LAYERS: SkillLayer[] = [
     ],
   },
   {
-    id: "perf", layer: "Performance Optimization Systems", desc: "Profiling, instrumentation, bundle analysis",
-    scope: "runtime & build audit", projectRefs: "FocusGuard · contract work",
+    id: "perf", layer: "Performance Tooling", desc: "Profiling, instrumentation, bundle analysis",
+    scope: "optimization", projectRefs: "FocusGuard · contract work",
     skills: [
       { name: "Flipper",           primary: true,  icon: Activity  },
       { name: "Hermes Profiler",   primary: true,  icon: Zap       },
@@ -115,8 +115,8 @@ export const SKILL_LAYERS: SkillLayer[] = [
     ],
   },
   {
-    id: "state", layer: "State Management Architecture", desc: "Global state, server cache, reactive patterns",
-    scope: "application data layer", projectRefs: "Vitadrop · Waddingtons",
+    id: "state", layer: "State Management", desc: "Global state, server cache, reactive patterns",
+    scope: "data layer", projectRefs: "Vitadrop · Waddingtons",
     skills: [
       { name: "Redux Toolkit", primary: true,  icon: Workflow  },
       { name: "RTK Query",     primary: true,  icon: RefreshCw },
@@ -133,7 +133,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     id: "focusguard", num: "01", title: "FocusGuard",
     type: "Pet Project", archType: "native-bridge", version: "v1.4 · iOS",
     summary: "iOS screen-time enforcement without a public API — native Swift extension bridged to React Native via JSI.",
-    archSig: "DeviceActivityMonitor extension → JSI bridge → RN state layer → SQLite schedule store",
+    archSig: "Native extension → JSI bridge → React Native → SQLite",
     stack: ["React Native", "Expo", "TypeScript", "Swift", "SQLite", "BGTaskScheduler"],
     context: "Solo-built iOS productivity app exploring the limits of React Native at the OS boundary. Built to validate a native bridging approach for screen-time enforcement — a capability Apple has never exposed through any public API.",
     problem: "iOS provides no public API for programmatic screen-time enforcement. Blocking apps requires native extensions operating entirely outside the React Native surface area — impossible through the JS layer alone, with no documentation for extension↔host communication patterns.",
@@ -165,7 +165,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     id: "waddingtons", num: "02", title: "Waddingtons",
     type: "Client · Production", archType: "event-driven", version: "v3.1 · Web",
     summary: "Real-time competitive bidding engine for a UK auction house — sub-100ms state propagation at 2,000+ concurrent sessions.",
-    archSig: "PG optimistic lock → Redis pub/sub fan-out → WebSocket broadcast → client bid queue + exponential backoff",
+    archSig: "PostgreSQL → Redis pub/sub → WebSocket → client bid queue",
     stack: ["React", "Next.js", "TypeScript", "WebSockets", "PostgreSQL", "Redis"],
     context: "UK heritage auction house processing antique and fine-art lots. Existing REST system could not support competitive bidding at scale — race conditions caused disputed lot outcomes requiring manual resolution after every major event.",
     problem: "REST polling introduced race conditions where two users could submit winning bids within the same polling window. Financial accuracy requirements made optimistic UI impermissible — every confirmation required authoritative server truth before display.",
@@ -197,7 +197,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     id: "vitadrop", num: "03", title: "Vitadrop",
     type: "Client · Production (Confidential)", archType: "offline-first", version: "v2.0 · iOS / Android",
     summary: "Offline-resilient medical intake forms with 40+ conditional branches — local-first architecture for IV therapy compliance.",
-    archSig: "MMKV local state → bg sync queue → Firebase conflict resolver → server-side medical validation gate",
+    archSig: "MMKV local state → background sync → Firebase → server validation",
     stack: ["React Native", "Expo", "TypeScript", "Firebase", "MMKV", "Google Maps"],
     context: "On-demand IV vitamin therapy startup, London. Nurses visit clients at home. App replaced a broken web booking flow and added real-time nurse location tracking. Medical intake requires UK health data compliance.",
     problem: "Medical intake forms with 40+ conditional branches needed to operate on unreliable connections. Connectivity loss mid-form was silently corrupting incomplete health declarations — creating legal exposure and clinical safety risks for IV therapy administration.",
@@ -295,23 +295,23 @@ export const SOCIAL_LINKS: SocialLink[] = [
 export const TRACK_RECORD = [
   {
     label: "iOS screen-time enforcement without a public API",
-    sub:    "Swift DeviceActivity · JSI bridge · BGTaskScheduler",
+    sub:    "Swift · JSI bridge · BGTaskScheduler",
     metric: "4.8★ · 2,400+ DL",
   },
   {
-    label: "Real-time auction bidding at 2k+ concurrency",
-    sub:    "WebSocket · Redis pub/sub · PG optimistic locking",
+    label: "Real-time auction bidding at 2,000+ concurrency",
+    sub:    "WebSocket · Redis · PostgreSQL",
     metric: "£2M+ · 0 race conditions",
   },
   {
     label: "Offline medical intake for field healthcare",
-    sub:    "MMKV · Firebase sync queue · JSON Schema engine",
+    sub:    "MMKV · Firebase · JSON Schema",
     metric: "98% completion · 0 data loss",
   },
   {
-    label: "React Native bundle reduction of 34% via audit",
-    sub:    "Metro · Hermes profiler · tree-shaking · Flipper",
-    metric: "60fps maintained",
+    label: "34% bundle size reduction via performance audit",
+    sub:    "Metro · Hermes · tree-shaking",
+    metric: "60fps sustained",
   },
 ];
 
@@ -322,13 +322,12 @@ export const HERO_LINKS = [
 ];
 
 export const TERMINAL_INFO = [
-  { key: "name",           value: "Mykhailo Dzhezhelo",                 color: "text-foreground" },
-  { key: "role",           value: "React Native · Mobile Systems",       color: "text-primary" },
-  { key: "specialization", value: "native_modules · realtime · offline", color: "text-text-secondary" },
-  { key: "platforms",      value: "iOS · Android · Web",                 color: "text-text-secondary" },
-  { key: "experience",     value: "6+ years production",                 color: "text-foreground" },
-  { key: "perf_target",    value: "< 16ms frame · < 100ms ws",           color: "text-success" },
-  { key: "status",         value: "open to contracts",                   color: "text-success" },
+  { key: "name",       value: "Mykhailo Dzhezhelo",           color: "text-foreground" },
+  { key: "role",       value: "React Native · Mobile Engineer", color: "text-primary" },
+  { key: "focus",      value: "native integrations · realtime · offline-first", color: "text-text-secondary" },
+  { key: "platforms",  value: "iOS · Android · Web",           color: "text-text-secondary" },
+  { key: "experience", value: "6+ years production",           color: "text-foreground" },
+  { key: "status",     value: "open to contracts",             color: "text-success" },
 ];
 
 export const BUILD_PIPELINE = [

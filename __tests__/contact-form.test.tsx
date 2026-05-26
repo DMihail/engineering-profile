@@ -152,7 +152,7 @@ describe("ContactSection form", () => {
     await user.click(screen.getByRole("button", { name: /send message/i }));
 
     await waitFor(() => {
-      expect(screen.getByText(/failed to send/i)).toBeInTheDocument();
+      expect(screen.getByText(/captcha verification failed/i)).toBeInTheDocument();
     });
   });
 

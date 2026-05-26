@@ -23,7 +23,7 @@ export default function Error({
         <p className="text-sm text-muted-foreground mb-6">
           {error.message || "An unexpected error occurred. Please try again."}
         </p>
-        <button onClick={reset} className="btn-primary">
+        <button type="button" onClick={reset} className="btn-primary">
           Try again
         </button>
       </div>
