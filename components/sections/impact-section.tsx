@@ -1,9 +1,9 @@
 "use client";
 
-import { T } from "./tokens";
-import { CAPABILITIES } from "./data";
-import { useFadeIn } from "./hooks";
-import { SectionLabel, Chip } from "./primitives";
+import { T } from "@/lib/tokens";
+import { CAPABILITIES } from "@/lib/data";
+import { useFadeIn } from "@/lib/hooks";
+import { SectionLabel, Chip } from "@/components/ui/primitives";
 
 export function ImpactSection() {
   const { ref, fade } = useFadeIn();

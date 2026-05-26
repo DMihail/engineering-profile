@@ -4,7 +4,7 @@ import {
   Server, Shield, Database, Wifi, Boxes,
   Gauge, Network, Terminal, Workflow, RefreshCw, Package, BarChart2,
 } from "lucide-react";
-import type { Capability, SkillLayer, CaseStudy, XP } from "./tokens";
+import type { Capability, SkillLayer, CaseStudy, XP } from "@/lib/types";
 
 export const NAV = ["impact", "projects", "skills", "experience", "contact"];
 

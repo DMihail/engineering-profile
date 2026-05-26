@@ -1,0 +1,17 @@
+export const T = {
+  bg:   "#0B0F17",
+  surf: "#111827",
+  card: "#0F1623",
+  blue:  "#38BDF8",
+  green: "#22C55E",
+  p: "#E5E7EB",
+  s: "#9CA3AF",
+  m: "#6B7280",
+  d: "#4B5563",
+  f: "#374151",
+  bd:   "rgba(255,255,255,0.06)",
+  bdH:  "rgba(56,189,248,0.22)",
+  bdG:  "rgba(34,197,94,0.18)",
+  mono: "'JetBrains Mono', monospace",
+  sans: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+} as const;

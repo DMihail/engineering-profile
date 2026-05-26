@@ -1,4 +1,4 @@
-import { T } from "./tokens";
+import { T } from "@/lib/tokens";
 
 export function SectionLabel({ n, label }: { n: string; label: string }) {
   return (

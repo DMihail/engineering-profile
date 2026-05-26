@@ -1,9 +1,9 @@
 "use client";
 
-import { T } from "./tokens";
-import { SKILL_LAYERS } from "./data";
-import { useFadeIn } from "./hooks";
-import { SectionLabel } from "./primitives";
+import { T } from "@/lib/tokens";
+import { SKILL_LAYERS } from "@/lib/data";
+import { useFadeIn } from "@/lib/hooks";
+import { SectionLabel } from "@/components/ui/primitives";
 
 export function SkillsSection() {
   const { ref, fade } = useFadeIn();

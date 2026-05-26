@@ -1,13 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import { T } from "./tokens";
-import { NAV } from "./data";
+import { T } from "@/lib/tokens";
+import { NAV } from "@/lib/data";
 
-export function NavBar({ active }: { active: string }) {
+const SECTION_IDS = ["hero", "impact", "projects", "skills", "experience", "contact"];
+
+export function NavBar() {
+  const [active, setActive] = useState("hero");
   const [open, setOpen] = useState(false);
-  const goto = (id: string) => { setOpen(false); setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }), 40); };
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    SECTION_IDS.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const o = new IntersectionObserver(
+        ([e]) => { if (e.isIntersecting) setActive(id); },
+        { rootMargin: "-30% 0px -65% 0px" },
+      );
+      o.observe(el);
+      observers.push(o);
+    });
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
+
+  const goto = (id: string) => {
+    setOpen(false);
+    setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }), 40);
+  };
 
   return (
     <>

@@ -1,10 +1,10 @@
 "use client";
 
 import { MapPin } from "lucide-react";
-import { T } from "./tokens";
-import { XP_ENTRIES } from "./data";
-import { useFadeIn } from "./hooks";
-import { SectionLabel } from "./primitives";
+import { T } from "@/lib/tokens";
+import { XP_ENTRIES } from "@/lib/data";
+import { useFadeIn } from "@/lib/hooks";
+import { SectionLabel } from "@/components/ui/primitives";
 
 export function ExperienceSection() {
   const { ref, fade } = useFadeIn();

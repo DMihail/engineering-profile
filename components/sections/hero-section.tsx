@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { ArrowRight, Mail } from "lucide-react";
-import { T } from "./tokens";
-import { TRACK_RECORD } from "./data";
+import { T } from "@/lib/tokens";
+import { TRACK_RECORD } from "@/lib/data";
 
 export function HeroSection() {
   const [cursor, setCursor] = useState(true);

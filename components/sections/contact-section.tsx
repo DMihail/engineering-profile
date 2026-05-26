@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { Mail, Send, CheckCircle, ExternalLink, Download } from "lucide-react";
-import { T } from "./tokens";
-import { useFadeIn } from "./hooks";
-import { SectionLabel } from "./primitives";
-import { GithubIcon, LinkedinIcon } from "./icons";
+import { T } from "@/lib/tokens";
+import { useFadeIn } from "@/lib/hooks";
+import { SectionLabel } from "@/components/ui/primitives";
+import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
 
 export function ContactSection() {
   const { ref, fade } = useFadeIn();

@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { T } from "./tokens";
-import type { CaseStudy } from "./tokens";
-import { CASE_STUDIES } from "./data";
-import { useFadeIn } from "./hooks";
-import { SectionLabel, Chip } from "./primitives";
+import { T } from "@/lib/tokens";
+import type { CaseStudy } from "@/lib/types";
+import { CASE_STUDIES } from "@/lib/data";
+import { useFadeIn } from "@/lib/hooks";
+import { SectionLabel, Chip } from "@/components/ui/primitives";
 
 function StudyLabel({ n, children, accent = T.blue }: { n: string; children: string; accent?: string }) {
   return (

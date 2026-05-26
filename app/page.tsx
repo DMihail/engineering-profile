@@ -1,39 +1,16 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import { T } from "./_components/tokens";
-import { NavBar } from "./_components/nav-bar";
-import { HeroSection } from "./_components/hero-section";
-import { ImpactSection } from "./_components/impact-section";
-import { CaseStudiesSection } from "./_components/case-studies-section";
-import { SkillsSection } from "./_components/skills-section";
-import { ExperienceSection } from "./_components/experience-section";
-import { ContactSection } from "./_components/contact-section";
-import { Footer } from "./_components/footer";
-
-const SECTION_IDS = ["hero", "impact", "projects", "skills", "experience", "contact"];
+import { NavBar } from "@/components/layout/nav-bar";
+import { HeroSection } from "@/components/sections/hero-section";
+import { ImpactSection } from "@/components/sections/impact-section";
+import { CaseStudiesSection } from "@/components/sections/case-studies-section";
+import { SkillsSection } from "@/components/sections/skills-section";
+import { ExperienceSection } from "@/components/sections/experience-section";
+import { ContactSection } from "@/components/sections/contact-section";
+import { Footer } from "@/components/layout/footer";
 
 export default function Home() {
-  const [active, setActive] = useState("hero");
-
-  useEffect(() => {
-    const obs: IntersectionObserver[] = [];
-    SECTION_IDS.forEach((id) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const o = new IntersectionObserver(
-        ([e]) => { if (e.isIntersecting) setActive(id); },
-        { rootMargin: "-30% 0px -65% 0px" }
-      );
-      o.observe(el);
-      obs.push(o);
-    });
-    return () => obs.forEach((o) => o.disconnect());
-  }, []);
-
   return (
-    <div style={{ background: T.bg, fontFamily: T.sans, minHeight: "100vh" }}>
-      <NavBar active={active} />
+    <main className="min-h-screen bg-background font-sans">
+      <NavBar />
       <HeroSection />
       <ImpactSection />
       <CaseStudiesSection />
@@ -41,6 +18,6 @@ export default function Home() {
       <ExperienceSection />
       <ContactSection />
       <Footer />
-    </div>
+    </main>
   );
 }
