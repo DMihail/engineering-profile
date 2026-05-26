@@ -37,6 +37,7 @@
   --color-success: var(--success);
   --color-border: var(--border);
   --color-border-hover: var(--border-hover);
+  --color-ring: var(--ring);
   --color-text-secondary: var(--text-secondary);
   --color-text-dim: var(--text-dim);
   --color-text-faint: var(--text-faint);

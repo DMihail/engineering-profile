@@ -7,6 +7,8 @@ import { SectionLabel } from "@/components/ui/primitives";
 import { SOCIAL_LINKS } from "@/lib/data";
 import styles from "@/styles/sections/contact-section.module.css";
 
+const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!;
+
 type FormState = { success: boolean; error?: string; ts: number };
 
 const INITIAL_STATE: FormState = { success: false, ts: 0 };
@@ -69,27 +71,79 @@ function getServerCvSnapshot() {
   return CV_INTL;
 }
 
+function notify(title: string, body: string) {
+  if (!("Notification" in window) || Notification.permission !== "granted") return;
+  new Notification(title, { body, icon: "/favicon.ico" });
+}
+
+let lastSubmitAt = 0;
+const THROTTLE_MS = 10_000;
+
+function getRecaptchaToken(): Promise<string> {
+  return new Promise((resolve, reject) => {
+    if (!window.grecaptcha) {
+      reject(new Error("reCAPTCHA not loaded"));
+      return;
+    }
+    window.grecaptcha.ready(() => {
+      window.grecaptcha
+        .execute(RECAPTCHA_SITE_KEY, { action: "contact_submit" })
+        .then(resolve)
+        .catch(reject);
+    });
+  });
+}
+
 async function sendMessage(_prev: FormState, data: FormData): Promise<FormState> {
   void _prev;
-  const email = (data.get("email") as string) ?? "";
 
+  const now = Date.now();
+  if (now - lastSubmitAt < THROTTLE_MS) {
+    return { success: false, error: "Please wait before sending again", ts: now };
+  }
+
+  const email = (data.get("email") as string)?.trim().toLowerCase() ?? "";
   const emailError = validateEmail(email);
   if (emailError) {
-    return { success: false, error: emailError, ts: Date.now() };
+    return { success: false, error: emailError, ts: now };
   }
 
   const name = (data.get("name") as string)?.trim() ?? "";
   if (name.length < 2) {
-    return { success: false, error: "Please enter your name", ts: Date.now() };
+    return { success: false, error: "Please enter your name", ts: now };
   }
 
   const message = (data.get("message") as string)?.trim() ?? "";
   if (message.length < 10) {
-    return { success: false, error: "Message is too short — please describe your project", ts: Date.now() };
+    return { success: false, error: "Message is too short — please describe your project", ts: now };
   }
 
-  await new Promise((r) => setTimeout(r, 1200));
-  return { success: true, ts: Date.now() };
+  const company = (data.get("company") as string)?.trim() || null;
+
+  try {
+    lastSubmitAt = now;
+
+    const recaptchaToken = await getRecaptchaToken();
+
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, company, message, recaptchaToken }),
+    });
+
+    if (!res.ok) {
+      const { error } = await res.json();
+      throw new Error(error || "Request failed");
+    }
+
+    notify("Message sent!", "Thanks for reaching out — I'll get back to you soon.");
+    return { success: true, ts: Date.now() };
+  } catch (err) {
+    console.error("[contact] Submit failed:", err);
+    const errorMsg = "Failed to send — please try again or email directly";
+    notify("Sending failed", errorMsg);
+    return { success: false, error: errorMsg, ts: Date.now() };
+  }
 }
 
 function SubmitButton({ success, pending, error }: { success: boolean; pending: boolean; error?: string }) {
@@ -201,6 +255,12 @@ export function ContactSection() {
   const error = !state.success ? state.error : undefined;
 
   useEffect(() => {
+    if ("Notification" in window && Notification.permission === "default") {
+      Notification.requestPermission();
+    }
+  }, []);
+
+  useEffect(() => {
     if (!state.success || state.ts === 0) return;
     formRef.current?.reset();
     const t = setTimeout(() => setState(INITIAL_STATE), 4000);
@@ -234,19 +294,23 @@ export function ContactSection() {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-10">
 
           <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <label htmlFor="contact-name" className={styles.formLabel}>NAME</label>
-                <input id="contact-name" type="text" name="name" required placeholder="Your name" className={styles.inputField} />
+                <input id="contact-name" type="text" name="name" required maxLength={100} placeholder="Your name" className={styles.inputField} />
               </div>
               <div>
                 <label htmlFor="contact-email" className={styles.formLabel}>EMAIL</label>
-                <input id="contact-email" type="email" name="email" required placeholder="you@example.com" className={styles.inputField} />
+                <input id="contact-email" type="email" name="email" required maxLength={254} placeholder="you@example.com" className={styles.inputField} />
+              </div>
+              <div>
+                <label htmlFor="contact-company" className={styles.formLabel}>COMPANY <span className="opacity-50">(optional)</span></label>
+                <input id="contact-company" type="text" name="company" maxLength={120} placeholder="Your company" className={styles.inputField} />
               </div>
             </div>
             <div>
               <label htmlFor="contact-message" className={styles.formLabel}>MESSAGE</label>
-              <textarea id="contact-message" name="message" required rows={5} placeholder="Tell me about the project..." className={`${styles.inputField} resize-none leading-[1.6]`} />
+              <textarea id="contact-message" name="message" required maxLength={2000} rows={5} placeholder="Tell me about the project..." className={`${styles.inputField} resize-none leading-[1.6]`} />
             </div>
             <SubmitButton success={success} pending={isPending} error={error} />
           </form>
