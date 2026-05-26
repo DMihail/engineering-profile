@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
 @import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
 
 :root {
   --font-size: 16px;
@@ -22,8 +25,63 @@
   --border: rgba(255, 255, 255, 0.06);
   --input: transparent;
   --input-background: #0F1623;
+  --switch-background: #374151;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
   --ring: rgba(56, 189, 248, 0.4);
+  --chart-1: #38BDF8;
+  --chart-2: #A78BFA;
+  --chart-3: #22C55E;
+  --chart-4: #F97316;
+  --chart-5: #F59E0B;
   --radius: 0.625rem;
+  --sidebar: #111827;
+  --sidebar-foreground: #E5E7EB;
+  --sidebar-primary: #38BDF8;
+  --sidebar-primary-foreground: #0B0F17;
+  --sidebar-accent: #1F2937;
+  --sidebar-accent-foreground: #E5E7EB;
+  --sidebar-border: rgba(255, 255, 255, 0.06);
+  --sidebar-ring: rgba(56, 189, 248, 0.4);
+}
+
+.dark {
+  --background: #0B0F17;
+  --foreground: #E5E7EB;
+  --card: #0F1623;
+  --card-foreground: #E5E7EB;
+  --popover: #111827;
+  --popover-foreground: #E5E7EB;
+  --primary: #38BDF8;
+  --primary-foreground: #0B0F17;
+  --secondary: #111827;
+  --secondary-foreground: #E5E7EB;
+  --muted: #111827;
+  --muted-foreground: #6B7280;
+  --accent: #A78BFA;
+  --accent-foreground: #0B0F17;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: rgba(255, 255, 255, 0.06);
+  --input: transparent;
+  --input-background: #0F1623;
+  --switch-background: #374151;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --ring: rgba(56, 189, 248, 0.4);
+  --chart-1: #38BDF8;
+  --chart-2: #A78BFA;
+  --chart-3: #22C55E;
+  --chart-4: #F97316;
+  --chart-5: #F59E0B;
+  --sidebar: #111827;
+  --sidebar-foreground: #E5E7EB;
+  --sidebar-primary: #38BDF8;
+  --sidebar-primary-foreground: #0B0F17;
+  --sidebar-accent: #1F2937;
+  --sidebar-accent-foreground: #E5E7EB;
+  --sidebar-border: rgba(255, 255, 255, 0.06);
+  --sidebar-ring: rgba(56, 189, 248, 0.4);
 }
 
 @theme inline {
@@ -46,26 +104,82 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
   --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
   html {
     font-size: var(--font-size);
   }
 
-  body {
-    @apply bg-background text-foreground;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  h1 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h2 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h3 {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h4 {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  label {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  button {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  input {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.5;
   }
 }
