@@ -1,3 +1,12 @@
+declare global {
+  interface Window {
+    grecaptcha: {
+      ready: (cb: () => void) => void;
+      execute: (siteKey: string, options: { action: string }) => Promise<string>;
+    };
+  }
+}
+
 type Icon = React.ComponentType<{ size?: number; className?: string; style?: React.CSSProperties }>;
 
 interface SkillItem  { name: string; primary: boolean; icon: Icon }
