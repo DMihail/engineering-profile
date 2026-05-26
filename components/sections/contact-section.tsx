@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useActionState, useSyncExternalStore } from "react";
+import { useFormStatus } from "react-dom";
 import { Send, CheckCircle, Loader2, ExternalLink, Download, Copy, Check } from "lucide-react";
 import { useFadeIn } from "@/lib/hooks";
 import { validateEmail } from "@/lib/validate-email";
@@ -126,7 +127,8 @@ async function sendMessage(_prev: FormState, data: FormData): Promise<FormState>
   }
 }
 
-function SubmitButton({ success, pending, error }: { success: boolean; pending: boolean; error?: string }) {
+function SubmitButton({ success, error }: { success: boolean; error?: string }) {
+  const { pending } = useFormStatus();
   return (
     <div className="flex items-center gap-4 flex-wrap">
       <button
@@ -227,8 +229,7 @@ function SocialLinks() {
 
 export function ContactSection() {
   const { ref, fade } = useFadeIn();
-  const [state, setState] = useState<FormState>(INITIAL_STATE);
-  const [isPending, startTransition] = useTransition();
+  const [state, formAction] = useActionState(sendMessage, INITIAL_STATE);
   const formRef = useRef<HTMLFormElement>(null);
 
   const success = state.success;
@@ -247,24 +248,7 @@ export function ContactSection() {
   useEffect(() => {
     if (!state.success || state.ts === 0) return;
     formRef.current?.reset();
-    const t = setTimeout(() => setState(INITIAL_STATE), 4000);
-    return () => clearTimeout(t);
   }, [state.ts, state.success]);
-
-  useEffect(() => {
-    if (!state.error || state.ts === 0) return;
-    const t = setTimeout(() => setState((s) => ({ ...s, error: undefined })), 4000);
-    return () => clearTimeout(t);
-  }, [state.error, state.ts]);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    startTransition(async () => {
-      const result = await sendMessage(state, data);
-      setState(result);
-    });
-  };
 
   return (
     <section id="contact" className="section-surface">
@@ -281,7 +265,7 @@ export function ContactSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-10">
 
-          <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+          <form ref={formRef} action={formAction} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <label htmlFor="contact-name" className={styles.formLabel}>NAME</label>
@@ -300,7 +284,7 @@ export function ContactSection() {
               <label htmlFor="contact-message" className={styles.formLabel}>MESSAGE</label>
               <textarea id="contact-message" name="message" required maxLength={2000} rows={5} placeholder="Tell me about the project..." className={`${styles.inputField} resize-none leading-[1.6]`} />
             </div>
-            <SubmitButton success={success} pending={isPending} error={error} />
+            <SubmitButton success={success} error={error} />
           </form>
 
           <div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
 interface LazySectionProps {
   children: ReactNode;
@@ -10,11 +10,9 @@ interface LazySectionProps {
 }
 
 export function LazySection({ children, id, className, minHeight = "60vh" }: LazySectionProps) {
-  const ref = useRef<HTMLElement>(null);
   const [show, setShow] = useState(false);
 
-  useEffect(() => {
-    const el = ref.current;
+  const sectionRef = (el: HTMLElement | null) => {
     if (!el) return;
     const obs = new IntersectionObserver(
       ([entry]) => {
@@ -27,8 +25,8 @@ export function LazySection({ children, id, className, minHeight = "60vh" }: Laz
     );
     obs.observe(el);
     return () => obs.disconnect();
-  }, []);
+  };
 
   if (show) return <>{children}</>;
-  return <section ref={ref} id={id} className={className} style={{ minHeight }} />;
+  return <section ref={sectionRef} id={id} className={className} style={{ minHeight }} />;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { NAV } from "@/lib/data";
 import { MDLogo } from "@/components/ui/icons";
@@ -95,12 +95,12 @@ export function NavBar() {
     };
   }, [menuOpen]);
 
-  const navigateTo = useCallback((id: string) => {
+  const navigateTo = (id: string) => {
     setActive(id);
     setMenuOpen(false);
     lockUntilRef.current = Date.now() + SCROLL_LOCK_MS;
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  }, []);
+  };
 
   return (
     <header>
