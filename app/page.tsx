@@ -5,7 +5,7 @@ import { Footer } from "@/components/layout/footer";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background font-sans">
+    <main className="min-h-screen bg-background font-sans overflow-x-hidden">
       <NavBar />
       <HeroSection />
       <LazySections />

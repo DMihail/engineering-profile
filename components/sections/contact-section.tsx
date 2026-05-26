@@ -34,8 +34,12 @@ function getServerCvSnapshot() {
 }
 
 function notify(title: string, body: string) {
-  if (!("Notification" in window) || Notification.permission !== "granted") return;
-  new Notification(title, { body, icon: "/favicon.ico" });
+  try {
+    if (!("Notification" in window) || Notification.permission !== "granted") return;
+    new Notification(title, { body, icon: "/favicon.ico" });
+  } catch {
+    // Silently fail — iOS Safari, some WebViews, and restricted contexts throw here
+  }
 }
 
 let lastSubmitAt = 0;
@@ -44,14 +48,15 @@ const THROTTLE_MS = 10_000;
 function getRecaptchaToken(): Promise<string> {
   return new Promise((resolve, reject) => {
     if (!window.grecaptcha) {
-      reject(new Error("reCAPTCHA not loaded"));
+      reject(new Error("reCAPTCHA not loaded — check your connection"));
       return;
     }
+    const timeout = setTimeout(() => reject(new Error("reCAPTCHA timed out")), 10_000);
     window.grecaptcha.ready(() => {
       window.grecaptcha
         .execute(RECAPTCHA_SITE_KEY, { action: "contact_submit" })
-        .then(resolve)
-        .catch(reject);
+        .then((token) => { clearTimeout(timeout); resolve(token); })
+        .catch((err) => { clearTimeout(timeout); reject(err); });
     });
   });
 }
@@ -85,7 +90,13 @@ async function sendMessage(_prev: FormState, data: FormData): Promise<FormState>
   try {
     lastSubmitAt = now;
 
-    const recaptchaToken = await getRecaptchaToken();
+    let recaptchaToken: string;
+    try {
+      recaptchaToken = await getRecaptchaToken();
+    } catch (captchaErr) {
+      console.warn("[contact] reCAPTCHA failed:", captchaErr);
+      return { success: false, error: "Security check failed — please reload and try again", ts: Date.now() };
+    }
 
     const res = await fetch("/api/contact", {
       method: "POST",
@@ -94,15 +105,21 @@ async function sendMessage(_prev: FormState, data: FormData): Promise<FormState>
     });
 
     if (!res.ok) {
-      const { error } = await res.json();
-      throw new Error(error || "Request failed");
+      let serverError = "Request failed";
+      try {
+        const body = await res.json();
+        serverError = body.error || serverError;
+      } catch { /* non-JSON response */ }
+      throw new Error(serverError);
     }
 
     notify("Message sent!", "Thanks for reaching out — I'll get back to you soon.");
     return { success: true, ts: Date.now() };
   } catch (err) {
     console.error("[contact] Submit failed:", err);
-    const errorMsg = "Failed to send — please try again or email directly";
+    const errorMsg = err instanceof Error && err.message.includes("failed to fetch")
+      ? "Network error — check your connection"
+      : "Failed to send — please try again or email directly";
     notify("Sending failed", errorMsg);
     return { success: false, error: errorMsg, ts: Date.now() };
   }
@@ -217,8 +234,12 @@ export function ContactSection() {
   const error = !state.success ? state.error : undefined;
 
   useEffect(() => {
-    if ("Notification" in window && Notification.permission === "default") {
-      Notification.requestPermission();
+    try {
+      if ("Notification" in window && Notification.permission === "default") {
+        Notification.requestPermission().catch(() => {});
+      }
+    } catch {
+      // Notification API unavailable (iOS Safari, restricted contexts)
     }
   }, []);
 

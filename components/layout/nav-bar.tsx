@@ -77,17 +77,29 @@ export function NavBar() {
 
   useEffect(() => {
     if (!menuOpen) return;
+
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+    document.body.style.touchAction = "none";
+
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setMenuOpen(false);
     };
     document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
+    };
   }, [menuOpen]);
 
   const navigateTo = useCallback((id: string) => {
     setActive(id);
     setMenuOpen(false);
     lockUntilRef.current = Date.now() + SCROLL_LOCK_MS;
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   }, []);
 
   return (
@@ -99,33 +111,39 @@ export function NavBar() {
             md://portfolio
           </a>
 
+          <div
+            className={`${styles.navBackdrop} ${menuOpen ? styles.navBackdropOpen : ""}`}
+            onClick={() => setMenuOpen(false)}
+            aria-hidden="true"
+          />
           <ul className={`${styles.navList} ${menuOpen ? styles.navListOpen : ""}`}>
             {NAV.map((id) => (
               <NavItem key={id} id={id} active={active === id} onClick={navigateTo} />
             ))}
-            <li className="md:hidden">
-              <a href="#contact" onClick={() => navigateTo("contact")} className="btn-primary mt-4 py-[14px] px-9 no-underline">
-                Hire me
-              </a>
+            <li className="lg:hidden">
+              <button type="button" onClick={() => navigateTo("contact")} className="btn-primary mt-6 py-[14px] px-10 text-[15px] whitespace-nowrap">
+                <span className="status-dot-sm !bg-background !shadow-none animate-pulse" />
+                Let&apos;s talk
+              </button>
             </li>
           </ul>
 
           <div className="relative z-10 flex items-center gap-3">
             {active !== "hero" && (
-              <span className={`md:hidden mono-xs text-primary tracking-[0.1em] ${styles.sectionLabel}`}>{active}</span>
+              <span className={`lg:hidden mono-xs text-primary tracking-[0.1em] ${styles.sectionLabel}`}>{active}</span>
             )}
-            <a
-              href="#contact"
+            <button
+              type="button"
               onClick={() => navigateTo("contact")}
-              className="hidden sm:flex items-center gap-1.5 btn-sm bg-primary text-background tracking-[0.04em] hover:bg-[#7DD3FC] no-underline"
+              className="hidden lg:flex items-center gap-1.5 py-[5px] px-3 rounded-md border border-primary/30 bg-primary/10 text-primary font-mono text-[11px] font-medium tracking-[0.04em] leading-none whitespace-nowrap hover:bg-primary/20 hover:border-primary/50 transition-colors cursor-pointer"
             >
-              <span className="w-1.5 h-1.5 rounded-full animate-pulse bg-background opacity-70" />
-              Hire me
-            </a>
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+              Let&apos;s talk
+            </button>
             <button
               type="button"
               onClick={() => setMenuOpen((v) => !v)}
-              className="md:hidden text-muted-foreground cursor-pointer p-1"
+              className="lg:hidden text-muted-foreground cursor-pointer p-1"
               aria-label="Toggle navigation menu"
               aria-expanded={menuOpen}
             >

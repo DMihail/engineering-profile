@@ -52,9 +52,16 @@
 .summary {
   list-style: none;
   cursor: pointer;
+  -webkit-user-select: none;
   user-select: none;
-  padding: 22px 24px;
+  padding: 16px;
   transition: background-color 0.2s;
+}
+
+@media (min-width: 640px) {
+  .summary {
+    padding: 22px 24px;
+  }
 }
 
 .summary::-webkit-details-marker {
