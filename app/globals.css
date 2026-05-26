@@ -13,15 +13,15 @@
   --foreground: #E5E7EB;
   --card: #131C2B;
   --primary: #38BDF8;
-  --secondary: #151F30;
-  --muted-foreground: #8891A0;
+  --secondary: #182235;
+  --muted-foreground: #94A0B0;
   --success: #22C55E;
   --border: rgba(255, 255, 255, 0.06);
   --border-hover: rgba(56, 189, 248, 0.22);
   --ring: rgba(56, 189, 248, 0.4);
   --text-secondary: #B4BBC6;
-  --text-dim: #7C8594;
-  --text-faint: rgba(229,231,235,0.55);
+  --text-dim: #8B95A5;
+  --text-faint: rgba(229,231,235,0.62);
   --radius: 0.625rem;
 }
 
@@ -77,11 +77,11 @@
 
   /* ── Typography ────────────────────────────────────────────────────── */
 
-  .mono-2xs  { font-family: var(--font-mono), monospace; font-size: 9px; }
-  .mono-xs   { font-family: var(--font-mono), monospace; font-size: 10px; }
-  .mono-sm   { font-family: var(--font-mono), monospace; font-size: 11px; }
-  .mono-md   { font-family: var(--font-mono), monospace; font-size: 12px; }
-  .mono-base { font-family: var(--font-mono), monospace; font-size: 13px; }
+  .mono-2xs  { font-family: var(--font-mono), monospace; font-size: 10px; line-height: 1.4; }
+  .mono-xs   { font-family: var(--font-mono), monospace; font-size: 10px; line-height: 1.4; }
+  .mono-sm   { font-family: var(--font-mono), monospace; font-size: 11px; line-height: 1.5; }
+  .mono-md   { font-family: var(--font-mono), monospace; font-size: 12px; line-height: 1.5; }
+  .mono-base { font-family: var(--font-mono), monospace; font-size: 13px; line-height: 1.5; }
 
   .mono-label {
     font-family: var(--font-mono), monospace;
@@ -97,19 +97,20 @@
     font-weight: 700;
     letter-spacing: -0.025em;
     color: var(--foreground);
-    margin-bottom: 6px;
+    margin-bottom: 10px;
   }
 
   .section-comment {
     font-family: var(--font-mono), monospace;
     font-size: 12px;
+    line-height: 1.55;
     color: var(--muted-foreground);
   }
 
   /* ── Section Layouts ───────────────────────────────────────────────── */
 
-  .section-dark    { background: var(--background); padding: 80px 0; }
-  .section-surface { background: var(--secondary);  padding: 80px 0; }
+  .section-dark    { background: var(--background); padding: 88px 0; }
+  .section-surface { background: var(--secondary);  padding: 88px 0; }
 
   /* ── Background FX ─────────────────────────────────────────────────── */
 

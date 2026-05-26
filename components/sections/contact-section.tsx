@@ -110,7 +110,8 @@ async function sendMessage(_prev: FormState, data: FormData): Promise<FormState>
         const body = await res.json();
         serverError = body.error || serverError;
       } catch { /* non-JSON response */ }
-      throw new Error(serverError);
+      notify("Sending failed", serverError);
+      return { success: false, error: serverError, ts: Date.now() };
     }
 
     notify("Message sent!", "Thanks for reaching out — I'll get back to you soon.");
@@ -270,7 +271,7 @@ export function ContactSection() {
       <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6" style={fade}>
         <SectionLabel n="05" label="Contact" />
         <h2 className="section-heading">{"Let's build something"}</h2>
-        <p className="text-sm text-muted-foreground mb-10 max-w-[440px] leading-[1.68]">
+        <p className="text-sm text-muted-foreground mb-10 max-w-110 leading-[1.68]">
           Available for contract work globally — EU, US, and remote. If you have a challenging mobile or frontend systems problem, reach out.
         </p>
 
@@ -299,11 +300,11 @@ export function ContactSection() {
           </form>
 
           <div>
-            <div className="mono-label mb-3.5">{"// System Metadata"}</div>
+            <div className="mono-label mb-3.5">Links</div>
             <SocialLinks />
 
             <div className="pt-4 border-t border-border mt-4">
-              <div className="mono-label mb-2.5">{"// Resume"}</div>
+              <div className="mono-label mb-2.5">Resume</div>
               <ResumeButton />
             </div>
           </div>

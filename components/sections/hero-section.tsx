@@ -8,7 +8,7 @@ import styles from "@/styles/sections/hero-section.module.css";
 export function HeroSection() {
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden bg-background pt-[52px]">
+    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden bg-background pt-13">
 
       <div className="absolute inset-0 pointer-events-none bg-grid" />
       <div className="absolute inset-0 pointer-events-none bg-vignette" />
@@ -25,7 +25,7 @@ export function HeroSection() {
             </div>
 
             <p className="mono-sm tracking-[0.12em] uppercase text-text-faint mb-4">
-              React Native · Mobile Systems Engineering · Architecture
+              React Native · Mobile Engineering · Architecture
             </p>
 
             <h1 className="font-sans font-extrabold mb-7 tracking-[-0.045em] leading-[0.96] text-foreground text-[clamp(52px,8vw,88px)]">
@@ -34,16 +34,16 @@ export function HeroSection() {
               <span className="text-primary">Dzhezhelo</span>
             </h1>
 
-            <p className="font-sans font-medium mb-3 leading-[1.55] text-text-secondary max-w-[520px] text-[clamp(15px,2vw,19px)] mx-auto lg:mx-0">
-              React Native Engineer specializing in real-time systems, native integrations, and performance-critical mobile applications.
+            <p className="font-sans font-medium mb-3 leading-[1.55] text-text-secondary max-w-130 text-[clamp(15px,2vw,19px)] mx-auto lg:mx-0">
+              Building high-performance mobile applications, realtime systems, and native integrations.
             </p>
-            <p className="mono-base text-muted-foreground max-w-[480px] mb-7 leading-[1.65] mx-auto lg:mx-0">
-              6 years production across iOS, Android, and web — native Swift/Kotlin integrations, real-time system design, and performance engineering.
+            <p className="mono-base text-muted-foreground max-w-120 mb-7 leading-[1.65] mx-auto lg:mx-0">
+              6+ years shipping production apps across iOS, Android, and web — Swift/Kotlin native modules, realtime architecture, and performance optimization.
             </p>
 
             <div className="rounded-xl mb-8 overflow-hidden text-left border border-[rgba(255,255,255,0.07)]">
               <div className="px-4 py-2.5 bg-[rgba(255,255,255,0.025)] border-b border-[rgba(255,255,255,0.05)]">
-                <span className="mono-label">production track record</span>
+                <span className="mono-label">Key results</span>
               </div>
               {TRACK_RECORD.map((tr, i) => (
                 <div
@@ -90,16 +90,16 @@ export function HeroSection() {
                 <span className={`${styles.terminalDot} bg-[#FEBC2E]`} />
                 <span className={`${styles.terminalDot} bg-[#28C840]`} />
                 <span className="ml-auto flex items-center gap-1.5">
-                  <span className="mono-sm text-muted-foreground">developer.sys</span>
+                  <span className="mono-sm text-muted-foreground">profile</span>
                   <span className="status-dot-sm animate-pulse ml-2" />
-                  <span className="mono-xs text-success">LIVE</span>
+                  <span className="mono-xs text-success">available</span>
                 </span>
               </div>
 
               <div className="px-5 pt-5 pb-2 space-y-2.5">
                 {TERMINAL_INFO.map((r) => (
                   <div key={r.key} className="flex items-baseline gap-2">
-                    <span className="mono-sm text-text-faint w-[92px] shrink-0">{r.key}</span>
+                    <span className="mono-sm text-text-faint w-23 shrink-0">{r.key}</span>
                     <span className="mono-xs text-[rgba(55,65,81,0.5)]">→</span>
                     <span className={`mono-md ${r.color}`}>{r.value}</span>
                   </div>
@@ -107,7 +107,7 @@ export function HeroSection() {
               </div>
 
               <div className="mx-5 my-3 pt-3 border-t border-[rgba(255,255,255,0.04)]">
-                <div className="mono-label mb-1.5">build pipeline</div>
+                <div className="mono-label mb-1.5">status</div>
                 <div className="grid grid-cols-2 gap-x-4 gap-y-1">
                   {BUILD_PIPELINE.map((b) => (
                     <div key={b.label} className="flex items-center gap-1.5">
@@ -120,7 +120,7 @@ export function HeroSection() {
               </div>
 
               <div className="mx-5 mb-4 pt-3 border-t border-[rgba(255,255,255,0.04)]">
-                <div className="mono-label mb-1.5">active context</div>
+                <div className="mono-label mb-1.5">recent projects</div>
                 {ACTIVE_CONTEXT.map((c) => (
                   <div key={c.name} className="flex items-center gap-1.5 mb-1.5">
                     <span className="mono-xs text-text-dim">↳</span>
@@ -132,8 +132,8 @@ export function HeroSection() {
 
               <div className="px-5 pb-4">
                 <span className="mono-md text-primary">$ </span>
-                <span className="mono-md text-muted-foreground">ready --hire</span>
-                <span className="inline-block w-[7px] h-[13px] bg-primary ml-[3px] align-middle cursor-blink" />
+                <span className="mono-md text-muted-foreground">available --contract</span>
+                <span className="inline-block w-1.75 h-3.25 bg-primary ml-0.75 align-middle cursor-blink" />
               </div>
 
               <div className="grid grid-cols-3 border-t border-border">

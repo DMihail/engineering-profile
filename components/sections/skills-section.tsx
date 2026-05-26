@@ -6,10 +6,10 @@ export function SkillsSection() {
   return (
     <section id="skills" className="section-surface">
       <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6">
-        <SectionLabel n="03" label="System Modules" />
-        <h2 className="section-heading mb-2">Technical systems</h2>
+        <SectionLabel n="03" label="Skills" />
+        <h2 className="section-heading mb-2">Technical stack</h2>
         <p className="section-comment mb-9">
-          {"// 6 engineering domains — primary tools highlighted · production-verified"}
+          6 domains — primary tools highlighted
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -18,9 +18,8 @@ export function SkillsSection() {
               <div className="px-4 pt-3 pb-2.5 border-b border-border bg-[rgba(255,255,255,0.02)]">
                 <div className="mono-sm font-semibold text-primary tracking-[0.04em]">{layer.layer}</div>
                 <div className="mono-xs text-text-dim mt-0.5">{layer.desc}</div>
-                <div className="flex items-center justify-between mt-3">
-                  <span className="mono-xs text-text-faint">{"// "}{layer.projectRefs}</span>
-                  <span className="mono-2xs text-text-dim tracking-[0.08em] uppercase">{layer.scope}</span>
+                <div className="mt-2">
+                  <span className="mono-xs text-text-faint">{layer.projectRefs}</span>
                 </div>
               </div>
               <div className="p-3 grid grid-cols-2 gap-1.5">

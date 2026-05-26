@@ -76,6 +76,16 @@ const jsonLd = {
     "https://github.com/DMihail",
     "https://www.linkedin.com/in/mihail-dzhezhelo-27a41114a/",
   ],
+  knowsAbout: [
+    "React Native",
+    "TypeScript",
+    "iOS",
+    "Android",
+    "Real-time Systems",
+    "Mobile Architecture",
+    "Performance Optimization",
+    "Native Modules",
+  ],
 };
 
 export default function RootLayout({

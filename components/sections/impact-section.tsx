@@ -7,26 +7,22 @@ export function ImpactSection() {
   return (
     <section id="impact" className="bg-secondary border-t border-[rgba(56,189,248,0.1)] py-24">
       <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6">
-        <SectionLabel n="01" label="Engineering Capabilities" />
+        <SectionLabel n="01" label="Capabilities" />
 
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-10">
           <div>
-            <h2 className="section-heading">Engineering capability matrix</h2>
+            <h2 className="section-heading">Core capabilities</h2>
             <p className="section-comment">
-              {"// production-verified · performance-validated · applied across real systems"}
+              Production-verified across real systems and client projects
             </p>
-          </div>
-          <div className="flex items-center gap-2 shrink-0">
-            <span className="w-2 h-2 rounded-full animate-pulse bg-success shadow-[0_0_8px_rgba(34,197,94,0.8)]" />
-            <span className="mono-xs text-success tracking-[0.1em]">5 / 5 SYSTEMS OPERATIONAL</span>
           </div>
         </div>
 
         <div className="hidden sm:block rounded-xl overflow-hidden border border-border">
-          <div className="grid items-center grid-cols-[220px_1fr_120px] py-[9px] px-6 bg-[rgba(255,255,255,0.025)] border-b border-border">
-            <span className="mono-label">Module</span>
-            <span className="mono-label">Capability</span>
-            <span className="mono-label text-right">SLA / KPI</span>
+          <div className="grid items-center grid-cols-[220px_1fr_100px] py-[9px] px-6 bg-[rgba(255,255,255,0.025)] border-b border-border">
+            <span className="mono-label">Area</span>
+            <span className="mono-label">Description</span>
+            <span className="mono-label text-right">Target</span>
           </div>
 
           {CAPABILITIES.map((cap, i) => {
@@ -35,10 +31,9 @@ export function ImpactSection() {
             return (
               <div
                 key={cap.id}
-                className={`grid items-start gap-6 grid-cols-[220px_1fr_120px] p-[20px_24px] cursor-default transition-colors duration-200 hover:bg-[rgba(56,189,248,0.04)] ${i % 2 === 0 ? "bg-card" : "bg-[rgba(17,24,39,0.6)]"} ${!isLast ? "border-b border-border" : ""}`}
+                className={`grid items-start gap-6 grid-cols-[220px_1fr_100px] p-[20px_24px] cursor-default transition-colors duration-200 hover:bg-[rgba(56,189,248,0.04)] ${i % 2 === 0 ? "bg-card" : "bg-[rgba(17,24,39,0.6)]"} ${!isLast ? "border-b border-border" : ""}`}
               >
                 <div>
-                  <div className="mono-xs text-text-dim tracking-[0.08em] mb-[5px]">{cap.mod}</div>
                   <div className="flex items-center gap-2 mb-3">
                     <div className={styles.iconBox}>
                       <CapIcon size={13} className="text-primary" />
@@ -48,7 +43,7 @@ export function ImpactSection() {
                   <div className="flex flex-wrap gap-1 mb-2">
                     {cap.tags.slice(0, 3).map((tag) => <Chip key={tag} label={tag} />)}
                   </div>
-                  <div className="mono-xs text-text-faint">{"// "}{cap.appliedIn}</div>
+                  <div className="mono-xs text-text-faint">{cap.appliedIn}</div>
                 </div>
 
                 <p className="text-sm text-text-secondary leading-[1.68]">{cap.desc}</p>
@@ -56,10 +51,6 @@ export function ImpactSection() {
                 <div className="text-right">
                   <div className="font-mono text-[20px] font-bold text-success tracking-[-0.03em] leading-none">{cap.kpi}</div>
                   <div className="mono-xs text-[rgba(34,197,94,0.5)] mt-[3px]">{cap.kpiSub}</div>
-                  <div className="flex items-center gap-1.5 justify-end mt-3">
-                    <span className="status-dot-sm" />
-                    <span className="mono-2xs text-success tracking-[0.08em]">OPERATIONAL</span>
-                  </div>
                 </div>
               </div>
             );
@@ -71,13 +62,6 @@ export function ImpactSection() {
             const CapIcon = cap.icon;
             return (
               <div key={cap.id} className="rounded-xl overflow-hidden bg-card border border-border">
-                <div className="flex items-center justify-between px-4 py-2.5 border-b border-border bg-[rgba(255,255,255,0.02)]">
-                  <span className="mono-xs text-text-dim">{cap.mod}</span>
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-success" />
-                    <span className="mono-2xs text-success">OPERATIONAL</span>
-                  </div>
-                </div>
                 <div className="p-4">
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-2">
@@ -93,7 +77,7 @@ export function ImpactSection() {
                   </div>
                   <p className="text-xs text-text-secondary leading-[1.68] mb-2">{cap.desc}</p>
                   <div className="flex flex-wrap gap-1.5 mb-2">{cap.tags.map((t) => <Chip key={t} label={t} />)}</div>
-                  <div className="mono-xs text-text-faint">{"// "}{cap.appliedIn}</div>
+                  <div className="mono-xs text-text-faint">{cap.appliedIn}</div>
                 </div>
               </div>
             );

@@ -8,7 +8,7 @@ export function ExperienceSection() {
     <section id="experience" className="section-dark">
       <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6">
         <SectionLabel n="04" label="Experience" />
-        <h2 className="section-heading mb-10">Engineering history</h2>
+        <h2 className="section-heading mb-10">Experience</h2>
 
         <div className="relative">
           <div className="absolute top-2 bottom-8 w-px hidden md:block left-0 bg-gradient-to-b from-[rgba(56,189,248,0.4)] to-[rgba(56,189,248,0.03)]" />
@@ -37,9 +37,7 @@ export function ExperienceSection() {
                         )}
                       </div>
                     </div>
-                    <div className="flex items-start gap-2 px-3 py-2 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.04)]">
-                      <span className="mono-xs text-text-dim shrink-0 mt-px">systems</span>
-                      <span className="mono-xs text-text-dim">→</span>
+                    <div className="px-3 py-2 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.04)]">
                       <span className="mono-xs text-text-faint leading-[1.6]">{xp.systems}</span>
                     </div>
                   </div>
