@@ -4,7 +4,7 @@ Personal engineering portfolio for **Mykhailo Dzhezhelo** — React Native Engin
 
 Built with Next.js 16, React 19, Tailwind CSS 4, and TypeScript.
 
-**Live:** [dzhezhelo.dev](https://dzhezhelo.dev)
+**Live:** [engineering-profile.vercel.app](https://engineering-profile.vercel.app)
 
 ## Tech Stack
 
@@ -89,7 +89,7 @@ Requires **Node.js 20+**.
 All site-wide constants are in `lib/config.ts`:
 
 ```typescript
-export const SITE_URL = "https://dzhezhelo.dev";
+export const SITE_URL = "https://engineering-profile.vercel.app";
 export const SITE_AUTHOR = "Mykhailo Dzhezhelo";
 export const SITE_EMAIL = "dzhezhelomikhail@gmail.com";
 ```
