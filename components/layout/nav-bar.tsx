@@ -34,12 +34,32 @@ export function NavBar() {
       }
     }, OBSERVER_OPTIONS);
 
-    SECTION_IDS.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
+    const observed = new WeakSet<Element>();
+    let timer: ReturnType<typeof setTimeout>;
 
-    return () => observer.disconnect();
+    const observeAll = () => {
+      SECTION_IDS.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el && !observed.has(el)) {
+          observer.observe(el);
+          observed.add(el);
+        }
+      });
+    };
+
+    observeAll();
+
+    const mo = new MutationObserver(() => {
+      clearTimeout(timer);
+      timer = setTimeout(observeAll, 80);
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      observer.disconnect();
+      mo.disconnect();
+      clearTimeout(timer);
+    };
   }, []);
 
   useEffect(() => {
