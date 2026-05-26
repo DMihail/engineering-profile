@@ -14,7 +14,7 @@ export function SkillsSection() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {SKILL_LAYERS.map((layer) => (
-            <div key={layer.id} className="panel panel-hover rounded-xl">
+            <div key={layer.id} className="panel panel-hover">
               <div className="px-4 pt-3 pb-2.5 border-b border-border bg-[rgba(255,255,255,0.02)]">
                 <div className="mono-sm font-semibold text-primary tracking-[0.04em]">{layer.layer}</div>
                 <div className="mono-xs text-text-dim mt-0.5">{layer.desc}</div>

@@ -16,12 +16,12 @@ export function ExperienceSection() {
             {XP_ENTRIES.map((xp) => (
               <div key={xp.company} className="relative md:pl-10">
                 <div className={`absolute hidden md:block w-2.5 h-2.5 rounded-full -left-[5px] top-[22px] border-2 ${xp.current ? "bg-primary border-primary shadow-[0_0_10px_rgba(56,189,248,0.5)]" : "bg-card border-[rgba(56,189,248,0.3)]"}`} />
-                <div className="panel panel-hover rounded-xl">
+                <div className="panel panel-hover">
                   <div className="p-5 sm:p-6 pb-3 sm:pb-4">
                     <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
                       <div>
-                        <h3 className="text-[15px] font-semibold text-foreground tracking-[-0.01em]">{xp.role}</h3>
-                        <div className="text-[13px] text-primary mt-0.5">{xp.company}</div>
+                        <h3 className="text-base font-semibold text-foreground tracking-[-0.01em]">{xp.role}</h3>
+                        <div className="text-sm text-primary mt-0.5">{xp.company}</div>
                       </div>
                       <div className="text-right">
                         <div className="mono-md text-muted-foreground">{xp.period}</div>
@@ -48,7 +48,7 @@ export function ExperienceSection() {
                       {xp.items.map((item, j) => (
                         <li key={j} className="flex items-start gap-3">
                           <span className="mono-sm text-text-dim mt-1 shrink-0">→</span>
-                          <span className="text-[13px] text-text-secondary leading-[1.65]">{item}</span>
+                          <span className="text-sm text-text-secondary leading-[1.65]">{item}</span>
                         </li>
                       ))}
                     </ul>

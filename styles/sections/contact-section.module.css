@@ -31,9 +31,24 @@
   border-color: rgba(56, 189, 248, 0.35);
 }
 
+.inputField:-webkit-autofill,
+.inputField:-webkit-autofill:hover,
+.inputField:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--foreground);
+  -webkit-box-shadow: 0 0 0 1000px var(--card) inset;
+  box-shadow: 0 0 0 1000px var(--card) inset;
+  border-color: rgba(56, 189, 248, 0.2);
+  caret-color: var(--foreground);
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.inputField::placeholder {
+  color: var(--text-faint);
+}
+
 .formLabel {
   font-family: var(--font-mono), monospace;
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.1em;
   color: var(--text-dim);
   text-transform: uppercase;

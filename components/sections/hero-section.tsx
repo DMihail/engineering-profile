@@ -133,7 +133,7 @@ export function HeroSection() {
               <div className="px-5 pb-4">
                 <span className="mono-md text-primary">$ </span>
                 <span className="mono-md text-muted-foreground">ready --hire</span>
-                <span className={`inline-block w-[7px] h-[13px] bg-primary ml-[3px] align-middle ${styles.cursorBlink}`} />
+                <span className="inline-block w-[7px] h-[13px] bg-primary ml-[3px] align-middle cursor-blink" />
               </div>
 
               <div className="grid grid-cols-3 border-t border-border">

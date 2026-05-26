@@ -43,7 +43,7 @@ export function ImpactSection() {
                     <div className={styles.iconBox}>
                       <CapIcon size={13} className="text-primary" />
                     </div>
-                    <span className="font-sans text-[13px] font-semibold text-foreground tracking-[-0.01em]">{cap.title}</span>
+                    <span className="font-sans text-sm font-semibold text-foreground tracking-[-0.01em]">{cap.title}</span>
                   </div>
                   <div className="flex flex-wrap gap-1 mb-2">
                     {cap.tags.slice(0, 3).map((tag) => <Chip key={tag} label={tag} />)}
@@ -51,7 +51,7 @@ export function ImpactSection() {
                   <div className="mono-xs text-text-faint">{"// "}{cap.appliedIn}</div>
                 </div>
 
-                <p className="text-[13px] text-text-secondary leading-[1.68]">{cap.desc}</p>
+                <p className="text-sm text-text-secondary leading-[1.68]">{cap.desc}</p>
 
                 <div className="text-right">
                   <div className="font-mono text-[20px] font-bold text-success tracking-[-0.03em] leading-none">{cap.kpi}</div>
@@ -84,7 +84,7 @@ export function ImpactSection() {
                       <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[rgba(56,189,248,0.1)]">
                         <CapIcon size={14} className="text-primary" />
                       </div>
-                      <span className="font-sans text-[13px] font-semibold text-foreground">{cap.title}</span>
+                      <span className="font-sans text-sm font-semibold text-foreground">{cap.title}</span>
                     </div>
                     <div className="text-right ml-3 shrink-0">
                       <div className="font-mono text-[16px] font-bold text-success">{cap.kpi}</div>

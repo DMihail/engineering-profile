@@ -33,7 +33,7 @@ export default function NotFound() {
           The route you requested doesn&apos;t exist in this system.
         </p>
 
-        <div className="panel p-[18px_22px] max-w-[440px] mx-auto mb-9 text-left rounded-xl">
+        <div className="panel p-[18px_22px] max-w-[440px] mx-auto mb-9 text-left">
           <div className="mono-label mb-3">
             {"// error trace"}
           </div>

@@ -1,16 +1,55 @@
 "use client";
 
-import { useActionState, useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { useFormStatus } from "react-dom";
+import { useEffect, useRef, useState, useTransition, useSyncExternalStore } from "react";
 import { Send, CheckCircle, Loader2, ExternalLink, Download, Copy, Check } from "lucide-react";
 import { useFadeIn } from "@/lib/hooks";
 import { SectionLabel } from "@/components/ui/primitives";
 import { SOCIAL_LINKS } from "@/lib/data";
 import styles from "@/styles/sections/contact-section.module.css";
 
-type FormState = { success: boolean; ts: number };
+type FormState = { success: boolean; error?: string; ts: number };
 
 const INITIAL_STATE: FormState = { success: false, ts: 0 };
+
+const DISPOSABLE_DOMAINS = new Set([
+  "mailinator.com", "guerrillamail.com", "guerrillamail.de", "tempmail.com",
+  "throwaway.email", "temp-mail.org", "fakeinbox.com", "sharklasers.com",
+  "guerrillamailblock.com", "grr.la", "dispostable.com", "yopmail.com",
+  "trashmail.com", "trashmail.me", "trashmail.net", "mailnesia.com",
+  "maildrop.cc", "discard.email", "mailcatch.com", "tempail.com",
+  "tempr.email", "10minutemail.com", "minutemail.com", "emailondeck.com",
+  "mohmal.com", "burnermail.io", "inboxkitten.com", "getnada.com",
+  "mailsac.com", "harakirimail.com", "tmail.ws", "temp-mail.io",
+  "crazymailing.com", "mailtemp.net", "tmpmail.net", "tmpmail.org",
+  "bupmail.com", "classicmail.co", "flurred.com", "jetable.org",
+  "mytemp.email", "throwam.com", "trashmail.org", "20minutemail.com",
+]);
+
+function validateEmail(email: string): string | null {
+  const trimmed = email.trim().toLowerCase();
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+    return "Please enter a valid email address";
+  }
+
+  const domain = trimmed.split("@")[1];
+
+  if (DISPOSABLE_DOMAINS.has(domain)) {
+    return "Disposable email addresses are not accepted. Please use a real email.";
+  }
+
+  const parts = domain.split(".");
+  const tld = parts[parts.length - 1];
+  if (tld.length < 2 || /^\d+$/.test(tld)) {
+    return "Please enter a valid email address";
+  }
+
+  if (domain.length < 4) {
+    return "Please enter a valid email address";
+  }
+
+  return null;
+}
 
 const CV_UA   = { file: "/Mykhailo_Dzhezhelo_CV_UK.pdf",      label: "Resume (UA)" };
 const CV_INTL = { file: "/Mykhailo_Dzhezhelo_CV_Ireland.pdf",  label: "Resume" };
@@ -30,32 +69,52 @@ function getServerCvSnapshot() {
   return CV_INTL;
 }
 
-async function sendMessage(_prev: FormState, _data: FormData): Promise<FormState> {
-  void _prev; void _data;
+async function sendMessage(_prev: FormState, data: FormData): Promise<FormState> {
+  void _prev;
+  const email = (data.get("email") as string) ?? "";
+
+  const emailError = validateEmail(email);
+  if (emailError) {
+    return { success: false, error: emailError, ts: Date.now() };
+  }
+
+  const name = (data.get("name") as string)?.trim() ?? "";
+  if (name.length < 2) {
+    return { success: false, error: "Please enter your name", ts: Date.now() };
+  }
+
+  const message = (data.get("message") as string)?.trim() ?? "";
+  if (message.length < 10) {
+    return { success: false, error: "Message is too short — please describe your project", ts: Date.now() };
+  }
+
   await new Promise((r) => setTimeout(r, 1200));
   return { success: true, ts: Date.now() };
 }
 
-function SubmitButton({ success }: { success: boolean }) {
-  const { pending } = useFormStatus();
-
+function SubmitButton({ success, pending, error }: { success: boolean; pending: boolean; error?: string }) {
   return (
-    <button
-      type="submit"
-      disabled={pending || success}
-      className={`flex items-center gap-2 font-semibold ${
-        success
-          ? "py-3 px-6 rounded-[10px] bg-[rgba(34,197,94,0.1)] text-success border border-[rgba(34,197,94,0.2)] text-sm"
-          : "btn-primary disabled:opacity-60"
-      }`}
-    >
-      {success
-        ? <><CheckCircle size={15} /> Message sent</>
-        : pending
-          ? <><Loader2 size={15} className="animate-spin" /> Sending...</>
-          : <><Send size={15} /> Send message</>
-      }
-    </button>
+    <div className="flex items-center gap-4 flex-wrap">
+      <button
+        type="submit"
+        disabled={pending || success}
+        className={`flex items-center gap-2 font-semibold ${
+          success
+            ? "py-3 px-6 rounded-[10px] bg-[rgba(34,197,94,0.1)] text-success border border-[rgba(34,197,94,0.2)] text-sm"
+            : "btn-primary disabled:opacity-60"
+        }`}
+      >
+        {success
+          ? <><CheckCircle size={15} /> Message sent</>
+          : pending
+            ? <><Loader2 size={15} className="animate-spin" /> Sending...</>
+            : <><Send size={15} /> Send message</>
+        }
+      </button>
+      {error && (
+        <p className="text-xs text-[#ef4444] mono-sm">{error}</p>
+      )}
+    </div>
   );
 }
 
@@ -134,31 +193,47 @@ function SocialLinks() {
 
 export function ContactSection() {
   const { ref, fade } = useFadeIn();
-  const [state, formAction] = useActionState(sendMessage, INITIAL_STATE);
-  const [hiddenTs, setHiddenTs] = useState(0);
+  const [state, setState] = useState<FormState>(INITIAL_STATE);
+  const [isPending, startTransition] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
 
-  const success = state.success && state.ts > hiddenTs;
+  const success = state.success;
+  const error = !state.success ? state.error : undefined;
 
   useEffect(() => {
     if (!state.success || state.ts === 0) return;
     formRef.current?.reset();
-    const t = setTimeout(() => setHiddenTs(state.ts), 4000);
+    const t = setTimeout(() => setState(INITIAL_STATE), 4000);
     return () => clearTimeout(t);
   }, [state.ts, state.success]);
+
+  useEffect(() => {
+    if (!state.error || state.ts === 0) return;
+    const t = setTimeout(() => setState((s) => ({ ...s, error: undefined })), 4000);
+    return () => clearTimeout(t);
+  }, [state.error, state.ts]);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    startTransition(async () => {
+      const result = await sendMessage(state, data);
+      setState(result);
+    });
+  };
 
   return (
     <section id="contact" className="section-surface">
       <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6" style={fade}>
         <SectionLabel n="05" label="Contact" />
         <h2 className="section-heading">{"Let's build something"}</h2>
-        <p className="text-[13px] text-muted-foreground mb-10 max-w-[440px] leading-[1.68]">
+        <p className="text-sm text-muted-foreground mb-10 max-w-[440px] leading-[1.68]">
           Available for contract work globally — EU, US, and remote. If you have a challenging mobile or frontend systems problem, reach out.
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-10">
 
-          <form ref={formRef} action={formAction} className="space-y-4">
+          <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label htmlFor="contact-name" className={styles.formLabel}>NAME</label>
@@ -173,7 +248,7 @@ export function ContactSection() {
               <label htmlFor="contact-message" className={styles.formLabel}>MESSAGE</label>
               <textarea id="contact-message" name="message" required rows={5} placeholder="Tell me about the project..." className={`${styles.inputField} resize-none leading-[1.6]`} />
             </div>
-            <SubmitButton success={success} />
+            <SubmitButton success={success} pending={isPending} error={error} />
           </form>
 
           <div>

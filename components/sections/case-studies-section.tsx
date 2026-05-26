@@ -36,7 +36,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
             </div>
 
             <h3 className="font-sans text-[20px] font-bold tracking-[-0.025em] text-foreground mb-[7px]">{cs.title}</h3>
-            <p className="text-[13px] text-text-secondary leading-[1.62] max-w-[580px] mb-2.5">{cs.summary}</p>
+            <p className="text-sm text-text-secondary leading-[1.62] max-w-[580px] mb-2.5">{cs.summary}</p>
 
             <div className="hidden sm:flex items-baseline gap-1.5 flex-wrap">
               <span className="mono-xs text-text-dim shrink-0">arch:</span>
@@ -63,7 +63,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
             <div className="flex gap-5">
               {cs.results.map((r) => (
                 <div key={r.label} className="text-right">
-                  <div className="font-sans text-[15px] font-bold text-success tracking-[-0.025em]">{r.metric}</div>
+                  <div className="font-sans text-base font-bold text-success tracking-[-0.025em]">{r.metric}</div>
                   <div className="mono-xs text-text-dim mt-px">{r.label}</div>
                 </div>
               ))}
@@ -80,7 +80,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
 
         <div className="mb-7">
           <StudyLabel n="01">Context</StudyLabel>
-          <p className="text-[13px] text-muted-foreground leading-[1.78] italic">{cs.context}</p>
+          <p className="text-sm text-muted-foreground leading-[1.78] italic">{cs.context}</p>
         </div>
 
         <div className={`${styles.problemBox} mb-8`}>
@@ -95,14 +95,14 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
               {cs.constraints.map((c, i) => (
                 <li key={i} className="flex items-start gap-2.5">
                   <span className="mono-sm text-text-dim mt-[3px] shrink-0">{"//"}  </span>
-                  <span className="text-xs text-muted-foreground leading-[1.7]">{c}</span>
+                  <span className="text-[13px] text-muted-foreground leading-[1.7]">{c}</span>
                 </li>
               ))}
             </ul>
           </div>
           <div>
             <StudyLabel n="04">Technical Approach</StudyLabel>
-            <p className="text-[13px] text-text-secondary leading-[1.8]">{cs.approach}</p>
+            <p className="text-sm text-text-secondary leading-[1.8]">{cs.approach}</p>
           </div>
         </div>
 
@@ -114,7 +114,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
                 {cs.architecture.flatMap((a, i) => [
                   <span key={`ad${i}`} className="mono-md text-primary font-semibold whitespace-nowrap">{a.decision}</span>,
                   <span key={`aa${i}`} className="mono-sm text-text-dim text-center">→</span>,
-                  <span key={`ar${i}`} className="text-xs text-muted-foreground leading-[1.5]">{a.rationale}</span>,
+                  <span key={`ar${i}`} className="text-[13px] text-muted-foreground leading-[1.5]">{a.rationale}</span>,
                 ])}
               </div>
             </div>
@@ -122,7 +122,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
               {cs.architecture.map((a, i) => (
                 <div key={i}>
                   <div className="mono-md text-primary font-semibold">{a.decision}</div>
-                  <div className="text-xs text-muted-foreground mt-0.5">→ {a.rationale}</div>
+                  <div className="text-[13px] text-muted-foreground mt-0.5">→ {a.rationale}</div>
                 </div>
               ))}
             </div>
@@ -135,7 +135,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
                 {cs.tradeoffs.flatMap((tr, i) => [
                   <span key={`tc${i}`} className="mono-md text-text-secondary font-semibold whitespace-nowrap">{tr.chosen}</span>,
                   <span key={`ta${i}`} className="mono-sm text-text-dim text-center">→</span>,
-                  <span key={`tr${i}`} className="text-xs text-muted-foreground leading-[1.5]">{tr.rationale}</span>,
+                  <span key={`tr${i}`} className="text-[13px] text-muted-foreground leading-[1.5]">{tr.rationale}</span>,
                 ])}
               </div>
             </div>
@@ -143,7 +143,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
               {cs.tradeoffs.map((tr, i) => (
                 <div key={i}>
                   <div className="mono-md text-text-secondary font-semibold">{tr.chosen}</div>
-                  <div className="text-xs text-muted-foreground mt-0.5">→ {tr.rationale}</div>
+                  <div className="text-[13px] text-muted-foreground mt-0.5">→ {tr.rationale}</div>
                 </div>
               ))}
             </div>

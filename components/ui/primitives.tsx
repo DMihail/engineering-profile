@@ -9,10 +9,9 @@ export function SectionLabel({ n, label }: { n: string; label: string }) {
   );
 }
 
-export function Chip({ label, variant = "default" }: { label: string; variant?: "default" | "blue" | "green" }) {
-  const variantClass = variant === "blue" ? "chip-blue" : variant === "green" ? "chip-green" : "chip-default";
+export function Chip({ label, variant = "default" }: { label: string; variant?: "default" | "blue" }) {
   return (
-    <span className={`chip ${variantClass}`}>
+    <span className={`chip ${variant === "blue" ? "chip-blue" : "chip-default"}`}>
       {label}
     </span>
   );

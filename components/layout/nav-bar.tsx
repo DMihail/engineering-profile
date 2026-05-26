@@ -1,20 +1,27 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Menu, X } from "lucide-react";
 import { NAV } from "@/lib/data";
 import { MDLogo } from "@/components/ui/icons";
 import styles from "@/styles/layout/nav-bar.module.css";
 
 const SECTION_IDS = ["hero", ...NAV];
-const OBSERVER_OPTIONS: IntersectionObserverInit = { rootMargin: "-30% 0px -65% 0px" };
+const SCROLL_LOCK_MS = 1200;
 
-function NavItem({ id, active, onClick }: { id: string; active: boolean; onClick: () => void }) {
+function getObserverMargin(): string {
+  const w = window.innerWidth;
+  if (w < 640) return "-8% 0px -40% 0px";
+  if (w < 1024) return "-15% 0px -45% 0px";
+  return "-25% 0px -55% 0px";
+}
+
+function NavItem({ id, active, onClick }: { id: string; active: boolean; onClick: (id: string) => void }) {
   return (
     <li>
       <a
         href={`#${id}`}
-        onClick={onClick}
+        onClick={() => onClick(id)}
         aria-current={active ? "true" : undefined}
         className={`${styles.navLink} ${active ? styles.navLinkActive : ""} no-underline`}
       >
@@ -26,95 +33,104 @@ function NavItem({ id, active, onClick }: { id: string; active: boolean; onClick
 
 export function NavBar() {
   const [active, setActive] = useState("hero");
-  const toggleRef = useRef<HTMLInputElement>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const lockUntilRef = useRef(0);
 
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) setActive(entry.target.id);
-      }
-    }, OBSERVER_OPTIONS);
-
-    const observed = new WeakSet<Element>();
+    let observer: IntersectionObserver;
     let timer: ReturnType<typeof setTimeout>;
 
-    const observeAll = () => {
+    const createObserver = () => {
+      observer?.disconnect();
+      observer = new IntersectionObserver((entries) => {
+        if (Date.now() < lockUntilRef.current) return;
+        for (const entry of entries) {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        }
+      }, { rootMargin: getObserverMargin() });
+
       SECTION_IDS.forEach((id) => {
         const el = document.getElementById(id);
-        if (el && !observed.has(el)) {
-          observer.observe(el);
-          observed.add(el);
-        }
+        if (el) observer.observe(el);
       });
     };
 
-    observeAll();
+    createObserver();
 
     const mo = new MutationObserver(() => {
       clearTimeout(timer);
-      timer = setTimeout(observeAll, 80);
+      timer = setTimeout(createObserver, 80);
     });
     mo.observe(document.body, { childList: true, subtree: true });
+
+    const mq = window.matchMedia("(max-width: 1023px)");
+    const onResize = () => createObserver();
+    mq.addEventListener("change", onResize);
 
     return () => {
       observer.disconnect();
       mo.disconnect();
+      mq.removeEventListener("change", onResize);
       clearTimeout(timer);
     };
   }, []);
 
   useEffect(() => {
+    if (!menuOpen) return;
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && toggleRef.current?.checked) {
-        toggleRef.current.checked = false;
-      }
+      if (e.key === "Escape") setMenuOpen(false);
     };
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, []);
+  }, [menuOpen]);
 
-  const closeMenu = () => {
-    if (toggleRef.current) toggleRef.current.checked = false;
-  };
+  const navigateTo = useCallback((id: string) => {
+    setActive(id);
+    setMenuOpen(false);
+    lockUntilRef.current = Date.now() + SCROLL_LOCK_MS;
+  }, []);
 
   return (
     <header>
-      <input type="checkbox" id="nav-toggle" className={styles.toggle} ref={toggleRef} tabIndex={-1} />
-
-      <nav aria-label="Main navigation" className={`${styles.navGlass} ${styles.navBar} fixed inset-x-0 top-0 z-50`}>
+      <nav aria-label="Main navigation" className={`${styles.navGlass} fixed inset-x-0 top-0 z-50`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-[var(--nav-h)]">
-          <a href="#hero" className="flex items-center gap-2 mono-base text-primary tracking-[0.02em] no-underline">
+          <a href="#hero" onClick={() => navigateTo("hero")} className="relative z-10 flex items-center gap-2 mono-base text-primary tracking-[0.02em] no-underline">
             <MDLogo size={22} />
             md://portfolio
           </a>
 
-          <ul className={styles.navList}>
+          <ul className={`${styles.navList} ${menuOpen ? styles.navListOpen : ""}`}>
             {NAV.map((id) => (
-              <NavItem key={id} id={id} active={active === id} onClick={closeMenu} />
+              <NavItem key={id} id={id} active={active === id} onClick={navigateTo} />
             ))}
             <li className="md:hidden">
-              <a href="#contact" onClick={closeMenu} className="btn-primary mt-4 py-[14px] px-9 no-underline">
+              <a href="#contact" onClick={() => navigateTo("contact")} className="btn-primary mt-4 py-[14px] px-9 no-underline">
                 Hire me
               </a>
             </li>
           </ul>
 
-          <div className="flex items-center gap-3">
+          <div className="relative z-10 flex items-center gap-3">
+            {active !== "hero" && (
+              <span className={`md:hidden mono-xs text-primary tracking-[0.1em] ${styles.sectionLabel}`}>{active}</span>
+            )}
             <a
               href="#contact"
+              onClick={() => navigateTo("contact")}
               className="hidden sm:flex items-center gap-1.5 btn-sm bg-primary text-background tracking-[0.04em] hover:bg-[#7DD3FC] no-underline"
             >
               <span className="w-1.5 h-1.5 rounded-full animate-pulse bg-background opacity-70" />
               Hire me
             </a>
-            <label
-              htmlFor="nav-toggle"
+            <button
+              type="button"
+              onClick={() => setMenuOpen((v) => !v)}
               className="md:hidden text-muted-foreground cursor-pointer p-1"
               aria-label="Toggle navigation menu"
+              aria-expanded={menuOpen}
             >
-              <Menu size={18} className={styles.iconOpen} />
-              <X size={18} className={styles.iconClose} />
-            </label>
+              {menuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
         </div>
       </nav>
