@@ -147,9 +147,11 @@ describe("POST /api/contact", () => {
   });
 
   it("returns 500 on Firestore error", async () => {
+    const spy = jest.spyOn(console, "error").mockImplementation(() => {});
     mockRecaptchaSuccess();
     mockAddDoc.mockRejectedValueOnce(new Error("Firestore down"));
     const res = await POST(makeRequest(validBody));
     expect(res.status).toBe(500);
+    spy.mockRestore();
   });
 });
