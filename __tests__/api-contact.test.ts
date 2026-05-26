@@ -32,12 +32,14 @@ function makeRequest(body: Record<string, unknown>) {
 
 function mockRecaptchaSuccess(score = 0.9) {
   mockFetch.mockResolvedValueOnce({
+    ok: true,
     json: async () => ({ success: true, score, action: "contact_submit" }),
   });
 }
 
 function mockRecaptchaFail(score = 0.2) {
   mockFetch.mockResolvedValueOnce({
+    ok: true,
     json: async () => ({ success: true, score, action: "contact_submit" }),
   });
 }
@@ -57,7 +59,8 @@ beforeEach(() => {
 
 describe("POST /api/contact", () => {
   it("returns 400 if recaptchaToken is missing", async () => {
-    const { recaptchaToken: _, ...body } = validBody;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { recaptchaToken, ...body } = validBody;
     const res = await POST(makeRequest(body));
     expect(res.status).toBe(400);
     const json = await res.json();
@@ -74,6 +77,7 @@ describe("POST /api/contact", () => {
 
   it("returns 403 if reCAPTCHA action does not match", async () => {
     mockFetch.mockResolvedValueOnce({
+      ok: true,
       json: async () => ({ success: true, score: 0.9, action: "wrong_action" }),
     });
     const res = await POST(makeRequest(validBody));

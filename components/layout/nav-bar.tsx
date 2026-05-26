@@ -77,11 +77,28 @@ export function NavBar() {
 
   useEffect(() => {
     if (!menuOpen) return;
+
+    const scrollY = window.scrollY;
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.overflow = "hidden";
+
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setMenuOpen(false);
     };
     document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.overflow = "";
+      window.scrollTo(0, scrollY);
+    };
   }, [menuOpen]);
 
   const navigateTo = useCallback((id: string) => {

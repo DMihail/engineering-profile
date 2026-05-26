@@ -53,6 +53,7 @@
 @layer base {
   * {
     border-color: var(--color-border);
+    outline-color: var(--color-ring);
     outline-color: color-mix(in srgb, var(--color-ring) 50%, transparent);
   }
 
@@ -60,12 +61,14 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans), sans-serif;
+    overflow-x: hidden;
   }
 
   html {
     font-size: var(--font-size);
     scroll-behavior: smooth;
     scroll-padding-top: calc(var(--nav-h) + env(safe-area-inset-top));
+    overflow-x: hidden;
   }
 }
 
@@ -204,6 +207,9 @@
     padding: 2px 8px;
     border-radius: 4px;
     white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .chip-default {

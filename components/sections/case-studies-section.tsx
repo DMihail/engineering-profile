@@ -76,7 +76,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
         </div>
       </summary>
 
-      <div className="border-t border-[rgba(56,189,248,0.1)] bg-[rgba(9,13,22,0.8)] p-[32px_24px]">
+      <div className="border-t border-[rgba(56,189,248,0.1)] bg-[rgba(9,13,22,0.8)] p-4 sm:p-[32px_24px]">
 
         <div className="mb-7">
           <StudyLabel n="01">Context</StudyLabel>
