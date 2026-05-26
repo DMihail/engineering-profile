@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowLeft, Terminal } from "lucide-react";
+import { NOT_FOUND_TRACE } from "@/lib/data";
 
 export default function NotFound() {
   const pathname = usePathname();
@@ -36,10 +37,7 @@ export default function NotFound() {
           <div className="mono-label mb-3">
             {"// error trace"}
           </div>
-          {[
-            { prefix: "at ", name: "Router.resolve", loc: "(routes.ts:1)" },
-            { prefix: "at ", name: "Request.match",  loc: "(browser.ts:44)" },
-          ].map((line) => (
+          {NOT_FOUND_TRACE.map((line) => (
             <div key={line.name} className="mono-md text-text-faint mb-[5px]">
               <span className="text-text-dim">{line.prefix}</span>
               {line.name}

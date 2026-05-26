@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { NAV } from "@/lib/data";
+import { MDLogo } from "@/components/ui/icons";
 import styles from "@/styles/layout/nav-bar.module.css";
 
 const SECTION_IDS = ["hero", ...NAV];
@@ -82,7 +83,8 @@ export function NavBar() {
 
       <nav aria-label="Main navigation" className={`${styles.navGlass} ${styles.navBar} fixed inset-x-0 top-0 z-50`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-[var(--nav-h)]">
-          <a href="#hero" className="mono-base text-primary tracking-[0.02em] no-underline">
+          <a href="#hero" className="flex items-center gap-2 mono-base text-primary tracking-[0.02em] no-underline">
+            <MDLogo size={22} />
             md://portfolio
           </a>
 

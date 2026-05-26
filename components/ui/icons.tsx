@@ -1,3 +1,59 @@
+interface MDLogoProps {
+  size?: number;
+  color?: string;
+  bg?: string;
+  tile?: boolean;
+  className?: string;
+}
+
+export function MDLogo({
+  size = 32,
+  color = "#38BDF8",
+  bg = "#0B0F17",
+  tile = false,
+  className,
+}: MDLogoProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 100 100"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-label="MD monogram"
+    >
+      {tile && (
+        <rect width="100" height="100" rx="22" fill={bg} />
+      )}
+      <path
+        d="M 50,16 A 40,40 0 1 1 11,46 C 13,38 14,17 14,16 C 14,17 25,57 34,64 C 38,68 50,29 50,16"
+        stroke={color}
+        strokeWidth={6}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+      />
+      <line
+        x1="50" y1="16"
+        x2="50" y2="96"
+        stroke={color}
+        strokeWidth={6}
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+export function buildFaviconDataUri(color = "#38BDF8", bg = "#0B0F17"): string {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+    <rect width="100" height="100" rx="22" fill="${bg}"/>
+    <path d="M 50,16 A 40,40 0 1 1 11,46 C 13,38 14,17 14,16 C 14,17 25,57 34,64 C 38,68 50,29 50,16" stroke="${color}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <line x1="50" y1="16" x2="50" y2="96" stroke="${color}" stroke-width="6" stroke-linecap="round"/>
+  </svg>`;
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
+
 export function GithubIcon({ size = 24, className, style }: { size?: number; className?: string; style?: React.CSSProperties }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={style}>

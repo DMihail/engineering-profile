@@ -1,6 +1,8 @@
 import { ArrowRight, Mail } from "lucide-react";
-import { TRACK_RECORD } from "@/lib/data";
-import { SITE_EMAIL } from "@/lib/config";
+import {
+  TRACK_RECORD, HERO_LINKS, TERMINAL_INFO,
+  BUILD_PIPELINE, ACTIVE_CONTEXT, HERO_STATS, HERO_STATS_MOBILE,
+} from "@/lib/data";
 import styles from "@/styles/sections/hero-section.module.css";
 
 export function HeroSection() {
@@ -72,13 +74,9 @@ export function HeroSection() {
             </div>
 
             <div className="flex flex-wrap gap-x-5 gap-y-1.5 justify-center lg:justify-start">
-              {[
-                { t: "github.com/mykhailo-dzhezhelo", h: "https://github.com" },
-                { t: "linkedin.com/in/mykhailo-dzhezhelo", h: "https://linkedin.com" },
-                { t: SITE_EMAIL, h: `mailto:${SITE_EMAIL}` },
-              ].map((l) => (
-                <a key={l.t} href={l.h} target="_blank" rel="noreferrer" className="mono-sm text-text-faint no-underline transition-colors hover:text-primary">
-                  {l.t}
+              {HERO_LINKS.map((l) => (
+                <a key={l.text} href={l.href} target="_blank" rel="noreferrer" className="mono-sm text-text-faint no-underline transition-colors hover:text-primary">
+                  {l.text}
                 </a>
               ))}
             </div>
@@ -99,19 +97,11 @@ export function HeroSection() {
               </div>
 
               <div className="px-5 pt-5 pb-2 space-y-2.5">
-                {[
-                  { k: "name",           v: "Mykhailo Dzhezhelo",                 c: "text-foreground" },
-                  { k: "role",           v: "React Native · Mobile Systems",       c: "text-primary" },
-                  { k: "specialization", v: "native_modules · realtime · offline", c: "text-text-secondary" },
-                  { k: "platforms",      v: "iOS · Android · Web",                 c: "text-text-secondary" },
-                  { k: "experience",     v: "6+ years production",                 c: "text-foreground" },
-                  { k: "perf_target",    v: "< 16ms frame · < 100ms ws",           c: "text-success" },
-                  { k: "status",         v: "open to contracts",                   c: "text-success" },
-                ].map((r) => (
-                  <div key={r.k} className="flex items-baseline gap-2">
-                    <span className="mono-sm text-text-faint w-[92px] shrink-0">{r.k}</span>
+                {TERMINAL_INFO.map((r) => (
+                  <div key={r.key} className="flex items-baseline gap-2">
+                    <span className="mono-sm text-text-faint w-[92px] shrink-0">{r.key}</span>
                     <span className="mono-xs text-[rgba(55,65,81,0.5)]">→</span>
-                    <span className={`mono-md ${r.c}`}>{r.v}</span>
+                    <span className={`mono-md ${r.color}`}>{r.value}</span>
                   </div>
                 ))}
               </div>
@@ -119,11 +109,11 @@ export function HeroSection() {
               <div className="mx-5 my-3 pt-3 border-t border-[rgba(255,255,255,0.04)]">
                 <div className="mono-label mb-1.5">build pipeline</div>
                 <div className="grid grid-cols-2 gap-x-4 gap-y-1">
-                  {[{ l: "types", v: "clean" }, { l: "lint", v: "zero" }, { l: "bundle", v: "opt." }, { l: "deploy", v: "prod" }].map((b) => (
-                    <div key={b.l} className="flex items-center gap-1.5">
+                  {BUILD_PIPELINE.map((b) => (
+                    <div key={b.label} className="flex items-center gap-1.5">
                       <span className="mono-xs text-success">✓</span>
-                      <span className="mono-xs text-text-dim">{b.l}:</span>
-                      <span className="mono-xs text-success">{b.v}</span>
+                      <span className="mono-xs text-text-dim">{b.label}:</span>
+                      <span className="mono-xs text-success">{b.value}</span>
                     </div>
                   ))}
                 </div>
@@ -131,15 +121,11 @@ export function HeroSection() {
 
               <div className="mx-5 mb-4 pt-3 border-t border-[rgba(255,255,255,0.04)]">
                 <div className="mono-label mb-1.5">active context</div>
-                {[
-                  { n: "FocusGuard",  t: "native-bridge · iOS" },
-                  { n: "Waddingtons", t: "event-driven · realtime" },
-                  { n: "Vitadrop",    t: "offline-first · mobile" },
-                ].map((c) => (
-                  <div key={c.n} className="flex items-center gap-1.5 mb-1.5">
+                {ACTIVE_CONTEXT.map((c) => (
+                  <div key={c.name} className="flex items-center gap-1.5 mb-1.5">
                     <span className="mono-xs text-text-dim">↳</span>
-                    <span className="mono-sm text-primary">{c.n}</span>
-                    <span className="mono-xs text-text-faint">{c.t}</span>
+                    <span className="mono-sm text-primary">{c.name}</span>
+                    <span className="mono-xs text-text-faint">{c.tag}</span>
                   </div>
                 ))}
               </div>
@@ -151,10 +137,10 @@ export function HeroSection() {
               </div>
 
               <div className="grid grid-cols-3 border-t border-border">
-                {[{ v: "6+", l: "yrs exp" }, { v: "20+", l: "shipped" }, { v: "4.8★", l: "rating" }].map((m, i) => (
-                  <div key={m.l} className={`py-3.5 text-center ${i < 2 ? "border-r border-border" : ""}`}>
-                    <div className="font-sans text-[18px] font-bold text-foreground tracking-[-0.03em]">{m.v}</div>
-                    <div className="mono-2xs text-muted-foreground mt-0.5">{m.l}</div>
+                {HERO_STATS.map((m, i) => (
+                  <div key={m.label} className={`py-3.5 text-center ${i < HERO_STATS.length - 1 ? "border-r border-border" : ""}`}>
+                    <div className="font-sans text-[18px] font-bold text-foreground tracking-[-0.03em]">{m.value}</div>
+                    <div className="mono-2xs text-muted-foreground mt-0.5">{m.label}</div>
                   </div>
                 ))}
               </div>
@@ -163,10 +149,10 @@ export function HeroSection() {
         </div>
 
         <div className="lg:hidden grid grid-cols-3 gap-3 mt-10">
-          {[{ v: "6+", l: "years" }, { v: "20+", l: "shipped" }, { v: "4.8★", l: "rating" }].map((m) => (
-            <div key={m.l} className="text-center py-4 rounded-xl bg-card border border-border">
-              <div className="font-sans text-[20px] font-bold text-foreground">{m.v}</div>
-              <div className="mono-xs text-muted-foreground mt-0.5">{m.l}</div>
+          {HERO_STATS_MOBILE.map((m) => (
+            <div key={m.label} className="text-center py-4 rounded-xl bg-card border border-border">
+              <div className="font-sans text-[20px] font-bold text-foreground">{m.value}</div>
+              <div className="mono-xs text-muted-foreground mt-0.5">{m.label}</div>
             </div>
           ))}
         </div>

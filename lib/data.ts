@@ -314,3 +314,49 @@ export const TRACK_RECORD = [
     metric: "60fps maintained",
   },
 ];
+
+export const HERO_LINKS = [
+  { text: "github.com/mykhailo-dzhezhelo", href: "https://github.com" },
+  { text: "linkedin.com/in/mykhailo-dzhezhelo", href: "https://linkedin.com" },
+  { text: SITE_EMAIL, href: `mailto:${SITE_EMAIL}` },
+];
+
+export const TERMINAL_INFO = [
+  { key: "name",           value: "Mykhailo Dzhezhelo",                 color: "text-foreground" },
+  { key: "role",           value: "React Native · Mobile Systems",       color: "text-primary" },
+  { key: "specialization", value: "native_modules · realtime · offline", color: "text-text-secondary" },
+  { key: "platforms",      value: "iOS · Android · Web",                 color: "text-text-secondary" },
+  { key: "experience",     value: "6+ years production",                 color: "text-foreground" },
+  { key: "perf_target",    value: "< 16ms frame · < 100ms ws",           color: "text-success" },
+  { key: "status",         value: "open to contracts",                   color: "text-success" },
+];
+
+export const BUILD_PIPELINE = [
+  { label: "types", value: "clean" },
+  { label: "lint",  value: "zero" },
+  { label: "bundle", value: "opt." },
+  { label: "deploy", value: "prod" },
+];
+
+export const ACTIVE_CONTEXT = [
+  { name: "FocusGuard",  tag: "native-bridge · iOS" },
+  { name: "Waddingtons", tag: "event-driven · realtime" },
+  { name: "Vitadrop",    tag: "offline-first · mobile" },
+];
+
+export const HERO_STATS = [
+  { value: "6+",   label: "yrs exp" },
+  { value: "20+",  label: "shipped" },
+  { value: "4.8★", label: "rating" },
+];
+
+export const HERO_STATS_MOBILE = [
+  { value: "6+",   label: "years" },
+  { value: "20+",  label: "shipped" },
+  { value: "4.8★", label: "rating" },
+];
+
+export const NOT_FOUND_TRACE = [
+  { prefix: "at ", name: "Router.resolve", loc: "(routes.ts:1)" },
+  { prefix: "at ", name: "Request.match",  loc: "(browser.ts:44)" },
+];
