@@ -62,6 +62,22 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: SITE_AUTHOR,
+  url: SITE_URL,
+  jobTitle: "React Native & Mobile Systems Engineer",
+  worksFor: {
+    "@type": "Organization",
+    name: "Freelance",
+  },
+  sameAs: [
+    "https://github.com/DMihail",
+    "https://www.linkedin.com/in/mihail-dzhezhelo-27a41114a/",
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -70,6 +86,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}>
       <head>
+        <title>{title}</title>
         <meta name="theme-color" content="#0B0F17" />
         {/* Search engine verification — fill content after registering */}
         <meta name="google-site-verification" content="" />
@@ -77,6 +94,10 @@ export default function RootLayout({
         <meta name="msvalidate.01" content="" />
         <meta name="naver-site-verification" content="" />
         <meta name="baidu-site-verification" content="" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </head>
       <body className="min-h-full">{children}</body>
       <Script

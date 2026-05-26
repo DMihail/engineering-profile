@@ -31,6 +31,7 @@ export class SectionErrorBoundary extends Component<Props, State> {
           <p className="text-sm text-muted-foreground">
             This section failed to load.{" "}
             <button
+              type="button"
               onClick={() => this.setState({ error: null })}
               className="text-primary underline cursor-pointer"
             >

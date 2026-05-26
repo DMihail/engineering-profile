@@ -53,7 +53,6 @@
 @layer base {
   * {
     border-color: var(--color-border);
-    outline-color: var(--color-ring);
     outline-color: color-mix(in srgb, var(--color-ring) 50%, transparent);
   }
 
@@ -167,6 +166,10 @@
     background: #7DD3FC;
     transform: translateY(-1px);
   }
+  .btn-primary:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
 
   .btn-outline {
     display: inline-flex;
@@ -187,6 +190,10 @@
     border-color: rgba(56, 189, 248, 0.35);
     background: rgba(56, 189, 248, 0.05);
   }
+  .btn-outline:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
 
   .btn-sm {
     padding: 5px 14px;
@@ -197,6 +204,10 @@
     border: none;
     cursor: pointer;
     transition: background 150ms;
+  }
+  .btn-sm:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
   }
 
   /* ── Chips ─────────────────────────────────────────────────────────── */
@@ -259,4 +270,15 @@
 }
 .fade-up {
   animation: fadeSlideUp 600ms cubic-bezier(0.2, 0.8, 0.2, 1) 60ms both;
+}
+
+/* ─── Reduced Motion ──────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
