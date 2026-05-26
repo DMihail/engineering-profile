@@ -229,44 +229,66 @@ export const CASE_STUDIES: CaseStudy[] = [
 
 export const XP_ENTRIES: XP[] = [
   {
-    company: "Freelance / Contract", role: "Senior React Native Developer",
-    period: "2022 – Present", location: "Remote · EU", current: true,
-    systems: "Waddingtons bidding engine · Vitadrop medical forms · FocusGuard iOS native bridge",
+    company: "Elementica", role: "React Native Developer",
+    period: "03/2025 – 03/2026", location: "Uzhgorod, Ukraine", current: true,
+    systems: "Cross-platform mobile apps · Redux Toolkit · Firebase · App Store & Google Play",
     items: [
-      "Delivered Waddingtons real-time bidding engine end-to-end — £2M+ in processed auction volume",
-      "Built Vitadrop cross-platform mobile app — offline-first medical intake, 3× booking conversion improvement",
-      "Authored native Swift & Kotlin modules via JSI across 4 production codebases — DeviceActivity, biometric, file system",
-      "Implemented Redux Toolkit entity adapters reducing client-side fetch overhead by 40% across 2 client apps",
-      "Architected shared RN component libraries adopted across 3 client monorepos",
+      "Develop and maintain cross-platform mobile applications using React Native and TypeScript",
+      "Design scalable architecture using Redux Toolkit",
+      "Integrate REST APIs and backend services",
+      "Implement Firebase (Authentication, Analytics, Push Notifications)",
+      "Publish and maintain applications in App Store and Google Play",
+      "Improve application performance and resolve production issues",
     ],
   },
   {
-    company: "Digital Agency", role: "Frontend Developer",
-    period: "2020 – 2022", location: "Kyiv, Ukraine", current: false,
-    systems: "6 React Native products · Metro bundle optimization · Flipper performance profiling",
+    company: "NetGame", role: "React Native Developer",
+    period: "Previous", location: "Ukraine", current: false,
+    systems: "React Native mobile apps · WebSockets · Firebase · TestFlight & Google Play",
     items: [
-      "Led mobile development for 6 shipped React Native products from spec to App Store",
-      "Reduced JS bundle size 34% via Metro code-splitting and tree-shaking audit",
-      "Profiled and eliminated 60fps rendering regressions in 3 production apps using Flipper",
-      "Mentored 2 junior engineers on RN performance patterns and native bridge architecture",
-      "Established lint, testing, and CI/CD standards via GitHub Actions and Fastlane",
+      "Built and supported mobile applications using React Native",
+      "Implemented real-time features using WebSockets",
+      "Integrated Firebase services and backend APIs",
+      "Delivered new features and improvements",
+      "Managed releases via TestFlight and Google Play",
     ],
   },
   {
-    company: "Startup", role: "Junior Frontend Developer",
-    period: "2018 – 2020", location: "Kyiv, Ukraine", current: false,
-    systems: "React component library · WebSocket trading dashboard · CI/CD pipeline",
+    company: "Kultprosvet", role: "Full-Stack Developer",
+    period: "Previous", location: "Ukraine", current: false,
+    systems: "React · React Native · Node.js (Express, NestJS) · GraphQL · Firebase",
     items: [
-      "Built React component library serving 40k daily active users",
-      "Integrated WebSocket feeds with sub-100ms display latency on live trading dashboard",
-      "Implemented CI/CD pipeline reducing deploy cycle from 45 to 22 minutes",
+      "Developed mobile and web applications using React and React Native",
+      "Built backend services using Node.js (Express, NestJS)",
+      "Integrated GraphQL APIs and Firebase",
+      "Created admin panels and internal tools",
+    ],
+  },
+  {
+    company: "Devsteam.mobi", role: "React Native Developer",
+    period: "Previous", location: "Ukraine", current: false,
+    systems: "React Native mobile apps · API testing · QA debugging",
+    items: [
+      "Developed new features for mobile applications",
+      "Refactored and improved existing codebases",
+      "Debugged and resolved issues during QA testing",
+      "Tested APIs using Postman",
+    ],
+  },
+  {
+    company: "Absolutist", role: "JavaScript Developer",
+    period: "Previous", location: "Ukraine", current: false,
+    systems: "Browser games · ActionScript to JavaScript/TypeScript migration",
+    items: [
+      "Migrated browser games from ActionScript to JavaScript / TypeScript",
+      "Improved performance and fixed bugs",
     ],
   },
 ];
 
 export const SOCIAL_LINKS: SocialLink[] = [
-  { label: "GitHub",   hint: "github.com/mykhailo-dzhezhelo",     icon: GithubIcon,   href: "https://github.com" },
-  { label: "LinkedIn", hint: "linkedin.com/in/mykhailo-dzhezhelo", icon: LinkedinIcon, href: "https://linkedin.com" },
+  { label: "GitHub",   hint: "github.com/mykhailo-dzhezhelo",     icon: GithubIcon,   href: "https://github.com/DMihail" },
+  { label: "LinkedIn", hint: "linkedin.com/in/mykhailo-dzhezhelo", icon: LinkedinIcon, href: "https://www.linkedin.com/in/mihail-dzhezhelo-27a41114a/" },
   { label: "Email",    hint: SITE_EMAIL,                           icon: Mail,         href: `mailto:${SITE_EMAIL}` },
 ];
 
