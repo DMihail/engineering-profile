@@ -1,4 +1,4 @@
-export type Icon = React.ComponentType<{ size?: number; style?: React.CSSProperties }>;
+export type Icon = React.ComponentType<{ size?: number; className?: string; style?: React.CSSProperties }>;
 
 export interface SkillItem  { name: string; primary: boolean; icon: Icon }
 export interface SkillLayer { id: string; layer: string; desc: string; scope: string; projectRefs: string; skills: SkillItem[] }

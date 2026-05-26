@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { ArrowRight, Mail } from "lucide-react";
-import { T } from "@/lib/tokens";
 import { TRACK_RECORD } from "@/lib/data";
 
 export function HeroSection() {
@@ -16,11 +15,11 @@ export function HeroSection() {
   const goto = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden" style={{ background: T.bg, paddingTop: "52px" }}>
+    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden bg-background pt-[52px]">
 
-      <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: ["linear-gradient(rgba(56,189,248,0.03) 1px, transparent 1px)", "linear-gradient(90deg, rgba(56,189,248,0.03) 1px, transparent 1px)"].join(", "), backgroundSize: "48px 48px" }} />
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 100% 90% at 50% 50%, transparent 10%, #0B0F17 100%)" }} />
-      <div className="absolute top-0 inset-x-0 h-px pointer-events-none" style={{ background: "linear-gradient(90deg, transparent 10%, rgba(56,189,248,0.55) 50%, transparent 90%)" }} />
+      <div className="absolute inset-0 pointer-events-none bg-grid" />
+      <div className="absolute inset-0 pointer-events-none bg-vignette" />
+      <div className="absolute top-0 inset-x-0 h-px pointer-events-none hero-line" />
 
       <div
         className="relative w-full max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24"
@@ -30,84 +29,67 @@ export function HeroSection() {
 
           <div className="text-center lg:text-left">
 
-            <div className="inline-flex items-center gap-2 mb-8 px-3.5 py-1.5 rounded-full" style={{ border: "1px solid rgba(34,197,94,0.22)", background: "rgba(34,197,94,0.06)" }}>
-              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: T.green, boxShadow: "0 0 6px rgba(34,197,94,0.9)" }} />
-              <span style={{ fontFamily: T.mono, fontSize: "11px", color: T.s, letterSpacing: "0.04em" }}>open to contracts · EU / US / Remote</span>
+            <div className="badge-available mb-8">
+              <span className="status-dot-sm animate-pulse" />
+              <span className="mono-md tracking-[0.04em] text-text-secondary">open to contracts · EU / US / Remote</span>
             </div>
 
-            <p style={{ fontFamily: T.mono, fontSize: "10px", color: T.f, letterSpacing: "0.12em", marginBottom: "16px", textTransform: "uppercase" as const }}>
+            <p className="mono-sm tracking-[0.12em] uppercase text-text-faint mb-4">
               React Native · Mobile Systems Engineering · Architecture
             </p>
 
-            <h1 style={{ fontFamily: T.sans, fontSize: "clamp(52px, 8vw, 88px)", fontWeight: 800, letterSpacing: "-0.045em", lineHeight: 0.96, color: T.p, marginBottom: "28px" }}>
+            <h1 className="font-sans font-extrabold mb-7 tracking-[-0.045em] leading-[0.96] text-foreground text-[clamp(52px,8vw,88px)]">
               Mykhailo
               <br />
-              <span style={{ color: T.blue }}>Dzhezhelo</span>
+              <span className="text-primary">Dzhezhelo</span>
             </h1>
 
-            <p style={{ fontFamily: T.sans, fontSize: "clamp(15px, 2vw, 19px)", lineHeight: "1.55", color: T.s, maxWidth: "520px", marginBottom: "12px", fontWeight: 500 }} className="mx-auto lg:mx-0">
+            <p className="font-sans font-medium mb-3 leading-[1.55] text-text-secondary max-w-[520px] text-[clamp(15px,2vw,19px)] mx-auto lg:mx-0">
               React Native Engineer specializing in real-time systems, native integrations, and performance-critical mobile applications.
             </p>
-            <p style={{ fontFamily: T.mono, fontSize: "12px", color: T.m, maxWidth: "480px", marginBottom: "28px", lineHeight: "1.65" }} className="mx-auto lg:mx-0">
+            <p className="mono-base text-muted-foreground max-w-[480px] mb-7 leading-[1.65] mx-auto lg:mx-0">
               6 years production across iOS, Android, and web — native Swift/Kotlin integrations, real-time system design, and performance engineering.
             </p>
 
-            <div className="rounded-xl mb-8 overflow-hidden text-left" style={{ border: "1px solid rgba(255,255,255,0.07)" }}>
-              <div className="px-4 py-2.5" style={{ background: "rgba(255,255,255,0.025)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-                <span style={{ fontFamily: T.mono, fontSize: "9px", color: T.d, letterSpacing: "0.12em", textTransform: "uppercase" as const }}>
-                  production track record
-                </span>
+            <div className="rounded-xl mb-8 overflow-hidden text-left border border-[rgba(255,255,255,0.07)]">
+              <div className="px-4 py-2.5 bg-[rgba(255,255,255,0.025)] border-b border-[rgba(255,255,255,0.05)]">
+                <span className="mono-label">production track record</span>
               </div>
               {TRACK_RECORD.map((tr, i) => (
                 <div
                   key={tr.label}
-                  className="px-4 py-3"
-                  style={{ borderBottom: i < TRACK_RECORD.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none", background: i % 2 === 0 ? "rgba(255,255,255,0.01)" : "transparent" }}
+                  className={`px-4 py-3 ${i < TRACK_RECORD.length - 1 ? "border-b border-[rgba(255,255,255,0.04)]" : ""} ${i % 2 === 0 ? "bg-[rgba(255,255,255,0.01)]" : ""}`}
                 >
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1.5 sm:gap-4">
                     <div className="flex items-start gap-2.5 min-w-0">
-                      <span style={{ fontFamily: T.mono, fontSize: "10px", color: T.blue, flexShrink: 0, marginTop: "1px" }}>→</span>
+                      <span className="mono-sm text-primary shrink-0 mt-px">→</span>
                       <div className="min-w-0">
-                        <div style={{ fontFamily: T.mono, fontSize: "10px", color: T.s, lineHeight: 1.4, marginBottom: "2px" }}>{tr.label}</div>
-                        <div style={{ fontFamily: T.mono, fontSize: "9px", color: T.d }}>{tr.sub}</div>
+                        <div className="mono-sm text-text-secondary leading-[1.4] mb-0.5">{tr.label}</div>
+                        <div className="mono-xs text-text-dim">{tr.sub}</div>
                       </div>
                     </div>
-                    <div style={{ fontFamily: T.mono, fontSize: "9px", color: T.green, flexShrink: 0, paddingLeft: "20px" }} className="sm:pl-0 sm:text-right">
-                      {tr.metric}
-                    </div>
+                    <div className="mono-xs text-success shrink-0 pl-5 sm:pl-0 sm:text-right">{tr.metric}</div>
                   </div>
                 </div>
               ))}
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-8">
-              <button
-                onClick={() => goto("projects")}
-                className="flex items-center justify-center gap-2"
-                style={{ padding: "13px 26px", borderRadius: "10px", background: T.blue, color: T.bg, fontSize: "14px", fontWeight: 600, border: "none", cursor: "pointer", transition: "background 200ms, transform 150ms" }}
-                onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = "#7DD3FC"; el.style.transform = "translateY(-1px)"; }}
-                onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = T.blue; el.style.transform = "none"; }}
-              >
+              <button onClick={() => goto("projects")} className="btn-primary">
                 View Case Studies <ArrowRight size={14} />
               </button>
-              <button
-                onClick={() => goto("contact")}
-                className="flex items-center justify-center gap-2"
-                style={{ padding: "13px 26px", borderRadius: "10px", color: T.p, fontSize: "14px", fontWeight: 600, border: "1px solid rgba(255,255,255,0.1)", background: "transparent", cursor: "pointer", transition: "border-color 200ms, background 200ms" }}
-                onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "rgba(56,189,248,0.35)"; el.style.background = "rgba(56,189,248,0.05)"; }}
-                onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "rgba(255,255,255,0.1)"; el.style.background = "transparent"; }}
-              >
+              <button onClick={() => goto("contact")} className="btn-outline">
                 Get in touch <Mail size={14} />
               </button>
             </div>
 
             <div className="flex flex-wrap gap-x-5 gap-y-1.5 justify-center lg:justify-start">
               {[
-                { t: "github.com/mykhailo-dzhezhelo",     h: "https://github.com"         },
-                { t: "linkedin.com/in/mykhailo-dzhezhelo", h: "https://linkedin.com"       },
-                { t: "hello@dzhezhelo.dev",               h: "mailto:hello@dzhezhelo.dev" },
+                { t: "github.com/mykhailo-dzhezhelo", h: "https://github.com" },
+                { t: "linkedin.com/in/mykhailo-dzhezhelo", h: "https://linkedin.com" },
+                { t: "hello@dzhezhelo.dev", h: "mailto:hello@dzhezhelo.dev" },
               ].map((l) => (
-                <a key={l.t} href={l.h} target="_blank" rel="noreferrer" style={{ fontFamily: T.mono, fontSize: "10px", color: T.f, textDecoration: "none", transition: "color 150ms" }} onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = T.blue; }} onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = T.f; }}>
+                <a key={l.t} href={l.h} target="_blank" rel="noreferrer" className="mono-sm text-text-faint no-underline transition-colors hover:text-primary">
                   {l.t}
                 </a>
               ))}
@@ -115,76 +97,76 @@ export function HeroSection() {
           </div>
 
           <div className="hidden lg:block">
-            <div style={{ background: T.card, border: "1px solid rgba(255,255,255,0.1)", borderRadius: "16px", overflow: "hidden", boxShadow: "0 0 80px rgba(56,189,248,0.06), 0 40px 80px rgba(0,0,0,0.5)" }}>
+            <div className="terminal-card">
 
-              <div className="flex items-center gap-2 px-5 py-3" style={{ borderBottom: `1px solid ${T.bd}`, background: "rgba(255,255,255,0.02)" }}>
-                <span className="w-3 h-3 rounded-full" style={{ background: "#FF5F57" }} />
-                <span className="w-3 h-3 rounded-full" style={{ background: "#FEBC2E" }} />
-                <span className="w-3 h-3 rounded-full" style={{ background: "#28C840" }} />
+              <div className="terminal-header">
+                <span className="terminal-dot bg-[#FF5F57]" />
+                <span className="terminal-dot bg-[#FEBC2E]" />
+                <span className="terminal-dot bg-[#28C840]" />
                 <span className="ml-auto flex items-center gap-1.5">
-                  <span style={{ fontFamily: T.mono, fontSize: "10px", color: T.m }}>developer.sys</span>
-                  <span className="w-1.5 h-1.5 rounded-full animate-pulse ml-2" style={{ background: T.green, boxShadow: "0 0 5px rgba(34,197,94,0.8)" }} />
-                  <span style={{ fontFamily: T.mono, fontSize: "9px", color: T.green }}>LIVE</span>
+                  <span className="mono-sm text-muted-foreground">developer.sys</span>
+                  <span className="status-dot-sm animate-pulse ml-2" />
+                  <span className="mono-xs text-success">LIVE</span>
                 </span>
               </div>
 
               <div className="px-5 pt-5 pb-2 space-y-2.5">
                 {[
-                  { k: "name",           v: "Mykhailo Dzhezhelo",                  c: T.p     },
-                  { k: "role",           v: "React Native · Mobile Systems",        c: T.blue  },
-                  { k: "specialization", v: "native_modules · realtime · offline",  c: T.s     },
-                  { k: "platforms",      v: "iOS · Android · Web",                  c: T.s     },
-                  { k: "experience",     v: "6+ years production",                  c: T.p     },
-                  { k: "perf_target",    v: "< 16ms frame · < 100ms ws",            c: T.green },
-                  { k: "status",         v: "open to contracts",                    c: T.green },
+                  { k: "name",           v: "Mykhailo Dzhezhelo",                 c: "text-foreground" },
+                  { k: "role",           v: "React Native · Mobile Systems",       c: "text-primary" },
+                  { k: "specialization", v: "native_modules · realtime · offline", c: "text-text-secondary" },
+                  { k: "platforms",      v: "iOS · Android · Web",                 c: "text-text-secondary" },
+                  { k: "experience",     v: "6+ years production",                 c: "text-foreground" },
+                  { k: "perf_target",    v: "< 16ms frame · < 100ms ws",           c: "text-success" },
+                  { k: "status",         v: "open to contracts",                   c: "text-success" },
                 ].map((r) => (
                   <div key={r.k} className="flex items-baseline gap-2">
-                    <span style={{ fontFamily: T.mono, fontSize: "10px", color: T.f, width: "92px", flexShrink: 0 }}>{r.k}</span>
-                    <span style={{ fontFamily: T.mono, fontSize: "9px", color: "rgba(55,65,81,0.5)" }}>→</span>
-                    <span style={{ fontFamily: T.mono, fontSize: "11px", color: r.c }}>{r.v}</span>
+                    <span className="mono-sm text-text-faint w-[92px] shrink-0">{r.k}</span>
+                    <span className="mono-xs text-[rgba(55,65,81,0.5)]">→</span>
+                    <span className={`mono-md ${r.c}`}>{r.v}</span>
                   </div>
                 ))}
               </div>
 
-              <div className="mx-5 my-3 pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
-                <div style={{ fontFamily: T.mono, fontSize: "9px", color: T.d, letterSpacing: "0.12em", textTransform: "uppercase" as const, marginBottom: "6px" }}>build pipeline</div>
+              <div className="mx-5 my-3 pt-3 border-t border-[rgba(255,255,255,0.04)]">
+                <div className="mono-label mb-1.5">build pipeline</div>
                 <div className="grid grid-cols-2 gap-x-4 gap-y-1">
                   {[{ l: "types", v: "clean" }, { l: "lint", v: "zero" }, { l: "bundle", v: "opt." }, { l: "deploy", v: "prod" }].map((b) => (
                     <div key={b.l} className="flex items-center gap-1.5">
-                      <span style={{ color: T.green, fontSize: "9px" }}>✓</span>
-                      <span style={{ fontFamily: T.mono, fontSize: "9px", color: T.d }}>{b.l}:</span>
-                      <span style={{ fontFamily: T.mono, fontSize: "9px", color: T.green }}>{b.v}</span>
+                      <span className="mono-xs text-success">✓</span>
+                      <span className="mono-xs text-text-dim">{b.l}:</span>
+                      <span className="mono-xs text-success">{b.v}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="mx-5 mb-4 pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
-                <div style={{ fontFamily: T.mono, fontSize: "9px", color: T.d, letterSpacing: "0.12em", textTransform: "uppercase" as const, marginBottom: "6px" }}>active context</div>
+              <div className="mx-5 mb-4 pt-3 border-t border-[rgba(255,255,255,0.04)]">
+                <div className="mono-label mb-1.5">active context</div>
                 {[
-                  { n: "FocusGuard",  t: "native-bridge · iOS"    },
+                  { n: "FocusGuard",  t: "native-bridge · iOS" },
                   { n: "Waddingtons", t: "event-driven · realtime" },
-                  { n: "Vitadrop",    t: "offline-first · mobile"  },
+                  { n: "Vitadrop",    t: "offline-first · mobile" },
                 ].map((c) => (
                   <div key={c.n} className="flex items-center gap-1.5 mb-1.5">
-                    <span style={{ fontFamily: T.mono, fontSize: "9px", color: T.d }}>↳</span>
-                    <span style={{ fontFamily: T.mono, fontSize: "10px", color: T.blue }}>{c.n}</span>
-                    <span style={{ fontFamily: T.mono, fontSize: "9px", color: T.f }}>{c.t}</span>
+                    <span className="mono-xs text-text-dim">↳</span>
+                    <span className="mono-sm text-primary">{c.n}</span>
+                    <span className="mono-xs text-text-faint">{c.t}</span>
                   </div>
                 ))}
               </div>
 
               <div className="px-5 pb-4">
-                <span style={{ fontFamily: T.mono, fontSize: "11px", color: T.blue }}>$ </span>
-                <span style={{ fontFamily: T.mono, fontSize: "11px", color: T.m }}>ready --hire</span>
-                <span style={{ display: "inline-block", width: "7px", height: "13px", background: T.blue, marginLeft: "3px", verticalAlign: "middle", opacity: cursor ? 1 : 0, transition: "opacity 80ms" }} />
+                <span className="mono-md text-primary">$ </span>
+                <span className="mono-md text-muted-foreground">ready --hire</span>
+                <span className={`inline-block w-[7px] h-[13px] bg-primary ml-[3px] align-middle transition-opacity duration-75 ${cursor ? "opacity-100" : "opacity-0"}`} />
               </div>
 
-              <div className="grid grid-cols-3" style={{ borderTop: `1px solid ${T.bd}` }}>
+              <div className="grid grid-cols-3 border-t border-border">
                 {[{ v: "6+", l: "yrs exp" }, { v: "20+", l: "shipped" }, { v: "4.8★", l: "rating" }].map((m, i) => (
-                  <div key={m.l} className="py-3.5 text-center" style={i < 2 ? { borderRight: `1px solid ${T.bd}` } : {}}>
-                    <div style={{ fontFamily: T.sans, fontSize: "18px", fontWeight: 700, color: T.p, letterSpacing: "-0.03em" }}>{m.v}</div>
-                    <div style={{ fontFamily: T.mono, fontSize: "8px", color: T.m, marginTop: "2px" }}>{m.l}</div>
+                  <div key={m.l} className={`py-3.5 text-center ${i < 2 ? "border-r border-border" : ""}`}>
+                    <div className="font-sans text-[18px] font-bold text-foreground tracking-[-0.03em]">{m.v}</div>
+                    <div className="mono-2xs text-muted-foreground mt-0.5">{m.l}</div>
                   </div>
                 ))}
               </div>
@@ -194,9 +176,9 @@ export function HeroSection() {
 
         <div className="lg:hidden grid grid-cols-3 gap-3 mt-10">
           {[{ v: "6+", l: "years" }, { v: "20+", l: "shipped" }, { v: "4.8★", l: "rating" }].map((m) => (
-            <div key={m.l} className="text-center py-4 rounded-xl" style={{ background: T.card, border: `1px solid ${T.bd}` }}>
-              <div style={{ fontFamily: T.sans, fontSize: "20px", fontWeight: 700, color: T.p }}>{m.v}</div>
-              <div style={{ fontFamily: T.mono, fontSize: "9px", color: T.m, marginTop: "2px" }}>{m.l}</div>
+            <div key={m.l} className="text-center py-4 rounded-xl bg-card border border-border">
+              <div className="font-sans text-[20px] font-bold text-foreground">{m.v}</div>
+              <div className="mono-xs text-muted-foreground mt-0.5">{m.l}</div>
             </div>
           ))}
         </div>

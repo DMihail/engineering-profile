@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import { T } from "@/lib/tokens";
 import { NAV } from "@/lib/data";
 
 const SECTION_IDS = ["hero", "impact", "projects", "skills", "experience", "contact"];
@@ -33,12 +32,9 @@ export function NavBar() {
 
   return (
     <>
-      <nav
-        className="fixed top-0 left-0 right-0 z-50"
-        style={{ background: "rgba(11,15,23,0.93)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: `1px solid ${T.bd}` }}
-      >
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between" style={{ height: "52px" }}>
-          <button onClick={() => goto("hero")} style={{ fontFamily: T.mono, fontSize: "12px", color: T.blue, letterSpacing: "0.02em", background: "none", border: "none", cursor: "pointer", padding: 0 }}>
+      <nav className="nav-glass fixed top-0 left-0 right-0 z-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-[52px]">
+          <button onClick={() => goto("hero")} className="mono-base text-primary tracking-[0.02em] bg-transparent border-none cursor-pointer p-0">
             md://portfolio
           </button>
 
@@ -47,9 +43,7 @@ export function NavBar() {
               <button
                 key={item}
                 onClick={() => goto(item)}
-                style={{ fontFamily: T.mono, fontSize: "10px", letterSpacing: "0.08em", textTransform: "uppercase" as const, color: active === item ? T.blue : T.m, background: active === item ? "rgba(56,189,248,0.08)" : "transparent", border: "none", padding: "5px 12px", borderRadius: "6px", cursor: "pointer", transition: "color 150ms, background 150ms" }}
-                onMouseEnter={(e) => { if (active !== item) (e.currentTarget as HTMLElement).style.color = T.s; }}
-                onMouseLeave={(e) => { if (active !== item) (e.currentTarget as HTMLElement).style.color = T.m; }}
+                className={`nav-link ${active === item ? "text-primary bg-[rgba(56,189,248,0.08)]" : "text-muted-foreground bg-transparent hover:text-text-secondary"}`}
               >
                 {item}
               </button>
@@ -59,15 +53,12 @@ export function NavBar() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => goto("contact")}
-              className="hidden sm:flex items-center gap-1.5"
-              style={{ fontFamily: T.mono, fontSize: "10px", padding: "5px 14px", borderRadius: "6px", background: T.blue, color: T.bg, border: "none", cursor: "pointer", letterSpacing: "0.04em", transition: "background 150ms" }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "#7DD3FC"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = T.blue; }}
+              className="hidden sm:flex items-center gap-1.5 btn-sm bg-primary text-background tracking-[0.04em] hover:bg-[#7DD3FC]"
             >
-              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: T.bg, opacity: 0.7 }} />
+              <span className="w-1.5 h-1.5 rounded-full animate-pulse bg-background opacity-70" />
               hire me
             </button>
-            <button className="md:hidden" onClick={() => setOpen((v) => !v)} style={{ color: T.m, background: "none", border: "none", cursor: "pointer", padding: "4px" }}>
+            <button className="md:hidden text-muted-foreground bg-transparent border-none cursor-pointer p-1" onClick={() => setOpen((v) => !v)}>
               {open ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
@@ -75,14 +66,18 @@ export function NavBar() {
       </nav>
 
       {open && (
-        <div className="fixed inset-0 z-40 md:hidden" style={{ background: T.bg, paddingTop: "52px" }}>
+        <div className="fixed inset-0 z-40 md:hidden bg-background pt-[52px]">
           <div className="flex flex-col items-center justify-center h-full gap-8 pb-20">
             {NAV.map((item) => (
-              <button key={item} onClick={() => goto(item)} style={{ fontFamily: T.mono, fontSize: "20px", color: active === item ? T.blue : T.s, background: "none", border: "none", cursor: "pointer", letterSpacing: "0.04em" }}>
+              <button
+                key={item}
+                onClick={() => goto(item)}
+                className={`font-mono text-[20px] bg-transparent border-none cursor-pointer tracking-[0.04em] ${active === item ? "text-primary" : "text-text-secondary"}`}
+              >
                 {item}
               </button>
             ))}
-            <button onClick={() => goto("contact")} style={{ marginTop: "16px", padding: "14px 36px", borderRadius: "10px", background: T.blue, color: T.bg, fontSize: "14px", fontWeight: 600, border: "none", cursor: "pointer" }}>
+            <button onClick={() => goto("contact")} className="btn-primary mt-4 py-[14px] px-9">
               hire me
             </button>
           </div>
