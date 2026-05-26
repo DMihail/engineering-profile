@@ -99,7 +99,7 @@ export function HeroSection() {
               <div className="px-5 pt-5 pb-2 space-y-2.5">
                 {TERMINAL_INFO.map((r) => (
                   <div key={r.key} className="flex items-baseline gap-2">
-                    <span className="mono-sm text-text-faint w-23 shrink-0">{r.key}</span>
+                    <span className="mono-sm text-text-faint min-w-23 shrink-0">{r.key}</span>
                     <span className="mono-xs text-[rgba(55,65,81,0.5)]">→</span>
                     <span className={`mono-md ${r.color}`}>{r.value}</span>
                   </div>

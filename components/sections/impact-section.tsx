@@ -19,7 +19,7 @@ export function ImpactSection() {
         </div>
 
         <div className="hidden sm:block rounded-xl overflow-hidden border border-border">
-          <div className="grid items-center grid-cols-[220px_1fr_100px] py-[9px] px-6 bg-[rgba(255,255,255,0.025)] border-b border-border">
+          <div className="grid items-center grid-cols-[minmax(180px,auto)_1fr_100px] py-[9px] px-6 bg-[rgba(255,255,255,0.025)] border-b border-border">
             <span className="mono-label">Area</span>
             <span className="mono-label">Description</span>
             <span className="mono-label text-right">Target</span>
@@ -31,7 +31,7 @@ export function ImpactSection() {
             return (
               <div
                 key={cap.id}
-                className={`grid items-start gap-6 grid-cols-[220px_1fr_100px] p-[20px_24px] cursor-default transition-colors duration-200 hover:bg-[rgba(56,189,248,0.04)] ${i % 2 === 0 ? "bg-card" : "bg-[rgba(17,24,39,0.6)]"} ${!isLast ? "border-b border-border" : ""}`}
+                className={`grid items-start gap-6 grid-cols-[minmax(180px,auto)_1fr_100px] p-[20px_24px] cursor-default transition-colors duration-200 hover:bg-[rgba(56,189,248,0.04)] ${i % 2 === 0 ? "bg-card" : "bg-[rgba(17,24,39,0.6)]"} ${!isLast ? "border-b border-border" : ""}`}
               >
                 <div>
                   <div className="flex items-center gap-2 mb-3">
