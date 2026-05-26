@@ -1,11 +1,11 @@
-export type Icon = React.ComponentType<{ size?: number; className?: string; style?: React.CSSProperties }>;
+type Icon = React.ComponentType<{ size?: number; className?: string; style?: React.CSSProperties }>;
 
-export interface SkillItem  { name: string; primary: boolean; icon: Icon }
+interface SkillItem  { name: string; primary: boolean; icon: Icon }
 export interface SkillLayer { id: string; layer: string; desc: string; scope: string; projectRefs: string; skills: SkillItem[] }
 export interface Capability { id: string; mod: string; title: string; desc: string; kpi: string; kpiSub: string; tags: string[]; appliedIn: string; icon: Icon }
-export interface ArchDecision { decision: string; rationale: string }
-export interface TradeOff     { chosen: string; rationale: string }
-export interface Result       { metric: string; label: string }
+interface ArchDecision { decision: string; rationale: string }
+interface TradeOff     { chosen: string; rationale: string }
+interface Result       { metric: string; label: string }
 export interface CaseStudy {
   id: string; num: string; title: string; type: string; archType: string; version: string;
   summary: string; archSig: string; stack: string[];

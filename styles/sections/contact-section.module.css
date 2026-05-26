@@ -48,7 +48,7 @@
 
 .formLabel {
   font-family: var(--font-mono), monospace;
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.1em;
   color: var(--text-dim);
   text-transform: uppercase;
