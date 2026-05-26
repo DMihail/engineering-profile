@@ -43,7 +43,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
               <span className="mono-xs text-text-faint leading-[1.6]">{cs.archSig}</span>
             </div>
 
-            <div className="sm:hidden mt-3 space-y-3">
+            <div className="lg:hidden mt-3 space-y-3">
               <div className="flex flex-wrap gap-1.5">{cs.stack.slice(0, 4).map((t) => <Chip key={t} label={t} />)}</div>
               <div className="flex flex-wrap gap-4">
                 {cs.results.map((r) => (
@@ -56,7 +56,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
             </div>
           </div>
 
-          <div className="hidden sm:flex flex-col items-end gap-3 shrink-0">
+          <div className="hidden lg:flex flex-col items-end gap-3 shrink-0">
             <div className="flex flex-wrap justify-end gap-1.5 max-w-[240px]">
               {cs.stack.slice(0, 4).map((t) => <Chip key={t} label={t} />)}
             </div>
@@ -88,7 +88,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
           <p className="text-sm text-text-secondary leading-[1.8]">{cs.problem}</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <div>
             <StudyLabel n="03">Technical Constraints</StudyLabel>
             <ul className="space-y-3">
@@ -106,10 +106,10 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <div>
             <StudyLabel n="05">Architecture Decisions</StudyLabel>
-            <div className="hidden sm:block">
+            <div className="hidden lg:block">
               <div className="grid grid-cols-[auto_14px_1fr] gap-2 items-baseline">
                 {cs.architecture.flatMap((a, i) => [
                   <span key={`ad${i}`} className="mono-md text-primary font-semibold whitespace-nowrap">{a.decision}</span>,
@@ -118,7 +118,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
                 ])}
               </div>
             </div>
-            <div className="sm:hidden space-y-3">
+            <div className="lg:hidden space-y-3">
               {cs.architecture.map((a, i) => (
                 <div key={i}>
                   <div className="mono-md text-primary font-semibold">{a.decision}</div>
@@ -130,7 +130,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
 
           <div>
             <StudyLabel n="06">Trade-offs Considered</StudyLabel>
-            <div className="hidden sm:block">
+            <div className="hidden lg:block">
               <div className="grid grid-cols-[auto_14px_1fr] gap-2 items-baseline">
                 {cs.tradeoffs.flatMap((tr, i) => [
                   <span key={`tc${i}`} className="mono-md text-text-secondary font-semibold whitespace-nowrap">{tr.chosen}</span>,
@@ -139,7 +139,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
                 ])}
               </div>
             </div>
-            <div className="sm:hidden space-y-3">
+            <div className="lg:hidden space-y-3">
               {cs.tradeoffs.map((tr, i) => (
                 <div key={i}>
                   <div className="mono-md text-text-secondary font-semibold">{tr.chosen}</div>

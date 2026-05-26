@@ -10,6 +10,7 @@
 
 /* ── Single nav list: mobile-first, responsive ────────────────── */
 
+/* Mobile: fullscreen overlay */
 .navList {
   position: fixed;
   top: 0;
@@ -17,16 +18,12 @@
   right: 0;
   width: 100%;
   height: 100vh;
-  height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 1.75rem;
-  padding-top: calc(var(--nav-h) + env(safe-area-inset-top));
-  padding-bottom: calc(5rem + env(safe-area-inset-bottom));
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
+  padding: calc(var(--nav-h) + env(safe-area-inset-top)) env(safe-area-inset-right) calc(5rem + env(safe-area-inset-bottom)) env(safe-area-inset-left);
   background: var(--background);
   list-style: none;
   margin: 0;
@@ -51,7 +48,72 @@
   overscroll-behavior: contain;
 }
 
-@media (min-width: 768px) {
+@supports (height: 100dvh) {
+  .navList {
+    height: 100dvh;
+  }
+}
+
+/* Tablet (640px–1023px): right-side drawer, half width */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .navList {
+    left: auto;
+    right: 0;
+    width: 50%;
+    min-width: 280px;
+    max-width: 360px;
+    height: 100vh;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-top: calc(var(--nav-h) + env(safe-area-inset-top) + 2rem);
+    padding-left: 2rem;
+    padding-right: calc(2rem + env(safe-area-inset-right));
+    background: rgba(11, 15, 23, 0.97);
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+    border-left: 1px solid var(--border);
+    box-shadow: -16px 0 48px rgba(0, 0, 0, 0.4);
+    opacity: 1;
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), visibility 0ms 300ms;
+  }
+
+  .navListOpen {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), visibility 0ms;
+    overflow-y: auto;
+  }
+}
+
+/* Backdrop overlay for tablet drawer */
+.navBackdrop {
+  display: none;
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .navBackdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 300ms ease, visibility 0ms 300ms;
+    z-index: -1;
+  }
+
+  .navBackdropOpen {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition: opacity 300ms ease, visibility 0ms;
+  }
+}
+
+@media (min-width: 1024px) {
   .navList {
     position: static;
     flex-direction: row;
@@ -60,8 +122,10 @@
     background: transparent;
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
     transform: none;
     transition: none;
+    overflow: visible;
   }
 }
 
@@ -91,7 +155,7 @@
   padding-left: 17px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .navLink {
     font-size: 11px;
     letter-spacing: 0.08em;
@@ -124,3 +188,4 @@
 .sectionLabel {
   text-transform: uppercase;
 }
+

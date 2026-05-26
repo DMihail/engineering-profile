@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { LazySection } from "@/components/ui/lazy-section";
+import { SectionErrorBoundary } from "@/components/ui/section-error-boundary";
 
 const ImpactSection = dynamic(
   () => import("./impact-section").then((m) => ({ default: m.ImpactSection })),
@@ -28,23 +29,33 @@ export function LazySections() {
   return (
     <>
       <LazySection id="impact" className="bg-secondary border-t border-[rgba(56,189,248,0.1)] py-24">
-        <ImpactSection />
+        <SectionErrorBoundary>
+          <ImpactSection />
+        </SectionErrorBoundary>
       </LazySection>
 
       <LazySection id="projects" className="bg-background py-[88px]">
-        <CaseStudiesSection />
+        <SectionErrorBoundary>
+          <CaseStudiesSection />
+        </SectionErrorBoundary>
       </LazySection>
 
       <LazySection id="skills" className="section-surface">
-        <SkillsSection />
+        <SectionErrorBoundary>
+          <SkillsSection />
+        </SectionErrorBoundary>
       </LazySection>
 
       <LazySection id="experience" className="section-dark">
-        <ExperienceSection />
+        <SectionErrorBoundary>
+          <ExperienceSection />
+        </SectionErrorBoundary>
       </LazySection>
 
       <LazySection id="contact" className="section-surface">
-        <ContactSection />
+        <SectionErrorBoundary>
+          <ContactSection />
+        </SectionErrorBoundary>
       </LazySection>
     </>
   );

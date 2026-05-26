@@ -21,7 +21,7 @@ export function HeroSection() {
 
             <div className={`${styles.badgeAvailable} mb-8`}>
               <span className="status-dot-sm animate-pulse" />
-              <span className="mono-md tracking-[0.04em] text-text-secondary">open to contracts · EU / US / Remote</span>
+              <span className="mono-md tracking-[0.04em] text-text-secondary">Open to contracts · EU / US / Remote</span>
             </div>
 
             <p className="mono-sm tracking-[0.12em] uppercase text-text-faint mb-4">
