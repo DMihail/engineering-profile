@@ -1,0 +1,34 @@
+export const T = {
+  bg:   "#0B0F17",
+  surf: "#111827",
+  card: "#0F1623",
+  blue:  "#38BDF8",
+  green: "#22C55E",
+  p: "#E5E7EB",
+  s: "#9CA3AF",
+  m: "#6B7280",
+  d: "#4B5563",
+  f: "#374151",
+  bd:   "rgba(255,255,255,0.06)",
+  bdH:  "rgba(56,189,248,0.22)",
+  bdG:  "rgba(34,197,94,0.18)",
+  mono: "'JetBrains Mono', monospace",
+  sans: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+} as const;
+
+export type Icon = React.ComponentType<{ size?: number; style?: React.CSSProperties }>;
+
+export interface SkillItem  { name: string; primary: boolean; icon: Icon }
+export interface SkillLayer { id: string; layer: string; desc: string; scope: string; projectRefs: string; skills: SkillItem[] }
+export interface Capability { id: string; mod: string; title: string; desc: string; kpi: string; kpiSub: string; tags: string[]; appliedIn: string; icon: Icon }
+export interface ArchDecision { decision: string; rationale: string }
+export interface TradeOff     { chosen: string; rationale: string }
+export interface Result       { metric: string; label: string }
+export interface CaseStudy {
+  id: string; num: string; title: string; type: string; archType: string; version: string;
+  summary: string; archSig: string; stack: string[];
+  context: string; problem: string; constraints: string[];
+  approach: string; architecture: ArchDecision[];
+  tradeoffs: TradeOff[]; results: Result[];
+}
+export interface XP { company: string; role: string; period: string; location: string; current: boolean; systems: string; items: string[] }
