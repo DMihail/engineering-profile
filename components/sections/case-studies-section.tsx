@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import type { CaseStudy } from "@/lib/types";
 import { CASE_STUDIES } from "@/lib/data";
@@ -18,16 +17,11 @@ function StudyLabel({ n, children, accent = "blue" }: { n: string; children: str
 }
 
 function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
-  const [open, setOpen] = useState(false);
-
   return (
-    <div className={`bg-card rounded-[14px] overflow-hidden border transition-[border-color,box-shadow] duration-300 ${open ? "border-[rgba(56,189,248,0.24)] shadow-[0_0_60px_rgba(56,189,248,0.07)]" : "border-border"}`}>
-      <div
-        className={`cursor-pointer select-none p-[22px_24px] transition-colors ${!open ? "hover:bg-[rgba(255,255,255,0.013)]" : ""}`}
-        onClick={() => setOpen((v) => !v)}
-      >
+    <details className={styles.panel} name="case-studies">
+      <summary className={styles.summary}>
         <div className="flex items-start gap-5">
-          <span className={`hidden sm:block shrink-0 font-mono text-[38px] font-bold tracking-[-0.05em] leading-none mt-0.5 transition-colors duration-300 ${open ? "text-[rgba(56,189,248,0.3)]" : "text-[rgba(255,255,255,0.05)]"}`}>
+          <span className={`hidden sm:block shrink-0 font-mono text-[38px] font-bold tracking-[-0.05em] leading-none mt-0.5 ${styles.studyNum}`}>
             {cs.num}
           </span>
 
@@ -76,109 +70,107 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
             </div>
           </div>
 
-          <div className={`shrink-0 self-start mt-1.5 transition-transform duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] ${open ? "rotate-180" : "rotate-0"}`}>
+          <div className={styles.chevron}>
             <ChevronDown size={16} className="text-muted-foreground" />
           </div>
         </div>
-      </div>
+      </summary>
 
-      <div style={{ maxHeight: open ? "3200px" : "0", overflow: "hidden", opacity: open ? 1 : 0, transition: open ? "max-height 900ms cubic-bezier(0,0,0.2,1), opacity 440ms ease 80ms" : "max-height 280ms cubic-bezier(0.4,0,1,1), opacity 160ms ease" }}>
-        <div className="border-t border-[rgba(56,189,248,0.1)] bg-[rgba(9,13,22,0.8)] p-[32px_24px]">
+      <div className="border-t border-[rgba(56,189,248,0.1)] bg-[rgba(9,13,22,0.8)] p-[32px_24px]">
 
-          <div className="mb-7">
-            <StudyLabel n="01">Context</StudyLabel>
-            <p className="text-[13px] text-muted-foreground leading-[1.78] italic">{cs.context}</p>
-          </div>
+        <div className="mb-7">
+          <StudyLabel n="01">Context</StudyLabel>
+          <p className="text-[13px] text-muted-foreground leading-[1.78] italic">{cs.context}</p>
+        </div>
 
-          <div className={`${styles.problemBox} mb-8`}>
-            <StudyLabel n="02">Problem Statement</StudyLabel>
-            <p className="text-sm text-text-secondary leading-[1.8]">{cs.problem}</p>
-          </div>
+        <div className={`${styles.problemBox} mb-8`}>
+          <StudyLabel n="02">Problem Statement</StudyLabel>
+          <p className="text-sm text-text-secondary leading-[1.8]">{cs.problem}</p>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div>
-              <StudyLabel n="03">Technical Constraints</StudyLabel>
-              <ul className="space-y-3">
-                {cs.constraints.map((c, i) => (
-                  <li key={i} className="flex items-start gap-2.5">
-                    <span className="mono-sm text-text-dim mt-[3px] shrink-0">{"//"}  </span>
-                    <span className="text-xs text-muted-foreground leading-[1.7]">{c}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <StudyLabel n="04">Technical Approach</StudyLabel>
-              <p className="text-[13px] text-text-secondary leading-[1.8]">{cs.approach}</p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div>
-              <StudyLabel n="05">Architecture Decisions</StudyLabel>
-              <div className="hidden sm:block">
-                <div className="grid grid-cols-[auto_14px_1fr] gap-2 items-baseline">
-                  {cs.architecture.flatMap((a, i) => [
-                    <span key={`ad${i}`} className="mono-md text-primary font-semibold whitespace-nowrap">{a.decision}</span>,
-                    <span key={`aa${i}`} className="mono-sm text-text-dim text-center">→</span>,
-                    <span key={`ar${i}`} className="text-xs text-muted-foreground leading-[1.5]">{a.rationale}</span>,
-                  ])}
-                </div>
-              </div>
-              <div className="sm:hidden space-y-3">
-                {cs.architecture.map((a, i) => (
-                  <div key={i}>
-                    <div className="mono-md text-primary font-semibold">{a.decision}</div>
-                    <div className="text-xs text-muted-foreground mt-0.5">→ {a.rationale}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <StudyLabel n="06">Trade-offs Considered</StudyLabel>
-              <div className="hidden sm:block">
-                <div className="grid grid-cols-[auto_14px_1fr] gap-2 items-baseline">
-                  {cs.tradeoffs.flatMap((tr, i) => [
-                    <span key={`tc${i}`} className="mono-md text-text-secondary font-semibold whitespace-nowrap">{tr.chosen}</span>,
-                    <span key={`ta${i}`} className="mono-sm text-text-dim text-center">→</span>,
-                    <span key={`tr${i}`} className="text-xs text-muted-foreground leading-[1.5]">{tr.rationale}</span>,
-                  ])}
-                </div>
-              </div>
-              <div className="sm:hidden space-y-3">
-                {cs.tradeoffs.map((tr, i) => (
-                  <div key={i}>
-                    <div className="mono-md text-text-secondary font-semibold">{tr.chosen}</div>
-                    <div className="text-xs text-muted-foreground mt-0.5">→ {tr.rationale}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="mb-6 pb-6 border-b border-[rgba(255,255,255,0.04)]">
-            <div className="mono-label tracking-[0.14em] mb-2.5">{"// Tech Stack"}</div>
-            <div className="flex flex-wrap gap-2">
-              {cs.stack.map((t) => <Chip key={t} label={t} variant="blue" />)}
-            </div>
-          </div>
-
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div>
-            <StudyLabel n="07" accent="green">Measurable Results</StudyLabel>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {cs.results.map((r) => (
-                <div key={r.label} className={styles.resultCard}>
-                  <div className="font-sans text-[28px] font-extrabold text-success tracking-[-0.04em] leading-none mb-1.5">{r.metric}</div>
-                  <div className="mono-md text-[rgba(34,197,94,0.5)]">{r.label}</div>
+            <StudyLabel n="03">Technical Constraints</StudyLabel>
+            <ul className="space-y-3">
+              {cs.constraints.map((c, i) => (
+                <li key={i} className="flex items-start gap-2.5">
+                  <span className="mono-sm text-text-dim mt-[3px] shrink-0">{"//"}  </span>
+                  <span className="text-xs text-muted-foreground leading-[1.7]">{c}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <StudyLabel n="04">Technical Approach</StudyLabel>
+            <p className="text-[13px] text-text-secondary leading-[1.8]">{cs.approach}</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div>
+            <StudyLabel n="05">Architecture Decisions</StudyLabel>
+            <div className="hidden sm:block">
+              <div className="grid grid-cols-[auto_14px_1fr] gap-2 items-baseline">
+                {cs.architecture.flatMap((a, i) => [
+                  <span key={`ad${i}`} className="mono-md text-primary font-semibold whitespace-nowrap">{a.decision}</span>,
+                  <span key={`aa${i}`} className="mono-sm text-text-dim text-center">→</span>,
+                  <span key={`ar${i}`} className="text-xs text-muted-foreground leading-[1.5]">{a.rationale}</span>,
+                ])}
+              </div>
+            </div>
+            <div className="sm:hidden space-y-3">
+              {cs.architecture.map((a, i) => (
+                <div key={i}>
+                  <div className="mono-md text-primary font-semibold">{a.decision}</div>
+                  <div className="text-xs text-muted-foreground mt-0.5">→ {a.rationale}</div>
                 </div>
               ))}
             </div>
           </div>
 
+          <div>
+            <StudyLabel n="06">Trade-offs Considered</StudyLabel>
+            <div className="hidden sm:block">
+              <div className="grid grid-cols-[auto_14px_1fr] gap-2 items-baseline">
+                {cs.tradeoffs.flatMap((tr, i) => [
+                  <span key={`tc${i}`} className="mono-md text-text-secondary font-semibold whitespace-nowrap">{tr.chosen}</span>,
+                  <span key={`ta${i}`} className="mono-sm text-text-dim text-center">→</span>,
+                  <span key={`tr${i}`} className="text-xs text-muted-foreground leading-[1.5]">{tr.rationale}</span>,
+                ])}
+              </div>
+            </div>
+            <div className="sm:hidden space-y-3">
+              {cs.tradeoffs.map((tr, i) => (
+                <div key={i}>
+                  <div className="mono-md text-text-secondary font-semibold">{tr.chosen}</div>
+                  <div className="text-xs text-muted-foreground mt-0.5">→ {tr.rationale}</div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
+
+        <div className="mb-6 pb-6 border-b border-[rgba(255,255,255,0.04)]">
+          <div className="mono-label tracking-[0.14em] mb-2.5">{"// Tech Stack"}</div>
+          <div className="flex flex-wrap gap-2">
+            {cs.stack.map((t) => <Chip key={t} label={t} variant="blue" />)}
+          </div>
+        </div>
+
+        <div>
+          <StudyLabel n="07" accent="green">Measurable Results</StudyLabel>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {cs.results.map((r) => (
+              <div key={r.label} className={styles.resultCard}>
+                <div className="font-sans text-[28px] font-extrabold text-success tracking-[-0.04em] leading-none mb-1.5">{r.metric}</div>
+                <div className="mono-md text-[rgba(34,197,94,0.5)]">{r.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
-    </div>
+    </details>
   );
 }
 
