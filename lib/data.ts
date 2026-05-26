@@ -1,10 +1,12 @@
 import {
   Smartphone, Layers, Eye, Code2, Cpu, Activity,
-  Globe, Monitor, Wind, GitBranch, Zap,
+  Globe, Monitor, Wind, GitBranch, Zap, Mail,
   Server, Shield, Database, Wifi, Boxes,
   Gauge, Network, Terminal, Workflow, RefreshCw, Package, BarChart2,
 } from "lucide-react";
-import type { Capability, SkillLayer, CaseStudy, XP } from "@/lib/types";
+import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
+import { SITE_EMAIL } from "@/lib/config";
+import type { Capability, SkillLayer, CaseStudy, XP, SocialLink } from "@/lib/types";
 
 export const NAV = ["impact", "projects", "skills", "experience", "contact"];
 
@@ -260,6 +262,12 @@ export const XP_ENTRIES: XP[] = [
       "Implemented CI/CD pipeline reducing deploy cycle from 45 to 22 minutes",
     ],
   },
+];
+
+export const SOCIAL_LINKS: SocialLink[] = [
+  { label: "GitHub",   hint: "github.com/mykhailo-dzhezhelo",     icon: GithubIcon,   href: "https://github.com" },
+  { label: "LinkedIn", hint: "linkedin.com/in/mykhailo-dzhezhelo", icon: LinkedinIcon, href: "https://linkedin.com" },
+  { label: "Email",    hint: SITE_EMAIL,                           icon: Mail,         href: `mailto:${SITE_EMAIL}` },
 ];
 
 export const TRACK_RECORD = [

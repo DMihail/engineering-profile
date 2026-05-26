@@ -14,3 +14,4 @@ export interface CaseStudy {
   tradeoffs: TradeOff[]; results: Result[];
 }
 export interface XP { company: string; role: string; period: string; location: string; current: boolean; systems: string; items: string[] }
+export interface SocialLink { label: string; hint: string; icon: Icon; href: string }
