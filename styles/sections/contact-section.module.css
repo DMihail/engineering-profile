@@ -1,0 +1,57 @@
+.linkCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  transition: border-color 200ms, box-shadow 200ms;
+}
+.linkCard:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.06);
+}
+
+.inputField {
+  width: 100%;
+  background: var(--card);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--foreground);
+  font-size: 14px;
+  font-family: var(--font-sans), sans-serif;
+  outline: none;
+  transition: border-color 200ms;
+  padding: 10px 16px;
+}
+.inputField:focus {
+  border-color: rgba(56, 189, 248, 0.35);
+}
+
+.formLabel {
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.resumeLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(56, 189, 248, 0.06);
+  border: 1px solid rgba(56, 189, 248, 0.14);
+  text-decoration: none;
+  transition: background 200ms, border-color 200ms;
+}
+.resumeLink:hover {
+  background: rgba(56, 189, 248, 0.1);
+  border-color: rgba(56, 189, 248, 0.3);
+}

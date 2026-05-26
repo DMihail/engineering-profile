@@ -1,0 +1,99 @@
+.navGlass {
+  background: rgba(11, 15, 23, 0.93);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Single nav list: mobile-first, responsive ────────────────── */
+
+.navList {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding-top: var(--nav-h);
+  padding-bottom: 5rem;
+  background: var(--background);
+  list-style: none;
+  margin: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-12px);
+  transition: opacity 280ms ease, transform 280ms cubic-bezier(0.2, 0.8, 0.2, 1), visibility 280ms;
+}
+
+@media (min-width: 768px) {
+  .navList {
+    position: static;
+    flex-direction: row;
+    gap: 0;
+    padding: 0;
+    background: transparent;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ── Nav link: mobile-first, responsive ───────────────────────── */
+
+.navLink {
+  font-family: var(--font-mono), monospace;
+  font-size: 20px;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+}
+
+.navLinkActive { color: var(--primary); }
+
+@media (min-width: 768px) {
+  .navLink {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 6px;
+    color: var(--muted-foreground);
+    transition: color 150ms, background 150ms;
+  }
+  .navLink:hover { color: var(--text-secondary); }
+  .navLinkActive {
+    color: var(--primary);
+    background: rgba(56, 189, 248, 0.08);
+  }
+  .navLinkActive:hover { color: var(--primary); }
+}
+
+.navLink:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Mobile menu: CSS-only toggle via hidden checkbox ──────────── */
+
+.toggle {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.iconClose  { display: none; }
+.iconOpen   { display: block; }
+
+.toggle:checked ~ .navBar .iconClose { display: block; }
+.toggle:checked ~ .navBar .iconOpen  { display: none; }
+
+.toggle:checked ~ .navBar .navList {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
