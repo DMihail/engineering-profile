@@ -43,7 +43,7 @@ export default function OgImage() {
             alignItems: "center",
             gap: 8,
             fontFamily: "monospace",
-            fontSize: 12,
+            fontSize: "0.75rem",
             color: "#4B5563",
             letterSpacing: "0.05em",
           }}
@@ -65,7 +65,7 @@ export default function OgImage() {
             alignItems: "center",
             gap: 6,
             fontFamily: "monospace",
-            fontSize: 13,
+            fontSize: "0.8125rem",
             color: "#374151",
           }}
         >
@@ -84,18 +84,18 @@ export default function OgImage() {
           }}
         >
           <div style={{ width: 8, height: 8, borderRadius: 999, background: "#22C55E", boxShadow: "0 0 8px rgba(34,197,94,0.6)" }} />
-          <span style={{ fontSize: 13, color: "#22C55E", fontFamily: "monospace", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+          <span style={{ fontSize: "0.8125rem", color: "#22C55E", fontFamily: "monospace", letterSpacing: "0.08em", textTransform: "uppercase" }}>
             Open to contracts
           </span>
         </div>
 
         {/* Name */}
-        <div style={{ fontSize: 56, fontWeight: 800, color: "#E5E7EB", letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 12 }}>
+        <div style={{ fontSize: "3.5rem", fontWeight: 800, color: "#E5E7EB", letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 12 }}>
           {SITE_AUTHOR}
         </div>
 
         {/* Title */}
-        <div style={{ fontSize: 24, fontWeight: 600, color: "#38BDF8", letterSpacing: "-0.01em", marginBottom: 32 }}>
+        <div style={{ fontSize: "1.5rem", fontWeight: 600, color: "#38BDF8", letterSpacing: "-0.01em", marginBottom: 32 }}>
           {SITE_ROLE}
         </div>
 
@@ -105,7 +105,7 @@ export default function OgImage() {
             <span
               key={tag}
               style={{
-                fontSize: 13,
+                fontSize: "0.8125rem",
                 color: "#38BDF8",
                 background: "rgba(56,189,248,0.08)",
                 border: "1px solid rgba(56,189,248,0.18)",

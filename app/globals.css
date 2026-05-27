@@ -6,8 +6,31 @@
 :root {
   --font-inter: 'Inter';
   --font-jetbrains: 'JetBrains Mono';
-  --font-size: 16px;
-  --nav-h: 52px;
+  /* 100% = user agent default (usually 16px); all type tokens are rem-based */
+  --font-size: 100%;
+  --nav-h: 3.25rem;
+
+  /* Type scale (design reference: 16px root) */
+  --text-2xs: 0.625rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 0.9375rem;
+  --text-mono-sm: 0.6875rem;
+  --text-mono-base: 0.8125rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.625rem;
+  --text-3xl: 1.75rem;
+  --text-4xl: 2.375rem;
+  --text-hero-name: clamp(2.75rem, 7vw, 4.75rem);
+  --text-hero-lead: clamp(1.0625rem, 2.2vw, 1.3125rem);
+  --text-hero-stat: clamp(1.125rem, 4vw, 1.375rem);
+  --text-section-heading: clamp(1.75rem, 3.5vw, 2.5rem);
+  --text-case-title: clamp(1.1875rem, 2vw, 1.25rem);
+  --text-case-metric: clamp(1.625rem, 3vw, 1.75rem);
+  --text-404-display: clamp(6rem, 20vw, 9.75rem);
+  --text-404-title: clamp(1.25rem, 3vw, 1.75rem);
 
   --background: #0B0F17;
   --foreground: #E5E7EB;
@@ -56,18 +79,19 @@
     outline-color: color-mix(in srgb, var(--color-ring) 50%, transparent);
   }
 
+  html {
+    font-size: var(--font-size);
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--nav-h) + env(safe-area-inset-top, 0px));
+    overflow-x: clip;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans), sans-serif;
-    overflow-x: hidden;
-  }
-
-  html {
-    font-size: var(--font-size);
-    scroll-behavior: smooth;
-    scroll-padding-top: calc(var(--nav-h) + env(safe-area-inset-top));
-    overflow-x: hidden;
+    font-size: var(--text-base);
+    overflow-x: clip;
   }
 }
 
@@ -86,7 +110,7 @@
     border: 1px solid var(--color-border-hover);
     color: var(--color-primary);
     font-family: var(--font-mono), monospace;
-    font-size: 12px;
+    font-size: var(--text-xs);
     text-decoration: none;
     transform: translateY(-200%);
     transition: transform 150ms ease;
@@ -112,32 +136,41 @@
 
   /* ── Typography ────────────────────────────────────────────────────── */
 
-  .mono-2xs  { font-family: var(--font-mono), monospace; font-size: 10px; line-height: 1.4; }
-  .mono-xs   { font-family: var(--font-mono), monospace; font-size: 10px; line-height: 1.4; }
-  .mono-sm   { font-family: var(--font-mono), monospace; font-size: 11px; line-height: 1.5; }
-  .mono-md   { font-family: var(--font-mono), monospace; font-size: 12px; line-height: 1.5; }
-  .mono-base { font-family: var(--font-mono), monospace; font-size: 13px; line-height: 1.5; }
+  .mono-2xs  { font-family: var(--font-mono), monospace; font-size: var(--text-2xs); line-height: 1.4; }
+  .mono-xs   { font-family: var(--font-mono), monospace; font-size: var(--text-2xs); line-height: 1.4; }
+  .mono-sm   { font-family: var(--font-mono), monospace; font-size: var(--text-mono-sm); line-height: 1.5; }
+  .mono-md   { font-family: var(--font-mono), monospace; font-size: var(--text-xs); line-height: 1.5; }
+  .mono-base { font-family: var(--font-mono), monospace; font-size: var(--text-mono-base); line-height: 1.5; }
 
   .mono-label {
     font-family: var(--font-mono), monospace;
-    font-size: 10px;
+    font-size: var(--text-2xs);
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--text-dim);
   }
 
+  .text-hero-name    { font-size: var(--text-hero-name); }
+  .text-hero-lead    { font-size: var(--text-hero-lead); }
+  .text-hero-support { font-size: var(--text-md); }
+  .text-hero-stat    { font-size: var(--text-hero-stat); }
+  .text-case-title   { font-size: var(--text-case-title); }
+  .text-case-metric  { font-size: var(--text-case-metric); }
+  .text-404-display  { font-size: var(--text-404-display); }
+  .text-404-title    { font-size: var(--text-404-title); }
+
   .section-heading {
     font-family: var(--font-sans), sans-serif;
-    font-size: clamp(28px, 3.5vw, 40px);
+    font-size: var(--text-section-heading);
     font-weight: 700;
     letter-spacing: -0.025em;
     color: var(--foreground);
-    margin-bottom: 10px;
+    margin-bottom: 0.625rem;
   }
 
   .section-comment {
     font-family: var(--font-mono), monospace;
-    font-size: 12px;
+    font-size: var(--text-xs);
     line-height: 1.55;
     color: var(--muted-foreground);
   }
@@ -192,7 +225,7 @@
     border-radius: 10px;
     background: var(--primary);
     color: var(--background);
-    font-size: 14px;
+    font-size: var(--text-sm);
     font-weight: 600;
     border: none;
     cursor: pointer;
@@ -215,7 +248,7 @@
     padding: 13px 26px;
     border-radius: 10px;
     color: var(--foreground);
-    font-size: 14px;
+    font-size: var(--text-sm);
     font-weight: 600;
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: transparent;
@@ -235,7 +268,7 @@
     padding: 5px 14px;
     border-radius: 6px;
     font-family: var(--font-mono), monospace;
-    font-size: 11px;
+    font-size: var(--text-mono-sm);
     letter-spacing: 0.04em;
     border: none;
     cursor: pointer;
@@ -250,7 +283,7 @@
 
   .chip {
     font-family: var(--font-mono), monospace;
-    font-size: 11px;
+    font-size: var(--text-mono-sm);
     padding: 2px 8px;
     border-radius: 4px;
     white-space: nowrap;

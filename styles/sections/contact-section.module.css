@@ -25,7 +25,7 @@
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   color: var(--foreground);
-  font-size: 14px;
+  font-size: var(--text-sm);
   font-family: var(--font-sans), sans-serif;
   outline: 2px solid transparent;
   outline-offset: 2px;
@@ -54,7 +54,7 @@
 
 .formLabel {
   font-family: var(--font-mono), monospace;
-  font-size: 11px;
+  font-size: var(--text-mono-sm);
   letter-spacing: 0.1em;
   color: var(--text-dim);
   text-transform: uppercase;

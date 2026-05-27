@@ -120,7 +120,7 @@
 
 .navLink {
   font-family: var(--font-mono), monospace;
-  font-size: 18px;
+  font-size: var(--text-lg);
   letter-spacing: 0.06em;
   color: var(--text-secondary);
   text-transform: capitalize;
@@ -144,7 +144,7 @@
 
 @media (min-width: 1024px) {
   .navLink {
-    font-size: 11px;
+    font-size: var(--text-mono-sm);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     padding: 5px 12px;

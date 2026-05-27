@@ -22,11 +22,11 @@ export default function NotFound() {
           </span>
         </div>
 
-        <p className="font-mono text-primary font-extrabold mb-7 leading-[0.9] tracking-[-0.06em] text-[clamp(96px,20vw,156px)] [text-shadow:0_0_80px_rgba(56,189,248,0.25)]" aria-hidden>
+        <p className="font-sans text-primary font-extrabold mb-7 leading-[0.9] tracking-[-0.06em] text-404-display [text-shadow:0_0_80px_rgba(56,189,248,0.25)]" aria-hidden>
           404
         </p>
 
-        <h1 className="font-sans text-foreground font-bold mb-2.5 tracking-[-0.025em] text-[clamp(20px,3vw,28px)]">
+        <h1 className="font-sans text-foreground font-bold mb-2.5 tracking-[-0.025em] text-404-title">
           Page not found
         </h1>
         <p className="text-sm text-muted-foreground mb-8 leading-[1.65]">

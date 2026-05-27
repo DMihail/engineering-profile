@@ -200,7 +200,7 @@ export function NavBar() {
                   e.preventDefault();
                   navigateTo("contact");
                 }}
-                className="btn-primary mt-6 py-3.5 px-10 text-[15px] whitespace-nowrap no-underline"
+                className="btn-primary mt-6 py-3.5 px-10 text-hero-support whitespace-nowrap no-underline"
               >
                 <span className="status-dot-sm bg-background! shadow-none! animate-pulse" aria-hidden />
                 Let&apos;s talk
@@ -220,7 +220,7 @@ export function NavBar() {
                 e.preventDefault();
                 navigateTo("contact");
               }}
-              className="hidden lg:flex items-center gap-1.5 py-1.25 px-3 rounded-md border border-primary/30 bg-primary/10 text-primary font-mono text-[11px] font-medium tracking-[0.04em] leading-none whitespace-nowrap hover:bg-primary/20 hover:border-primary/50 transition-colors no-underline"
+              className="hidden lg:flex items-center gap-1.5 py-1.25 px-3 rounded-md border border-primary/30 bg-primary/10 text-primary font-mono mono-sm font-medium tracking-[0.04em] leading-none whitespace-nowrap hover:bg-primary/20 hover:border-primary/50 transition-colors no-underline"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" aria-hidden />
               Let&apos;s talk
