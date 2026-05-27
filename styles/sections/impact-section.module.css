@@ -17,11 +17,12 @@
 }
 
 .capTable col:nth-child(1) {
-  width: 240px;
+  width: 26%;
 }
 
 .capTable col:nth-child(3) {
-  width: 100px;
+  width: 18%;
+  min-width: 7.5rem;
 }
 
 .capTable thead th {
@@ -69,4 +70,27 @@
 
 .capTarget {
   text-align: right;
+  min-width: 0;
+}
+
+.capKpi {
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(0.875rem, 1.6vw, 1.25rem);
+  font-weight: 700;
+  color: var(--success);
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.capKpiMobile {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--success);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
