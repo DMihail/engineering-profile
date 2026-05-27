@@ -1,8 +1,5 @@
 "use client";
 
-import "./globals.css";
-import { fontBodyClassName, fontVariableClassName } from "@/lib/fonts";
-
 export default function GlobalError({
   error,
   reset,
@@ -11,18 +8,35 @@ export default function GlobalError({
   reset: () => void;
 }) {
   return (
-    <html lang="en" className={fontVariableClassName}>
+    <html lang="en">
       <head>
-        <meta name="robots" content="noindex, nofollow" />
+        <title>Error — Mykhailo Dzhezhelo</title>
       </head>
-      <body className={`${fontBodyClassName} min-h-full flex items-center justify-center bg-background text-foreground`}>
-        <div className="text-center p-8">
-          <p className="mono-label mb-3">{"// runtime_error"}</p>
-          <h1 className="text-2xl font-bold mb-2 text-balance">Something went wrong</h1>
-          <p className="text-sm text-muted-foreground mb-6 max-w-md mx-auto text-pretty">
+      <body style={{ background: "#0B0F17", color: "#E5E7EB", fontFamily: "system-ui, sans-serif", margin: 0, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ textAlign: "center", padding: "2rem" }}>
+          <p style={{ fontFamily: "monospace", fontSize: "0.75rem", color: "#8891A0", marginBottom: "0.75rem" }}>
+            {"// runtime_error"}
+          </p>
+          <h1 style={{ fontSize: "1.75rem", fontWeight: 700, marginBottom: "0.5rem" }}>
+            Something went wrong
+          </h1>
+          <p style={{ fontSize: "0.875rem", color: "#8891A0", marginBottom: "1.5rem", maxWidth: "25rem" }}>
             {error.digest ? `Error ID: ${error.digest}` : "An unexpected error occurred."}
           </p>
-          <button type="button" onClick={reset} className="btn-primary">
+          <button
+            type="button"
+            onClick={reset}
+            style={{
+              padding: "0.75rem 1.5rem",
+              borderRadius: "0.625rem",
+              background: "#38BDF8",
+              color: "#0B0F17",
+              fontSize: "0.875rem",
+              fontWeight: 600,
+              border: "none",
+              cursor: "pointer",
+            }}
+          >
             Try again
           </button>
         </div>
