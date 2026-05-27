@@ -305,7 +305,7 @@ export const EDUCATION: Education[] = [
 export const XP_ENTRIES: XP[] = [
   {
     company: "Elementica", role: "React Native Developer",
-    period: "03/2025 – 03/2026", location: "Uzhgorod, Ukraine", current: true,
+    period: "03/2025 – 03/2026", location: "Uzhgorod, Ukraine", current: false,
     systems: "Cross-platform mobile apps · Redux Toolkit · Firebase · App Store & Google Play",
     items: [
       "Develop and maintain cross-platform mobile applications using React Native and TypeScript",
@@ -318,7 +318,7 @@ export const XP_ENTRIES: XP[] = [
   },
   {
     company: "NetGame", role: "React Native Developer",
-    period: "Previous", location: "Ukraine", current: false,
+    period: "06/2024 – 01/2025", location: "Kiev · Remote", current: false,
     systems: "React Native mobile apps · WebSockets · Firebase · TestFlight & Google Play",
     items: [
       "Built and supported mobile applications using React Native",
@@ -330,7 +330,7 @@ export const XP_ENTRIES: XP[] = [
   },
   {
     company: "Kultprosvet", role: "Full-Stack Developer",
-    period: "Previous", location: "Ukraine", current: false,
+    period: "03/2021 – 01/2023", location: "Dnepr office", current: false,
     systems: "React · React Native · Node.js (Express, NestJS) · GraphQL · Firebase",
     items: [
       "Developed mobile and web applications using React and React Native",
@@ -341,7 +341,7 @@ export const XP_ENTRIES: XP[] = [
   },
   {
     company: "Devsteam.mobi", role: "React Native Developer",
-    period: "Previous", location: "Ukraine", current: false,
+    period: "03/2020 – 2021", location: "Remote", current: false,
     systems: "React Native mobile apps · API testing · QA debugging",
     items: [
       "Developed new features for mobile applications",
@@ -352,7 +352,7 @@ export const XP_ENTRIES: XP[] = [
   },
   {
     company: "Absolutist", role: "JavaScript Developer",
-    period: "Previous", location: "Ukraine", current: false,
+    period: "09/2018 – 06/2019", location: "Dnepr office", current: false,
     systems: "Browser games · ActionScript to JavaScript/TypeScript migration",
     items: [
       "Migrated browser games from ActionScript to JavaScript / TypeScript",
