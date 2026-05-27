@@ -1,3 +1,80 @@
+.formPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.formField {
+  min-width: 0;
+}
+
+@media (min-width: 640px) {
+  .formGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem 1.25rem;
+  }
+
+  .formFieldCompany {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 1024px) {
+  .formPanel {
+    gap: 1.5rem;
+    padding-block: 1.75rem;
+    padding-inline: 2rem;
+  }
+
+  .formGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem 1.5rem;
+  }
+
+  .formFieldCompany {
+    grid-column: 1 / -1;
+    max-width: 28rem;
+  }
+
+  .formFieldMessage {
+    grid-column: 1 / -1;
+  }
+
+  .messageField {
+    min-height: 11rem;
+  }
+
+  .formActions {
+    grid-column: 1 / -1;
+    padding-block-start: 0.25rem;
+  }
+}
+
+.formActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.25rem;
+}
+
+.contactAside {
+  min-width: 0;
+}
+
+@media (min-width: 1024px) {
+  .contactAside {
+    position: sticky;
+    top: calc(var(--nav-h) + 1.25rem);
+    align-self: start;
+  }
+}
+
 .linkCard {
   display: flex;
   align-items: center;
@@ -32,7 +109,7 @@
   border: 1px solid var(--border-primary-muted);
   color: var(--foreground);
   font-size: var(--text-sm);
-  font-family: var(--font-sans), serif;
+  font-family: var(--font-sans), sans-serif;
   line-height: var(--leading-normal);
   box-shadow:
     inset 0 1px 0 color-mix(in srgb, var(--foreground) 5%, transparent),
@@ -82,7 +159,7 @@
 }
 
 .formLabel {
-  font-family: var(--font-mono), serif;
+  font-family: var(--font-mono), sans-serif;
   font-size: var(--text-mono-sm);
   letter-spacing: 0.1em;
   color: var(--text-secondary);
