@@ -3,6 +3,7 @@ import {
   Globe, Monitor, Wind, GitBranch, Zap, Mail,
   Server, Shield, Database, Wifi, Boxes,
   Gauge, Network, Terminal, Workflow, RefreshCw, Package, BarChart2,
+  PenTool, Link2, Wrench,
 } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
 import { SITE_EMAIL, mailtoUrl } from "@/lib/config";
@@ -80,12 +81,14 @@ export const SKILL_LAYERS: SkillLayer[] = [
     id: "realtime", layer: "Real-time & Backend", desc: "WebSocket messaging, push notifications, low-latency event streaming",
     scope: "backend", projectRefs: "Waddingtons · Vitadrop",
     skills: [
-      { name: "WebSockets",  primary: true,  icon: Wifi     },
-      { name: "Firebase",    primary: true,  icon: Shield   },
-      { name: "Node.js",     primary: true,  icon: Server   },
-      { name: "Redis",       primary: false, icon: Boxes    },
-      { name: "PostgreSQL",  primary: false, icon: Database },
-      { name: "OpenCV",      primary: false, icon: Eye      },
+      { name: "WebSockets",        primary: true,  icon: Wifi     },
+      { name: "Firebase",          primary: true,  icon: Shield   },
+      { name: "Firebase Deep Links", primary: false, icon: Link2  },
+      { name: "Node.js",           primary: true,  icon: Server   },
+      { name: "MySQL",             primary: false, icon: Database },
+      { name: "MongoDB",           primary: false, icon: Database },
+      { name: "PostgreSQL",        primary: false, icon: Database },
+      { name: "OpenCV",            primary: false, icon: Eye      },
     ],
   },
   {
@@ -97,7 +100,8 @@ export const SKILL_LAYERS: SkillLayer[] = [
       { name: "TypeScript",   primary: true,  icon: Code2     },
       { name: "GraphQL",      primary: false, icon: GitBranch },
       { name: "Tailwind CSS", primary: false, icon: Wind      },
-      { name: "Vite",         primary: false, icon: Zap       },
+      { name: "Figma",        primary: false, icon: PenTool   },
+      { name: "Postman",      primary: false, icon: Wrench    },
     ],
   },
   {
@@ -192,11 +196,12 @@ export const CASE_STUDIES: CaseStudy[] = [
     num: "02",
     title: "Waddington's Auctions",
     type: "Client · Production",
-    version: "Mobile · Invaluable ecosystem",
+    version: "Expo · Mobile · Invaluable ecosystem",
     summary:
-      "Mobile auction platform integrated with the Invaluable ecosystem — live bidding, lot tracking, and realtime auction participation.",
-    stack: ["React Native", "TypeScript", "WebSockets", "Redux Toolkit", "RTK Query"],
+      "Mobile auction platform built with Expo and integrated with the Invaluable ecosystem — live bidding, lot tracking, and realtime auction participation.",
+    stack: ["Expo", "React Native", "TypeScript", "WebSockets", "Redux Toolkit", "RTK Query"],
     technicalPoints: [
+      "Expo-based React Native delivery for iOS and Android",
       "Realtime auction updates",
       "Live bidding flows",
       "Responsive mobile architecture",
@@ -210,7 +215,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     problem:
       "Auction participants need fast, reliable updates during live events. Delayed bid feedback or inconsistent lot state creates friction and undermines trust during high-intensity bidding windows.",
     solution:
-      "The project focused on responsive mobile UX, realtime auction interactions, synchronization flows, and scalable React Native application architecture — keeping bid state authoritative and the interface calm under load.",
+      "Built with Expo and React Native, the project focused on responsive mobile UX, realtime auction interactions, synchronization flows, and scalable application architecture — keeping bid state authoritative and the interface calm under load.",
     constraints: [
       "Live events require low-latency updates across many concurrent users",
       "Bid confirmations must reflect server truth, not optimistic guesses",
@@ -307,6 +312,8 @@ export const XP_ENTRIES: XP[] = [
     company: "Elementica", role: "React Native Developer",
     period: "03/2025 – 03/2026", location: "Uzhgorod, Ukraine", current: false,
     systems: "Cross-platform mobile apps · Redux Toolkit · Firebase · App Store & Google Play",
+    tags: ["React Native", "TypeScript", "Redux Toolkit", "Firebase", "App Store", "Google Play"],
+    highlight: "Cross-platform consumer mobile · production store releases",
     items: [
       "Develop and maintain cross-platform mobile applications using React Native and TypeScript",
       "Design scalable architecture using Redux Toolkit",
@@ -320,6 +327,9 @@ export const XP_ENTRIES: XP[] = [
     company: "NetGame", role: "React Native Developer",
     period: "06/2024 – 01/2025", location: "Kiev · Remote", current: false,
     systems: "React Native mobile apps · WebSockets · Firebase · TestFlight & Google Play",
+    tags: ["React Native", "WebSockets", "Firebase", "TestFlight", "Google Play"],
+    highlight: "Gaming sector · real-time mobile features",
+    relatedCaseId: "waddingtons",
     items: [
       "Built and supported mobile applications using React Native",
       "Implemented real-time features using WebSockets",
@@ -331,7 +341,9 @@ export const XP_ENTRIES: XP[] = [
   {
     company: "Kultprosvet", role: "Full-Stack Developer",
     period: "03/2021 – 01/2023", location: "Dnepr office", current: false,
-    systems: "React · React Native · Node.js (Express, NestJS) · GraphQL · Firebase",
+    systems: "React · React Native · Node.js (Express.js, NestJS) · GraphQL · Firebase",
+    tags: ["React", "React Native", "Express.js", "NestJS", "GraphQL", "Node.js", "Firebase"],
+    highlight: "Full-stack delivery · mobile, web & internal admin tools",
     items: [
       "Developed mobile and web applications using React and React Native",
       "Built backend services using Node.js (Express, NestJS)",
@@ -343,6 +355,8 @@ export const XP_ENTRIES: XP[] = [
     company: "Devsteam.mobi", role: "React Native Developer",
     period: "03/2020 – 2021", location: "Remote", current: false,
     systems: "React Native mobile apps · API testing · QA debugging",
+    tags: ["React Native", "REST APIs", "Postman"],
+    highlight: "Contract-style RN sprints · refactor, QA & API integration",
     items: [
       "Developed new features for mobile applications",
       "Refactored and improved existing codebases",
@@ -354,6 +368,8 @@ export const XP_ENTRIES: XP[] = [
     company: "Absolutist", role: "JavaScript Developer",
     period: "09/2018 – 06/2019", location: "Dnepr office", current: false,
     systems: "Browser games · ActionScript to JavaScript/TypeScript migration",
+    tags: ["JavaScript", "TypeScript", "ActionScript"],
+    highlight: "Browser games · ActionScript → TypeScript migration",
     items: [
       "Migrated browser games from ActionScript to JavaScript / TypeScript",
       "Improved performance and fixed bugs",
@@ -380,7 +396,3 @@ export const HERO_STATS = [
   { value: "4.8★", label: "rating" },
 ];
 
-export const NOT_FOUND_TRACE = [
-  { prefix: "at ", name: "Router.resolve", loc: "(routes.ts:1)" },
-  { prefix: "at ", name: "Request.match",  loc: "(browser.ts:44)" },
-];
