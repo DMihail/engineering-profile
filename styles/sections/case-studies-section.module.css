@@ -1,6 +1,6 @@
 .studyHeading {
   font-family: var(--font-sans), sans-serif;
-  font-size: 13px;
+  font-size: var(--text-mono-base);
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--foreground);
@@ -26,7 +26,7 @@
 }
 
 .bodyText {
-  font-size: 14px;
+  font-size: var(--text-sm);
   line-height: 1.72;
   color: var(--muted-foreground);
 }
@@ -70,7 +70,7 @@
   justify-content: space-between;
   gap: 12px;
   padding: 14px 16px;
-  font-size: 13px;
+  font-size: var(--text-mono-base);
   font-weight: 500;
   color: var(--text-secondary);
   transition: background-color 0.2s, color 0.2s;
@@ -106,7 +106,7 @@
 }
 
 .subLabel {
-  font-size: 11px;
+  font-size: var(--text-mono-sm);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-dim);
@@ -181,6 +181,7 @@
 }
 
 .studyNum {
+  font-size: var(--text-4xl);
   color: rgba(255, 255, 255, 0.05);
   transition: color 0.3s;
 }

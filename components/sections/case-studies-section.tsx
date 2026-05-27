@@ -47,7 +47,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
     <details className={styles.panel} name="case-studies">
       <summary className={styles.summary}>
         <div className="flex items-start gap-4 sm:gap-5">
-          <span className={`hidden sm:block shrink-0 font-mono text-[38px] font-bold tracking-[-0.05em] leading-none mt-0.5 ${styles.studyNum}`}>
+          <span className={`hidden sm:block shrink-0 font-mono font-bold tracking-[-0.05em] leading-none mt-0.5 ${styles.studyNum}`}>
             {cs.num}
           </span>
 
@@ -59,7 +59,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
               <span className="text-xs text-text-faint">{cs.version}</span>
             </div>
 
-            <h3 className="font-sans text-[19px] sm:text-[20px] font-bold tracking-[-0.025em] text-foreground mb-2">{cs.title}</h3>
+            <h3 className="font-sans text-case-title font-bold tracking-[-0.025em] text-foreground mb-2">{cs.title}</h3>
             <p className="text-sm text-text-secondary leading-[1.62] max-w-[620px] mb-3">{cs.summary}</p>
 
             <div className="flex flex-wrap gap-4 sm:gap-5">
@@ -99,7 +99,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
           <ul className={styles.resultGrid}>
             {cs.results.map((r) => (
               <li key={r.label} className={styles.resultCard}>
-                <div className="font-sans text-[26px] sm:text-[28px] font-extrabold text-success tracking-[-0.04em] leading-none mb-1.5">{r.metric}</div>
+                <div className="font-sans text-case-metric font-extrabold text-success tracking-[-0.04em] leading-none mb-1.5">{r.metric}</div>
                 <div className="text-xs text-[rgba(34,197,94,0.55)]">{r.label}</div>
               </li>
             ))}

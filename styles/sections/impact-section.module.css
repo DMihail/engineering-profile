@@ -62,7 +62,7 @@
 
 .capRowTitle {
   font-family: var(--font-sans), sans-serif;
-  font-size: 14px;
+  font-size: var(--text-sm);
   font-weight: 600;
   color: var(--foreground);
   letter-spacing: -0.01em;
@@ -86,7 +86,7 @@
 
 .capKpiMobile {
   font-family: var(--font-mono), monospace;
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   font-weight: 700;
   color: var(--success);
   letter-spacing: -0.02em;
