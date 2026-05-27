@@ -2,7 +2,7 @@
 
 Personal engineering portfolio — **Mykhailo Dzhezhelo**, React Native Engineer.
 
-**Live:** [engineering-profile.vercel.app](https://engineering-profile.vercel.app)
+**Live:** [dzhezhelo.dev](https://dzhezhelo.dev)
 
 ## Stack
 

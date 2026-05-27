@@ -175,7 +175,9 @@ function EmailCard({ link }: { link: typeof SOCIAL_LINKS[number] }) {
   const LinkIcon = link.icon;
   const email = link.hint;
 
-  const handleCopy = () => {
+  const handleCopy = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
     navigator.clipboard.writeText(email).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -183,8 +185,8 @@ function EmailCard({ link }: { link: typeof SOCIAL_LINKS[number] }) {
   };
 
   return (
-    <div className={`${styles.linkCard} group w-full flex items-center`}>
-      <a href={link.href} className="flex flex-1 items-center gap-3 min-w-0 no-underline">
+    <div className="relative group w-full">
+      <a href={link.href} className={`${styles.linkCard} w-full pr-11 no-underline`}>
         <div className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0 bg-[rgba(56,189,248,0.1)]">
           <LinkIcon size={14} className="text-primary" aria-hidden />
         </div>
@@ -197,11 +199,11 @@ function EmailCard({ link }: { link: typeof SOCIAL_LINKS[number] }) {
         type="button"
         onClick={handleCopy}
         aria-label={copied ? "Email copied" : `Copy ${email}`}
-        className="shrink-0 p-1 cursor-pointer bg-transparent border-0"
+        className="absolute right-3 top-1/2 -translate-y-1/2 shrink-0 p-1.5 cursor-pointer bg-transparent border-0 rounded-md hover:bg-[rgba(255,255,255,0.04)]"
       >
         {copied
           ? <Check size={13} className="text-success" aria-hidden />
-          : <Copy size={11} className="text-text-dim opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden />
+          : <Copy size={11} className="text-text-dim opacity-70 group-hover:opacity-100 transition-opacity" aria-hidden />
         }
       </button>
     </div>
@@ -259,7 +261,7 @@ export function ContactSection() {
   return (
     <section id="contact" className="section-surface" aria-labelledby="contact-heading">
       <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6" style={fade}>
-        <SectionLabel n="05" label="Contact" />
+        <SectionLabel n="06" label="Contact" />
         <h2 id="contact-heading" className="section-heading">{"Let's build something"}</h2>
         <div className="flex items-center gap-2 mb-3">
           <span className="status-dot-sm animate-pulse" />

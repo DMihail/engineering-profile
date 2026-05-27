@@ -16,11 +16,12 @@ interface ArchDecision { decision: string; rationale: string }
 interface TradeOff     { chosen: string; rationale: string }
 interface Result       { metric: string; label: string }
 export interface CaseStudy {
-  id: string; num: string; title: string; type: string; archType: string; version: string;
-  summary: string; archSig: string; stack: string[];
-  context: string; problem: string; constraints: string[];
-  approach: string; architecture: ArchDecision[];
-  tradeoffs: TradeOff[]; results: Result[];
+  id: string; num: string; title: string; type: string; version: string;
+  summary: string; stack: string[]; technicalPoints: string[];
+  context: string; problem: string; solution: string;
+  constraints: string[]; architecture: ArchDecision[];
+  tradeoffs: TradeOff[]; performanceNotes: string[]; results: Result[];
 }
+export interface Education { institution: string; field: string; period?: string }
 export interface XP { company: string; role: string; period: string; location: string; current: boolean; systems: string; items: string[] }
 export interface SocialLink { label: string; hint: string; icon: Icon; href: string }

@@ -6,6 +6,7 @@ import { ImpactSection } from "./impact-section";
 import { CaseStudiesSection } from "./case-studies-section";
 import { SkillsSection } from "./skills-section";
 import { ExperienceSection } from "./experience-section";
+import { EducationSection } from "./education-section";
 import { ContactSection } from "./contact-section";
 
 export function LazySections() {
@@ -17,7 +18,7 @@ export function LazySections() {
         </SectionErrorBoundary>
       </LazySection>
 
-      <LazySection id="projects" className="bg-background py-[88px]">
+      <LazySection id="projects" className="bg-background py-22">
         <SectionErrorBoundary>
           <CaseStudiesSection />
         </SectionErrorBoundary>
@@ -32,6 +33,12 @@ export function LazySections() {
       <LazySection id="experience" className="section-dark">
         <SectionErrorBoundary>
           <ExperienceSection />
+        </SectionErrorBoundary>
+      </LazySection>
+
+      <LazySection id="education" className="section-surface">
+        <SectionErrorBoundary>
+          <EducationSection />
         </SectionErrorBoundary>
       </LazySection>
 

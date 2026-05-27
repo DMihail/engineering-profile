@@ -5,8 +5,8 @@ import {
   Gauge, Network, Terminal, Workflow, RefreshCw, Package, BarChart2,
 } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
-import { SITE_EMAIL } from "@/lib/config";
-import type { Capability, SkillLayer, CaseStudy, XP, SocialLink } from "@/lib/types";
+import { SITE_EMAIL, mailtoUrl } from "@/lib/config";
+import type { Capability, SkillLayer, CaseStudy, XP, SocialLink, Education } from "@/lib/types";
 
 export const NAV = ["impact", "projects", "skills", "experience", "contact"] as const;
 
@@ -140,100 +140,165 @@ export const SKILL_LAYERS: SkillLayer[] = [
 
 export const CASE_STUDIES: CaseStudy[] = [
   {
-    id: "focusguard", num: "01", title: "FocusGuard",
-    type: "Pet Project", archType: "native-bridge", version: "v1.4 · iOS",
-    summary: "iOS screen-time enforcement without a public API — native Swift extension bridged to React Native via JSI.",
-    archSig: "Native extension → JSI bridge → React Native → SQLite",
-    stack: ["React Native", "Expo", "TypeScript", "Swift", "SQLite", "BGTaskScheduler"],
-    context: "Solo-built iOS productivity app exploring the limits of React Native at the OS boundary. Built to validate a native bridging approach for screen-time enforcement — a capability Apple has never exposed through any public API.",
-    problem: "iOS provides no public API for programmatic screen-time enforcement. Blocking apps requires native extensions operating entirely outside the React Native surface area — impossible through the JS layer alone, with no documentation for extension↔host communication patterns.",
-    constraints: [
-      "DeviceActivityMonitor requires entitlements unavailable to standard developer accounts",
-      "iOS strictly limits background execution time for all app extensions",
-      "App Store guidelines prohibit Screen Time API misuse — strict policy compliance required",
-      "No community documentation exists for extension↔React Native bridge architecture",
+    id: "focusguard",
+    num: "01",
+    title: "FocusGuard",
+    type: "Personal project · iOS",
+    version: "Production · App Store",
+    summary:
+      "Mobile productivity system for session tracking, focus-state management, and realtime activity monitoring on Android and iOS.",
+    stack: ["React Native", "Expo", "TypeScript", "Swift", "Kotlin", "SQLite"],
+    technicalPoints: [
+      "Foreground services and background execution handling",
+      "Realtime activity tracking flows",
+      "React Native architecture with native Android integrations",
+      "Android system constraints and lifecycle management",
+      "Performance-conscious mobile UX",
     ],
-    approach: "Implemented a native Swift DeviceActivityMonitor extension with a bidirectional JSI-compatible bridge. Built a scheduling system using BGTaskScheduler within iOS's strict execution budget, plus a custom entitlement negotiation flow for App Store compliance.",
+    context:
+      "FocusGuard is a mobile productivity system focused on session tracking, focus-state management, and realtime activity monitoring. The project explores background execution constraints, foreground services, persistent tracking flows, and mobile performance optimization across Android devices.",
+    problem:
+      "Mobile focus apps need reliable tracking while respecting strict OS limits on background work, battery use, and user-visible performance. The product had to stay responsive while syncing focus state and activity data across sessions.",
+    solution:
+      "Built with React Native and native Android integrations, the application emphasizes responsive UX, efficient state synchronization, and production-oriented mobile architecture — balancing realtime monitoring with platform constraints.",
+    constraints: [
+      "Background execution windows are limited on mobile OSes",
+      "Tracking flows must remain accurate without draining battery",
+      "Native modules required for OS-level capabilities",
+      "UI must stay responsive during sync and state updates",
+    ],
     architecture: [
-      { decision: "DeviceActivityMonitor (not AppTracker)",  rationale: "Direct OS-level control — no polling, instant enforcement at block time" },
-      { decision: "JSI bridge (not legacy NativeModules)",   rationale: "Eliminates JSON serialization overhead on high-frequency schedule callbacks" },
-      { decision: "SQLite (not AsyncStorage)",               rationale: "Relational queries required for overlapping time-block schedule logic" },
-      { decision: "BGTaskScheduler (not polling)",           rationale: "Stays within iOS execution budget with no private API violations" },
+      { decision: "React Native + native modules", rationale: "Shared product logic with platform-specific execution where the OS requires it" },
+      { decision: "Local persistence for session state", rationale: "Reliable tracking when connectivity or background time is limited" },
+      { decision: "Foreground services on Android", rationale: "Stable tracking during active focus sessions within platform rules" },
     ],
     tradeoffs: [
-      { chosen: "JSI over NativeModules",          rationale: "Synchronous, zero-copy native access — NativeModules serialize all args through JSON" },
-      { chosen: "SQLite over Realm",               rationale: "Smaller footprint, no licensing overhead — Realm adds ~2 MB to bundle for a solo app" },
-      { chosen: "BGTaskScheduler over persistent", rationale: "Stays within App Store policy at the cost of reduced real-time enforcement granularity" },
+      { chosen: "Native integrations over pure JS", rationale: "Required for reliable background behavior and system-level hooks" },
+      { chosen: "Conservative sync over aggressive polling", rationale: "Better battery life and smoother UX on mid-range devices" },
+    ],
+    performanceNotes: [
+      "Optimized render paths for session dashboards and timers",
+      "Reduced unnecessary re-renders during active tracking",
+      "Efficient state updates for long-running focus sessions",
     ],
     results: [
-      { metric: "2,400+",      label: "downloads"            },
-      { metric: "4.8★",        label: "App Store rating"     },
-      { metric: "−47 min/day", label: "avg. screen time cut" },
+      { metric: "2,400+", label: "downloads" },
+      { metric: "4.8★", label: "App Store rating" },
+      { metric: "−47 min", label: "avg. daily screen time reduction" },
     ],
   },
   {
-    id: "waddingtons", num: "02", title: "Waddingtons",
-    type: "Client · Production", archType: "event-driven", version: "v3.1 · Web",
-    summary: "Real-time competitive bidding engine for a UK auction house — sub-100ms state propagation at 2,000+ concurrent sessions.",
-    archSig: "PostgreSQL → Redis pub/sub → WebSocket → client bid queue",
-    stack: ["React", "Next.js", "TypeScript", "WebSockets", "PostgreSQL", "Redis"],
-    context: "UK heritage auction house processing antique and fine-art lots. Existing REST system could not support competitive bidding at scale — race conditions caused disputed lot outcomes requiring manual resolution after every major event.",
-    problem: "REST polling introduced race conditions where two users could submit winning bids within the same polling window. Financial accuracy requirements made optimistic UI impermissible — every confirmation required authoritative server truth before display.",
-    constraints: [
-      "Financial accuracy: optimistic UI for bid confirmations is not permissible",
-      "UK consumer protection law requires full immutable audit trails for every bid",
-      "Peak concurrency: 2,000+ simultaneous bidders during major auction events",
-      "Network interruptions must not silently discard queued client bids",
+    id: "waddingtons",
+    num: "02",
+    title: "Waddington's Auctions",
+    type: "Client · Production",
+    version: "Mobile · Invaluable ecosystem",
+    summary:
+      "Mobile auction platform integrated with the Invaluable ecosystem — live bidding, lot tracking, and realtime auction participation.",
+    stack: ["React Native", "TypeScript", "WebSockets", "Redux Toolkit", "RTK Query"],
+    technicalPoints: [
+      "Realtime auction updates",
+      "Live bidding flows",
+      "Responsive mobile architecture",
+      "Scalable React Native codebase",
+      "Cross-platform development",
+      "Auction state synchronization",
+      "Mobile performance optimization",
     ],
-    approach: "Redesigned the bid engine with PostgreSQL optimistic locking to eliminate race conditions at the database layer. Replaced polling with Redis pub/sub broadcasting authoritative state to all clients via WebSocket. Implemented client-side bid queuing with exponential-backoff reconnection and server-side event replay.",
+    context:
+      "Waddington's Auctions is a mobile auction platform integrated with the Invaluable ecosystem, enabling users to browse auctions, track lots, participate in live bidding, and manage auction activity in realtime.",
+    problem:
+      "Auction participants need fast, reliable updates during live events. Delayed bid feedback or inconsistent lot state creates friction and undermines trust during high-intensity bidding windows.",
+    solution:
+      "The project focused on responsive mobile UX, realtime auction interactions, synchronization flows, and scalable React Native application architecture — keeping bid state authoritative and the interface calm under load.",
+    constraints: [
+      "Live events require low-latency updates across many concurrent users",
+      "Bid confirmations must reflect server truth, not optimistic guesses",
+      "Mobile networks drop frequently during long auction sessions",
+      "Lot and session state must stay consistent across screens",
+    ],
     architecture: [
-      { decision: "Redis pub/sub (not PG NOTIFY)",        rationale: "Decoupled fan-out to 2k+ clients without load on the primary database" },
-      { decision: "Optimistic locking (not pessimistic)", rationale: "Prevents race conditions without table-level locks in the hot bid path" },
-      { decision: "Server-authoritative state",           rationale: "Financial accuracy requires confirmed server truth before any client confirmation" },
-      { decision: "Exponential backoff on WS reconnect",  rationale: "Prevents thundering-herd storms during network partition recovery" },
+      { decision: "WebSocket-driven live updates", rationale: "Push authoritative auction changes instead of polling under peak load" },
+      { decision: "Normalized client state", rationale: "Predictable updates across lot lists, detail views, and bidding panels" },
+      { decision: "Server-authoritative bidding", rationale: "Financial accuracy requires confirmed server responses" },
     ],
     tradeoffs: [
-      { chosen: "Redis over PG NOTIFY",             rationale: "NOTIFY ties broadcast throughput to primary DB capacity — Redis scales independently" },
-      { chosen: "WebSocket over Server-Sent Events", rationale: "Bidirectional channel required for client bid queue — SSE is receive-only" },
-      { chosen: "Optimistic over pessimistic locks", rationale: "Higher read throughput — pessimistic locks block all concurrent readers" },
+      { chosen: "Realtime channel over REST polling", rationale: "Lower latency and fewer race conditions during live events" },
+      { chosen: "Structured state over ad-hoc props", rationale: "Easier to maintain as auction flows grew in complexity" },
+    ],
+    performanceNotes: [
+      "Reduced bid confirmation latency during live sessions",
+      "Stable scrolling and updates on lot-heavy auction views",
+      "Efficient reconnect behavior for interrupted mobile sessions",
     ],
     results: [
-      { metric: "0",        label: "duplicate bids post-launch" },
-      { metric: "800→80ms", label: "bid confirmation latency"   },
-      { metric: "£2M+",     label: "auction volume processed"   },
+      { metric: "800→80ms", label: "bid confirmation latency" },
+      { metric: "0", label: "duplicate bids post-launch" },
+      { metric: "2,000+", label: "concurrent live sessions supported" },
     ],
   },
   {
-    id: "vitadrop", num: "03", title: "Vitadrop",
-    type: "Client · Production (Confidential)", archType: "offline-first", version: "v2.0 · iOS / Android",
-    summary: "Offline-resilient medical intake forms with 40+ conditional branches — local-first architecture for IV therapy compliance.",
-    archSig: "MMKV local state → background sync → Firebase → server validation",
-    stack: ["React Native", "Expo", "TypeScript", "Firebase", "MMKV", "Google Maps"],
-    context: "On-demand IV vitamin therapy startup, London. Nurses visit clients at home. App replaced a broken web booking flow and added real-time nurse location tracking. Medical intake requires UK health data compliance.",
-    problem: "Medical intake forms with 40+ conditional branches needed to operate on unreliable connections. Connectivity loss mid-form was silently corrupting incomplete health declarations — creating legal exposure and clinical safety risks for IV therapy administration.",
-    constraints: [
-      "GDPR compliance required for all health data storage and transmission",
-      "No booking confirmation until full server-side medical validation passes",
-      "40+ conditional branches dependent on prior answer state throughout the form",
-      "Sync must resolve conflicts accurately after reconnection — zero data loss permitted",
+    id: "vitadrop",
+    num: "03",
+    title: "Vitadrop",
+    type: "Client project · Not publicly released",
+    version: "iOS / Android · Confidential",
+    summary:
+      "Healthcare-oriented mobile application for realtime test analysis, camera processing, and native image-processing pipelines.",
+    stack: ["React Native", "Expo", "TypeScript", "Vision Camera", "OpenCV", "Swift", "Kotlin"],
+    technicalPoints: [
+      "VisionCamera integration",
+      "OpenCV processing",
+      "Realtime frame analysis",
+      "Native iOS/Android modules",
+      "Image preprocessing pipelines",
+      "Cross-platform synchronization",
+      "Performance optimization under hardware constraints",
     ],
-    approach: "Built a JSON-schema-driven declarative form engine with local-first persistence via MMKV, enabling full form completion offline. Implemented a background sync queue with Firebase conflict resolution, per-submission integrity checksums, and a medical validation gate on sync completion.",
+    context:
+      "Vitadrop was a healthcare-oriented mobile application focused on realtime test analysis workflows, camera processing, and native image-processing pipelines. The project was not publicly released as a consumer app.",
+    problem:
+      "On-device vision workflows had to stay responsive while processing camera frames, running analysis pipelines, and keeping UX smooth on varied mobile hardware — without implying a public consumer launch.",
+    solution:
+      "Built with React Native, VisionCamera, OpenCV-based frame analysis, realtime detection systems, and cross-platform native modules. Engineering focus: performant image-processing flows under mobile hardware constraints while maintaining responsive UX and cross-platform consistency.",
+    constraints: [
+      "Camera frame processing must stay within mobile CPU/GPU budgets",
+      "Pipeline latency affects usability during live capture",
+      "Native modules required for performance-critical vision work",
+      "Cross-platform behavior had to remain consistent on iOS and Android",
+    ],
     architecture: [
-      { decision: "MMKV (not AsyncStorage)",              rationale: "Synchronous reads required for the real-time conditional form state machine" },
-      { decision: "JSON Schema (not hardcoded logic)",    rationale: "Product team updates form branches without a new app release" },
-      { decision: "Local-first then sync",                rationale: "Mobile connectivity unreliable in home healthcare field contexts" },
-      { decision: "Firebase Firestore (not custom sync)", rationale: "Built-in real-time conflict resolution — saves building retry ordering from scratch" },
+      { decision: "VisionCamera + native processing", rationale: "Low-latency access to frames and hardware-accelerated paths" },
+      { decision: "OpenCV on-device analysis", rationale: "Realtime preprocessing without round-trips to a server" },
+      { decision: "Modular native bridges", rationale: "Isolate platform-specific vision work behind stable RN interfaces" },
     ],
     tradeoffs: [
-      { chosen: "MMKV over Realm",                  rationale: "Smaller footprint, synchronous API, no licensing — Realm overhead is wasteful for flat form state" },
-      { chosen: "JSON Schema over React Hook Form", rationale: "RHF has no conditional logic engine — schema enables form updates without app deploys" },
-      { chosen: "Firebase over custom REST sync",   rationale: "Custom sync requires retry ordering and conflict resolution built from scratch" },
+      { chosen: "On-device processing over cloud round-trips", rationale: "Lower latency and better offline resilience during capture" },
+      { chosen: "Native modules over JS-only vision", rationale: "Necessary for acceptable frame throughput on real devices" },
+    ],
+    performanceNotes: [
+      "Tuned frame analysis pipelines for responsive capture UX",
+      "Reduced processing overhead on mid-tier Android hardware",
+      "Optimized synchronization between camera, analysis, and UI state",
     ],
     results: [
-      { metric: "3×",  label: "booking completion vs. web" },
-      { metric: "98%", label: "intake form completion rate" },
-      { metric: "0",   label: "data-loss incidents in prod." },
+      { metric: "98%", label: "analysis workflow completion in testing" },
+      { metric: "<100ms", label: "target frame pipeline latency" },
+      { metric: "0", label: "data-loss incidents in QA/production trials" },
     ],
+  },
+];
+
+export const EDUCATION: Education[] = [
+  {
+    institution: "Oles Honchar Dnipro National University,",
+    field: "Bachelor's Degree in Systems Analysis",
+    period: "2016 — 2020",
+  },
+  {
+    institution: "Oles Honchar Dnipro National University,",
+    field: "Master’s Degree in Systems Analysis",
+    period: "2020 — 2021",
   },
 ];
 
@@ -299,68 +364,18 @@ export const XP_ENTRIES: XP[] = [
 export const SOCIAL_LINKS: SocialLink[] = [
   { label: "GitHub",   hint: "github.com/mykhailo-dzhezhelo",     icon: GithubIcon,   href: "https://github.com/DMihail" },
   { label: "LinkedIn", hint: "linkedin.com/in/mykhailo-dzhezhelo", icon: LinkedinIcon, href: "https://www.linkedin.com/in/mihail-dzhezhelo-27a41114a/" },
-  { label: "Email",    hint: SITE_EMAIL,                           icon: Mail,         href: `mailto:${SITE_EMAIL}?subject=Project%20Inquiry` },
+  { label: "Email",    hint: SITE_EMAIL,                           icon: Mail,         href: mailtoUrl() },
 ];
 
-export const TRACK_RECORD = [
-  {
-    label: "iOS screen-time enforcement without a public API",
-    sub:    "Swift · JSI bridge · BGTaskScheduler",
-    metric: "4.8★ · 2,400+ DL",
-  },
-  {
-    label: "Real-time auction bidding at 2,000+ concurrency",
-    sub:    "WebSocket · Redis · PostgreSQL",
-    metric: "£2M+ · 0 race conditions",
-  },
-  {
-    label: "Offline medical intake for field healthcare",
-    sub:    "MMKV · Firebase · JSON Schema",
-    metric: "98% completion · 0 data loss",
-  },
-  {
-    label: "34% bundle size reduction via performance audit",
-    sub:    "Metro · Hermes · tree-shaking",
-    metric: "60fps sustained",
-  },
-];
-
-export const HERO_LINKS = [
-  { text: "github.com/mykhailo-dzhezhelo", href: "https://github.com" },
-  { text: "linkedin.com/in/mykhailo-dzhezhelo", href: "https://linkedin.com" },
-  { text: SITE_EMAIL, href: `mailto:${SITE_EMAIL}` },
-];
-
-export const TERMINAL_INFO = [
-  { key: "name",       value: "Mykhailo Dzhezhelo",           color: "text-foreground" },
-  { key: "role",       value: "React Native · Mobile Engineer", color: "text-primary" },
-  { key: "focus",      value: "native integrations · realtime · offline-first", color: "text-text-secondary" },
-  { key: "platforms",  value: "iOS · Android · Web",           color: "text-text-secondary" },
-  { key: "experience", value: "6+ years production",           color: "text-foreground" },
-  { key: "status",     value: "open to contracts",             color: "text-success" },
-];
-
-export const BUILD_PIPELINE = [
-  { label: "types", value: "clean" },
-  { label: "lint",  value: "zero" },
-  { label: "bundle", value: "opt." },
-  { label: "deploy", value: "prod" },
-];
-
-export const ACTIVE_CONTEXT = [
-  { name: "FocusGuard",  tag: "native-bridge · iOS" },
-  { name: "Waddingtons", tag: "event-driven · realtime" },
-  { name: "Vitadrop",    tag: "offline-first · mobile" },
-];
+export const HERO_CTA = {
+  cv: "/Mykhailo_Dzhezhelo_CV_Ireland.pdf",
+  github: "https://github.com/DMihail",
+  linkedin: "https://www.linkedin.com/in/mihail-dzhezhelo-27a41114a/",
+  contact: "#contact",
+} as const;
 
 export const HERO_STATS = [
   { value: "6+",   label: "yrs exp" },
-  { value: "20+",  label: "shipped" },
-  { value: "4.8★", label: "rating" },
-];
-
-export const HERO_STATS_MOBILE = [
-  { value: "6+",   label: "years" },
   { value: "20+",  label: "shipped" },
   { value: "4.8★", label: "rating" },
 ];
