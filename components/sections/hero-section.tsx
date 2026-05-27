@@ -1,12 +1,11 @@
 import { Download, Mail } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
-import { SITE_AUTHOR, SITE_LOCATION, SITE_ROLE } from "@/lib/config";
-import { HERO_CTA, HERO_STATS } from "@/lib/data/nav";
+import { HERO_CTA, HERO_STATS } from "@/lib/data";
 import styles from "@/styles/sections/hero-section.module.css";
 
 export function HeroSection() {
   return (
-    <section id="hero" className="relative min-h-hero flex items-center overflow-hidden bg-background pt-(--nav-h)" aria-label="Introduction">
+    <section id="hero" className="relative min-h-[88vh] flex items-center overflow-hidden bg-background pt-13" aria-label="Introduction">
 
       <div className="absolute inset-0 pointer-events-none bg-grid" />
       <div className="absolute inset-0 pointer-events-none bg-vignette" />
@@ -17,21 +16,21 @@ export function HeroSection() {
 
           <div className={`${styles.badgeAvailable} mb-8 mx-auto lg:mx-0`}>
             <span className="status-dot-sm animate-pulse" aria-hidden />
-            <span className="text-sm text-text-secondary">Available for remote and onsite · {SITE_LOCATION}</span>
+            <span className="text-sm text-text-secondary">Available for remote and onsite opportunities.</span>
           </div>
 
-          <h1 className="font-sans font-extrabold mb-3 tracking-[-0.045em] leading-[0.98] text-foreground text-hero-name text-balance">
-            {SITE_AUTHOR.split(" ")[0]}
+          <h1 className="font-sans font-extrabold mb-6 tracking-[-0.045em] leading-[0.98] text-foreground text-[clamp(44px,7vw,76px)]">
+            Mykhailo
             <br />
-            <span className="text-primary">{SITE_AUTHOR.split(" ").slice(1).join(" ")}</span>
+            <span className="text-primary">Dzhezhelo</span>
           </h1>
 
-          <p className="font-semibold leading-snug text-text-secondary text-hero-lead mb-4">
-            {SITE_ROLE}
+          <p className="font-sans font-medium mb-4 leading-[1.55] text-text-secondary text-[clamp(17px,2.2vw,21px)] max-w-2xl mx-auto lg:mx-0">
+            React Native Engineer building high-performance mobile applications, realtime systems, and native integrations.
           </p>
 
-          <p className="text-hero-support sm:text-base text-muted-foreground max-w-lg mb-10 leading-relaxed mx-auto lg:mx-0 text-pretty">
-            Expo and React Native for iOS and Android — App Store and Google Play. React, Next.js, and Node.js when the product needs web or APIs.
+          <p className="text-[15px] sm:text-base text-muted-foreground max-w-xl mb-10 leading-[1.65] mx-auto lg:mx-0">
+            Focused on performance, realtime processing, and production-grade mobile architecture.
           </p>
 
           <nav className="flex flex-col sm:flex-row flex-wrap gap-3 justify-center lg:justify-start mb-12" aria-label="Primary actions">
@@ -56,7 +55,7 @@ export function HeroSection() {
           <div className="grid grid-cols-3 gap-3 sm:gap-4 max-w-lg mx-auto lg:mx-0" aria-label="Experience highlights">
             {HERO_STATS.map((m) => (
               <div key={m.label} className="text-center py-4 px-2 rounded-xl bg-card border border-border">
-                <div className="font-sans text-hero-stat font-bold text-foreground tracking-[-0.03em]">{m.value}</div>
+                <div className="font-sans text-[clamp(18px,4vw,22px)] font-bold text-foreground tracking-[-0.03em]">{m.value}</div>
                 <div className="text-xs text-muted-foreground mt-1 leading-snug">{m.label}</div>
               </div>
             ))}
