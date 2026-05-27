@@ -1,33 +1,24 @@
 import { MapPin } from "lucide-react";
-import { XP_ENTRIES } from "@/lib/data/experience";
-import { CASE_STUDIES } from "@/lib/data/case-studies";
-import { sectionHref } from "@/lib/section-ids";
-import { SectionLabel, Chip } from "@/components/ui/primitives";
+import { XP_ENTRIES } from "@/lib/data";
+import { SectionLabel } from "@/components/ui/primitives";
 import { FadeIn } from "@/components/ui/fade-in";
-
-const CASE_STUDY_BY_ID = Object.fromEntries(CASE_STUDIES.map((cs) => [cs.id, cs]));
 
 export function ExperienceSection() {
   return (
-    <section id="experience" className="section-dark section-cv-auto" aria-labelledby="experience-heading">
+    <section id="experience" className="section-dark" aria-labelledby="experience-heading">
       <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6">
         <SectionLabel n="04" label="Experience" />
-        <h2 id="experience-heading" className="section-heading mb-2">Experience</h2>
-        <p className="section-comment mb-10">
-          Six years across mobile, web, and full-stack roles — from React Native apps to Node.js backends.
-        </p>
+        <h2 id="experience-heading" className="section-heading mb-10">Experience</h2>
 
         <div className="relative">
-          <div className="absolute top-2 bottom-8 w-px hidden md:block inset-s-0 bg-linear-to-b from-primary/40 to-primary/5" aria-hidden />
+          <div className="absolute top-2 bottom-8 w-px hidden md:block start-0 bg-gradient-to-b from-primary/40 to-primary/5" aria-hidden />
           <div className="space-y-5">
             {XP_ENTRIES.map((xp) => {
               const headingId = `xp-${xp.company.replace(/\s+/g, "-").toLowerCase()}`;
-              const relatedCase = xp.relatedCaseId ? CASE_STUDY_BY_ID[xp.relatedCaseId] : undefined;
-
               return (
                 <article key={xp.company} className="relative md:ps-10" aria-labelledby={headingId}>
                   <div
-                    className={`absolute hidden md:block w-2.5 h-2.5 rounded-full -inset-s-1.25 top-5.5 border-2 ${
+                    className={`absolute hidden md:block w-2.5 h-2.5 rounded-full -start-[5px] top-[22px] border-2 ${
                       xp.current
                         ? "bg-primary border-primary shadow-primary-glow"
                         : "bg-card border-border-primary-emphasis"
@@ -55,27 +46,7 @@ export function ExperienceSection() {
                           )}
                         </div>
                       </div>
-
-                      <p className="text-xs text-text-secondary leading-relaxed text-pretty">{xp.highlight}</p>
-
-                      <div className="flex flex-wrap gap-1.5 mt-3" aria-label={`Technologies at ${xp.company}`}>
-                        {xp.tags.map((tag) => (
-                          <Chip key={tag} label={tag} />
-                        ))}
-                      </div>
-
-                      {relatedCase && (
-                        <p className="mt-3">
-                          <a
-                            href={sectionHref("projects")}
-                            className="mono-xs text-primary no-underline hover:underline underline-offset-2"
-                          >
-                            Related project: {relatedCase.title} →
-                          </a>
-                        </p>
-                      )}
-
-                      <p className="px-3 py-2 rounded-lg bg-surface-subtle border border-surface-muted mono-xs text-text-faint leading-loose mt-4">
+                      <p className="px-3 py-2 rounded-lg bg-surface-subtle border border-surface-muted mono-xs text-text-faint leading-loose">
                         {xp.systems}
                       </p>
                     </header>

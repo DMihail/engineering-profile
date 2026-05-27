@@ -12,9 +12,6 @@ export default function GlobalError({
 }) {
   return (
     <html lang="en" className={fontVariableClassName}>
-      <head>
-        <meta name="robots" content="noindex, nofollow" />
-      </head>
       <body className={`${fontBodyClassName} min-h-full flex items-center justify-center bg-background text-foreground`}>
         <div className="text-center p-8">
           <p className="mono-label mb-3">{"// runtime_error"}</p>

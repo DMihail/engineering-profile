@@ -2,11 +2,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  background: rgba(56, 189, 248, 0.1);
-  border: 1px solid rgba(56, 189, 248, 0.12);
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--space-2);
+  background: var(--surface-primary-soft);
+  border: 1px solid var(--border-primary-muted);
   flex-shrink: 0;
 }
 
@@ -26,26 +26,28 @@
 }
 
 .capTable thead th {
-  padding: 9px 1.5rem;
-  text-align: left;
-  background: rgba(255, 255, 255, 0.025);
-  border-bottom: 1px solid var(--border);
+  padding-block: 0.5625rem;
+  padding-inline: 1.5rem;
+  text-align: start;
+  background: var(--surface-muted);
+  border-block-end: 1px solid var(--border);
 }
 
 .capTable thead th:last-child {
-  text-align: right;
+  text-align: end;
 }
 
 .capTable tbody td,
 .capTable tbody th {
-  padding: 20px 1.5rem;
+  padding-block: 1.25rem;
+  padding-inline: 1.5rem;
   vertical-align: top;
-  border-bottom: 1px solid var(--border);
+  border-block-end: 1px solid var(--border);
 }
 
 .capTable tbody tr:last-child td,
 .capTable tbody tr:last-child th {
-  border-bottom: none;
+  border-block-end: none;
 }
 
 .capTable tbody tr:nth-child(odd) {
@@ -53,44 +55,46 @@
 }
 
 .capTable tbody tr:nth-child(even) {
-  background: rgba(17, 24, 39, 0.6);
+  background: color-mix(in srgb, var(--card) 60%, var(--secondary));
 }
 
-.capTable tbody tr:hover {
-  background: rgba(56, 189, 248, 0.04);
+@media (hover: hover) and (pointer: fine) {
+  .capTable tbody tr:hover {
+    background: var(--surface-primary-subtle);
+  }
 }
 
 .capRowTitle {
-  font-family: var(--font-sans), sans-serif;
-  font-size: 14px;
+  font-family: var(--font-sans), serif;
+  font-size: var(--text-sm);
   font-weight: 600;
   color: var(--foreground);
   letter-spacing: -0.01em;
 }
 
 .capTarget {
-  text-align: right;
+  text-align: end;
   min-width: 0;
 }
 
 .capKpi {
-  font-family: var(--font-mono), monospace;
-  font-size: clamp(0.875rem, 1.6vw, 1.25rem);
+  font-family: var(--font-mono), serif;
+  font-size: clamp(var(--text-sm), 1.6vw, var(--text-xl));
   font-weight: 700;
   color: var(--success);
   letter-spacing: -0.03em;
-  line-height: 1.15;
+  line-height: var(--leading-tight);
   overflow-wrap: anywhere;
   word-break: break-word;
 }
 
 .capKpiMobile {
-  font-family: var(--font-mono), monospace;
-  font-size: 0.875rem;
+  font-family: var(--font-mono), serif;
+  font-size: var(--text-sm);
   font-weight: 700;
   color: var(--success);
   letter-spacing: -0.02em;
-  line-height: 1.15;
+  line-height: var(--leading-tight);
   overflow-wrap: anywhere;
   word-break: break-word;
 }
