@@ -3,11 +3,18 @@
 import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { NAV } from "@/lib/data";
+import { getSectionIdFromHash, scrollToSection } from "@/lib/section-navigation";
 import { MDLogo } from "@/components/ui/icons";
 import styles from "@/styles/layout/nav-bar.module.css";
 
 const SECTION_IDS = ["hero", ...NAV];
 const SCROLL_LOCK_MS = 1200;
+
+function getInitialActiveSection(): string {
+  if (typeof window === "undefined") return "hero";
+  const hashId = getSectionIdFromHash();
+  return hashId && SECTION_IDS.includes(hashId) ? hashId : "hero";
+}
 
 function getObserverMargin(): string {
   const w = window.innerWidth;
@@ -21,7 +28,10 @@ function NavItem({ id, active, onClick }: { id: string; active: boolean; onClick
     <li>
       <a
         href={`#${id}`}
-        onClick={() => onClick(id)}
+        onClick={(e) => {
+          e.preventDefault();
+          onClick(id);
+        }}
         aria-current={active ? "true" : undefined}
         className={`${styles.navLink} ${active ? styles.navLinkActive : ""} no-underline`}
       >
@@ -32,7 +42,7 @@ function NavItem({ id, active, onClick }: { id: string; active: boolean; onClick
 }
 
 export function NavBar() {
-  const [active, setActive] = useState("hero");
+  const [active, setActive] = useState(getInitialActiveSection);
   const [menuOpen, setMenuOpen] = useState(false);
   const lockUntilRef = useRef(0);
 
@@ -95,18 +105,33 @@ export function NavBar() {
     };
   }, [menuOpen]);
 
+  useEffect(() => {
+    const hashId = getSectionIdFromHash();
+    if (!hashId || !SECTION_IDS.includes(hashId)) return;
+
+    lockUntilRef.current = Date.now() + SCROLL_LOCK_MS;
+    void scrollToSection(hashId);
+  }, []);
+
   const navigateTo = (id: string) => {
     setActive(id);
     setMenuOpen(false);
     lockUntilRef.current = Date.now() + SCROLL_LOCK_MS;
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    void scrollToSection(id);
   };
 
   return (
     <header>
       <nav aria-label="Main navigation" className={`${styles.navGlass} fixed inset-x-0 top-0 z-50`}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-[var(--nav-h)]">
-          <a href="#hero" onClick={() => navigateTo("hero")} className="relative z-10 flex items-center gap-2 mono-base text-primary tracking-[0.02em] no-underline">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-(--nav-h)">
+          <a
+            href="#hero"
+            onClick={(e) => {
+              e.preventDefault();
+              navigateTo("hero");
+            }}
+            className="relative z-10 flex items-center gap-2 mono-base text-primary tracking-[0.02em] no-underline"
+          >
             <MDLogo size={22} />
             md://portfolio
           </a>
@@ -121,8 +146,8 @@ export function NavBar() {
               <NavItem key={id} id={id} active={active === id} onClick={navigateTo} />
             ))}
             <li className="lg:hidden">
-              <button type="button" onClick={() => navigateTo("contact")} className="btn-primary mt-6 py-[14px] px-10 text-[15px] whitespace-nowrap">
-                <span className="status-dot-sm !bg-background !shadow-none animate-pulse" />
+              <button type="button" onClick={() => navigateTo("contact")} className="btn-primary mt-6 py-3.5 px-10 text-[15px] whitespace-nowrap">
+                <span className="status-dot-sm bg-background! shadow-none! animate-pulse" />
                 Let&apos;s talk
               </button>
             </li>
@@ -130,12 +155,12 @@ export function NavBar() {
 
           <div className="relative z-10 flex items-center gap-3">
             {active !== "hero" && (
-              <span className={`lg:hidden mono-xs text-primary tracking-[0.1em] ${styles.sectionLabel}`}>{active}</span>
+              <span className={`lg:hidden mono-xs text-primary tracking-widest ${styles.sectionLabel}`}>{active}</span>
             )}
             <button
               type="button"
               onClick={() => navigateTo("contact")}
-              className="hidden lg:flex items-center gap-1.5 py-[5px] px-3 rounded-md border border-primary/30 bg-primary/10 text-primary font-mono text-[11px] font-medium tracking-[0.04em] leading-none whitespace-nowrap hover:bg-primary/20 hover:border-primary/50 transition-colors cursor-pointer"
+              className="hidden lg:flex items-center gap-1.5 py-1.25 px-3 rounded-md border border-primary/30 bg-primary/10 text-primary font-mono text-[11px] font-medium tracking-[0.04em] leading-none whitespace-nowrap hover:bg-primary/20 hover:border-primary/50 transition-colors cursor-pointer"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
               Let&apos;s talk

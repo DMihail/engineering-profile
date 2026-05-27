@@ -95,3 +95,15 @@
 .panel[open] .chevron {
   transform: rotate(180deg);
 }
+
+.content {
+  border-top: 1px solid rgba(56, 189, 248, 0.1);
+  background: rgba(9, 13, 22, 0.8);
+  padding: 16px;
+}
+
+@media (min-width: 640px) {
+  .content {
+    padding: 32px 24px;
+  }
+}

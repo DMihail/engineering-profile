@@ -9,3 +9,31 @@
   border: 1px solid rgba(56, 189, 248, 0.12);
   flex-shrink: 0;
 }
+
+.capGrid {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr) 100px;
+  column-gap: 1.5rem;
+  padding-inline: 1.5rem;
+  align-items: start;
+}
+
+.capHeader {
+  align-items: center;
+  padding-block: 9px;
+  background: rgba(255, 255, 255, 0.025);
+  border-bottom: 1px solid var(--border);
+}
+
+.capHeaderTarget {
+  text-align: right;
+}
+
+.capRow {
+  padding-block: 20px;
+}
+
+.capTarget {
+  text-align: right;
+  padding-top: 2px;
+}
