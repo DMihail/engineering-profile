@@ -1,5 +1,25 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { CONTACT_REGION_COOKIE, type ContactRegion } from "@/lib/contact-region";
+
+function contactRegionFromRequest(request: NextRequest): ContactRegion {
+  const country =
+    request.headers.get("x-vercel-ip-country")
+    ?? request.headers.get("cf-ipcountry")
+    ?? "";
+  return country.toUpperCase() === "UA" ? "ua" : "intl";
+}
+
+function withContactRegionCookie(request: NextRequest, response: NextResponse): NextResponse {
+  const region = contactRegionFromRequest(request);
+  response.cookies.set(CONTACT_REGION_COOKIE, region, {
+    path: "/",
+    maxAge: 60 * 60 * 24 * 30,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+  });
+  return response;
+}
 
 const HOME = "/";
 
@@ -39,7 +59,7 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (isAllowed(pathname)) {
-    return NextResponse.next();
+    return withContactRegionCookie(request, NextResponse.next());
   }
 
   const redirectUrl = new URL(HOME, request.url);
@@ -49,7 +69,7 @@ export function middleware(request: NextRequest) {
     redirectUrl.hash = segment;
   }
 
-  return NextResponse.redirect(redirectUrl, 308);
+  return withContactRegionCookie(request, NextResponse.redirect(redirectUrl, 308));
 }
 
 export const config = {
