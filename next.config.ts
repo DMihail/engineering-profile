@@ -9,6 +9,7 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  reactCompiler: true,
   poweredByHeader: false,
   compress: true,
 

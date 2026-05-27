@@ -9,22 +9,22 @@ export default function NotFound() {
   const pathname = usePathname();
 
   return (
-    <div className="bg-background min-h-screen flex items-center justify-center relative overflow-hidden font-sans">
+    <main className="bg-background min-h-screen flex items-center justify-center relative overflow-hidden font-sans">
 
-      <div className="absolute inset-0 pointer-events-none bg-grid" />
-      <div className="absolute inset-0 pointer-events-none bg-vignette-sm" />
+      <div className="absolute inset-0 pointer-events-none bg-grid" aria-hidden />
+      <div className="absolute inset-0 pointer-events-none bg-vignette-sm" aria-hidden />
 
       <div className="relative text-center px-6 fade-up">
         <div className="inline-flex items-center gap-2 mb-8 px-3.5 py-1.5 rounded-full border border-[rgba(56,189,248,0.2)] bg-[rgba(56,189,248,0.05)]">
-          <Terminal size={11} className="text-primary" />
+          <Terminal size={11} className="text-primary" aria-hidden />
           <span className="mono-md tracking-[0.04em] text-muted-foreground">
             {"sys.error // route_not_found"}
           </span>
         </div>
 
-        <div className="font-mono text-primary font-extrabold mb-7 leading-[0.9] tracking-[-0.06em] text-[clamp(96px,20vw,156px)] [text-shadow:0_0_80px_rgba(56,189,248,0.25)]">
+        <p className="font-mono text-primary font-extrabold mb-7 leading-[0.9] tracking-[-0.06em] text-[clamp(96px,20vw,156px)] [text-shadow:0_0_80px_rgba(56,189,248,0.25)]" aria-hidden>
           404
-        </div>
+        </p>
 
         <h1 className="font-sans text-foreground font-bold mb-2.5 tracking-[-0.025em] text-[clamp(20px,3vw,28px)]">
           Page not found
@@ -34,34 +34,36 @@ export default function NotFound() {
         </p>
 
         <div className="panel p-[18px_22px] max-w-[440px] mx-auto mb-9 text-left">
-          <div className="mono-label mb-3">
+          <h2 className="mono-label mb-3">
             {"// error trace"}
-          </div>
-          {NOT_FOUND_TRACE.map((line) => (
-            <div key={line.name} className="mono-md text-text-faint mb-[5px]">
-              <span className="text-text-dim">{line.prefix}</span>
-              {line.name}
-              <span className="text-text-dim"> {line.loc}</span>
-            </div>
-          ))}
-          <div className="mono-md text-text-secondary mt-2.5 pt-2.5 border-t border-[rgba(255,255,255,0.05)]">
+          </h2>
+          <ul className="list-none m-0 p-0">
+            {NOT_FOUND_TRACE.map((line) => (
+              <li key={line.name} className="mono-md text-text-faint mb-[5px]">
+                <span className="text-text-dim">{line.prefix}</span>
+                {line.name}
+                <span className="text-text-dim"> {line.loc}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="mono-md text-text-secondary mt-2.5 pt-2.5 border-t border-[rgba(255,255,255,0.05)]">
             <span className="text-text-dim">{"Error: "}</span>
             No route matches path &quot;<span className="text-primary">{pathname}</span>&quot;
-          </div>
-          <div className="mono-md text-primary mt-2">
+          </p>
+          <p className="mono-md text-primary mt-2" aria-hidden>
             {"$ navigate --to /"}<span className="inline-block w-[7px] h-[11px] bg-primary ml-0.5 align-middle cursor-blink" />
-          </div>
+          </p>
         </div>
 
         <Link href="/" className="btn-primary no-underline">
-          <ArrowLeft size={14} />
+          <ArrowLeft size={14} aria-hidden />
           Return to portfolio
         </Link>
 
-        <div className="mono-sm text-text-faint mt-10">
+        <p className="mono-sm text-text-faint mt-10">
           {"md://portfolio"} · Mykhailo Dzhezhelo
-        </div>
+        </p>
       </div>
-    </div>
+    </main>
   );
 }

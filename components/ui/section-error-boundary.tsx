@@ -26,8 +26,9 @@ export class SectionErrorBoundary extends Component<Props, State> {
     if (this.state.error) {
       if (this.props.fallback) return this.props.fallback;
       return (
-        <div className="py-16 px-4 text-center">
+        <div className="py-16 px-4 text-center" role="alert">
           <p className="mono-label mb-2">{"// section_error"}</p>
+          <h2 className="sr-only">Section unavailable</h2>
           <p className="text-sm text-muted-foreground">
             This section failed to load.{" "}
             <button

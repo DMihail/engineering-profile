@@ -1,34 +1,102 @@
 "use client";
 
-import { useRef, useState, useEffect, type ReactNode } from "react";
+import { Activity, useEffect, useState, type ReactNode } from "react";
+import { SECTION_REVEAL_ALL_EVENT, SECTION_REVEAL_EVENT } from "@/lib/section-navigation";
 
 interface LazySectionProps {
   children: ReactNode;
   id: string;
   className?: string;
   minHeight?: string;
+  preloadMargin?: string;
 }
 
-export function LazySection({ children, id, className, minHeight = "60vh" }: LazySectionProps) {
-  const ref = useRef<HTMLElement>(null);
-  const [show, setShow] = useState(false);
+type Phase = "idle" | "preload" | "visible";
+
+export function LazySection({
+  children,
+  id,
+  className,
+  minHeight = "60vh",
+  preloadMargin = "300px",
+}: LazySectionProps) {
+  const [phase, setPhase] = useState<Phase>("idle");
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
+    const reveal = () => setPhase("visible");
+    const revealOne = (event: Event) => {
+      const sectionId = (event as CustomEvent<{ id: string }>).detail?.id;
+      if (sectionId === id) setPhase("visible");
+    };
+
+    window.addEventListener(SECTION_REVEAL_ALL_EVENT, reveal);
+    window.addEventListener(SECTION_REVEAL_EVENT, revealOne);
+    return () => {
+      window.removeEventListener(SECTION_REVEAL_ALL_EVENT, reveal);
+      window.removeEventListener(SECTION_REVEAL_EVENT, revealOne);
+    };
+  }, [id]);
+
+  const sectionRef = (el: HTMLElement | null) => {
+    if (!el || phase === "visible") return;
+
+    const preloadObserver = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setShow(true);
-          obs.disconnect();
+          setPhase((current) => (current === "idle" ? "preload" : current));
         }
       },
-      { rootMargin: "300px" },
+      { rootMargin: preloadMargin },
     );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
 
-  if (show) return <>{children}</>;
-  return <section ref={ref} id={id} className={className} style={{ minHeight }} />;
+    const visibleObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setPhase("visible");
+          preloadObserver.disconnect();
+          visibleObserver.disconnect();
+        }
+      },
+      { threshold: 0.05 },
+    );
+
+    preloadObserver.observe(el);
+    visibleObserver.observe(el);
+
+    return () => {
+      preloadObserver.disconnect();
+      visibleObserver.disconnect();
+    };
+  };
+
+  if (phase === "visible") {
+    return <Activity mode="visible">{children}</Activity>;
+  }
+
+  return (
+    <>
+      <section
+        ref={sectionRef}
+        id={phase === "idle" ? id : undefined}
+        data-section-id={id}
+        className={phase === "idle" ? className : undefined}
+        style={
+          phase === "idle"
+            ? { minHeight }
+            : {
+                position: "absolute",
+                width: 1,
+                height: 1,
+                overflow: "hidden",
+                opacity: 0,
+                pointerEvents: "none",
+              }
+        }
+        aria-hidden={phase === "preload"}
+      />
+      {phase === "preload" && (
+        <Activity mode="hidden">{children}</Activity>
+      )}
+    </>
+  );
 }

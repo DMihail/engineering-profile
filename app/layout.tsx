@@ -109,7 +109,12 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full">{children}</body>
+      <body id="site-main" className="min-h-full">
+        <a href="#site-main" className="skip-link">
+          Skip to content
+        </a>
+        {children}
+      </body>
       <Script
         src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
         strategy="lazyOnload"

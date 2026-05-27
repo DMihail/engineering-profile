@@ -7,12 +7,25 @@ import { useFadeIn } from "@/lib/hooks";
 import { SectionLabel, Chip } from "@/components/ui/primitives";
 import styles from "@/styles/sections/case-studies-section.module.css";
 
-function StudyLabel({ n, children, accent = "blue" }: { n: string; children: string; accent?: "blue" | "green" }) {
+function StudyHeading({
+  id,
+  n,
+  children,
+  accent = "blue",
+}: {
+  id?: string;
+  n: string;
+  children: string;
+  accent?: "blue" | "green";
+}) {
   return (
-    <div className={`${styles.studyLabel} ${accent === "blue" ? styles.studyLabelBlue : styles.studyLabelGreen}`}>
-      <span className={accent === "blue" ? "text-[rgba(56,189,248,0.35)]" : "text-[rgba(34,197,94,0.35)]"} style={{ fontWeight: 500 }}>{n}</span>
-      <span>{"// "}{children}</span>
-    </div>
+    <h4
+      id={id}
+      className={`${styles.studyLabel} ${accent === "blue" ? styles.studyLabelBlue : styles.studyLabelGreen}`}
+    >
+      <span className={accent === "blue" ? "text-[rgba(56,189,248,0.35)]" : "text-[rgba(34,197,94,0.35)]"} aria-hidden="true">{n}</span>
+      {children}
+    </h4>
   );
 }
 
@@ -70,45 +83,41 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
             </div>
           </div>
 
-          <div className={styles.chevron}>
+          <div className={styles.chevron} aria-hidden>
             <ChevronDown size={16} className="text-muted-foreground" />
           </div>
         </div>
       </summary>
 
-      <div className="border-t border-[rgba(56,189,248,0.1)] bg-[rgba(9,13,22,0.8)] p-4 sm:p-[32px_24px]">
-
-        <div className="mb-7">
-          <StudyLabel n="01">Context</StudyLabel>
+      <div className={styles.content}>
+        <section className="mb-7" aria-labelledby={`${cs.id}-context`}>
+          <StudyHeading id={`${cs.id}-context`} n="01">Context</StudyHeading>
           <p className="text-sm text-muted-foreground leading-[1.78] italic">{cs.context}</p>
-        </div>
+        </section>
 
-        <div className={`${styles.problemBox} mb-8`}>
-          <StudyLabel n="02">Problem Statement</StudyLabel>
+        <section className={`${styles.problemBox} mb-8`} aria-labelledby={`${cs.id}-problem`}>
+          <StudyHeading id={`${cs.id}-problem`} n="02">Problem statement</StudyHeading>
           <p className="text-sm text-text-secondary leading-[1.8]">{cs.problem}</p>
-        </div>
+        </section>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <div>
-            <StudyLabel n="03">Technical Constraints</StudyLabel>
+          <section aria-labelledby={`${cs.id}-constraints`}>
+            <StudyHeading id={`${cs.id}-constraints`} n="03">Technical constraints</StudyHeading>
             <ul className="space-y-3">
-              {cs.constraints.map((c, i) => (
-                <li key={i} className="flex items-start gap-2.5">
-                  <span className="mono-sm text-text-dim mt-[3px] shrink-0">{"//"}  </span>
-                  <span className="text-[13px] text-muted-foreground leading-[1.7]">{c}</span>
-                </li>
+              {cs.constraints.map((c) => (
+                <li key={c} className="text-[13px] text-muted-foreground leading-[1.7]">{c}</li>
               ))}
             </ul>
-          </div>
-          <div>
-            <StudyLabel n="04">Technical Approach</StudyLabel>
+          </section>
+          <section aria-labelledby={`${cs.id}-approach`}>
+            <StudyHeading id={`${cs.id}-approach`} n="04">Technical approach</StudyHeading>
             <p className="text-sm text-text-secondary leading-[1.8]">{cs.approach}</p>
-          </div>
+          </section>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <div>
-            <StudyLabel n="05">Architecture Decisions</StudyLabel>
+          <section aria-labelledby={`${cs.id}-architecture`}>
+            <StudyHeading id={`${cs.id}-architecture`} n="05">Architecture decisions</StudyHeading>
             <div className="hidden lg:block">
               <div className="grid grid-cols-[auto_14px_1fr] gap-2 items-baseline">
                 {cs.architecture.flatMap((a, i) => [
@@ -126,10 +135,10 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
                 </div>
               ))}
             </div>
-          </div>
+          </section>
 
-          <div>
-            <StudyLabel n="06">Trade-offs Considered</StudyLabel>
+          <section aria-labelledby={`${cs.id}-tradeoffs`}>
+            <StudyHeading id={`${cs.id}-tradeoffs`} n="06">Trade-offs considered</StudyHeading>
             <div className="hidden lg:block">
               <div className="grid grid-cols-[auto_14px_1fr] gap-2 items-baseline">
                 {cs.tradeoffs.flatMap((tr, i) => [
@@ -147,28 +156,31 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
                 </div>
               ))}
             </div>
-          </div>
+          </section>
         </div>
 
-        <div className="mb-6 pb-6 border-b border-[rgba(255,255,255,0.04)]">
-          <div className="mono-label tracking-[0.14em] mb-2.5">{"// Tech Stack"}</div>
-          <div className="flex flex-wrap gap-2">
-            {cs.stack.map((t) => <Chip key={t} label={t} variant="blue" />)}
-          </div>
-        </div>
+        <section className="mb-6 pb-6 border-b border-[rgba(255,255,255,0.04)]" aria-labelledby={`${cs.id}-stack`}>
+          <h4 id={`${cs.id}-stack`} className="mono-label tracking-[0.14em] mb-2.5">Tech stack</h4>
+          <ul className="flex flex-wrap gap-2 list-none p-0 m-0">
+            {cs.stack.map((t) => (
+              <li key={t}>
+                <Chip label={t} variant="blue" />
+              </li>
+            ))}
+          </ul>
+        </section>
 
-        <div>
-          <StudyLabel n="07" accent="green">Measurable Results</StudyLabel>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <section aria-labelledby={`${cs.id}-results`}>
+          <StudyHeading id={`${cs.id}-results`} n="07" accent="green">Measurable results</StudyHeading>
+          <ul className="grid grid-cols-1 sm:grid-cols-3 gap-3 list-none p-0 m-0">
             {cs.results.map((r) => (
-              <div key={r.label} className={styles.resultCard}>
+              <li key={r.label} className={styles.resultCard}>
                 <div className="font-sans text-[28px] font-extrabold text-success tracking-[-0.04em] leading-none mb-1.5">{r.metric}</div>
                 <div className="mono-md text-[rgba(34,197,94,0.5)]">{r.label}</div>
-              </div>
+              </li>
             ))}
-          </div>
-        </div>
-
+          </ul>
+        </section>
       </div>
     </details>
   );
@@ -177,10 +189,10 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
 export function CaseStudiesSection() {
   const { ref, fade } = useFadeIn();
   return (
-    <section id="projects" className="bg-background py-[88px]">
+    <section id="projects" className="bg-background py-[88px]" aria-labelledby="projects-heading">
       <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6" style={fade}>
         <SectionLabel n="02" label="Case Studies" />
-        <h2 className="section-heading">Case studies</h2>
+        <h2 id="projects-heading" className="section-heading">Case studies</h2>
         <p className="section-comment mb-9">
           Expand any study for full technical breakdown
         </p>

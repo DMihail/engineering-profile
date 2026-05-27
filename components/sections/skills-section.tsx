@@ -4,41 +4,41 @@ import { FadeIn } from "@/components/ui/fade-in";
 
 export function SkillsSection() {
   return (
-    <section id="skills" className="section-surface">
+    <section id="skills" className="section-surface" aria-labelledby="skills-heading">
       <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6">
         <SectionLabel n="03" label="Skills" />
-        <h2 className="section-heading mb-2">Technical stack</h2>
+        <h2 id="skills-heading" className="section-heading mb-2">Technical stack</h2>
         <p className="section-comment mb-9">
           6 domains — primary tools highlighted
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {SKILL_LAYERS.map((layer) => (
-            <div key={layer.id} className="panel panel-hover">
-              <div className="px-4 pt-3 pb-2.5 border-b border-border bg-[rgba(255,255,255,0.02)]">
-                <div className="mono-sm font-semibold text-primary tracking-[0.04em]">{layer.layer}</div>
-                <div className="mono-xs text-text-dim mt-0.5">{layer.desc}</div>
-                <div className="mt-2">
-                  <span className="mono-xs text-text-faint">{layer.projectRefs}</span>
-                </div>
-              </div>
-              <div className="p-3 grid grid-cols-2 gap-1.5">
+            <article key={layer.id} className="panel panel-hover" aria-labelledby={`skill-layer-${layer.id}`}>
+              <header className="px-4 pt-3 pb-2.5 border-b border-border bg-[rgba(255,255,255,0.02)]">
+                <h3 id={`skill-layer-${layer.id}`} className="mono-sm font-semibold text-primary tracking-[0.04em]">
+                  {layer.layer}
+                </h3>
+                <p className="mono-xs text-text-dim mt-0.5">{layer.desc}</p>
+                <p className="mt-2 mono-xs text-text-faint">{layer.projectRefs}</p>
+              </header>
+              <ul className="p-3 grid grid-cols-2 gap-1.5 list-none m-0">
                 {layer.skills.map((skill) => {
                   const SkillIcon = skill.icon;
                   return (
-                    <div
+                    <li
                       key={`${layer.id}-${skill.name}`}
                       className={`flex items-center gap-2 px-2.5 py-2 rounded-md border cursor-default transition-[transform,border-color] duration-150 hover:scale-[1.02] ${skill.primary ? "border-[rgba(56,189,248,0.15)] bg-[rgba(56,189,248,0.06)] hover:border-[rgba(56,189,248,0.32)]" : "border-border bg-[rgba(255,255,255,0.02)] hover:border-[rgba(255,255,255,0.12)]"}`}
                     >
-                      <SkillIcon size={12} className={`shrink-0 ${skill.primary ? "text-primary" : "text-muted-foreground"}`} />
+                      <SkillIcon size={12} className={`shrink-0 ${skill.primary ? "text-primary" : "text-muted-foreground"}`} aria-hidden />
                       <span className={`mono-sm truncate ${skill.primary ? "text-text-secondary" : "text-muted-foreground"}`}>
                         {skill.name}
                       </span>
-                    </div>
+                    </li>
                   );
                 })}
-              </div>
-            </div>
+              </ul>
+            </article>
           ))}
         </div>
       </FadeIn>
