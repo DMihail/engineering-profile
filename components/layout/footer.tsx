@@ -8,7 +8,7 @@ export function Footer() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
           <div className="flex items-center gap-2">
-            <MDLogo size={16} />
+            <MDLogo size={16} aria-hidden />
             <small className="mono-md text-text-dim">
               © {new Date().getFullYear()} {SITE_AUTHOR}
             </small>
@@ -26,7 +26,6 @@ export function Footer() {
                   <a
                     href={link.href}
                     {...(!isMailto && { target: "_blank", rel: "noreferrer" })}
-                    aria-label={link.label}
                     className="mono-sm text-text-dim no-underline transition-colors hover:text-primary"
                   >
                     {link.label}

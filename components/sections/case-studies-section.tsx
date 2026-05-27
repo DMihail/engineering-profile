@@ -83,7 +83,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
             </div>
           </div>
 
-          <div className={styles.chevron}>
+          <div className={styles.chevron} aria-hidden>
             <ChevronDown size={16} className="text-muted-foreground" />
           </div>
         </div>
@@ -189,10 +189,10 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
 export function CaseStudiesSection() {
   const { ref, fade } = useFadeIn();
   return (
-    <section id="projects" className="bg-background py-[88px]">
+    <section id="projects" className="bg-background py-[88px]" aria-labelledby="projects-heading">
       <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6" style={fade}>
         <SectionLabel n="02" label="Case Studies" />
-        <h2 className="section-heading">Case studies</h2>
+        <h2 id="projects-heading" className="section-heading">Case studies</h2>
         <p className="section-comment mb-9">
           Expand any study for full technical breakdown
         </p>

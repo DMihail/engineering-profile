@@ -10,30 +10,63 @@
   flex-shrink: 0;
 }
 
-.capGrid {
-  display: grid;
-  grid-template-columns: 240px minmax(0, 1fr) 100px;
-  column-gap: 1.5rem;
-  padding-inline: 1.5rem;
-  align-items: start;
+.capTable {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
 }
 
-.capHeader {
-  align-items: center;
-  padding-block: 9px;
+.capTable col:nth-child(1) {
+  width: 240px;
+}
+
+.capTable col:nth-child(3) {
+  width: 100px;
+}
+
+.capTable thead th {
+  padding: 9px 1.5rem;
+  text-align: left;
   background: rgba(255, 255, 255, 0.025);
   border-bottom: 1px solid var(--border);
 }
 
-.capHeaderTarget {
+.capTable thead th:last-child {
   text-align: right;
 }
 
-.capRow {
-  padding-block: 20px;
+.capTable tbody td,
+.capTable tbody th {
+  padding: 20px 1.5rem;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+}
+
+.capTable tbody tr:last-child td,
+.capTable tbody tr:last-child th {
+  border-bottom: none;
+}
+
+.capTable tbody tr:nth-child(odd) {
+  background: var(--card);
+}
+
+.capTable tbody tr:nth-child(even) {
+  background: rgba(17, 24, 39, 0.6);
+}
+
+.capTable tbody tr:hover {
+  background: rgba(56, 189, 248, 0.04);
+}
+
+.capRowTitle {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--foreground);
+  letter-spacing: -0.01em;
 }
 
 .capTarget {
   text-align: right;
-  padding-top: 2px;
 }

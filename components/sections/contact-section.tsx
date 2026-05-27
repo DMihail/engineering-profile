@@ -141,14 +141,14 @@ function SubmitButton({ success, error }: { success: boolean; error?: string }) 
         }`}
       >
         {success
-          ? <><CheckCircle size={15} /> Message sent</>
+          ? <><CheckCircle size={15} aria-hidden /> Message sent</>
           : pending
-            ? <><Loader2 size={15} className="animate-spin" /> Sending...</>
-            : <><Send size={15} /> Send message</>
+            ? <><Loader2 size={15} className="animate-spin" aria-hidden /> Sending...</>
+            : <><Send size={15} aria-hidden /> Send message</>
         }
       </button>
       {error && (
-        <p className="text-xs text-[#ef4444] mono-sm">{error}</p>
+        <p role="alert" className="text-xs text-[#ef4444] mono-sm">{error}</p>
       )}
     </div>
   );
@@ -160,7 +160,7 @@ function ResumeButton() {
   return (
     <a href={cv.file} download className={styles.resumeLink}>
       <div className="flex items-center justify-center w-7 h-7 rounded-lg shrink-0 bg-[rgba(56,189,248,0.12)]">
-        <Download size={13} className="text-primary" />
+        <Download size={13} className="text-primary" aria-hidden />
       </div>
       <div className="flex-1 min-w-0">
         <div className="text-xs font-semibold text-primary">{cv.label}</div>
@@ -175,30 +175,36 @@ function EmailCard({ link }: { link: typeof SOCIAL_LINKS[number] }) {
   const LinkIcon = link.icon;
   const email = link.hint;
 
-  const handleClick = () => {
-    window.location.href = link.href;
-    setTimeout(() => {
-      navigator.clipboard.writeText(email).then(() => {
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      });
-    }, 300);
+  const handleCopy = () => {
+    navigator.clipboard.writeText(email).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
   };
 
   return (
-    <button type="button" onClick={handleClick} className={`${styles.linkCard} group w-full text-left`}>
-      <div className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0 bg-[rgba(56,189,248,0.1)]">
-        <LinkIcon size={14} className="text-primary" />
-      </div>
-      <div className="flex-1 min-w-0">
-        <div className="text-xs font-semibold text-foreground">{link.label}</div>
-        <div className="mono-sm text-text-dim truncate">{email}</div>
-      </div>
-      {copied
-        ? <Check size={13} className="text-success shrink-0" />
-        : <Copy size={11} className="text-text-dim shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
-      }
-    </button>
+    <div className={`${styles.linkCard} group w-full flex items-center`}>
+      <a href={link.href} className="flex flex-1 items-center gap-3 min-w-0 no-underline">
+        <div className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0 bg-[rgba(56,189,248,0.1)]">
+          <LinkIcon size={14} className="text-primary" aria-hidden />
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="text-xs font-semibold text-foreground">{link.label}</div>
+          <div className="mono-sm text-text-dim truncate">{email}</div>
+        </div>
+      </a>
+      <button
+        type="button"
+        onClick={handleCopy}
+        aria-label={copied ? "Email copied" : `Copy ${email}`}
+        className="shrink-0 p-1 cursor-pointer bg-transparent border-0"
+      >
+        {copied
+          ? <Check size={13} className="text-success" aria-hidden />
+          : <Copy size={11} className="text-text-dim opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden />
+        }
+      </button>
+    </div>
   );
 }
 
@@ -213,13 +219,13 @@ function SocialLinks() {
         return (
           <a key={link.label} href={link.href} target="_blank" rel="noreferrer" className={`${styles.linkCard} group`}>
             <div className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0 bg-[rgba(56,189,248,0.1)]">
-              <LinkIcon size={14} className="text-primary" />
+              <LinkIcon size={14} className="text-primary" aria-hidden />
             </div>
             <div className="flex-1 min-w-0">
               <div className="text-xs font-semibold text-foreground">{link.label}</div>
               <div className="mono-sm text-text-dim truncate">{link.hint}</div>
             </div>
-            <ExternalLink size={11} className="text-text-dim shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <ExternalLink size={11} className="text-text-dim shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden />
           </a>
         );
       })}
@@ -251,10 +257,10 @@ export function ContactSection() {
   }, [state.ts, state.success]);
 
   return (
-    <section id="contact" className="section-surface">
+    <section id="contact" className="section-surface" aria-labelledby="contact-heading">
       <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6" style={fade}>
         <SectionLabel n="05" label="Contact" />
-        <h2 className="section-heading">{"Let's build something"}</h2>
+        <h2 id="contact-heading" className="section-heading">{"Let's build something"}</h2>
         <div className="flex items-center gap-2 mb-3">
           <span className="status-dot-sm animate-pulse" />
           <span className="mono-sm text-success tracking-[0.04em]">Available for contract work</span>
@@ -265,7 +271,9 @@ export function ContactSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-10">
 
-          <form ref={formRef} action={formAction} className="space-y-4">
+          <form ref={formRef} action={formAction} className="space-y-4" aria-labelledby="contact-heading">
+            <fieldset className="space-y-4 border-0 p-0 m-0 min-w-0">
+              <legend className="sr-only">Contact form</legend>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <label htmlFor="contact-name" className={styles.formLabel}>NAME</label>
@@ -285,17 +293,18 @@ export function ContactSection() {
               <textarea id="contact-message" name="message" required maxLength={2000} rows={5} placeholder="Tell me about the project..." className={`${styles.inputField} resize-none leading-[1.6]`} />
             </div>
             <SubmitButton success={success} error={error} />
+            </fieldset>
           </form>
 
-          <div>
-            <div className="mono-label mb-3.5">Links</div>
+          <aside aria-labelledby="contact-links-heading">
+            <h3 id="contact-links-heading" className="mono-label mb-3.5">Links</h3>
             <SocialLinks />
 
             <div className="pt-4 border-t border-border mt-4">
-              <div className="mono-label mb-2.5">Resume</div>
+              <h3 className="mono-label mb-2.5">Resume</h3>
               <ResumeButton />
             </div>
-          </div>
+          </aside>
         </div>
       </div>
     </section>

@@ -8,7 +8,7 @@ import styles from "@/styles/sections/hero-section.module.css";
 export function HeroSection() {
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden bg-background pt-13">
+    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden bg-background pt-13" aria-label="Introduction">
 
       <div className="absolute inset-0 pointer-events-none bg-grid" />
       <div className="absolute inset-0 pointer-events-none bg-vignette" />
@@ -41,35 +41,37 @@ export function HeroSection() {
               6+ years shipping production apps across iOS, Android, and web — Swift/Kotlin native modules, realtime architecture, and performance optimization.
             </p>
 
-            <div className="rounded-xl mb-8 overflow-hidden text-left border border-[rgba(255,255,255,0.07)]">
+            <section className="rounded-xl mb-8 overflow-hidden text-left border border-[rgba(255,255,255,0.07)]" aria-labelledby="hero-results-heading">
               <div className="px-4 py-2.5 bg-[rgba(255,255,255,0.025)] border-b border-[rgba(255,255,255,0.05)]">
-                <span className="mono-label">Key results</span>
+                <h2 id="hero-results-heading" className="mono-label">Key results</h2>
               </div>
-              {TRACK_RECORD.map((tr, i) => (
-                <div
-                  key={tr.label}
-                  className={`px-4 py-3 ${i < TRACK_RECORD.length - 1 ? "border-b border-[rgba(255,255,255,0.04)]" : ""} ${i % 2 === 0 ? "bg-[rgba(255,255,255,0.01)]" : ""}`}
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1.5 sm:gap-4">
-                    <div className="flex items-start gap-2.5 min-w-0">
-                      <span className="mono-sm text-primary shrink-0 mt-px">→</span>
-                      <div className="min-w-0">
-                        <div className="mono-sm text-text-secondary leading-[1.4] mb-0.5">{tr.label}</div>
-                        <div className="mono-xs text-text-dim">{tr.sub}</div>
+              <ul className="list-none m-0 p-0">
+                {TRACK_RECORD.map((tr, i) => (
+                  <li
+                    key={tr.label}
+                    className={`px-4 py-3 ${i < TRACK_RECORD.length - 1 ? "border-b border-[rgba(255,255,255,0.04)]" : ""} ${i % 2 === 0 ? "bg-[rgba(255,255,255,0.01)]" : ""}`}
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1.5 sm:gap-4">
+                      <div className="flex items-start gap-2.5 min-w-0">
+                        <span className="mono-sm text-primary shrink-0 mt-px" aria-hidden>→</span>
+                        <div className="min-w-0">
+                          <div className="mono-sm text-text-secondary leading-[1.4] mb-0.5">{tr.label}</div>
+                          <div className="mono-xs text-text-dim">{tr.sub}</div>
+                        </div>
                       </div>
+                      <div className="mono-xs text-success shrink-0 pl-5 sm:pl-0 sm:text-right">{tr.metric}</div>
                     </div>
-                    <div className="mono-xs text-success shrink-0 pl-5 sm:pl-0 sm:text-right">{tr.metric}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
+                  </li>
+                ))}
+              </ul>
+            </section>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-8">
               <a href="#projects" className="btn-primary no-underline">
-                View Case Studies <ArrowRight size={14} />
+                View Case Studies <ArrowRight size={14} aria-hidden />
               </a>
               <a href="#contact" className="btn-outline no-underline">
-                Get in touch <Mail size={14} />
+                Get in touch <Mail size={14} aria-hidden />
               </a>
             </div>
 

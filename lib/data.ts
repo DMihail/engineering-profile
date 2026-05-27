@@ -8,7 +8,17 @@ import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
 import { SITE_EMAIL } from "@/lib/config";
 import type { Capability, SkillLayer, CaseStudy, XP, SocialLink } from "@/lib/types";
 
-export const NAV = ["impact", "projects", "skills", "experience", "contact"];
+export const NAV = ["impact", "projects", "skills", "experience", "contact"] as const;
+
+export type NavId = (typeof NAV)[number];
+
+export const NAV_LABELS: Record<NavId, string> = {
+  impact: "Capabilities",
+  projects: "Case studies",
+  skills: "Skills",
+  experience: "Experience",
+  contact: "Contact",
+};
 
 export const CAPABILITIES: Capability[] = [
   {

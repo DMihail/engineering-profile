@@ -2,13 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { NAV } from "@/lib/data";
+import { NAV, NAV_LABELS, type NavId } from "@/lib/data";
 import { getSectionIdFromHash, scrollToSection } from "@/lib/section-navigation";
 import { MDLogo } from "@/components/ui/icons";
 import styles from "@/styles/layout/nav-bar.module.css";
 
 const SECTION_IDS = ["hero", ...NAV];
 const SCROLL_LOCK_MS = 1200;
+const MOBILE_NAV_ID = "mobile-nav-menu";
 
 function getInitialActiveSection(): string {
   if (typeof window === "undefined") return "hero";
@@ -23,7 +24,17 @@ function getObserverMargin(): string {
   return "-25% 0px -55% 0px";
 }
 
-function NavItem({ id, active, onClick }: { id: string; active: boolean; onClick: (id: string) => void }) {
+function NavItem({
+  id,
+  label,
+  active,
+  onClick,
+}: {
+  id: NavId;
+  label: string;
+  active: boolean;
+  onClick: (id: string) => void;
+}) {
   return (
     <li>
       <a
@@ -35,7 +46,7 @@ function NavItem({ id, active, onClick }: { id: string; active: boolean; onClick
         aria-current={active ? "true" : undefined}
         className={`${styles.navLink} ${active ? styles.navLinkActive : ""} no-underline`}
       >
-        {id}
+        {label}
       </a>
     </li>
   );
@@ -120,6 +131,8 @@ export function NavBar() {
     void scrollToSection(id);
   };
 
+  const activeLabel = active in NAV_LABELS ? NAV_LABELS[active as NavId] : active;
+
   return (
     <header>
       <nav aria-label="Main navigation" className={`${styles.navGlass} fixed inset-x-0 top-0 z-50`}>
@@ -132,47 +145,73 @@ export function NavBar() {
             }}
             className="relative z-10 flex items-center gap-2 mono-base text-primary tracking-[0.02em] no-underline"
           >
-            <MDLogo size={22} />
-            md://portfolio
+            <MDLogo size={22} aria-hidden />
+            <span>md://portfolio</span>
           </a>
 
-          <div
-            className={`${styles.navBackdrop} ${menuOpen ? styles.navBackdropOpen : ""}`}
-            onClick={() => setMenuOpen(false)}
-            aria-hidden="true"
-          />
-          <ul className={`${styles.navList} ${menuOpen ? styles.navListOpen : ""}`}>
+          {menuOpen && (
+            <button
+              type="button"
+              className={`${styles.navBackdrop} ${styles.navBackdropOpen}`}
+              onClick={() => setMenuOpen(false)}
+              aria-label="Close navigation menu"
+            />
+          )}
+
+          <ul
+            id={MOBILE_NAV_ID}
+            className={`${styles.navList} ${menuOpen ? styles.navListOpen : ""}`}
+          >
             {NAV.map((id) => (
-              <NavItem key={id} id={id} active={active === id} onClick={navigateTo} />
+              <NavItem
+                key={id}
+                id={id}
+                label={NAV_LABELS[id]}
+                active={active === id}
+                onClick={navigateTo}
+              />
             ))}
             <li className="lg:hidden">
-              <button type="button" onClick={() => navigateTo("contact")} className="btn-primary mt-6 py-3.5 px-10 text-[15px] whitespace-nowrap">
-                <span className="status-dot-sm bg-background! shadow-none! animate-pulse" />
+              <a
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigateTo("contact");
+                }}
+                className="btn-primary mt-6 py-3.5 px-10 text-[15px] whitespace-nowrap no-underline"
+              >
+                <span className="status-dot-sm bg-background! shadow-none! animate-pulse" aria-hidden />
                 Let&apos;s talk
-              </button>
+              </a>
             </li>
           </ul>
 
           <div className="relative z-10 flex items-center gap-3">
             {active !== "hero" && (
-              <span className={`lg:hidden mono-xs text-primary tracking-widest ${styles.sectionLabel}`}>{active}</span>
+              <span className={`lg:hidden mono-xs text-primary tracking-widest ${styles.sectionLabel}`}>
+                {activeLabel}
+              </span>
             )}
-            <button
-              type="button"
-              onClick={() => navigateTo("contact")}
-              className="hidden lg:flex items-center gap-1.5 py-1.25 px-3 rounded-md border border-primary/30 bg-primary/10 text-primary font-mono text-[11px] font-medium tracking-[0.04em] leading-none whitespace-nowrap hover:bg-primary/20 hover:border-primary/50 transition-colors cursor-pointer"
+            <a
+              href="#contact"
+              onClick={(e) => {
+                e.preventDefault();
+                navigateTo("contact");
+              }}
+              className="hidden lg:flex items-center gap-1.5 py-1.25 px-3 rounded-md border border-primary/30 bg-primary/10 text-primary font-mono text-[11px] font-medium tracking-[0.04em] leading-none whitespace-nowrap hover:bg-primary/20 hover:border-primary/50 transition-colors no-underline"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" aria-hidden />
               Let&apos;s talk
-            </button>
+            </a>
             <button
               type="button"
               onClick={() => setMenuOpen((v) => !v)}
               className="lg:hidden text-muted-foreground cursor-pointer p-1"
-              aria-label="Toggle navigation menu"
+              aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={menuOpen}
+              aria-controls={MOBILE_NAV_ID}
             >
-              {menuOpen ? <X size={20} /> : <Menu size={20} />}
+              {menuOpen ? <X size={20} aria-hidden /> : <Menu size={20} aria-hidden />}
             </button>
           </div>
         </div>

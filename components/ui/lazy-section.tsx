@@ -77,7 +77,8 @@ export function LazySection({
     <>
       <section
         ref={sectionRef}
-        id={id}
+        id={phase === "idle" ? id : undefined}
+        data-section-id={id}
         className={phase === "idle" ? className : undefined}
         style={
           phase === "idle"

@@ -14,19 +14,19 @@ export default function Error({
   }, [error]);
 
   return (
-    <section className="min-h-[60vh] flex items-center justify-center px-4">
-      <div className="text-center max-w-md">
+    <main className="min-h-[60vh] flex items-center justify-center px-4">
+      <section className="text-center max-w-md">
         <p className="mono-label mb-3">{"// error_boundary"}</p>
-        <h2 className="font-sans text-2xl font-bold text-foreground mb-2">
+        <h1 className="font-sans text-2xl font-bold text-foreground mb-2">
           Something went wrong
-        </h2>
+        </h1>
         <p className="text-sm text-muted-foreground mb-6">
           {error.message || "An unexpected error occurred. Please try again."}
         </p>
         <button type="button" onClick={reset} className="btn-primary">
           Try again
         </button>
-      </div>
-    </section>
+      </section>
+    </main>
   );
 }
