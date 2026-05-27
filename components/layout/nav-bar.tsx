@@ -25,12 +25,23 @@ function NavItem({
   label,
   active,
   onClick,
+  variant,
 }: {
   id: NavId;
   label: string;
   active: boolean;
   onClick: (id: string) => void;
+  variant: "desktop" | "mobile";
 }) {
+  const linkClass =
+    variant === "desktop"
+      ? active
+        ? `${styles.navLinkDesktop} ${styles.navLinkDesktopActive}`
+        : styles.navLinkDesktop
+      : active
+        ? `${styles.navLinkMobile} ${styles.navLinkMobileActive}`
+        : styles.navLinkMobile;
+
   return (
     <li>
       <a
@@ -40,7 +51,7 @@ function NavItem({
           onClick(id);
         }}
         aria-current={active ? "true" : undefined}
-        className={`${styles.navLink} ${active ? styles.navLinkActive : ""} no-underline`}
+        className={`${linkClass} no-underline`}
       >
         {label}
       </a>
@@ -162,13 +173,13 @@ export function NavBar() {
           {menuOpen && (
             <button
               type="button"
-              className={`${styles.navBackdrop} ${styles.navBackdropOpen} lg:hidden`}
+              className={`${styles.navBackdrop} ${menuOpen ? styles.navBackdropOpen : ""}`}
               onClick={() => setMenuOpen(false)}
               aria-label="Close navigation menu"
             />
           )}
 
-          <ul className="hidden lg:flex items-center list-none m-0 p-0">
+          <ul className={styles.desktopNav}>
             {NAV.map((id) => (
               <NavItem
                 key={id}
@@ -176,13 +187,14 @@ export function NavBar() {
                 label={NAV_LABELS[id]}
                 active={active === id}
                 onClick={navigateTo}
+                variant="desktop"
               />
             ))}
           </ul>
 
           <ul
             id={MOBILE_NAV_ID}
-            className={`${styles.navList} lg:hidden ${menuOpen ? styles.navListOpen : ""}`}
+            className={`${styles.mobileNavList} ${menuOpen ? styles.mobileNavListOpen : ""}`}
             aria-hidden={!menuOpen}
           >
             {NAV.map((id) => (
@@ -192,6 +204,7 @@ export function NavBar() {
                 label={NAV_LABELS[id]}
                 active={active === id}
                 onClick={navigateTo}
+                variant="mobile"
               />
             ))}
             <li>
@@ -221,7 +234,7 @@ export function NavBar() {
                 e.preventDefault();
                 navigateTo("contact");
               }}
-              className="hidden lg:flex items-center gap-1.5 py-1.25 px-3 rounded-md border border-primary/30 bg-primary/10 text-primary font-mono mono-sm font-medium tracking-[0.04em] leading-none whitespace-nowrap hover:bg-primary/20 hover:border-primary/50 transition-colors no-underline"
+              className="hidden lg:inline-flex items-center gap-1.5 py-1.5 px-3 rounded-md border border-primary/30 bg-primary/10 text-primary font-mono mono-sm font-medium tracking-[0.04em] leading-none whitespace-nowrap hover:bg-primary/20 hover:border-primary/50 transition-colors no-underline"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" aria-hidden />
               Let&apos;s talk
