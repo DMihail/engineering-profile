@@ -1,0 +1,98 @@
+/**
+ * Cross-browser foundation (complements Tailwind Preflight).
+ */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  h1, h2, h3, h4, h5, h6,
+  p, figure, blockquote, dl, dd {
+    margin: 0;
+  }
+
+  img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  a {
+    color: inherit;
+    text-decoration-skip-ink: auto;
+  }
+
+  :focus {
+    outline: none;
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  :focus-visible {
+    outline: 0.125rem solid var(--color-ring);
+    outline-offset: 0.125rem;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+    margin: 0;
+    font-synthesis: none;
+  }
+
+  button,
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  input[type="file"]::file-selector-button {
+    cursor: pointer;
+    appearance: none;
+  }
+
+  button:disabled,
+  input:disabled,
+  textarea:disabled,
+  select:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  th {
+    text-align: inherit;
+  }
+
+  ol, ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  summary {
+    list-style: none;
+    cursor: pointer;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary::marker {
+    content: "";
+  }
+}

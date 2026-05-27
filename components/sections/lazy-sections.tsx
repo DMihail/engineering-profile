@@ -12,37 +12,37 @@ import { ContactSection } from "./contact-section";
 export function LazySections() {
   return (
     <>
-      <LazySection id="impact" className="bg-secondary border-t border-[rgba(56,189,248,0.1)] py-24">
+      <LazySection id="impact" className="section-lazy">
         <SectionErrorBoundary>
           <ImpactSection />
         </SectionErrorBoundary>
       </LazySection>
 
-      <LazySection id="projects" className="bg-background py-22">
+      <LazySection id="projects" className="section-lazy section-dark">
         <SectionErrorBoundary>
           <CaseStudiesSection />
         </SectionErrorBoundary>
       </LazySection>
 
-      <LazySection id="skills" className="section-surface">
+      <LazySection id="skills" className="section-lazy section-surface">
         <SectionErrorBoundary>
           <SkillsSection />
         </SectionErrorBoundary>
       </LazySection>
 
-      <LazySection id="experience" className="section-dark">
+      <LazySection id="experience" className="section-lazy section-dark">
         <SectionErrorBoundary>
           <ExperienceSection />
         </SectionErrorBoundary>
       </LazySection>
 
-      <LazySection id="education" className="section-surface">
+      <LazySection id="education" className="section-lazy section-surface">
         <SectionErrorBoundary>
           <EducationSection />
         </SectionErrorBoundary>
       </LazySection>
 
-      <LazySection id="contact" className="section-surface">
+      <LazySection id="contact" className="section-lazy section-surface">
         <SectionErrorBoundary>
           <ContactSection />
         </SectionErrorBoundary>

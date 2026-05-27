@@ -15,7 +15,7 @@ export function SkillsSection() {
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {SKILL_LAYERS.map((layer) => (
             <article key={layer.id} className="panel panel-hover" aria-labelledby={`skill-layer-${layer.id}`}>
-              <header className="px-4 pt-3 pb-2.5 border-b border-border bg-[rgba(255,255,255,0.02)]">
+              <header className="px-4 pt-3 pb-2.5 border-b border-border bg-surface-subtle">
                 <h3 id={`skill-layer-${layer.id}`} className="mono-sm font-semibold text-primary tracking-[0.04em]">
                   {layer.layer}
                 </h3>
@@ -28,7 +28,7 @@ export function SkillsSection() {
                   return (
                     <li
                       key={`${layer.id}-${skill.name}`}
-                      className={`flex items-center gap-2 px-2.5 py-2 rounded-md border cursor-default transition-[transform,border-color] duration-150 hover:scale-[1.02] ${skill.primary ? "border-[rgba(56,189,248,0.15)] bg-[rgba(56,189,248,0.06)] hover:border-[rgba(56,189,248,0.32)]" : "border-border bg-[rgba(255,255,255,0.02)] hover:border-[rgba(255,255,255,0.12)]"}`}
+                      className={`skill-tile ${skill.primary ? "skill-tile-primary" : ""}`}
                     >
                       <SkillIcon size={12} className={`shrink-0 ${skill.primary ? "text-primary" : "text-muted-foreground"}`} aria-hidden />
                       <span className={`mono-sm truncate ${skill.primary ? "text-text-secondary" : "text-muted-foreground"}`}>

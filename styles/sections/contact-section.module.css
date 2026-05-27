@@ -1,19 +1,23 @@
 .linkCard {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  border-radius: 10px;
+  gap: 0.75rem;
+  padding-block: 0.75rem;
+  padding-inline: 0.875rem;
+  border-radius: var(--radius-button);
   background: var(--card);
   border: 1px solid var(--border);
   text-decoration: none;
-  cursor: pointer;
   transition: border-color 200ms, box-shadow 200ms;
 }
-.linkCard:hover {
-  border-color: var(--border-hover);
-  box-shadow: 0 0 20px rgba(56, 189, 248, 0.06);
+
+@media (hover: hover) and (pointer: fine) {
+  .linkCard:hover {
+    border-color: var(--border-hover);
+    box-shadow: 0 0 1.25rem var(--shadow-primary);
+  }
 }
+
 .linkCard:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
@@ -21,63 +25,99 @@
 
 .inputField {
   width: 100%;
-  background: var(--card);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding-block: 0.6875rem;
+  padding-inline: 1rem;
+  border-radius: var(--radius-button);
+  background: var(--background);
+  border: 1px solid var(--border-primary-muted);
   color: var(--foreground);
-  font-size: 14px;
-  font-family: var(--font-sans), sans-serif;
+  font-size: var(--text-sm);
+  font-family: var(--font-sans), serif;
+  line-height: var(--leading-normal);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--foreground) 5%, transparent),
+    0 1px 0.75rem color-mix(in srgb, #000 18%, transparent);
   outline: 2px solid transparent;
   outline-offset: 2px;
-  transition: border-color 200ms, outline-color 200ms;
-  padding: 10px 16px;
+  transition:
+    border-color 200ms,
+    outline-color 200ms,
+    background 200ms,
+    box-shadow 200ms;
 }
+
+.inputField::placeholder {
+  color: var(--text-dim);
+  opacity: 1;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .inputField:hover:not(:focus-visible):not(:disabled) {
+    border-color: var(--border-hover);
+    background: color-mix(in srgb, var(--background) 88%, var(--primary) 12%);
+  }
+}
+
 .inputField:focus-visible {
-  border-color: rgba(56, 189, 248, 0.35);
+  border-color: var(--border-primary-emphasis);
+  background: color-mix(in srgb, var(--background) 82%, var(--primary) 18%);
   outline-color: var(--ring);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--foreground) 6%, transparent),
+    0 0 0 3px color-mix(in srgb, var(--primary) 12%, transparent);
+}
+
+.inputField:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 .inputField:-webkit-autofill,
 .inputField:-webkit-autofill:hover,
 .inputField:-webkit-autofill:focus {
   -webkit-text-fill-color: var(--foreground);
-  -webkit-box-shadow: 0 0 0 1000px var(--card) inset;
-  box-shadow: 0 0 0 1000px var(--card) inset;
-  border-color: rgba(56, 189, 248, 0.2);
-  caret-color: var(--foreground);
-  transition: background-color 5000s ease-in-out 0s;
-}
-
-.inputField::placeholder {
-  color: var(--text-faint);
+  -webkit-box-shadow: 0 0 0 1000px var(--background) inset;
+  box-shadow: 0 0 0 1000px var(--background) inset;
+  border-color: var(--border-primary-strong);
 }
 
 .formLabel {
-  font-family: var(--font-mono), monospace;
-  font-size: 11px;
+  font-family: var(--font-mono), serif;
+  font-size: var(--text-mono-sm);
   letter-spacing: 0.1em;
-  color: var(--text-dim);
+  color: var(--text-secondary);
   text-transform: uppercase;
   display: block;
-  margin-bottom: 8px;
+  margin-block-end: 0.5rem;
+}
+
+.formLabelOptional {
+  color: var(--text-dim);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0.02em;
 }
 
 .resumeLink {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  border-radius: 10px;
-  background: rgba(56, 189, 248, 0.06);
-  border: 1px solid rgba(56, 189, 248, 0.14);
+  gap: 0.5rem;
+  padding-block: 0.625rem;
+  padding-inline: 0.875rem;
+  border-radius: var(--radius-button);
+  background: var(--surface-primary-muted);
+  border: 1px solid var(--border-primary-muted);
   text-decoration: none;
-  cursor: pointer;
   transition: background 200ms, border-color 200ms;
 }
-.resumeLink:hover {
-  background: rgba(56, 189, 248, 0.1);
-  border-color: rgba(56, 189, 248, 0.3);
+
+@media (hover: hover) and (pointer: fine) {
+  .resumeLink:hover {
+    background: var(--surface-primary-soft);
+    border-color: var(--border-primary-emphasis);
+  }
 }
+
 .resumeLink:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;

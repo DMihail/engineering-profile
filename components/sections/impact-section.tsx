@@ -5,7 +5,7 @@ import styles from "@/styles/sections/impact-section.module.css";
 
 export function ImpactSection() {
   return (
-    <section id="impact" className="bg-secondary border-t border-[rgba(56,189,248,0.1)] py-24" aria-labelledby="impact-heading">
+    <section id="impact" className="section-surface border-t border-border-primary-soft" aria-labelledby="impact-heading">
       <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6">
         <SectionLabel n="01" label="Capabilities" />
 
@@ -18,7 +18,7 @@ export function ImpactSection() {
           </div>
         </div>
 
-        <div className="hidden lg:block rounded-xl overflow-hidden border border-border">
+        <div className="hidden lg:block rounded-xl overflow-hidden border border-border impact-table-wrap">
           <table className={styles.capTable}>
             <colgroup>
               <col />
@@ -50,11 +50,11 @@ export function ImpactSection() {
                       <div className="mono-xs text-text-faint">{cap.appliedIn}</div>
                     </th>
                     <td>
-                      <p className="text-sm text-text-secondary leading-[1.68]">{cap.desc}</p>
+                      <p className="text-sm text-text-secondary leading-body text-pretty">{cap.desc}</p>
                     </td>
                     <td className={styles.capTarget}>
-                      <div className={styles.capKpi}>{cap.kpi}</div>
-                      <div className="mono-xs text-[rgba(34,197,94,0.5)] mt-1 leading-snug">{cap.kpiSub}</div>
+                      <div className={`${styles.capKpi} cap-kpi-cell`}>{cap.kpi}</div>
+                      <div className="mono-xs text-success-dim mt-1 leading-snug">{cap.kpiSub}</div>
                     </td>
                   </tr>
                 );
@@ -71,17 +71,17 @@ export function ImpactSection() {
                 <div className="p-4">
                   <div className="flex items-start gap-3 mb-3">
                     <div className="flex items-center gap-2 min-w-0 flex-1">
-                      <div className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0 bg-[rgba(56,189,248,0.1)]">
+                      <div className="icon-well icon-well-md">
                         <CapIcon size={14} className="text-primary" aria-hidden />
                       </div>
                       <h3 className="font-sans text-sm font-semibold text-foreground leading-snug">{cap.title}</h3>
                     </div>
-                    <div className="text-right shrink-0 max-w-[42%]">
+                    <div className="text-end shrink-0 max-w-[42%]">
                       <div className={styles.capKpiMobile}>{cap.kpi}</div>
-                      <div className="mono-2xs text-[rgba(34,197,94,0.5)] leading-snug">{cap.kpiSub}</div>
+                      <div className="mono-2xs text-success-dim leading-snug">{cap.kpiSub}</div>
                     </div>
                   </div>
-                  <p className="text-xs text-text-secondary leading-[1.68] mb-2">{cap.desc}</p>
+                  <p className="text-xs text-text-secondary leading-body mb-2 text-pretty">{cap.desc}</p>
                   <div className="flex flex-wrap gap-1.5 mb-2">{cap.tags.map((t) => <Chip key={t} label={t} />)}</div>
                   <div className="mono-xs text-text-faint">{cap.appliedIn}</div>
                 </div>
