@@ -124,6 +124,15 @@ export function NavBar() {
     void scrollToSection(hashId);
   }, []);
 
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const onChange = () => {
+      if (mq.matches) setMenuOpen(false);
+    };
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
   const navigateTo = (id: string) => {
     setActive(id);
     setMenuOpen(false);
@@ -152,15 +161,28 @@ export function NavBar() {
           {menuOpen && (
             <button
               type="button"
-              className={`${styles.navBackdrop} ${styles.navBackdropOpen}`}
+              className={`${styles.navBackdrop} ${styles.navBackdropOpen} lg:hidden`}
               onClick={() => setMenuOpen(false)}
               aria-label="Close navigation menu"
             />
           )}
 
+          <ul className="hidden lg:flex items-center list-none m-0 p-0">
+            {NAV.map((id) => (
+              <NavItem
+                key={id}
+                id={id}
+                label={NAV_LABELS[id]}
+                active={active === id}
+                onClick={navigateTo}
+              />
+            ))}
+          </ul>
+
           <ul
             id={MOBILE_NAV_ID}
-            className={`${styles.navList} ${menuOpen ? styles.navListOpen : ""}`}
+            className={`${styles.navList} lg:hidden ${menuOpen ? styles.navListOpen : ""}`}
+            aria-hidden={!menuOpen}
           >
             {NAV.map((id) => (
               <NavItem
@@ -171,7 +193,7 @@ export function NavBar() {
                 onClick={navigateTo}
               />
             ))}
-            <li className="lg:hidden">
+            <li>
               <a
                 href="#contact"
                 onClick={(e) => {

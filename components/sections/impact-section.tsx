@@ -18,7 +18,7 @@ export function ImpactSection() {
           </div>
         </div>
 
-        <div className="hidden sm:block rounded-xl overflow-hidden border border-border">
+        <div className="hidden lg:block rounded-xl overflow-hidden border border-border">
           <table className={styles.capTable}>
             <colgroup>
               <col />
@@ -53,8 +53,8 @@ export function ImpactSection() {
                       <p className="text-sm text-text-secondary leading-[1.68]">{cap.desc}</p>
                     </td>
                     <td className={styles.capTarget}>
-                      <div className="font-mono text-[20px] font-bold text-success tracking-[-0.03em] leading-none">{cap.kpi}</div>
-                      <div className="mono-xs text-[rgba(34,197,94,0.5)] mt-[3px]">{cap.kpiSub}</div>
+                      <div className={styles.capKpi}>{cap.kpi}</div>
+                      <div className="mono-xs text-[rgba(34,197,94,0.5)] mt-1 leading-snug">{cap.kpiSub}</div>
                     </td>
                   </tr>
                 );
@@ -63,22 +63,22 @@ export function ImpactSection() {
           </table>
         </div>
 
-        <div className="sm:hidden grid gap-4">
+        <div className="lg:hidden grid gap-4">
           {CAPABILITIES.map((cap) => {
             const CapIcon = cap.icon;
             return (
               <article key={cap.id} className="rounded-xl overflow-hidden bg-card border border-border">
                 <div className="p-4">
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[rgba(56,189,248,0.1)]">
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="flex items-center gap-2 min-w-0 flex-1">
+                      <div className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0 bg-[rgba(56,189,248,0.1)]">
                         <CapIcon size={14} className="text-primary" aria-hidden />
                       </div>
-                      <h3 className="font-sans text-sm font-semibold text-foreground">{cap.title}</h3>
+                      <h3 className="font-sans text-sm font-semibold text-foreground leading-snug">{cap.title}</h3>
                     </div>
-                    <div className="text-right ml-3 shrink-0">
-                      <div className="font-mono text-[16px] font-bold text-success">{cap.kpi}</div>
-                      <div className="mono-2xs text-[rgba(34,197,94,0.5)]">{cap.kpiSub}</div>
+                    <div className="text-right shrink-0 max-w-[42%]">
+                      <div className={styles.capKpiMobile}>{cap.kpi}</div>
+                      <div className="mono-2xs text-[rgba(34,197,94,0.5)] leading-snug">{cap.kpiSub}</div>
                     </div>
                   </div>
                   <p className="text-xs text-text-secondary leading-[1.68] mb-2">{cap.desc}</p>
