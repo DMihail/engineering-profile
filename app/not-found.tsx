@@ -15,25 +15,25 @@ export default function NotFound() {
       <div className="absolute inset-0 pointer-events-none bg-vignette-sm" aria-hidden />
 
       <div className="relative text-center px-6 fade-up">
-        <div className="inline-flex items-center gap-2 mb-8 px-3.5 py-1.5 rounded-full border border-[rgba(56,189,248,0.2)] bg-[rgba(56,189,248,0.05)]">
+        <div className="inline-flex items-center gap-2 mb-8 px-3.5 py-1.5 rounded-full border border-border-primary-strong bg-surface-primary-subtle">
           <Terminal size={11} className="text-primary" aria-hidden />
           <span className="mono-md tracking-[0.04em] text-muted-foreground">
             {"sys.error // route_not_found"}
           </span>
         </div>
 
-        <p className="font-sans text-primary font-extrabold mb-7 leading-[0.9] tracking-[-0.06em] text-404-display [text-shadow:0_0_80px_rgba(56,189,248,0.25)]" aria-hidden>
+        <p className="font-sans text-primary font-extrabold mb-7 leading-[0.9] tracking-[-0.06em] text-404-display text-glow-primary" aria-hidden>
           404
         </p>
 
-        <h1 className="font-sans text-foreground font-bold mb-2.5 tracking-[-0.025em] text-404-title">
+        <h1 className="font-sans text-foreground font-bold mb-2.5 tracking-[-0.025em] text-404-title text-balance">
           Page not found
         </h1>
-        <p className="text-sm text-muted-foreground mb-8 leading-[1.65]">
+        <p className="text-sm text-muted-foreground mb-8 leading-looser text-pretty">
           The route you requested doesn&apos;t exist in this system.
         </p>
 
-        <div className="panel p-[18px_22px] max-w-[440px] mx-auto mb-9 text-left">
+        <div className="panel p-[18px_22px] max-w-[440px] mx-auto mb-9 text-start">
           <h2 className="mono-label mb-3">
             {"// error trace"}
           </h2>
@@ -46,12 +46,12 @@ export default function NotFound() {
               </li>
             ))}
           </ul>
-          <p className="mono-md text-text-secondary mt-2.5 pt-2.5 border-t border-[rgba(255,255,255,0.05)]">
+          <p className="mono-md text-text-secondary mt-2.5 pt-2.5 border-t border-surface-raised">
             <span className="text-text-dim">{"Error: "}</span>
             No route matches path &quot;<span className="text-primary">{pathname}</span>&quot;
           </p>
           <p className="mono-md text-primary mt-2" aria-hidden>
-            {"$ navigate --to /"}<span className="inline-block w-[7px] h-[11px] bg-primary ml-0.5 align-middle cursor-blink" />
+            {"$ navigate --to /"}<span className="inline-block w-[7px] h-[11px] bg-primary ms-0.5 align-middle cursor-blink" />
           </p>
         </div>
 

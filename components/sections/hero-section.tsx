@@ -5,7 +5,7 @@ import styles from "@/styles/sections/hero-section.module.css";
 
 export function HeroSection() {
   return (
-    <section id="hero" className="relative min-h-[88vh] flex items-center overflow-hidden bg-background pt-13" aria-label="Introduction">
+    <section id="hero" className="relative min-h-hero flex items-center overflow-hidden bg-background pt-(--nav-h)" aria-label="Introduction">
 
       <div className="absolute inset-0 pointer-events-none bg-grid" />
       <div className="absolute inset-0 pointer-events-none bg-vignette" />
@@ -19,17 +19,17 @@ export function HeroSection() {
             <span className="text-sm text-text-secondary">Available for remote and onsite opportunities.</span>
           </div>
 
-          <h1 className="font-sans font-extrabold mb-6 tracking-[-0.045em] leading-[0.98] text-foreground text-hero-name">
+          <h1 className="font-sans font-extrabold mb-6 tracking-[-0.045em] leading-[0.98] text-foreground text-hero-name text-balance">
             Mykhailo
             <br />
             <span className="text-primary">Dzhezhelo</span>
           </h1>
 
-          <p className="font-sans font-medium mb-4 leading-[1.55] text-text-secondary text-hero-lead max-w-2xl mx-auto lg:mx-0">
+          <p className="font-sans font-medium mb-4 leading-relaxed text-text-secondary text-hero-lead max-w-2xl mx-auto lg:mx-0 text-pretty">
             React Native Engineer building high-performance mobile applications, realtime systems, and native integrations.
           </p>
 
-          <p className="text-hero-support sm:text-base text-muted-foreground max-w-xl mb-10 leading-[1.65] mx-auto lg:mx-0">
+          <p className="text-hero-support sm:text-base text-muted-foreground max-w-xl mb-10 leading-looser mx-auto lg:mx-0 text-pretty">
             Focused on performance, realtime processing, and production-grade mobile architecture.
           </p>
 

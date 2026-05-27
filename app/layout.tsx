@@ -1,20 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
-import { Inter, JetBrains_Mono } from "next/font/google";
 import { SITE_URL, SITE_AUTHOR, SITE_ROLE, SITE_DESCRIPTION, SITE_SHORT_DESCRIPTION } from "@/lib/config";
+import { fontBodyClassName, fontVariableClassName } from "@/lib/fonts";
 import "./globals.css";
-
-const inter = Inter({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains",
-  display: "swap",
-});
 
 const title = `${SITE_AUTHOR} — ${SITE_ROLE}`;
 
@@ -94,11 +81,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}>
+    <html lang="en" className={`${fontVariableClassName} h-full`}>
       <head>
-        <title>{title}</title>
         <meta name="theme-color" content="#0B0F17" />
-        {/* Search engine verification — fill content after registering */}
         <meta name="google-site-verification" content="" />
         <meta name="yandex-verification" content="" />
         <meta name="msvalidate.01" content="" />
@@ -109,16 +94,12 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body id="site-main" className="min-h-full">
-        <a href="#site-main" className="skip-link">
+      <body className={`${fontBodyClassName} min-h-full`}>
+        <a href="#main-content" className="skip-link">
           Skip to content
         </a>
         {children}
       </body>
-      <Script
-        src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
-        strategy="lazyOnload"
-      />
     </html>
   );
 }

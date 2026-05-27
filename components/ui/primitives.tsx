@@ -4,7 +4,7 @@ export function SectionLabel({ n, label }: { n: string; label: string }) {
       <span className="mono-sm tracking-[0.15em] uppercase text-primary">
         {n} / {label}
       </span>
-      <div className="flex-1 h-px bg-white/5" />
+      <div className="flex-1 h-px bg-border" />
     </div>
   );
 }

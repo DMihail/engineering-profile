@@ -31,6 +31,7 @@ let fakeTime = 100_000;
 const realDateNow = Date.now;
 
 beforeEach(() => {
+  process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY = "test-site-key";
   jest.clearAllMocks();
   fakeTime += 20_000;
   jest.spyOn(Date, "now").mockImplementation(() => fakeTime);
@@ -127,7 +128,7 @@ describe("ContactSection form", () => {
     });
 
     expect(mockExecute).toHaveBeenCalledWith(
-      undefined,
+      "test-site-key",
       { action: "contact_submit" }
     );
     expect(mockFetch).toHaveBeenCalledWith("/api/contact", {

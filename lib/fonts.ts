@@ -1,0 +1,22 @@
+import { Inter, JetBrains_Mono } from "next/font/google";
+
+export const inter = Inter({
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+  variable: "--font-inter",
+  preload: true,
+  adjustFontFallback: true,
+});
+
+export const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-jetbrains",
+  preload: true,
+  adjustFontFallback: true,
+});
+
+export const fontVariableClassName = `${inter.variable} ${jetbrainsMono.variable}`;
+export const fontBodyClassName = inter.className;
