@@ -63,10 +63,9 @@ export async function sendContactPushNotification(
   const inboxUrl = process.env.INBOX_APP_URL?.trim() || "/";
 
   const messaging = getMessaging(app);
-  // Data-only: Web FCM invokes `onBackgroundMessage` in the inbox service worker when the app is closed.
-  // A top-level `notification` field is handled by the browser inconsistently and often skips the SW handler.
   const response = await messaging.sendEachForMulticast({
     tokens: registrations.map((r) => r.token),
+    notification: { title, body },
     data: {
       title,
       body,
@@ -77,7 +76,6 @@ export async function sendContactPushNotification(
       senderEmail: payload.email,
     },
     webpush: {
-      headers: { Urgency: "high" },
       fcmOptions: { link: inboxUrl },
     },
   });
