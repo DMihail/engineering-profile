@@ -209,13 +209,13 @@ function ResumeButton() {
   const cv = useSyncExternalStore(NOOP_SUBSCRIBE, getCvSnapshot, getServerCvSnapshot);
 
   return (
-    <a href={cv.file} download className={styles.resumeLink}>
-      <div className="icon-well icon-well-sm">
-        <Download size={13} className="text-primary" aria-hidden />
+    <a href={cv.file} download className={`${styles.resumeLink} no-underline`}>
+      <div className="icon-well icon-well-md">
+        <Download size={14} className="text-primary" aria-hidden />
       </div>
       <div className="flex-1 min-w-0">
         <div className="text-xs font-semibold text-primary">{cv.label}</div>
-        <div className="mono-xs text-text-dim truncate">{cv.file.split("/").pop()}</div>
+        <div className="mono-sm text-text-dim truncate">{cv.file.split("/").pop()}</div>
       </div>
     </a>
   );
@@ -325,7 +325,7 @@ export function ContactSection() {
           Open to remote and onsite opportunities globally — EU, US, and worldwide. If you have a challenging mobile or frontend systems problem, reach out.
         </p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(17.5rem,20rem)] gap-8 lg:gap-12 lg:items-start">
+        <div className={`grid grid-cols-1 gap-8 md:gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(17.5rem,20rem)] lg:gap-12 lg:items-start ${styles.contactLayout}`}>
 
           <form
             ref={formRef}
@@ -358,7 +358,7 @@ export function ContactSection() {
                   maxLength={2000}
                   rows={5}
                   placeholder="Tell me about the project..."
-                  className={`${styles.inputField} ${styles.messageField} resize-y leading-relaxed`}
+                  className={`${styles.inputField} ${styles.messageField} leading-relaxed`}
                 />
               </div>
               <div className={styles.formActions}>
