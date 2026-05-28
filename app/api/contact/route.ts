@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { sendContactPushNotification } from "@/lib/send-contact-push-notification";
 
 const SCORE_THRESHOLD = 0.5;
 
@@ -78,7 +79,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Message is too short" }, { status: 400 });
     }
 
-    await addDoc(collection(db, "messages"), {
+    const docRef = await addDoc(collection(db, "messages"), {
       name: trimmedName,
       email: trimmedEmail,
       company: trimmedCompany,
@@ -87,6 +88,18 @@ export async function POST(req: NextRequest) {
       source: "portfolio",
       read: false,
     });
+
+    try {
+      await sendContactPushNotification({
+        messageId: docRef.id,
+        name: trimmedName,
+        email: trimmedEmail,
+        company: trimmedCompany,
+        preview: trimmedMessage,
+      });
+    } catch (pushErr) {
+      console.error("[api/contact] Push notification error:", pushErr);
+    }
 
     return NextResponse.json({ success: true });
   } catch (err) {

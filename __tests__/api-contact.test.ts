@@ -5,6 +5,11 @@ import { POST } from "@/app/api/contact/route";
 import { NextRequest } from "next/server";
 
 const mockAddDoc = jest.fn().mockResolvedValue({ id: "test-doc-id" });
+const mockSendContactPush = jest.fn().mockResolvedValue({ sent: 1, failed: 0 });
+
+jest.mock("@/lib/send-contact-push-notification", () => ({
+  sendContactPushNotification: (...args: unknown[]) => mockSendContactPush(...args),
+}));
 
 jest.mock("firebase/firestore", () => ({
   getFirestore: jest.fn(),
@@ -118,6 +123,22 @@ describe("POST /api/contact", () => {
         read: false,
       })
     );
+    expect(mockSendContactPush).toHaveBeenCalledWith({
+      messageId: "test-doc-id",
+      name: "John Doe",
+      email: "john@example.com",
+      company: "Acme Inc",
+      preview: validBody.message,
+    });
+  });
+
+  it("still returns 200 if push notification fails", async () => {
+    const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+    mockRecaptchaSuccess();
+    mockSendContactPush.mockRejectedValueOnce(new Error("FCM down"));
+    const res = await POST(makeRequest(validBody));
+    expect(res.status).toBe(200);
+    spy.mockRestore();
   });
 
   it("trims and lowercases email", async () => {
