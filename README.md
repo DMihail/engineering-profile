@@ -39,22 +39,9 @@ Requires **Node.js 20+**.
 | `FIREBASE_CLIENT_EMAIL` | Alternative to JSON: service account client email |
 | `FIREBASE_PRIVATE_KEY` | Service account `private_key` — **one line** in double quotes with `\n` (do not paste multiline PEM in `.env`) |
 | `FIREBASE_PRIVATE_KEY_BASE64` | Optional: entire PEM file base64-encoded (robust for Vercel) |
-| `INBOX_APP_URL` | Inbox PWA origin (CORS + push click URL), e.g. `https://personal-site-inbox.vercel.app` |
-| `INBOX_ALLOWED_UIDS` | Optional comma-separated Firebase Auth UIDs allowed to call `/api/inbox/reply` |
-| `SMTP_HOST` | SMTP server host (reply emails from inbox PWA) |
-| `SMTP_PORT` | SMTP port (default `587`) |
-| `SMTP_SECURE` | `true` for port 465, else omit or `false` |
-| `SMTP_USER` | SMTP username |
-| `SMTP_PASS` | SMTP password |
-| `MAIL_FROM` | From address, e.g. `hello@dzhezhelo.dev` |
-| `MAIL_FROM_NAME` | Optional display name in From header |
-| `MAIL_REPLY_TO` | Optional Reply-To (defaults to `MAIL_FROM`) |
+| `INBOX_APP_URL` | Optional. URL opened when a push notification is clicked (inbox app) |
 
 Push notifications are sent to devices registered in the **personal-site-inbox** app (`fcmTokens` collection in the same Firebase project). Without Admin credentials the contact form still works; push is skipped.
-
-### Inbox reply API
-
-`POST /api/inbox/reply` — authenticated with Firebase ID token (`Authorization: Bearer`). Body: `{ "messageId": "<firestore id>", "body": "<your reply>" }`. Sends email to the contact form sender via nodemailer. Called from the inbox PWA (`VITE_PORTFOLIO_API_URL`).
 
 ## License
 
