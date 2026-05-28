@@ -3,7 +3,7 @@ import {
   Globe, Monitor, Wind, GitBranch, Zap, Mail,
   Server, Shield, Database, Wifi, Boxes,
   Gauge, Network, Terminal, Workflow, RefreshCw, Package, BarChart2,
-  PenTool, Link2, Wrench,
+  PenTool, Link2, Wrench, Inbox, Bell,
 } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
 import { SITE_EMAIL, mailtoUrl } from "@/lib/config";
@@ -62,6 +62,16 @@ export const CAPABILITIES: Capability[] = [
     tags: ["redux-toolkit", "rtk-query", "zustand", "react-query"],
     appliedIn: "Waddingtons · Vitadrop · all clients",
   },
+  {
+    id: "web",
+    kpi: "live sync",
+    kpiSub: "Firestore",
+    icon: Inbox,
+    title: "Web Apps & Contact Pipeline",
+    desc: "Next.js portfolio with secured contact API, reCAPTCHA, and Firestore persistence. Companion PWA inbox with realtime listeners, FCM push, offline-aware UI, and authenticated email replies through the portfolio backend.",
+    tags: ["next.js", "vite", "firebase", "pwa", "fcm"],
+    appliedIn: "Developer Inbox · portfolio site",
+  },
 ];
 
 export const SKILL_LAYERS: SkillLayer[] = [
@@ -79,10 +89,11 @@ export const SKILL_LAYERS: SkillLayer[] = [
   },
   {
     id: "realtime", layer: "Real-time & Backend", desc: "WebSocket messaging, push notifications, low-latency event streaming",
-    scope: "backend", projectRefs: "Waddingtons · Vitadrop",
+    scope: "backend", projectRefs: "Waddingtons · Vitadrop · Developer Inbox",
     skills: [
       { name: "WebSockets",        primary: true,  icon: Wifi     },
       { name: "Firebase",          primary: true,  icon: Shield   },
+      { name: "FCM",               primary: false, icon: Bell     },
       { name: "Firebase Deep Links", primary: false, icon: Link2  },
       { name: "Node.js",           primary: true,  icon: Server   },
       { name: "MySQL",             primary: false, icon: Database },
@@ -93,11 +104,14 @@ export const SKILL_LAYERS: SkillLayer[] = [
   },
   {
     id: "frontend", layer: "Frontend & Web", desc: "SSR/SSG rendering, component libraries, responsive design systems",
-    scope: "web", projectRefs: "Waddingtons · client work",
+    scope: "web", projectRefs: "Developer Inbox · Waddingtons · client work",
     skills: [
       { name: "React",        primary: true,  icon: Globe     },
       { name: "Next.js",      primary: true,  icon: Monitor   },
       { name: "TypeScript",   primary: true,  icon: Code2     },
+      { name: "Vite",         primary: false, icon: Zap       },
+      { name: "PWA",          primary: false, icon: Package   },
+      { name: "React Router", primary: false, icon: GitBranch },
       { name: "GraphQL",      primary: false, icon: GitBranch },
       { name: "Tailwind CSS", primary: false, icon: Wind      },
       { name: "Figma",        primary: false, icon: PenTool   },
@@ -130,7 +144,7 @@ export const SKILL_LAYERS: SkillLayer[] = [
   },
   {
     id: "state", layer: "State Management", desc: "Normalized caches, optimistic updates, server-state sync, reactive subscriptions",
-    scope: "data layer", projectRefs: "Vitadrop · Waddingtons",
+    scope: "data layer", projectRefs: "Developer Inbox · Vitadrop · Waddingtons",
     skills: [
       { name: "Redux Toolkit", primary: true,  icon: Workflow  },
       { name: "RTK Query",     primary: true,  icon: RefreshCw },
@@ -290,6 +304,55 @@ export const CASE_STUDIES: CaseStudy[] = [
       { metric: "98%", label: "analysis workflow completion in testing" },
       { metric: "<100ms", label: "target frame pipeline latency" },
       { metric: "0", label: "data-loss incidents in QA/production trials" },
+    ],
+  },
+  {
+    id: "developer-inbox",
+    num: "04",
+    title: "Developer Inbox",
+    type: "Personal project · Web PWA",
+    version: "Production · private",
+    summary:
+      "Private installable inbox for portfolio contact messages — realtime Firestore sync, push alerts, search and filters, and email replies via the portfolio API.",
+    stack: ["React 19", "TypeScript", "Vite 8", "Firebase", "Zustand", "Tailwind CSS 4", "PWA"],
+    technicalPoints: [
+      "Realtime Firestore listeners with memoized Zustand selectors",
+      "FCM push notifications and installable PWA with service worker",
+      "Authenticated reply flow through Next.js `/api/inbox/reply`",
+      "Search, sort, and filter across inbox, unread, important, and archived views",
+      "Responsive mobile, tablet, and desktop layouts with offline-aware UI",
+      "Single-user Firebase Auth — not a multi-tenant product",
+    ],
+    context:
+      "Developer Inbox is a companion app to this Next.js portfolio. Visitors submit the public contact form; messages land in Firestore and the owner reads, stars, archives, and replies from a dedicated PWA instead of juggling email threads.",
+    problem:
+      "A portfolio contact form alone pushes every message into a generic mailbox with no structure, no realtime awareness on mobile, and no quick way to reply in context while preserving the original thread.",
+    solution:
+      "Built a React 19 PWA with Firebase Auth, live Firestore subscriptions, and FCM for new-message alerts. Replies route through the portfolio backend (nodemailer + quoted originals) with CORS and ID-token verification so only the owner can send.",
+    constraints: [
+      "Single authenticated user — security model is owner-only, not multi-tenant",
+      "Must share the same Firebase project as the portfolio contact API",
+      "Push and offline behavior vary across browsers and installed PWA modes",
+      "Reply delivery depends on portfolio SMTP and server availability",
+    ],
+    architecture: [
+      { decision: "Separate Vite PWA from Next.js site", rationale: "Private admin UI without exposing inbox routes on the public portfolio" },
+      { decision: "Firestore realtime listeners + Zustand", rationale: "Instant inbox updates with derived lists kept predictable via selectors" },
+      { decision: "Portfolio API for outbound email", rationale: "Centralizes SMTP, quoting, and reply metadata in one trusted backend" },
+    ],
+    tradeoffs: [
+      { chosen: "Dedicated app over embedded admin in Next.js", rationale: "Cleaner security boundary and installable mobile-first UX" },
+      { chosen: "Server-sent replies over client-only email", rationale: "Keeps credentials off the client and enables consistent quoted threads" },
+    ],
+    performanceNotes: [
+      "Memoized selectors avoid re-filtering the full message list on unrelated renders",
+      "Lazy layouts for mobile vs desktop reduce shell complexity per viewport",
+      "Service worker and offline modal keep the UI usable when connectivity drops",
+    ],
+    results: [
+      { metric: "real-time", label: "Firestore inbox sync" },
+      { metric: "PWA", label: "installable on desktop & mobile" },
+      { metric: "1-tap", label: "reply from message detail" },
     ],
   },
 ];

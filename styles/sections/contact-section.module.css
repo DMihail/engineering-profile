@@ -1,7 +1,12 @@
+.contactLayout {
+  min-width: 0;
+}
+
 .formPanel {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  min-width: 0;
 }
 
 .formGrid {
@@ -20,8 +25,26 @@
     gap: 1rem 1.25rem;
   }
 
-  .formFieldCompany {
+  .formFieldCompany,
+  .formFieldMessage,
+  .formActions {
     grid-column: 1 / -1;
+  }
+
+  .messageField {
+    min-height: 9.5rem;
+    resize: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .formGrid {
+    gap: 1.125rem 1.375rem;
+  }
+
+  .formPanel {
+    padding-block: 1.5rem;
+    padding-inline: 1.75rem;
   }
 }
 
@@ -38,12 +61,7 @@
   }
 
   .formFieldCompany {
-    grid-column: 1 / -1;
     max-width: 28rem;
-  }
-
-  .formFieldMessage {
-    grid-column: 1 / -1;
   }
 
   .messageField {
@@ -51,9 +69,13 @@
   }
 
   .formActions {
-    grid-column: 1 / -1;
     padding-block-start: 0.25rem;
   }
+}
+
+.messageField {
+  resize: none;
+  overflow: auto;
 }
 
 .formActions {
@@ -65,6 +87,12 @@
 
 .contactAside {
   min-width: 0;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .contactAside {
+    max-width: 36rem;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -176,10 +204,12 @@
 }
 
 .resumeLink {
-  display: inline-flex;
+  display: flex;
+  width: 100%;
   align-items: center;
-  gap: 0.5rem;
-  padding-block: 0.625rem;
+  gap: 0.75rem;
+  min-height: 3.25rem;
+  padding-block: 0.75rem;
   padding-inline: 0.875rem;
   border-radius: var(--radius-button);
   background: var(--surface-primary-muted);
