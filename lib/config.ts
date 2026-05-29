@@ -1,6 +1,7 @@
 export const SITE_URL = "https://dzhezhelo.dev";
 export const SITE_AUTHOR = "Mykhailo Dzhezhelo";
 export const SITE_EMAIL = "dzhezhelomikhail@gmail.com";
+export const SITE_ROLE = "React Native & Full-Stack Developer";
 export const SITE_LOCATION = "Ireland · Remote EU & UK";
 export const SITE_OG_IMAGE_PATH = "/opengraph-image";
 /** Square image for Person schema. Override with `/profile.jpg` when a real photo is in public/. */
@@ -16,7 +17,7 @@ export const CV_FILES = [
 export function mailtoUrl(subject = "Project Inquiry"): string {
   return `mailto:${SITE_EMAIL}?subject=${encodeURIComponent(subject)}`;
 }
-export const SITE_ROLE = "React Native & Mobile Systems Engineer";
 export const SITE_DESCRIPTION =
-  "React Native engineer specializing in realtime systems, native integrations, performance optimization, and cross-platform mobile architecture.";
-export const SITE_SHORT_DESCRIPTION = SITE_DESCRIPTION;
+  `React Native and full-stack developer in Dublin. Expo apps for iOS and Android, web with React and Next.js, Node.js APIs, and Firebase. Six years of App Store and Google Play releases. Open to remote and onsite roles in EU, UK, and US time zones.`;
+export const SITE_SHORT_DESCRIPTION =
+  `Expo & React Native full-stack developer in Dublin — mobile, web, and Node.js.`;
