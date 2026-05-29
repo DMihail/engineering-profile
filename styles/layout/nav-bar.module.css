@@ -59,12 +59,25 @@
 
 .menuToggle {
   cursor: pointer;
-  padding: 0.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 3rem;
+  block-size: 3rem;
+  min-inline-size: 3rem;
+  min-block-size: 3rem;
+  padding: 0;
   color: var(--muted-foreground);
   position: relative;
   z-index: 1;
   background: transparent;
   border: none;
+  border-radius: var(--radius-button);
+}
+
+.menuToggle:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
 }
 
 .menuIconOpen,

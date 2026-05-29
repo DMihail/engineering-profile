@@ -5,6 +5,10 @@ export const CONTACT_FORM_INITIAL_STATE: ContactFormState = { success: false, ts
 const THROTTLE_MS = 10_000;
 let lastSubmitAt = 0;
 
+function fail(error: string, ts: number): ContactFormState {
+  return { success: false, error, ts };
+}
+
 function notify(title: string, body: string) {
   try {
     if (!("Notification" in window)) return;
@@ -66,36 +70,34 @@ export async function submitContactForm(
 
   const now = Date.now();
   if (now - lastSubmitAt < THROTTLE_MS) {
-    return { success: false, error: "Please wait before sending again", ts: now };
+    return fail("Please wait before sending again", now);
   }
 
   const email = (data.get("email") as string)?.trim().toLowerCase() ?? "";
   const emailError = validateEmail(email);
   if (emailError) {
-    return { success: false, error: emailError, ts: now };
+    return fail(emailError, now);
   }
 
   const name = (data.get("name") as string)?.trim() ?? "";
   if (name.length < 2) {
-    return { success: false, error: "Please enter your name", ts: now };
+    return fail("Please enter your name", now);
   }
 
   const message = (data.get("message") as string)?.trim() ?? "";
   if (message.length < 10) {
-    return { success: false, error: "Message is too short — describe the role or project", ts: now };
+    return fail("Message is too short — describe the role or project", now);
   }
 
   const company = (data.get("company") as string)?.trim() || null;
 
   try {
-    lastSubmitAt = now;
-
     let recaptchaToken: string;
     try {
       recaptchaToken = await getRecaptchaToken();
     } catch (captchaErr) {
       console.warn("[contact] reCAPTCHA failed:", captchaErr);
-      return { success: false, error: "Security check failed — please reload and try again", ts: Date.now() };
+      return fail("Security check failed — please reload and try again", Date.now());
     }
 
     const res = await fetch("/api/contact", {
@@ -113,9 +115,10 @@ export async function submitContactForm(
         /* non-JSON response */
       }
       notify("Sending failed", serverError);
-      return { success: false, error: serverError, ts: Date.now() };
+      return fail(serverError, Date.now());
     }
 
+    lastSubmitAt = Date.now();
     notify("Message sent!", "Thanks for reaching out — I'll get back to you soon.");
     return { success: true, ts: Date.now() };
   } catch (err) {
@@ -125,6 +128,6 @@ export async function submitContactForm(
         ? "Network error — check your connection"
         : "Failed to send — please try again or email directly";
     notify("Sending failed", errorMsg);
-    return { success: false, error: errorMsg, ts: Date.now() };
+    return fail(errorMsg, Date.now());
   }
 }

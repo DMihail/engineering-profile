@@ -121,7 +121,8 @@ describe("ContactSection form", () => {
     await user.click(screen.getByRole("button", { name: /send message/i }));
 
     await waitFor(() => {
-      expect(screen.getByText(/message sent/i)).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: /^message sent$/i })).toBeInTheDocument();
+      expect(screen.getByText(/message sent successfully/i)).toBeInTheDocument();
     });
 
     expect(mockExecute).toHaveBeenCalledWith(
@@ -152,6 +153,30 @@ describe("ContactSection form", () => {
     await waitFor(() => {
       expect(screen.getByText(/captcha verification failed/i)).toBeInTheDocument();
     });
+
+    expect(screen.getByLabelText(/name/i)).toHaveValue("John Doe");
+    expect(screen.getByLabelText(/email/i)).toHaveValue("john@example.com");
+    expect(screen.getByLabelText(/message/i)).toHaveValue(
+      "Hello, I have a project for you. Let's talk about it!",
+    );
+  });
+
+  it("keeps field values after validation errors", async () => {
+    const user = userEvent.setup();
+    render(<ContactSection />);
+
+    await user.type(screen.getByLabelText(/name/i), "John Doe");
+    await user.type(screen.getByLabelText(/email/i), "john@example.com");
+    await user.type(screen.getByLabelText(/message/i), "Short");
+    await user.click(screen.getByRole("button", { name: /send message/i }));
+
+    await waitFor(() => {
+      expect(screen.getByText(/too short/i)).toBeInTheDocument();
+    });
+
+    expect(screen.getByLabelText(/name/i)).toHaveValue("John Doe");
+    expect(screen.getByLabelText(/email/i)).toHaveValue("john@example.com");
+    expect(screen.getByLabelText(/message/i)).toHaveValue("Short");
   });
 
   it("has maxLength attributes on inputs", () => {
