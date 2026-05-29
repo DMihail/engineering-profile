@@ -33,7 +33,7 @@ const ALLOWED_EXACT = new Set([
 ]);
 
 const ALLOWED_PREFIXES = ["/api/", "/_next/"];
-const ALLOWED_STARTS = ["/opengraph-image", "/apple-icon"];
+const ALLOWED_STARTS = ["/opengraph-image", "/apple-icon", "/profile-image"];
 
 /** Section ids on the home page — optional redirect to /#section */
 const SECTION_IDS = new Set([
@@ -51,8 +51,8 @@ function isAllowed(pathname: string): boolean {
   if (ALLOWED_PREFIXES.some((prefix) => pathname.startsWith(prefix))) return true;
   if (ALLOWED_STARTS.some((prefix) => pathname.startsWith(prefix))) return true;
   // Public files (CV PDFs, etc.)
-  if (/\.[a-z0-9]+$/i.test(pathname)) return true;
-  return false;
+  return /\.[a-z0-9]+$/i.test(pathname);
+
 }
 
 export function middleware(request: NextRequest) {

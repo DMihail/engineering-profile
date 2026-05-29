@@ -1,9 +1,23 @@
 import type { Metadata, Viewport } from "next";
-import { SITE_URL, SITE_AUTHOR, SITE_ROLE, SITE_DESCRIPTION, SITE_SHORT_DESCRIPTION } from "@/lib/config";
+import {
+  SITE_URL,
+  SITE_AUTHOR,
+  SITE_ROLE,
+  SITE_DESCRIPTION,
+  SITE_SHORT_DESCRIPTION,
+  SITE_OG_IMAGE_PATH,
+} from "@/lib/config";
+import { buildSiteJsonLd } from "@/lib/json-ld";
 import { fontBodyClassName, fontVariableClassName } from "@/lib/fonts";
 import "./globals.css";
 
 const title = `${SITE_AUTHOR} — ${SITE_ROLE}`;
+const ogImage = {
+  url: SITE_OG_IMAGE_PATH,
+  width: 1200,
+  height: 630,
+  alt: title,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -16,23 +30,30 @@ export const metadata: Metadata = {
     "React Native", "Mobile Developer", "iOS", "Android",
     "TypeScript", "React", "Next.js", "Node.js",
     "Firebase", "Redux", "WebSockets", "GraphQL",
+    "Dublin", "Ireland", "Remote",
     SITE_AUTHOR,
   ],
   authors: [{ name: SITE_AUTHOR, url: SITE_URL }],
   creator: SITE_AUTHOR,
+  verification: {
+    google: "lle48wjp7HiGdH_6SV2SEHd7_ShE51gH92oFBCJVLYA",
+    yandex: "0b930a278e22c1b1",
+  },
   openGraph: {
     type: "website",
-    locale: "en_US",
+    locale: "en_IE",
     url: SITE_URL,
     siteName: SITE_AUTHOR,
     title,
     description: SITE_SHORT_DESCRIPTION,
+    images: [ogImage],
   },
   twitter: {
     card: "summary_large_image",
     title,
     description: SITE_SHORT_DESCRIPTION,
     creator: "@mykhailo_dev",
+    images: [SITE_OG_IMAGE_PATH],
   },
   robots: {
     index: true,
@@ -47,33 +68,10 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+  themeColor: "#0B0F17",
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: SITE_AUTHOR,
-  url: SITE_URL,
-  jobTitle: "React Native & Mobile Systems Engineer",
-  worksFor: {
-    "@type": "Organization",
-    name: "Freelance",
-  },
-  sameAs: [
-    "https://github.com/DMihail",
-    "https://www.linkedin.com/in/mihail-dzhezhelo-27a41114a/",
-  ],
-  knowsAbout: [
-    "React Native",
-    "TypeScript",
-    "iOS",
-    "Android",
-    "Real-time Systems",
-    "Mobile Architecture",
-    "Performance Optimization",
-    "Native Modules",
-  ],
-};
+const jsonLd = buildSiteJsonLd();
 
 export default function RootLayout({
   children,
@@ -83,12 +81,6 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fontVariableClassName} h-full`}>
       <head>
-        <meta name="theme-color" content="#0B0F17" />
-        <meta name="google-site-verification" content="" />
-        <meta name="yandex-verification" content="" />
-        <meta name="msvalidate.01" content="" />
-        <meta name="naver-site-verification" content="" />
-        <meta name="baidu-site-verification" content="" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

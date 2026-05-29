@@ -323,11 +323,6 @@
   .section-dark    { background: var(--color-background); }
   .section-surface { background: var(--color-secondary); }
 
-  .section-lazy {
-    content-visibility: auto;
-    contain-intrinsic-size: auto 50rem;
-  }
-
   .min-h-hero {
     min-height: var(--hero-min-h);
   }

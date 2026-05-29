@@ -1,14 +1,17 @@
-"use client";
-
+import type { Metadata } from "next";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { SITE_AUTHOR } from "@/lib/config";
 
-export default function NotFound() {
-  const pathname = usePathname();
-  const requestedPath = pathname && pathname !== "/" ? pathname : null;
+export const metadata: Metadata = {
+  title: "Page not found",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
+export default function NotFound() {
   return (
     <main className="bg-background min-h-screen flex items-center justify-center relative overflow-hidden font-sans">
       <div className="absolute inset-0 pointer-events-none bg-grid" aria-hidden />
@@ -26,15 +29,6 @@ export default function NotFound() {
         <p className="text-sm text-muted-foreground mb-8 leading-looser text-pretty">
           This URL is not part of the portfolio. Check the address or return to the home page.
         </p>
-
-        {requestedPath && (
-          <div className="panel px-5 py-4 max-w-md mx-auto mb-8 text-start">
-            <p className="mono-label mb-2">Requested path</p>
-            <p className="mono-md text-primary break-all" suppressHydrationWarning>
-              {requestedPath}
-            </p>
-          </div>
-        )}
 
         <Link href="/" className="btn-primary no-underline">
           <ArrowLeft size={14} aria-hidden />
