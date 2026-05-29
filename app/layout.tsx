@@ -10,6 +10,7 @@ import {
   ROOT_SITE_METADATA,
 } from "@/lib/site-metadata";
 import { SiteJsonLd } from "@/components/seo/site-json-ld";
+import { AppProviders } from "@/components/providers/app-providers";
 import { fontBodyClassName, fontVariableClassName } from "@/lib/fonts";
 import { CSP_NONCE_HEADER } from "@/lib/security-headers";
 import "./globals.css";
@@ -70,7 +71,7 @@ export default async function RootLayout({
     >
       <body className={`${fontBodyClassName} min-h-full`}>
         <SiteJsonLd />
-        {children}
+        <AppProviders>{children}</AppProviders>
       </body>
     </html>
   );

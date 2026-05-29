@@ -56,6 +56,7 @@ const validBody = {
   company: "Acme Inc",
   message: "Hello, I have a project for you. Let's talk about it!",
   recaptchaToken: "valid-token",
+  privacyConsent: true,
 };
 
 beforeEach(() => {
@@ -72,6 +73,16 @@ describe("POST /api/contact", () => {
     expect(res.status).toBe(400);
     const json = await res.json();
     expect(json.error).toMatch(/captcha/i);
+  });
+
+  it("returns 400 if privacy consent is missing", async () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { privacyConsent, ...body } = validBody;
+    mockRecaptchaSuccess();
+    const res = await POST(makeRequest(body));
+    expect(res.status).toBe(400);
+    const json = await res.json();
+    expect(json.error).toMatch(/privacy consent/i);
   });
 
   it("returns 403 if reCAPTCHA score is too low", async () => {

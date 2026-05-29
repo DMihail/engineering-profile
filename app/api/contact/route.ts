@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getFirestore, Timestamp } from "firebase-admin/firestore";
 import { getFirebaseAdminApp } from "@/lib/firebase-admin";
 import { sendContactPushNotification } from "@/lib/send-contact-push-notification";
+import { hasPrivacyConsentInBody } from "@/lib/privacy-consent";
 import { validateEmail } from "@/lib/validate-email";
 
 const SCORE_THRESHOLD = 0.5;
@@ -53,6 +54,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing captcha token" }, { status: 400 });
     }
 
+    if (!hasPrivacyConsentInBody(body)) {
+      return NextResponse.json({ error: "Privacy consent is required" }, { status: 400 });
+    }
+
     let captcha: RecaptchaResponse;
     try {
       captcha = await verifyRecaptcha(recaptchaToken);
@@ -94,6 +99,8 @@ export async function POST(req: NextRequest) {
       email: trimmedEmail,
       company: trimmedCompany,
       message: trimmedMessage,
+      privacyConsentAccepted: true,
+      privacyConsentAt: Timestamp.now(),
       createdAt: Timestamp.now(),
       source: "portfolio",
       read: false,

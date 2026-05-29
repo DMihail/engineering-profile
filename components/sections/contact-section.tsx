@@ -6,9 +6,17 @@ import {
   CONTACT_FORM_INITIAL_STATE,
   submitContactForm,
 } from "@/lib/contact-form";
+import {
+  contactFormFeedbackMessage,
+  contactFormFeedbackTitle,
+  contactFormFeedbackVariant,
+} from "@/lib/contact-form-feedback";
 import { SectionHeader, sectionHeadingId } from "@/components/ui/primitives";
 import { ContactSidebar } from "@/components/contact/contact-sidebar";
 import { ContactSubmitButton } from "@/components/contact/contact-submit-button";
+import { PrivacyConsentField } from "@/components/forms/privacy-consent-field";
+import { useToast } from "@/components/ui/toast/toast-provider";
+import { isPrivacyConsentError, PRIVACY_CONSENT_FIELD } from "@/lib/privacy-consent";
 import { SITE_WORK_AUTHORIZATION } from "@/lib/config";
 import styles from "@/styles/sections/contact-section.module.css";
 
@@ -18,6 +26,7 @@ function focusFieldForError(error: string) {
   if (lower.includes("name")) id = "contact-name";
   else if (lower.includes("email")) id = "contact-email";
   else if (lower.includes("message") || lower.includes("short")) id = "contact-message";
+  else if (lower.includes("privacy") || lower.includes("accept the privacy")) id = "contact-privacy-consent";
   document.getElementById(id)?.focus();
 }
 
@@ -28,13 +37,15 @@ function shouldFocusField(error: string): boolean {
     || lower.includes("email")
     || lower.includes("message")
     || lower.includes("short")
+    || lower.includes("privacy")
+    || lower.includes("accept the privacy")
   );
 }
 
 export function ContactSection() {
   const [state, formAction] = useActionState(submitContactForm, CONTACT_FORM_INITIAL_STATE);
+  const toast = useToast();
   const formRef = useRef<HTMLFormElement>(null);
-  const statusRef = useRef<HTMLDivElement>(null);
   const draftRef = useRef<FormData | null>(null);
   const recaptchaPrimed = useRef(false);
   const lastHandledTs = useRef(0);
@@ -47,8 +58,10 @@ export function ContactSection() {
 
   const success = state.success;
   const error = !state.success ? state.error : undefined;
+  const consentError = isPrivacyConsentError(error);
+  const formError = error && !consentError ? error : undefined;
   const headingId = sectionHeadingId("contact");
-  const hasFieldError = Boolean(error);
+  const hasFieldError = Boolean(formError);
 
   function restoreDraftFields() {
     const form = formRef.current;
@@ -61,16 +74,28 @@ export function ContactSection() {
         field.value = String(draft.get(name) ?? "");
       }
     }
+
+    const consent = form.elements.namedItem(PRIVACY_CONSENT_FIELD);
+    if (consent instanceof HTMLInputElement && consent.type === "checkbox") {
+      consent.checked = draft.get(PRIVACY_CONSENT_FIELD) === "yes";
+    }
   }
 
   useEffect(() => {
     if (state.ts === 0 || state.ts === lastHandledTs.current) return;
     lastHandledTs.current = state.ts;
 
+    const variant = contactFormFeedbackVariant(state);
+    const message = contactFormFeedbackMessage(state);
+
+    if (variant && message) {
+      const title = contactFormFeedbackTitle(variant);
+      toast.show({ variant, title, message });
+    }
+
     if (state.success) {
       formRef.current?.reset();
       draftRef.current = null;
-      statusRef.current?.focus();
       return;
     }
 
@@ -78,11 +103,9 @@ export function ContactSection() {
       restoreDraftFields();
       if (shouldFocusField(state.error)) {
         focusFieldForError(state.error);
-      } else {
-        statusRef.current?.focus();
       }
     }
-  }, [state.ts, state.success, state.error]);
+  }, [state, toast]);
 
   return (
     <section id="contact" className="section-surface section-cv-auto" aria-labelledby={headingId}>
@@ -109,7 +132,6 @@ export function ContactSection() {
             onFocusCapture={primeRecaptcha}
             className={`panel ${styles.formPanel} min-w-0`}
             aria-labelledby={headingId}
-            aria-describedby={error ? "contact-form-status" : undefined}
           >
             <fieldset className={`${styles.formGrid} border-0 p-0 m-0 min-w-0`}>
               <legend className="sr-only">Contact form</legend>
@@ -180,12 +202,15 @@ export function ContactSection() {
                   className={`${styles.inputField} ${styles.messageField}`}
                 />
               </div>
-              <div className={styles.formActions}>
-                <ContactSubmitButton
-                  success={success}
-                  error={error}
-                  statusRef={statusRef}
+              <div className={`${styles.formField} ${styles.formFieldConsent}`}>
+                <PrivacyConsentField
+                  id="contact-privacy-consent"
+                  disabled={success}
+                  invalid={consentError}
                 />
+              </div>
+              <div className={styles.formActions}>
+                <ContactSubmitButton success={success} />
               </div>
             </fieldset>
           </form>

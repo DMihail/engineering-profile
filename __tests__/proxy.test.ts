@@ -33,6 +33,11 @@ describe("proxy", () => {
     expect(res.status).toBe(200);
   });
 
+  it("allows privacy page", () => {
+    const res = proxy(requestFor("/privacy"));
+    expect(res.status).toBe(200);
+  });
+
   it("allows static files with extensions (e.g. CV PDFs)", () => {
     const res = proxy(requestFor("/Mykhailo_Dzhezhelo_CV_Ireland.pdf"));
     expect(res.status).toBe(200);

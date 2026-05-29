@@ -1,25 +1,32 @@
+import Link from "next/link";
 import { SITE_AUTHOR, SITE_ROLE } from "@/lib/config";
 import { SOCIAL_LINKS } from "@/lib/data/social-links";
 import { MDLogo } from "@/components/ui/icons";
+import styles from "@/styles/layout/footer.module.css";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border py-7 bg-background">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
-          <div className="flex items-center gap-2">
+    <footer className={styles.footer}>
+      <div className={`max-w-6xl mx-auto px-4 sm:px-6 ${styles.inner}`}>
+        <div className={styles.brandBlock}>
+          <div className={styles.brandRow}>
             <MDLogo size={16} aria-hidden />
-            <small className="mono-md text-text-dim">
+            <small className={`mono-md ${styles.copyright}`}>
               © {new Date().getFullYear()} {SITE_AUTHOR}
             </small>
           </div>
-          <span className="hidden sm:inline mono-md text-text-faint" aria-hidden>·</span>
-          <span className="mono-md text-text-faint">{SITE_ROLE}</span>
+          <p className={styles.role}>{SITE_ROLE}</p>
         </div>
 
-        <div className="flex items-center gap-4">
-          <nav aria-label="Social links">
-            <ul className="flex items-center gap-4 list-none m-0 p-0">
+        <div className={styles.metaBlock}>
+          <nav aria-label="Footer links" className={styles.footerNav}>
+            <Link href="/privacy" className={styles.footerLink}>
+                Privacy Policy
+            </Link>
+            <span className={styles.divider} aria-hidden>
+              ·
+            </span>
+            <ul className={styles.socialList}>
               {SOCIAL_LINKS.map((link) => {
                 const isMailto = link.href.startsWith("mailto:");
                 return (
@@ -27,7 +34,7 @@ export function Footer() {
                     <a
                       href={link.href}
                       {...(!isMailto && { target: "_blank", rel: "noopener noreferrer" })}
-                      className="mono-sm text-text-dim no-underline transition-colors hover:text-primary"
+                      className={styles.footerLink}
                     >
                       {link.label}
                     </a>
@@ -36,7 +43,8 @@ export function Footer() {
               })}
             </ul>
           </nav>
-          <span className="status-dot animate-pulse" role="status">
+
+          <span className={`status-dot ${styles.statusDot}`} role="status">
             <span className="sr-only">Available for work</span>
           </span>
         </div>

@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { headers } from "next/headers";
+import { absoluteTitle } from "@/lib/page-metadata";
 
 export const metadata: Metadata = {
-  title: "Page not found",
-  description: "The requested page does not exist.",
+  title: absoluteTitle("Page not found"),
+  description: "The requested page does not exist on dzhezhelo.dev.",
   robots: { index: false, follow: true },
 };
 

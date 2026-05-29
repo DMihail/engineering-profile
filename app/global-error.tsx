@@ -11,9 +11,10 @@ export default function GlobalError({
     <html lang="en">
       <head>
         <title>Error — Mykhailo Dzhezhelo</title>
+        <meta name="robots" content="noindex, nofollow" />
       </head>
       <body style={{ background: "#0B0F17", color: "#E5E7EB", fontFamily: "system-ui, sans-serif", margin: 0, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{ textAlign: "center", padding: "2rem" }}>
+        <main style={{ textAlign: "center", padding: "2rem" }}>
           <p style={{ fontFamily: "monospace", fontSize: "0.75rem", color: "#8891A0", marginBottom: "0.75rem" }}>
             {"// runtime_error"}
           </p>
@@ -39,7 +40,7 @@ export default function GlobalError({
           >
             Try again
           </button>
-        </div>
+        </main>
       </body>
     </html>
   );
