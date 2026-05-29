@@ -92,8 +92,8 @@ function EmailCard({ link }: { link: (typeof SOCIAL_LINKS)[number] }) {
   };
 
   return (
-    <div className="relative group w-full">
-      <a href={link.href} className={`${styles.linkCard} w-full pe-11 no-underline`}>
+    <div className={styles.emailRow}>
+      <a href={link.href} className={`${styles.linkCard} ${styles.emailLink} no-underline`}>
         <div className="icon-well icon-well-md">
           <LinkIcon size={14} className="text-primary" aria-hidden />
         </div>
@@ -106,12 +106,12 @@ function EmailCard({ link }: { link: (typeof SOCIAL_LINKS)[number] }) {
         type="button"
         onClick={handleCopy}
         aria-label={copied ? "Email copied" : `Copy ${email}`}
-        className="absolute inset-e-3 top-1/2 -translate-y-1/2 shrink-0 p-1.5 cursor-pointer bg-transparent border-0 rounded-md hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-ring"
+        className={styles.copyButton}
       >
         {copied ? (
-          <Check size={13} className="text-success" aria-hidden />
+          <Check size={16} className="text-success" aria-hidden />
         ) : (
-          <Copy size={11} className="text-text-dim opacity-70 group-hover:opacity-100 transition-opacity" aria-hidden />
+          <Copy size={16} className="text-text-dim" aria-hidden />
         )}
       </button>
     </div>
@@ -145,7 +145,7 @@ export function ContactSidebar() {
       <h3 id="contact-links-heading" className="mono-label mb-3.5">
         Links
       </h3>
-      <div className="space-y-2.5">
+      <div className="space-y-3">
         <PhoneCard />
         <TelegramCard />
         <CalendlyLink />

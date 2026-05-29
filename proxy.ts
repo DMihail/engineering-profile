@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { CONTACT_REGION_COOKIE, type ContactRegion } from "@/lib/contact-region";
+import { isLegacyIndexPage } from "@/lib/legacy-index-page";
 import { PAGE_SECTION_IDS } from "@/lib/section-ids";
-import { applySecurityHeaders } from "@/lib/security-headers";
+import { applySecurityHeaders, createCspNonce, CSP_NONCE_HEADER } from "@/lib/security-headers";
 
 function contactRegionFromRequest(request: NextRequest): ContactRegion {
   const country =
@@ -12,7 +13,8 @@ function contactRegionFromRequest(request: NextRequest): ContactRegion {
   return country.toUpperCase() === "UA" ? "ua" : "intl";
 }
 
-function withContactRegionCookie(request: NextRequest, response: NextResponse): NextResponse {
+function finalizeResponse(request: NextRequest, response: NextResponse, nonce: string): NextResponse {
+  applySecurityHeaders(response, nonce);
   const region = contactRegionFromRequest(request);
   response.cookies.set(CONTACT_REGION_COOKIE, region, {
     path: "/",
@@ -20,16 +22,18 @@ function withContactRegionCookie(request: NextRequest, response: NextResponse): 
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
   });
-  applySecurityHeaders(response);
   return response;
 }
 
 function forward(request: NextRequest, pathname: string): NextResponse {
+  const nonce = createCspNonce();
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-pathname", pathname);
-  return withContactRegionCookie(
+  requestHeaders.set(CSP_NONCE_HEADER, nonce);
+  return finalizeResponse(
     request,
     NextResponse.next({ request: { headers: requestHeaders } }),
+    nonce,
   );
 }
 
@@ -54,12 +58,24 @@ function isAllowed(pathname: string): boolean {
   if (ALLOWED_EXACT.has(pathname)) return true;
   if (ALLOWED_PREFIXES.some((prefix) => pathname.startsWith(prefix))) return true;
   if (ALLOWED_STARTS.some((prefix) => pathname.startsWith(prefix))) return true;
-  // Public files (CV PDFs, etc.)
   return /\.[a-z0-9]+$/i.test(pathname);
+}
+
+function redirectHome(request: NextRequest): NextResponse {
+  const nonce = createCspNonce();
+  return finalizeResponse(
+    request,
+    NextResponse.redirect(new URL(HOME, request.url), 308),
+    nonce,
+  );
 }
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  if (isLegacyIndexPage(pathname)) {
+    return redirectHome(request);
+  }
 
   if (isAllowed(pathname)) {
     return forward(request, pathname);
@@ -71,7 +87,7 @@ export function proxy(request: NextRequest) {
   if (isSingleSegment && segment && SECTION_IDS.has(segment)) {
     const redirectUrl = new URL(HOME, request.url);
     redirectUrl.hash = segment;
-    return withContactRegionCookie(request, NextResponse.redirect(redirectUrl, 308));
+    return finalizeResponse(request, NextResponse.redirect(redirectUrl, 308), createCspNonce());
   }
 
   return forward(request, pathname);

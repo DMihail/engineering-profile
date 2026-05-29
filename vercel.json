@@ -1,5 +1,17 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/(index|default|home).(html|htm|php|asp)",
+      "destination": "https://dzhezhelo.dev/",
+      "statusCode": 308
+    },
+    {
+      "source": "/(index|default|home).(html|htm|php|asp)/",
+      "destination": "https://dzhezhelo.dev/",
+      "statusCode": 308
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",

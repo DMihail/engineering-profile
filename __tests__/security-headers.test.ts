@@ -1,4 +1,10 @@
-import { buildContentSecurityPolicy, getSecurityHeaders, HSTS_HEADER_VALUE } from "@/lib/security-headers";
+import {
+  buildContentSecurityPolicy,
+  createCspNonce,
+  getSecurityHeaders,
+  HSTS_HEADER_VALUE,
+} from "@/lib/security-headers";
+import { withNodeEnv } from "./helpers/with-node-env";
 
 describe("security headers", () => {
   it("includes CSP with frame-ancestors and form-action", () => {
@@ -15,9 +21,35 @@ describe("security headers", () => {
     expect(csp).toContain("https://www.recaptcha.google.com");
   });
 
+  it("uses nonce and strict-dynamic in production script-src instead of unsafe-inline", () => {
+    withNodeEnv("production", () => {
+      const nonce = createCspNonce();
+      const csp = buildContentSecurityPolicy(nonce);
+      const scriptSrc = csp.split(";").find((part) => part.trim().startsWith("script-src")) ?? "";
+      expect(scriptSrc).toContain(`'nonce-${nonce}'`);
+      expect(scriptSrc).toContain("'strict-dynamic'");
+      expect(scriptSrc).not.toContain("'unsafe-inline'");
+      expect(csp).toContain("style-src 'self' 'unsafe-inline'");
+    });
+  });
+
+  it("omits CSP from static headers in production without a nonce", () => {
+    withNodeEnv("production", () => {
+      const keys = getSecurityHeaders().map((header) => header.key);
+      expect(keys).not.toContain("Content-Security-Policy");
+    });
+  });
+
+  it("includes CSP in production when nonce is provided", () => {
+    withNodeEnv("production", () => {
+      const nonce = createCspNonce();
+      const cspHeader = getSecurityHeaders({ nonce }).find((header) => header.key === "Content-Security-Policy");
+      expect(cspHeader?.value).toContain(`'nonce-${nonce}'`);
+    });
+  });
+
   it("sets clickjacking protection headers", () => {
     const keys = getSecurityHeaders().map((header) => header.key);
-    expect(keys).toContain("Content-Security-Policy");
     expect(keys).toContain("X-Frame-Options");
 
     const xfo = getSecurityHeaders().find((header) => header.key === "X-Frame-Options");
@@ -31,26 +63,24 @@ describe("security headers", () => {
   });
 
   it("allows unsafe-eval in non-production for React dev tooling", () => {
-    const prev = process.env.NODE_ENV;
-    process.env.NODE_ENV = "development";
-    expect(buildContentSecurityPolicy()).toContain("'unsafe-eval'");
-    process.env.NODE_ENV = prev;
+    withNodeEnv("development", () => {
+      expect(buildContentSecurityPolicy()).toContain("'unsafe-inline'");
+      expect(buildContentSecurityPolicy()).toContain("'unsafe-eval'");
+    });
   });
 
   it("omits unsafe-eval in production CSP", () => {
-    const prev = process.env.NODE_ENV;
-    process.env.NODE_ENV = "production";
-    expect(buildContentSecurityPolicy()).not.toContain("'unsafe-eval'");
-    process.env.NODE_ENV = prev;
+    withNodeEnv("production", () => {
+      expect(buildContentSecurityPolicy(createCspNonce())).not.toContain("'unsafe-eval'");
+    });
   });
 
   it("adds Trusted Types directives in production CSP", () => {
-    const prev = process.env.NODE_ENV;
-    process.env.NODE_ENV = "production";
-    const csp = buildContentSecurityPolicy();
-    expect(csp).toContain("trusted-types default");
-    expect(csp).toContain("require-trusted-types-for 'script'");
-    process.env.NODE_ENV = prev;
+    withNodeEnv("production", () => {
+      const csp = buildContentSecurityPolicy(createCspNonce());
+      expect(csp).toContain("trusted-types default");
+      expect(csp).toContain("require-trusted-types-for 'script'");
+    });
   });
 
   it("sets baseline hardening headers", () => {
@@ -62,20 +92,18 @@ describe("security headers", () => {
   });
 
   it("includes HSTS with includeSubDomains and preload in production", () => {
-    const prev = process.env.NODE_ENV;
-    process.env.NODE_ENV = "production";
-    const hsts = getSecurityHeaders().find((header) => header.key === "Strict-Transport-Security");
-    expect(hsts?.value).toBe(HSTS_HEADER_VALUE);
-    expect(hsts?.value).toContain("includeSubDomains");
-    expect(hsts?.value).toContain("preload");
-    process.env.NODE_ENV = prev;
+    withNodeEnv("production", () => {
+      const hsts = getSecurityHeaders().find((header) => header.key === "Strict-Transport-Security");
+      expect(hsts?.value).toBe(HSTS_HEADER_VALUE);
+      expect(hsts?.value).toContain("includeSubDomains");
+      expect(hsts?.value).toContain("preload");
+    });
   });
 
   it("omits HSTS outside production", () => {
-    const prev = process.env.NODE_ENV;
-    process.env.NODE_ENV = "development";
-    const keys = getSecurityHeaders().map((header) => header.key);
-    expect(keys).not.toContain("Strict-Transport-Security");
-    process.env.NODE_ENV = prev;
+    withNodeEnv("development", () => {
+      const keys = getSecurityHeaders().map((header) => header.key);
+      expect(keys).not.toContain("Strict-Transport-Security");
+    });
   });
 });

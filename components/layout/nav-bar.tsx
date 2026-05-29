@@ -11,7 +11,6 @@ import styles from "@/styles/layout/nav-bar.module.css";
 const SECTION_IDS = PAGE_SECTION_IDS;
 const SCROLL_LOCK_MS = 1200;
 const MOBILE_NAV_ID = "mobile-nav-menu";
-const NAV_TOGGLE_ID = "nav-menu-toggle";
 const DEFAULT_ACTIVE = HERO_ID;
 
 function getObserverMargin(): string {
@@ -61,21 +60,16 @@ function NavItem({
 }
 
 export function NavBar() {
-  const toggleRef = useRef<HTMLInputElement>(null);
   const lockUntilRef = useRef(0);
   const [active, setActive] = useState(DEFAULT_ACTIVE);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const toggleMenu = useCallback(() => {
-    if (!toggleRef.current) return;
-    toggleRef.current.checked = !toggleRef.current.checked;
-    setMenuOpen(toggleRef.current.checked);
-    toggleRef.current.blur();
+  const closeMenu = useCallback(() => {
+    setMenuOpen(false);
   }, []);
 
-  const closeMenu = useCallback(() => {
-    if (toggleRef.current) toggleRef.current.checked = false;
-    setMenuOpen(false);
+  const toggleMenu = useCallback(() => {
+    setMenuOpen((open) => !open);
   }, []);
 
   const lockActiveSection = useCallback((id: string) => {
@@ -144,12 +138,24 @@ export function NavBar() {
   }, [closeMenu, lockActiveSection]);
 
   useEffect(() => {
+    if (!menuOpen) return;
+
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+    document.body.style.touchAction = "none";
+
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && toggleRef.current?.checked) closeMenu();
+      if (e.key === "Escape") closeMenu();
     };
     document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, [closeMenu]);
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
+    };
+  }, [menuOpen, closeMenu]);
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
@@ -163,24 +169,12 @@ export function NavBar() {
   const activeLabel = active in SECTION_LABELS ? SECTION_LABELS[active as keyof typeof SECTION_LABELS] : active;
 
   return (
-    <header>
+    <header className={menuOpen ? styles.headerOpen : undefined}>
       <nav aria-label="Main navigation" className={`${styles.navRoot} ${styles.navGlass} fixed inset-x-0 top-0 z-50`}>
-        <input
-          ref={toggleRef}
-          type="checkbox"
-          id={NAV_TOGGLE_ID}
-          className={styles.navToggle}
-          tabIndex={-1}
-          onChange={(e) => {
-            setMenuOpen(e.target.checked);
-            e.target.blur();
-          }}
-        />
-
         {menuOpen && (
           <button
             type="button"
-            className={`${styles.navBackdrop} lg:hidden`}
+            className={`${styles.navBackdrop} ${styles.navBackdropOpen} lg:hidden`}
             onClick={closeMenu}
             aria-label="Close navigation menu"
             tabIndex={-1}

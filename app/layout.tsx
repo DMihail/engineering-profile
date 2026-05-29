@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { headers } from "next/headers";
 import {
   SITE_URL,
   SITE_AUTHOR,
@@ -10,6 +11,7 @@ import {
 } from "@/lib/site-metadata";
 import { SiteJsonLd } from "@/components/seo/site-json-ld";
 import { fontBodyClassName, fontVariableClassName } from "@/lib/fonts";
+import { CSP_NONCE_HEADER } from "@/lib/security-headers";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -50,13 +52,22 @@ export const viewport: Viewport = {
   themeColor: "#0B0F17",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headerStore = await headers();
+  const nonce = headerStore.get(CSP_NONCE_HEADER) ?? undefined;
+
   return (
-    <html lang="en" data-scroll-behavior="smooth" className={`${fontVariableClassName} h-full`}>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${fontVariableClassName} h-full`}
+      {...(nonce ? { nonce } : {})}
+      suppressHydrationWarning
+    >
       <body className={`${fontBodyClassName} min-h-full`}>
         <SiteJsonLd />
         {children}

@@ -66,12 +66,12 @@
   --primary: #38BDF8;
   --primary-hover: #7DD3FC;
   --secondary: #182235;
-  --muted-foreground: #94A0B0;
+  --muted-foreground: #A8B2C0;
   --success: #22C55E;
   --error: #EF4444;
   --text-secondary: #B4BBC6;
-  --text-dim: #8B95A5;
-  --text-faint: color-mix(in srgb, var(--foreground) 62%, transparent);
+  --text-dim: #9CA3AF;
+  --text-faint: #8A939F;
 
   /* Derived surfaces & borders */
   --border: color-mix(in srgb, var(--foreground) 6%, transparent);
@@ -93,8 +93,8 @@
   --border-primary-intense: color-mix(in srgb, var(--primary) 35%, transparent);
   --border-success-muted: color-mix(in srgb, var(--success) 12%, transparent);
   --border-success-strong: color-mix(in srgb, var(--success) 20%, transparent);
-  --text-success-muted: color-mix(in srgb, var(--success) 55%, transparent);
-  --text-success-dim: color-mix(in srgb, var(--success) 50%, transparent);
+  --text-success-muted: color-mix(in srgb, var(--success) 55%, var(--foreground));
+  --text-success-dim: color-mix(in srgb, var(--success) 70%, var(--foreground));
   --nav-bg: color-mix(in srgb, var(--background) 93%, transparent);
   --nav-bg-solid: color-mix(in srgb, var(--background) 97%, transparent);
   --overlay-backdrop: color-mix(in srgb, #000 50%, transparent);
@@ -220,7 +220,11 @@
 @media (prefers-contrast: more) {
   :root {
     --border: color-mix(in srgb, var(--foreground) 12%, transparent);
-    --text-dim: color-mix(in srgb, var(--foreground) 75%, transparent);
+    --muted-foreground: #B4BBC6;
+    --text-dim: #A8B2C0;
+    --text-faint: #9CA3AF;
+    --text-success-muted: color-mix(in srgb, var(--success) 45%, var(--foreground));
+    --text-success-dim: color-mix(in srgb, var(--success) 60%, var(--foreground));
   }
 }
 
