@@ -2,20 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { NAV, NAV_LABELS, type NavId } from "@/lib/data";
+import { NAV, NAV_LABELS, type NavId } from "@/lib/data/nav";
+import { HERO_ID, sectionHref, PAGE_SECTION_IDS, isPageSectionId } from "@/lib/section-ids";
 import { getSectionIdFromHash, scrollToSection } from "@/lib/section-navigation";
 import { MDLogo } from "@/components/ui/icons";
 import styles from "@/styles/layout/nav-bar.module.css";
 
-const SECTION_IDS = ["hero", ...NAV];
+const SECTION_IDS = PAGE_SECTION_IDS;
 const SCROLL_LOCK_MS = 1200;
 const MOBILE_NAV_ID = "mobile-nav-menu";
-
-function getInitialActiveSection(): string {
-  if (typeof window === "undefined") return "hero";
-  const hashId = getSectionIdFromHash();
-  return hashId && SECTION_IDS.includes(hashId) ? hashId : "hero";
-}
+const DEFAULT_ACTIVE = HERO_ID;
 
 function getObserverMargin(): string {
   const w = window.innerWidth;
@@ -49,7 +45,7 @@ function NavItem({
   return (
     <li>
       <a
-        href={`#${id}`}
+        href={sectionHref(id)}
         onClick={(e) => {
           e.preventDefault();
           onClick(id);
@@ -64,7 +60,7 @@ function NavItem({
 }
 
 export function NavBar() {
-  const [active, setActive] = useState(getInitialActiveSection);
+  const [active, setActive] = useState(DEFAULT_ACTIVE);
   const [menuOpen, setMenuOpen] = useState(false);
   const lockUntilRef = useRef(0);
 
@@ -129,10 +125,15 @@ export function NavBar() {
 
   useEffect(() => {
     const hashId = getSectionIdFromHash();
-    if (!hashId || !SECTION_IDS.includes(hashId)) return;
+    if (!hashId || !isPageSectionId(hashId)) return;
 
     lockUntilRef.current = Date.now() + SCROLL_LOCK_MS;
     void scrollToSection(hashId);
+
+    const frame = requestAnimationFrame(() => {
+      setActive(hashId);
+    });
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   useEffect(() => {
@@ -158,7 +159,7 @@ export function NavBar() {
       <nav aria-label="Main navigation" className={`${styles.navGlass} fixed inset-x-0 top-0 z-50`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-(--nav-h)">
           <a
-            href="#hero"
+            href={sectionHref(HERO_ID)}
             onClick={(e) => {
               e.preventDefault();
               navigateTo("hero");
@@ -208,7 +209,7 @@ export function NavBar() {
             ))}
             <li>
               <a
-                href="#contact"
+                href={sectionHref("contact")}
                 onClick={(e) => {
                   e.preventDefault();
                   navigateTo("contact");
@@ -228,7 +229,7 @@ export function NavBar() {
               </span>
             )}
             <a
-              href="#contact"
+              href={sectionHref("contact")}
               onClick={(e) => {
                 e.preventDefault();
                 navigateTo("contact");

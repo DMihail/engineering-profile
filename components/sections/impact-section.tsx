@@ -1,19 +1,19 @@
-import { CAPABILITIES } from "@/lib/data";
+import { CAPABILITIES } from "@/lib/data/capabilities";
 import { SectionLabel, Chip } from "@/components/ui/primitives";
 import { FadeIn } from "@/components/ui/fade-in";
 import styles from "@/styles/sections/impact-section.module.css";
 
 export function ImpactSection() {
   return (
-    <section id="impact" className="section-surface border-t border-border-primary-soft" aria-labelledby="impact-heading">
+    <section id="impact" className="section-surface section-cv-auto border-t border-border-primary-soft" aria-labelledby="impact-heading">
       <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6">
-        <SectionLabel n="01" label="Capabilities" />
+        <SectionLabel n="01" label="What I do" />
 
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-10">
           <div>
-            <h2 id="impact-heading" className="section-heading">Core capabilities</h2>
+            <h2 id="impact-heading" className="section-heading">At a glance</h2>
             <p className="section-comment">
-              Production-verified across real systems and client projects
+              Mobile, web, and backend — applied across client work and own products
             </p>
           </div>
         </div>
@@ -29,7 +29,7 @@ export function ImpactSection() {
               <tr>
                 <th scope="col" className="mono-label">Area</th>
                 <th scope="col" className="mono-label">Description</th>
-                <th scope="col" className="mono-label">Target</th>
+                <th scope="col" className="mono-label">In practice</th>
               </tr>
             </thead>
             <tbody>
