@@ -313,6 +313,10 @@
     color: var(--color-muted-foreground);
   }
 
+  .max-w-copy {
+    max-width: var(--max-width-copy);
+  }
+
   /* ── Section Layouts ───────────────────────────────────────────────── */
 
   .section-dark,

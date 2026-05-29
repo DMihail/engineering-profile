@@ -218,13 +218,13 @@ function ResumeButton() {
   const cv = useSyncExternalStore(NOOP_SUBSCRIBE, getCvSnapshot, getServerCvSnapshot);
 
   return (
-    <a href={cv.file} download className={styles.resumeLink}>
-      <div className="icon-well icon-well-sm">
-        <Download size={13} className="text-primary" aria-hidden />
+    <a href={cv.file} download className={`${styles.linkCard} w-full no-underline`}>
+      <div className="icon-well icon-well-md">
+        <Download size={14} className="text-primary" aria-hidden />
       </div>
       <div className="flex-1 min-w-0">
-        <div className="text-xs font-semibold text-primary">{cv.label}</div>
-        <div className="mono-xs text-text-dim truncate">{cv.file.split("/").pop()}</div>
+        <div className="text-xs font-semibold text-foreground">{cv.label}</div>
+        <div className="mono-sm text-text-dim truncate">PDF · {cv.file.split("/").pop()}</div>
       </div>
     </a>
   );
@@ -331,13 +331,13 @@ export function ContactSection() {
     <section id="contact" className="section-surface section-cv-auto" aria-labelledby="contact-heading">
       <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6" style={fade}>
         <SectionLabel n="06" label="Contact" />
-        <h2 id="contact-heading" className="section-heading">Get in touch</h2>
+        <h2 id="contact-heading" className="section-heading">Contact</h2>
         <div className="flex items-center gap-2 mb-3">
           <span className="status-dot-sm animate-pulse" />
-          <span className="mono-sm text-success tracking-[0.04em]">Open to new roles</span>
+          <span className="mono-sm text-success tracking-[0.04em]">Available for work</span>
         </div>
         <p className="text-sm text-muted-foreground mb-10 max-w-copy leading-body text-pretty">
-          Open to full-time, contract, and freelance work — remote or onsite. Based in Dublin, available across EU, UK, and US time zones. Mobile app, web product, or full-stack team — let&apos;s talk.
+          Full-time, contract, or freelance — remote or onsite, EU, UK, and US time zones. App, web product, or backend — send a message and I&apos;ll reply.
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(17.5rem,20rem)] gap-8 lg:gap-12 lg:items-start">
@@ -346,7 +346,7 @@ export function ContactSection() {
             ref={formRef}
             action={formAction}
             onFocusCapture={primeRecaptcha}
-            className={`panel ${styles.formPanel} p-5 sm:p-6 min-w-0`}
+            className={`panel ${styles.formPanel} min-w-0`}
             aria-labelledby="contact-heading"
           >
             <fieldset className={`${styles.formGrid} border-0 p-0 m-0 min-w-0`}>
@@ -374,7 +374,7 @@ export function ContactSection() {
                   maxLength={2000}
                   rows={5}
                   placeholder="Tell me about the project..."
-                  className={`${styles.inputField} ${styles.messageField} resize-y leading-relaxed`}
+                  className={`${styles.inputField} ${styles.messageField}`}
                 />
               </div>
               <div className={styles.formActions}>

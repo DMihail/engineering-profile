@@ -3,7 +3,7 @@ export const NAV = ["impact", "projects", "skills", "experience", "contact"] as 
 export type NavId = (typeof NAV)[number];
 
 export const NAV_LABELS: Record<NavId, string> = {
-  impact: "What I do",
+  impact: "About",
   projects: "Projects",
   skills: "Skills",
   experience: "Experience",

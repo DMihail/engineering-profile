@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  padding: 1.25rem;
+  overflow: visible;
 }
 
 .formGrid {
@@ -15,14 +17,29 @@
 }
 
 @media (min-width: 640px) {
+  .formPanel {
+    padding: 1.5rem;
+  }
+
   .formGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem 1.25rem;
   }
 
-  .formFieldCompany {
+  .formFieldCompany,
+  .formFieldMessage,
+  .formActions {
     grid-column: 1 / -1;
   }
+
+  .messageField {
+    min-height: 10rem;
+  }
+}
+
+.messageField {
+  resize: none;
+  line-height: var(--leading-relaxed);
 }
 
 @media (min-width: 1024px) {
@@ -33,17 +50,11 @@
   }
 
   .formGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.25rem 1.5rem;
   }
 
   .formFieldCompany {
-    grid-column: 1 / -1;
     max-width: 28rem;
-  }
-
-  .formFieldMessage {
-    grid-column: 1 / -1;
   }
 
   .messageField {
@@ -51,7 +62,6 @@
   }
 
   .formActions {
-    grid-column: 1 / -1;
     padding-block-start: 0.25rem;
   }
 }
@@ -60,7 +70,8 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 1rem 1.25rem;
+  align-content: flex-start;
+  gap: 0.75rem 1.25rem;
 }
 
 .contactAside {
@@ -173,29 +184,4 @@
   font-weight: 400;
   text-transform: none;
   letter-spacing: 0.02em;
-}
-
-.resumeLink {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding-block: 0.625rem;
-  padding-inline: 0.875rem;
-  border-radius: var(--radius-button);
-  background: var(--surface-primary-muted);
-  border: 1px solid var(--border-primary-muted);
-  text-decoration: none;
-  transition: background 200ms, border-color 200ms;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .resumeLink:hover {
-    background: var(--surface-primary-soft);
-    border-color: var(--border-primary-emphasis);
-  }
-}
-
-.resumeLink:focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 2px;
 }
