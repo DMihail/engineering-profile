@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 import bundleAnalyzer from "@next/bundle-analyzer";
-import { SECURITY_HEADERS } from "@/lib/security-headers";
+import { getSecurityHeaders } from "@/lib/security-headers";
 
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
@@ -35,7 +35,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/(.*)",
-        headers: SECURITY_HEADERS,
+        headers: getSecurityHeaders(),
       },
       {
         source: "/icon.svg",

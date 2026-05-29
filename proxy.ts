@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { CONTACT_REGION_COOKIE, type ContactRegion } from "@/lib/contact-region";
 import { PAGE_SECTION_IDS } from "@/lib/section-ids";
+import { applySecurityHeaders } from "@/lib/security-headers";
 
 function contactRegionFromRequest(request: NextRequest): ContactRegion {
   const country =
@@ -19,7 +20,17 @@ function withContactRegionCookie(request: NextRequest, response: NextResponse): 
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
   });
+  applySecurityHeaders(response);
   return response;
+}
+
+function forward(request: NextRequest, pathname: string): NextResponse {
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-pathname", pathname);
+  return withContactRegionCookie(
+    request,
+    NextResponse.next({ request: { headers: requestHeaders } }),
+  );
 }
 
 const HOME = "/";
@@ -51,17 +62,19 @@ export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (isAllowed(pathname)) {
-    return withContactRegionCookie(request, NextResponse.next());
+    return forward(request, pathname);
   }
 
-  const redirectUrl = new URL(HOME, request.url);
   const segment = pathname.replace(/^\/+|\/+$/g, "").split("/")[0]?.toLowerCase();
+  const isSingleSegment = /^\/[^/]+\/?$/.test(pathname);
 
-  if (segment && SECTION_IDS.has(segment)) {
+  if (isSingleSegment && segment && SECTION_IDS.has(segment)) {
+    const redirectUrl = new URL(HOME, request.url);
     redirectUrl.hash = segment;
+    return withContactRegionCookie(request, NextResponse.redirect(redirectUrl, 308));
   }
 
-  return withContactRegionCookie(request, NextResponse.redirect(redirectUrl, 308));
+  return forward(request, pathname);
 }
 
 export const config = {

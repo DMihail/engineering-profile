@@ -43,7 +43,7 @@ lib/
   data/                 Content modules (case studies, skills, experience, nav)
   config.ts             Site constants (URL, author, SEO copy)
   json-ld.ts            Schema.org graph builder
-proxy.ts                Edge proxy (section redirects, contact region cookie)
+proxy.ts                Edge proxy (section aliases → /#id, 404 passthrough, contact region cookie)
 styles/                 CSS Modules per section / layout
 __tests__/              Jest tests
 public/                 CV PDFs, static assets

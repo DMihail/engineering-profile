@@ -56,7 +56,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${fontVariableClassName} h-full`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${fontVariableClassName} h-full`}>
       <body className={`${fontBodyClassName} min-h-full`}>
         <SiteJsonLd />
         {children}

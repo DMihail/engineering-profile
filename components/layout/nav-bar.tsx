@@ -66,6 +66,13 @@ export function NavBar() {
   const [active, setActive] = useState(DEFAULT_ACTIVE);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const toggleMenu = useCallback(() => {
+    if (!toggleRef.current) return;
+    toggleRef.current.checked = !toggleRef.current.checked;
+    setMenuOpen(toggleRef.current.checked);
+    toggleRef.current.blur();
+  }, []);
+
   const closeMenu = useCallback(() => {
     if (toggleRef.current) toggleRef.current.checked = false;
     setMenuOpen(false);
@@ -170,14 +177,15 @@ export function NavBar() {
           }}
         />
 
-        <button
-          type="button"
-          className={`${styles.navBackdrop} lg:hidden`}
-          onClick={closeMenu}
-          aria-label="Close navigation menu"
-          aria-hidden={!menuOpen}
-          tabIndex={-1}
-        />
+        {menuOpen && (
+          <button
+            type="button"
+            className={`${styles.navBackdrop} lg:hidden`}
+            onClick={closeMenu}
+            aria-label="Close navigation menu"
+            tabIndex={-1}
+          />
+        )}
 
         <div className={`max-w-6xl mx-auto px-4 sm:px-6 h-(--nav-h) ${styles.navBarInner}`}>
           <a
@@ -216,56 +224,55 @@ export function NavBar() {
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" aria-hidden />
               Let&apos;s talk
             </a>
-            <label
-              htmlFor={NAV_TOGGLE_ID}
+            <button
+              type="button"
               className={`${styles.menuToggle} lg:hidden`}
+              onClick={toggleMenu}
               aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={menuOpen}
               aria-controls={MOBILE_NAV_ID}
-              tabIndex={0}
             >
               <Menu size={20} className={styles.menuIconOpen} aria-hidden />
               <X size={20} className={styles.menuIconClose} aria-hidden />
-            </label>
+            </button>
           </div>
         </div>
+      </nav>
 
-        <div
-          role="dialog"
-          aria-modal={menuOpen}
-          aria-hidden={!menuOpen}
-          aria-label="Navigation menu"
-          inert={!menuOpen ? true : undefined}
-          className={`${styles.navList} lg:hidden`}
-        >
-          <ul id={MOBILE_NAV_ID} className="flex flex-col items-center gap-[inherit] list-none m-0 p-0 w-full">
-            <SectionNavLink
-              id={HERO_ID}
-              label={SECTION_LABELS.hero}
-              active={active === HERO_ID}
+      <nav
+        id={MOBILE_NAV_ID}
+        aria-label="Mobile navigation"
+        inert={!menuOpen ? true : undefined}
+        {...(!menuOpen ? { "aria-hidden": true } : {})}
+        className={`${styles.navList} lg:hidden ${menuOpen ? styles.navListOpen : ""}`}
+      >
+        <ul className="flex flex-col items-center gap-[inherit] list-none m-0 p-0 w-full">
+          <SectionNavLink
+            id={HERO_ID}
+            label={SECTION_LABELS.hero}
+            active={active === HERO_ID}
+            onNavigate={onNavigate}
+          />
+          {NAV.map((id) => (
+            <NavItem
+              key={id}
+              id={id}
+              label={NAV_LABELS[id]}
+              active={active === id}
               onNavigate={onNavigate}
             />
-            {NAV.map((id) => (
-              <NavItem
-                key={id}
-                id={id}
-                label={NAV_LABELS[id]}
-                active={active === id}
-                onNavigate={onNavigate}
-              />
-            ))}
-            <li>
-              <a
-                href={sectionHref("contact")}
-                onClick={() => onNavigate("contact")}
-                className="btn-primary mt-6 py-3.5 px-10 text-hero-support whitespace-nowrap no-underline"
-              >
-                <span className="status-dot-sm bg-background! shadow-none! animate-pulse" aria-hidden />
-                Let&apos;s talk
-              </a>
-            </li>
-          </ul>
-        </div>
+          ))}
+          <li>
+            <a
+              href={sectionHref("contact")}
+              onClick={() => onNavigate("contact")}
+              className="btn-primary mt-6 py-3.5 px-10 text-hero-support whitespace-nowrap no-underline"
+            >
+              <span className="status-dot-sm bg-background! shadow-none! animate-pulse" aria-hidden />
+              Let&apos;s talk
+            </a>
+          </li>
+        </ul>
       </nav>
     </header>
   );

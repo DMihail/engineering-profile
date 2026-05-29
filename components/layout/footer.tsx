@@ -36,7 +36,9 @@ export function Footer() {
               })}
             </ul>
           </nav>
-          <span className="status-dot animate-pulse" aria-label="Available for work" role="status" />
+          <span className="status-dot animate-pulse" role="status">
+            <span className="sr-only">Available for work</span>
+          </span>
         </div>
       </div>
     </footer>

@@ -33,25 +33,43 @@ export function buildContentSecurityPolicy(): string {
 
   if (isProd) {
     directives.push("upgrade-insecure-requests");
+    directives.push("trusted-types default");
+    directives.push("require-trusted-types-for 'script'");
   }
 
   return directives.join("; ");
 }
 
-export const SECURITY_HEADERS: Header[] = [
-  { key: "Content-Security-Policy", value: buildContentSecurityPolicy() },
-  { key: "X-Frame-Options", value: "SAMEORIGIN" },
-  { key: "X-Content-Type-Options", value: "nosniff" },
-  /** Recommended over legacy `origin-when-cross-origin` (securityheaders.com). */
-  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
-  { key: "X-DNS-Prefetch-Control", value: "on" },
-  { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
-];
+export const HSTS_HEADER_VALUE = "max-age=63072000; includeSubDomains; preload";
 
-if (isProductionEnv()) {
-  SECURITY_HEADERS.push({
-    key: "Strict-Transport-Security",
-    value: "max-age=63072000; includeSubDomains; preload",
-  });
+/** Security headers applied on every HTML/API response (enforcement, not report-only). */
+export function getSecurityHeaders(): Header[] {
+  const headers: Header[] = [
+    { key: "Content-Security-Policy", value: buildContentSecurityPolicy() },
+    { key: "X-Frame-Options", value: "SAMEORIGIN" },
+    { key: "X-Content-Type-Options", value: "nosniff" },
+    { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+    { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+    { key: "X-DNS-Prefetch-Control", value: "on" },
+    { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+    { key: "Cross-Origin-Resource-Policy", value: "same-site" },
+  ];
+
+  if (isProductionEnv()) {
+    headers.push({
+      key: "Strict-Transport-Security",
+      value: HSTS_HEADER_VALUE,
+    });
+  }
+
+  return headers;
 }
+
+export function applySecurityHeaders(response: Response): void {
+  for (const { key, value } of getSecurityHeaders()) {
+    response.headers.set(key, value);
+  }
+}
+
+/** @deprecated Use getSecurityHeaders() so production-only headers resolve at call time. */
+export const SECURITY_HEADERS = getSecurityHeaders();
