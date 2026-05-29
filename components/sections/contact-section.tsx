@@ -65,7 +65,7 @@ function TelegramCard() {
     <a
       href={TELEGRAM.href}
       target="_blank"
-      rel="noreferrer"
+      rel="noopener noreferrer"
       className={`${styles.linkCard} group no-underline`}
     >
       <div className="icon-well icon-well-md">
@@ -208,7 +208,7 @@ function SubmitButton({ success, error }: { success: boolean; error?: string }) 
         }
       </button>
       {error && (
-        <p role="alert" className="text-xs text-error mono-sm">{error}</p>
+        <p role="alert" aria-live="polite" className="text-xs text-error mono-sm">{error}</p>
       )}
     </>
   );
@@ -281,7 +281,7 @@ function SocialLinks() {
         }
         const LinkIcon = link.icon;
         return (
-          <a key={link.label} href={link.href} target="_blank" rel="noreferrer" className={`${styles.linkCard} group`}>
+          <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" className={`${styles.linkCard} group`}>
             <div className="icon-well icon-well-md">
               <LinkIcon size={14} className="text-primary" aria-hidden />
             </div>
@@ -353,17 +353,17 @@ export function ContactSection() {
               <legend className="sr-only">Contact form</legend>
               <div className={styles.formField}>
                 <label htmlFor="contact-name" className={styles.formLabel}>NAME</label>
-                <input id="contact-name" type="text" name="name" required maxLength={100} placeholder="Your name" className={styles.inputField} />
+                <input id="contact-name" type="text" name="name" required maxLength={100} autoComplete="name" placeholder="Your name" className={styles.inputField} />
               </div>
               <div className={styles.formField}>
                 <label htmlFor="contact-email" className={styles.formLabel}>EMAIL</label>
-                <input id="contact-email" type="email" name="email" required maxLength={254} placeholder="you@example.com" className={styles.inputField} />
+                <input id="contact-email" type="email" name="email" required maxLength={254} autoComplete="email" placeholder="you@example.com" className={styles.inputField} />
               </div>
               <div className={`${styles.formField} ${styles.formFieldCompany}`}>
                 <label htmlFor="contact-company" className={styles.formLabel}>
                   COMPANY <span className={styles.formLabelOptional}>(optional)</span>
                 </label>
-                <input id="contact-company" type="text" name="company" maxLength={120} placeholder="Your company" className={styles.inputField} />
+                <input id="contact-company" type="text" name="company" maxLength={120} autoComplete="organization" placeholder="Your company" className={styles.inputField} />
               </div>
               <div className={`${styles.formField} ${styles.formFieldMessage}`}>
                 <label htmlFor="contact-message" className={styles.formLabel}>MESSAGE</label>
@@ -373,6 +373,8 @@ export function ContactSection() {
                   required
                   maxLength={2000}
                   rows={5}
+                  spellCheck
+                  autoComplete="off"
                   placeholder="Tell me about the project..."
                   className={`${styles.inputField} ${styles.messageField}`}
                 />

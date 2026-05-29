@@ -1,11 +1,11 @@
 export function SectionLabel({ n, label }: { n: string; label: string }) {
   return (
-    <div className="flex items-center gap-3 mb-5">
-      <span className="mono-sm tracking-[0.15em] uppercase text-primary">
+    <p className="flex items-center gap-3 mb-5" aria-label={`Section ${n}: ${label}`}>
+      <span className="mono-sm tracking-[0.15em] uppercase text-primary" aria-hidden>
         {n} / {label}
       </span>
-      <div className="flex-1 h-px bg-border" />
-    </div>
+      <span className="flex-1 h-px bg-border" aria-hidden />
+    </p>
   );
 }
 

@@ -19,7 +19,10 @@ export function ImpactSection() {
         </div>
 
         <div className="hidden lg:block rounded-xl overflow-hidden border border-border impact-table-wrap">
-          <table className={styles.capTable}>
+          <table className={styles.capTable} aria-describedby="impact-table-caption">
+            <caption id="impact-table-caption" className="sr-only">
+              Capabilities by domain with summary and benchmark
+            </caption>
             <colgroup>
               <col />
               <col />

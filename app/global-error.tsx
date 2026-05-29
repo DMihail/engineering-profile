@@ -20,7 +20,7 @@ export default function GlobalError({
           <h1 style={{ fontSize: "1.75rem", fontWeight: 700, marginBottom: "0.5rem" }}>
             Something went wrong
           </h1>
-          <p style={{ fontSize: "0.875rem", color: "#8891A0", marginBottom: "1.5rem", maxWidth: "25rem" }}>
+          <p style={{ fontSize: "0.875rem", color: "#8891A0", marginBottom: "1.5rem", maxWidth: "25rem" }} role="alert">
             {error.digest ? `Error ID: ${error.digest}` : "An unexpected error occurred."}
           </p>
           <button

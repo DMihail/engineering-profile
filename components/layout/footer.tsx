@@ -13,31 +13,31 @@ export function Footer() {
               © {new Date().getFullYear()} {SITE_AUTHOR}
             </small>
           </div>
-          <span className="hidden sm:inline mono-md text-text-faint" aria-hidden="true">·</span>
+          <span className="hidden sm:inline mono-md text-text-faint" aria-hidden>·</span>
           <span className="mono-md text-text-faint">{SITE_ROLE}</span>
         </div>
 
-        <nav aria-label="Social links">
-          <ul className="flex items-center gap-4 list-none m-0 p-0">
-            {SOCIAL_LINKS.map((link) => {
-              const isMailto = link.href.startsWith("mailto:");
-              return (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    {...(!isMailto && { target: "_blank", rel: "noreferrer" })}
-                    className="mono-sm text-text-dim no-underline transition-colors hover:text-primary"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              );
-            })}
-            <li aria-hidden="true">
-              <span className="status-dot animate-pulse" />
-            </li>
-          </ul>
-        </nav>
+        <div className="flex items-center gap-4">
+          <nav aria-label="Social links">
+            <ul className="flex items-center gap-4 list-none m-0 p-0">
+              {SOCIAL_LINKS.map((link) => {
+                const isMailto = link.href.startsWith("mailto:");
+                return (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      {...(!isMailto && { target: "_blank", rel: "noopener noreferrer" })}
+                      className="mono-sm text-text-dim no-underline transition-colors hover:text-primary"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+          <span className="status-dot animate-pulse" aria-label="Available for work" role="status" />
+        </div>
       </div>
     </footer>
   );

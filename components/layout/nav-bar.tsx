@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { NAV, NAV_LABELS, type NavId } from "@/lib/data/nav";
-import { HERO_ID, sectionHref, PAGE_SECTION_IDS, isPageSectionId } from "@/lib/section-ids";
+import { HERO_ID, sectionHref, PAGE_SECTION_IDS, isPageSectionId, SECTION_LABELS } from "@/lib/section-ids";
 import { getSectionIdFromHash, scrollToSection } from "@/lib/section-navigation";
 import { MDLogo } from "@/components/ui/icons";
 import styles from "@/styles/layout/nav-bar.module.css";
@@ -141,7 +141,7 @@ export function NavBar() {
     void scrollToSection(id);
   };
 
-  const activeLabel = active in NAV_LABELS ? NAV_LABELS[active as NavId] : active;
+  const activeLabel = active in SECTION_LABELS ? SECTION_LABELS[active as keyof typeof SECTION_LABELS] : active;
 
   return (
     <header>

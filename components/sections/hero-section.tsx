@@ -6,7 +6,7 @@ import styles from "@/styles/sections/hero-section.module.css";
 
 export function HeroSection() {
   return (
-    <section id="hero" className="relative min-h-hero flex items-center overflow-hidden bg-background pt-(--nav-h)" aria-label="Introduction">
+    <section id="hero" className="relative min-h-hero flex items-center overflow-hidden bg-background pt-(--nav-h)" aria-labelledby="hero-heading">
 
       <div className="absolute inset-0 pointer-events-none bg-grid" />
       <div className="absolute inset-0 pointer-events-none bg-vignette" />
@@ -20,7 +20,7 @@ export function HeroSection() {
             <span className="text-sm text-text-secondary">Available for remote and onsite · {SITE_LOCATION}</span>
           </div>
 
-          <h1 className="font-sans font-extrabold mb-3 tracking-[-0.045em] leading-[0.98] text-foreground text-hero-name text-balance">
+          <h1 id="hero-heading" className="font-sans font-extrabold mb-3 tracking-[-0.045em] leading-[0.98] text-foreground text-hero-name text-balance">
             {SITE_AUTHOR.split(" ")[0]}
             <br />
             <span className="text-primary">{SITE_AUTHOR.split(" ").slice(1).join(" ")}</span>
@@ -39,11 +39,11 @@ export function HeroSection() {
               <Download size={15} aria-hidden />
               Download CV
             </a>
-            <a href={HERO_CTA.github} target="_blank" rel="noreferrer" className="btn-outline no-underline min-h-11">
-              <GithubIcon size={15} />
+            <a href={HERO_CTA.github} target="_blank" rel="noopener noreferrer" className="btn-outline no-underline min-h-11">
+              <GithubIcon size={15} aria-hidden />
               GitHub
             </a>
-            <a href={HERO_CTA.linkedin} target="_blank" rel="noreferrer" className="btn-outline no-underline min-h-11">
+            <a href={HERO_CTA.linkedin} target="_blank" rel="noopener noreferrer" className="btn-outline no-underline min-h-11">
               <LinkedinIcon size={15} />
               LinkedIn
             </a>
@@ -53,14 +53,14 @@ export function HeroSection() {
             </a>
           </nav>
 
-          <div className="grid grid-cols-3 gap-3 sm:gap-4 max-w-lg mx-auto lg:mx-0" aria-label="Experience highlights">
+          <dl className="grid grid-cols-3 gap-3 sm:gap-4 max-w-lg mx-auto lg:mx-0 m-0">
             {HERO_STATS.map((m) => (
               <div key={m.label} className="text-center py-4 px-2 rounded-xl bg-card border border-border">
-                <div className="font-sans text-hero-stat font-bold text-foreground tracking-[-0.03em]">{m.value}</div>
-                <div className="text-xs text-muted-foreground mt-1 leading-snug">{m.label}</div>
+                <dt className="font-sans text-hero-stat font-bold text-foreground tracking-[-0.03em]">{m.value}</dt>
+                <dd className="text-xs text-muted-foreground mt-1 leading-snug m-0">{m.label}</dd>
               </div>
             ))}
-          </div>
+          </dl>
         </div>
       </div>
     </section>

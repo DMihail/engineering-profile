@@ -27,17 +27,22 @@ export function useFadeIn(delay = 0) {
     const el = ref.current;
     if (!el) return;
 
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
     const obs = new IntersectionObserver(
       ([e]) => {
         if (e.isIntersecting) {
-          setTimeout(() => setIntersected(true), delay);
+          timeoutId = setTimeout(() => setIntersected(true), delay);
           obs.disconnect();
         }
       },
       { threshold: 0.04, rootMargin: "80px 0px" },
     );
     obs.observe(el);
-    return () => obs.disconnect();
+    return () => {
+      obs.disconnect();
+      if (timeoutId !== undefined) clearTimeout(timeoutId);
+    };
   }, [delay, reducedMotion]);
 
   const vis = reducedMotion || intersected;

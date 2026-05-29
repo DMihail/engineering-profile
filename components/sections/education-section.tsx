@@ -1,15 +1,22 @@
 import { GraduationCap } from "lucide-react";
 import { EDUCATION } from "@/lib/data/experience";
+import { EDUCATION_ID } from "@/lib/section-ids";
 import { SectionLabel } from "@/components/ui/primitives";
 import { FadeIn } from "@/components/ui/fade-in";
 
 const INSTITUTION =
   EDUCATION[0]?.institution ?? "University";
 
+function periodDateTime(period: string): string | undefined {
+  const match = period.match(/(\d{4})\s*[—–-]\s*(\d{4})/);
+  if (!match) return undefined;
+  return `${match[1]}/${match[2]}`;
+}
+
 export function EducationSection() {
   return (
     <section
-      id="education"
+      id={EDUCATION_ID}
       className="section-surface section-cv-auto border-t border-border-primary-soft"
       aria-labelledby="education-heading"
     >
@@ -41,7 +48,9 @@ export function EducationSection() {
                   >
                     <span className="text-sm font-medium text-foreground">{entry.field}</span>
                     {entry.period && (
-                      <time className="mono-sm text-muted-foreground shrink-0">{entry.period}</time>
+                      <time className="mono-sm text-muted-foreground shrink-0" dateTime={periodDateTime(entry.period)}>
+                        {entry.period}
+                      </time>
                     )}
                   </li>
                 ))}

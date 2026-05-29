@@ -10,12 +10,16 @@ export default function Home() {
       <a href={sectionHref(MAIN_CONTENT_ID)} className="skip-link">
         Skip to content
       </a>
-      <main id={MAIN_CONTENT_ID} tabIndex={-1} className="min-h-screen bg-background font-sans overflow-x-clip">
       <NavBar />
-      <HeroSection />
-      <HomeSections />
+      <main
+        id={MAIN_CONTENT_ID}
+        tabIndex={-1}
+        className="min-h-screen bg-background font-sans overflow-x-clip"
+      >
+        <HeroSection />
+        <HomeSections />
+      </main>
       <Footer />
-    </main>
     </>
   );
 }

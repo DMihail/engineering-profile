@@ -7,7 +7,7 @@ import {
   SITE_SHORT_DESCRIPTION,
   SITE_OG_IMAGE_PATH,
 } from "@/lib/config";
-import { buildSiteJsonLd } from "@/lib/json-ld";
+import { SiteJsonLd } from "@/components/seo/site-json-ld";
 import { fontBodyClassName, fontVariableClassName } from "@/lib/fonts";
 import "./globals.css";
 
@@ -71,8 +71,6 @@ export const viewport: Viewport = {
   themeColor: "#0B0F17",
 };
 
-const jsonLd = buildSiteJsonLd();
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -80,14 +78,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${fontVariableClassName} h-full`}>
-      <head>
-        <title>{title}</title>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      </head>
       <body className={`${fontBodyClassName} min-h-full`}>
+        <SiteJsonLd />
         {children}
       </body>
     </html>
