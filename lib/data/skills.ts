@@ -1,6 +1,6 @@
 import {
   Smartphone, Layers, Eye, Code2, Cpu, Activity,
-  Globe, Monitor, Wind, GitBranch, Zap,
+  Globe, Monitor, Wind, GitBranch, Zap, LayoutGrid,
   Server, Shield, Database, Wifi, Boxes,
   Workflow, RefreshCw, Package,
   PenTool, Wrench, Bug, CircleCheck,
@@ -10,7 +10,7 @@ import type { SkillLayer } from "@/lib/types";
 export const SKILL_LAYERS: SkillLayer[] = [
   {
     id: "mobile", layer: "Mobile · Expo & React Native", desc: "iOS and Android — UI, offline storage, Firebase, App Store & Google Play",
-    projectRefs: "FocusGuard · Waddingtons · Vitadrop",
+    projectRefs: "FocusGuard (in dev) · Waddingtons · Vitadrop",
     skills: [
       { name: "React Native", primary: true,  icon: Smartphone },
       { name: "Expo",         primary: true,  icon: Layers     },
@@ -22,12 +22,13 @@ export const SKILL_LAYERS: SkillLayer[] = [
     ],
   },
   {
-    id: "frontend", layer: "Web · React & Next.js", desc: "Websites, admin panels, PWAs — responsive UI from Figma to production",
-    projectRefs: "Developer Inbox · Kultprosvet · this portfolio",
+    id: "frontend", layer: "Web · React & Next.js", desc: "Websites, admin panels, and product UIs — React with Material UI, Next.js, and Tailwind",
+    projectRefs: "Elementica · Developer Inbox · this portfolio",
     skills: [
-      { name: "React",        primary: true,  icon: Globe     },
-      { name: "Next.js",      primary: true,  icon: Monitor   },
-      { name: "TypeScript",   primary: true,  icon: Code2     },
+      { name: "React",        primary: true,  icon: Globe       },
+      { name: "Material UI",  primary: true,  icon: LayoutGrid  },
+      { name: "Next.js",      primary: true,  icon: Monitor     },
+      { name: "TypeScript",   primary: true,  icon: Code2       },
       { name: "Vite",         primary: false, icon: Zap       },
       { name: "PWA",          primary: false, icon: Package   },
       { name: "React Router", primary: false, icon: GitBranch },

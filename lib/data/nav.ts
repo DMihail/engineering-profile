@@ -1,14 +1,12 @@
-export const NAV = ["impact", "projects", "skills", "experience", "contact"] as const;
+import { SECTIONS, type ContentSectionId } from "@/lib/data/sections";
 
-export type NavId = (typeof NAV)[number];
+export const NAV: ContentSectionId[] = SECTIONS.map((s) => s.id);
 
-export const NAV_LABELS: Record<NavId, string> = {
-  impact: "About",
-  projects: "Projects",
-  skills: "Skills",
-  experience: "Experience",
-  contact: "Contact",
-};
+export type NavId = ContentSectionId;
+
+export const NAV_LABELS: Record<NavId, string> = Object.fromEntries(
+  SECTIONS.map((s) => [s.id, s.label]),
+) as Record<NavId, string>;
 
 export const HERO_CTA = {
   cv: "/Mykhailo_Dzhezhelo_CV_Ireland.pdf",
@@ -18,7 +16,7 @@ export const HERO_CTA = {
 } as const;
 
 export const HERO_STATS = [
-  { value: "6+", label: "Years of experience" },
-  { value: "20+", label: "Projects delivered" },
-  { value: "4.8★", label: "App Store rating" },
+  { value: "6+", label: "Years in mobile & web" },
+  { value: "20+", label: "Client apps & releases" },
+  { value: "RN + Web", label: "Expo · React · MUI" },
 ];

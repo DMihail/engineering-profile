@@ -33,6 +33,7 @@ export interface XP {
   tags: string[];
   highlight: string;
   relatedCaseId?: string;
+  relatedCaseTitle?: string;
   items: string[];
 }
 export interface SocialLink { label: string; hint: string; icon: Icon; href: string }

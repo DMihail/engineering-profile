@@ -6,20 +6,20 @@ export const CASE_STUDIES: CaseStudy[] = [
     num: "01",
     title: "FocusGuard",
     type: "Personal project · Mobile",
-    version: "App Store & Google Play",
+    version: "In development · iOS & Android",
     summary:
-      "A focus and screen-time app built with Expo for iPhone and Android. Tracks sessions, limits distractions, and runs reliably in the background.",
+      "Focus and screen-time app in active development with Expo — background tracking, native modules, and Detox-tested flows on both platforms. Not yet published to the stores.",
     stack: ["Expo", "React Native", "TypeScript", "Firebase", "Swift", "Kotlin", "SQLite", "Jest", "Detox"],
     technicalPoints: [
       "Expo and React Native for iOS and Android from one codebase",
-      "Firebase analytics and crash reporting in production",
+      "Firebase analytics and crash reporting wired for pre-release builds",
       "Jest unit tests and Detox E2E flows on both platforms",
       "Background tracking on Android with foreground services",
       "Native modules for OS-level screen-time controls",
       "Local database so sessions survive app restarts",
     ],
     context:
-      "I built FocusGuard to help people stay focused on their phone. It tracks focus sessions, monitors app usage, and enforces limits the user sets.",
+      "I'm building FocusGuard to help people stay focused on their phone. It tracks focus sessions, monitors app usage, and enforces limits the user sets.",
     problem:
       "Focus apps live or die on background reliability. iOS and Android limit how long an app can run unseen, and users notice immediately if timers drift or the UI stutters.",
     solution:
@@ -43,9 +43,9 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Kept timers smooth during long focus sessions",
     ],
     results: [
-      { metric: "2,400+", label: "downloads" },
-      { metric: "4.8★", label: "App Store rating" },
-      { metric: "−47 min", label: "avg. daily screen time (user survey)" },
+      { metric: "Pre-release", label: "App Store & Google Play" },
+      { metric: "Detox E2E", label: "iOS & Android flows" },
+      { metric: "Native", label: "Swift & Kotlin modules" },
     ],
   },
   {
@@ -55,7 +55,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     type: "Client · Production",
     version: "Expo · iOS & Android",
     summary:
-      "Mobile auction app connected to the Invaluable platform. Users browse lots, follow live auctions, and place bids in real time.",
+      "Production auction app with live WebSocket bidding — integrated with Invaluable, built for peak traffic during live sales on iOS and Android.",
     stack: ["Expo", "React Native", "TypeScript", "WebSockets", "Redux Toolkit", "RTK Query", "Firebase", "Jest"],
     technicalPoints: [
       "Expo-based React Native app for iOS and Android",

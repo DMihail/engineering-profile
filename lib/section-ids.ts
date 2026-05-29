@@ -2,10 +2,7 @@ import { NAV, type NavId } from "@/lib/data/nav";
 
 export const MAIN_CONTENT_ID = "main-content";
 export const HERO_ID = "hero";
-export const EDUCATION_ID = "education";
-
-/** All in-page section ids rendered on `/` (single source of truth for hash links). */
-export const PAGE_SECTION_IDS = [HERO_ID, ...NAV, EDUCATION_ID] as const;
+export const PAGE_SECTION_IDS = [HERO_ID, ...NAV] as const;
 
 export type PageSectionId = (typeof PAGE_SECTION_IDS)[number];
 

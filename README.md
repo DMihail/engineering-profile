@@ -77,7 +77,7 @@ The site renders without backend keys. The contact form and inbox API need envir
 
 ## Environment variables
 
-Create `.env.local` in the project root (never commit it). Variables are loaded by Next.js automatically.
+Create `.env.local` from the template (`.env.local.example`) and fill in values. Never commit `.env.local`.
 
 ### Contact form (minimum for submissions)
 

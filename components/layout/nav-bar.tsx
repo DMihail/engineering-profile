@@ -20,13 +20,13 @@ function getObserverMargin(): string {
   return "-25% 0px -55% 0px";
 }
 
-function NavItem({
+function SectionNavLink({
   id,
   label,
   active,
   onClick,
 }: {
-  id: NavId;
+  id: string;
   label: string;
   active: boolean;
   onClick: (id: string) => void;
@@ -46,6 +46,20 @@ function NavItem({
       </a>
     </li>
   );
+}
+
+function NavItem({
+  id,
+  label,
+  active,
+  onClick,
+}: {
+  id: NavId;
+  label: string;
+  active: boolean;
+  onClick: (id: string) => void;
+}) {
+  return <SectionNavLink id={id} label={label} active={active} onClick={onClick} />;
 }
 
 export function NavBar() {
@@ -146,14 +160,14 @@ export function NavBar() {
   return (
     <header>
       <nav aria-label="Main navigation" className={`${styles.navGlass} fixed inset-x-0 top-0 z-50`}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-(--nav-h)">
+        <div className={`max-w-6xl mx-auto px-4 sm:px-6 h-(--nav-h) ${styles.navBarInner}`}>
           <a
             href={sectionHref(HERO_ID)}
             onClick={(e) => {
               e.preventDefault();
               navigateTo("hero");
             }}
-            className="relative z-10 flex items-center gap-2 mono-base text-primary tracking-[0.02em] no-underline"
+            className={`${styles.navLogo} relative z-10 flex items-center gap-2 mono-base text-primary tracking-[0.02em] no-underline`}
           >
             <MDLogo size={22} aria-hidden />
             <span>md://portfolio</span>
@@ -185,6 +199,12 @@ export function NavBar() {
             className={`${styles.navList} lg:hidden ${menuOpen ? styles.navListOpen : ""}`}
             aria-hidden={!menuOpen}
           >
+            <SectionNavLink
+              id={HERO_ID}
+              label={SECTION_LABELS.hero}
+              active={active === HERO_ID}
+              onClick={navigateTo}
+            />
             {NAV.map((id) => (
               <NavItem
                 key={id}
@@ -209,7 +229,7 @@ export function NavBar() {
             </li>
           </ul>
 
-          <div className="relative z-10 flex items-center gap-3">
+          <div className={`${styles.navActions} relative z-10 flex items-center gap-3`}>
             {active !== "hero" && (
               <span className={`lg:hidden mono-xs text-primary tracking-widest ${styles.sectionLabel}`}>
                 {activeLabel}

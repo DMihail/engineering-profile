@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 import type { CaseStudy } from "@/lib/types";
 import { CASE_STUDIES } from "@/lib/data";
 import { useFadeIn } from "@/lib/hooks";
-import { SectionLabel, Chip } from "@/components/ui/primitives";
+import { SectionHeader, Chip, sectionHeadingId } from "@/components/ui/primitives";
 import styles from "@/styles/sections/case-studies-section.module.css";
 
 function StudyHeading({
@@ -193,14 +193,12 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
 
 export function CaseStudiesSection() {
   const { ref, fade } = useFadeIn();
+  const headingId = sectionHeadingId("projects");
+
   return (
-    <section id="projects" className="section-dark section-cv-auto" aria-labelledby="projects-heading">
-      <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6" style={fade}>
-        <SectionLabel n="02" label="Projects" />
-        <h2 id="projects-heading" className="section-heading mb-2">Selected work</h2>
-        <p className="section-comment mb-10 max-w-copy">
-          Shipped apps — problem, approach, and what changed in production
-        </p>
+    <section id="projects" className="section-dark section-cv-auto" aria-labelledby={headingId}>
+      <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6 fade-in-target" style={fade}>
+        <SectionHeader sectionId="projects" />
         <div className="space-y-4 sm:space-y-5">
           {CASE_STUDIES.map((cs) => (
             <CaseStudyPanel key={cs.id} cs={cs} />

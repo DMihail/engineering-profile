@@ -1,31 +1,25 @@
 import { MapPin } from "lucide-react";
 import { XP_ENTRIES } from "@/lib/data/experience";
-import { CASE_STUDIES } from "@/lib/data/case-studies";
 import { sectionHref } from "@/lib/section-ids";
-import { SectionLabel, Chip } from "@/components/ui/primitives";
+import { SectionHeader, Chip, sectionHeadingId } from "@/components/ui/primitives";
 import { FadeIn } from "@/components/ui/fade-in";
 
-const CASE_STUDY_BY_ID = Object.fromEntries(CASE_STUDIES.map((cs) => [cs.id, cs]));
-
 export function ExperienceSection() {
+  const headingId = sectionHeadingId("experience");
+
   return (
-    <section id="experience" className="section-dark section-cv-auto" aria-labelledby="experience-heading">
+    <section id="experience" className="section-dark section-cv-auto" aria-labelledby={headingId}>
       <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6">
-        <SectionLabel n="04" label="Work" />
-        <h2 id="experience-heading" className="section-heading mb-2">Work history</h2>
-        <p className="section-comment mb-10">
-          Six years on React Native, web, and Node.js — client teams and product work
-        </p>
+        <SectionHeader sectionId="experience" />
 
         <div className="relative">
           <div className="absolute top-2 bottom-8 w-px hidden md:block inset-s-0 bg-linear-to-b from-primary/40 to-primary/5" aria-hidden />
           <div className="space-y-5">
             {XP_ENTRIES.map((xp) => {
-              const headingId = `xp-${xp.company.replace(/\s+/g, "-").toLowerCase()}`;
-              const relatedCase = xp.relatedCaseId ? CASE_STUDY_BY_ID[xp.relatedCaseId] : undefined;
+              const entryHeadingId = `xp-${xp.company.replace(/\s+/g, "-").toLowerCase()}`;
 
               return (
-                <article key={xp.company} className="relative md:ps-10" aria-labelledby={headingId}>
+                <article key={xp.company} className="relative md:ps-10" aria-labelledby={entryHeadingId}>
                   <div
                     className={`absolute hidden md:block w-2.5 h-2.5 rounded-full -inset-s-1.25 top-5.5 border-2 ${
                       xp.current
@@ -38,7 +32,9 @@ export function ExperienceSection() {
                     <header className="p-5 sm:p-6 pb-3 sm:pb-4">
                       <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
                         <div>
-                          <h3 id={headingId} className="text-base font-semibold text-foreground tracking-[-0.01em]">{xp.role}</h3>
+                          <h3 id={entryHeadingId} className="text-base font-semibold text-foreground tracking-[-0.01em]">
+                            {xp.role}
+                          </h3>
                           <p className="text-sm text-primary mt-0.5">{xp.company}</p>
                         </div>
                         <div className="text-end">
@@ -64,13 +60,13 @@ export function ExperienceSection() {
                         ))}
                       </div>
 
-                      {relatedCase && (
+                      {xp.relatedCaseTitle && (
                         <p className="mt-3">
                           <a
                             href={sectionHref("projects")}
                             className="mono-xs text-primary no-underline hover:underline underline-offset-2"
                           >
-                            Related project: {relatedCase.title} →
+                            Related project: {xp.relatedCaseTitle} →
                           </a>
                         </p>
                       )}

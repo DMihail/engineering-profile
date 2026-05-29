@@ -27,10 +27,10 @@ export const metadata: Metadata = {
   },
   description: SITE_DESCRIPTION,
   keywords: [
-    "React Native", "Expo", "Full-Stack Developer", "Mobile Developer", "iOS", "Android",
+    "Senior React Native", "Expo", "Full-Stack Developer", "Mobile Developer", "iOS", "Android",
     "TypeScript", "React", "Next.js", "Node.js", "Jest", "Detox",
     "Firebase", "Crashlytics", "Redux", "WebSockets", "GraphQL",
-    "App Store", "Google Play", "Dublin", "Ireland", "Remote",
+    "App Store", "Google Play", "Dublin", "Ireland", "Stamp 4", "Remote",
     SITE_AUTHOR,
   ],
   authors: [{ name: SITE_AUTHOR, url: SITE_URL }],

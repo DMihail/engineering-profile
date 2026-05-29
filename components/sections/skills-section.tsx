@@ -1,5 +1,5 @@
 import { SKILL_LAYERS } from "@/lib/data/skills";
-import { SectionLabel } from "@/components/ui/primitives";
+import { SectionHeader, sectionHeadingId } from "@/components/ui/primitives";
 import { FadeIn } from "@/components/ui/fade-in";
 import styles from "@/styles/sections/skills-section.module.css";
 
@@ -8,14 +8,12 @@ function sortSkillsPrimaryFirst<T extends { primary: boolean }>(skills: T[]): T[
 }
 
 export function SkillsSection() {
+  const headingId = sectionHeadingId("skills");
+
   return (
-    <section id="skills" className="section-surface section-cv-auto" aria-labelledby="skills-heading">
+    <section id="skills" className="section-surface section-cv-auto" aria-labelledby={headingId}>
       <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6">
-        <SectionLabel n="03" label="Stack" />
-        <h2 id="skills-heading" className="section-heading mb-2">Stack & tools</h2>
-        <p className="section-comment mb-9">
-          What I reach for daily — primary tools in bold
-        </p>
+        <SectionHeader sectionId="skills" commentClassName="mb-9" />
 
         <div className={styles.grid}>
           {SKILL_LAYERS.map((layer) => (
