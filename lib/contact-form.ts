@@ -1,30 +1,59 @@
-export type ContactFormState = { success: boolean; error?: string; ts: number };
+import { PRIVACY_CONSENT_FIELD } from "@/lib/privacy-consent";
+import {
+  type ContactFormField,
+  validateContactFields,
+} from "@/lib/contact-form-rules";
+
+export type ContactFormFeedbackVariant = "success" | "error" | "warning";
+
+export type ContactFormState = {
+  success: boolean;
+  error?: string;
+  field?: ContactFormField;
+  ts: number;
+};
 
 export const CONTACT_FORM_INITIAL_STATE: ContactFormState = { success: false, ts: 0 };
 
 const THROTTLE_MS = 10_000;
 let lastSubmitAt = 0;
 
-function fail(error: string, ts: number): ContactFormState {
-  return { success: false, error, ts };
+function fail(error: string, ts: number, field?: ContactFormField): ContactFormState {
+  return { success: false, error, field, ts };
 }
 
-function notify(title: string, body: string) {
-  try {
-    if (!("Notification" in window)) return;
-    if (Notification.permission === "granted") {
-      new Notification(title, { body, icon: "/favicon.ico" });
-      return;
-    }
-    if (Notification.permission === "default") {
-      void Notification.requestPermission().then((permission) => {
-        if (permission === "granted") {
-          new Notification(title, { body, icon: "/favicon.ico" });
-        }
-      });
-    }
-  } catch {
-    // Notification API unavailable (iOS Safari, restricted contexts)
+export function contactFormFeedbackVariant(
+  state: Pick<ContactFormState, "success" | "error">,
+): ContactFormFeedbackVariant | null {
+  if (state.success) return "success";
+  if (!state.error) return null;
+
+  const lower = state.error.toLowerCase();
+  if (lower.includes("please wait before sending")) {
+    return "warning";
+  }
+
+  return "error";
+}
+
+export function contactFormFeedbackMessage(
+  state: Pick<ContactFormState, "success" | "error">,
+): string | null {
+  if (state.success) {
+    return "Thanks for reaching out — I'll get back to you within 24 hours.";
+  }
+
+  return state.error ?? null;
+}
+
+export function contactFormFeedbackTitle(variant: ContactFormFeedbackVariant): string {
+  switch (variant) {
+    case "success":
+      return "Message sent";
+    case "warning":
+      return "Please wait";
+    case "error":
+      return "Could not send";
   }
 }
 
@@ -66,29 +95,24 @@ export async function submitContactForm(
 ): Promise<ContactFormState> {
   void _prev;
 
-  const { validateEmail } = await import("@/lib/validate-email");
-
   const now = Date.now();
   if (now - lastSubmitAt < THROTTLE_MS) {
     return fail("Please wait before sending again", now);
   }
 
-  const email = (data.get("email") as string)?.trim().toLowerCase() ?? "";
-  const emailError = validateEmail(email);
-  if (emailError) {
-    return fail(emailError, now);
+  const fieldFailure = validateContactFields({
+    name: (data.get("name") as string) ?? "",
+    email: (data.get("email") as string) ?? "",
+    message: (data.get("message") as string) ?? "",
+    consent: data.get(PRIVACY_CONSENT_FIELD),
+  });
+  if (fieldFailure) {
+    return fail(fieldFailure.error, now, fieldFailure.field);
   }
 
-  const name = (data.get("name") as string)?.trim() ?? "";
-  if (name.length < 2) {
-    return fail("Please enter your name", now);
-  }
-
-  const message = (data.get("message") as string)?.trim() ?? "";
-  if (message.length < 10) {
-    return fail("Message is too short — describe the role or project", now);
-  }
-
+  const name = (data.get("name") as string).trim();
+  const email = (data.get("email") as string).trim().toLowerCase();
+  const message = (data.get("message") as string).trim();
   const company = (data.get("company") as string)?.trim() || null;
 
   try {
@@ -103,7 +127,14 @@ export async function submitContactForm(
     const res = await fetch("/api/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, company, message, recaptchaToken }),
+      body: JSON.stringify({
+        name,
+        email,
+        company,
+        message,
+        recaptchaToken,
+        [PRIVACY_CONSENT_FIELD]: true,
+      }),
     });
 
     if (!res.ok) {
@@ -114,12 +145,10 @@ export async function submitContactForm(
       } catch {
         /* non-JSON response */
       }
-      notify("Sending failed", serverError);
       return fail(serverError, Date.now());
     }
 
     lastSubmitAt = Date.now();
-    notify("Message sent!", "Thanks for reaching out — I'll get back to you soon.");
     return { success: true, ts: Date.now() };
   } catch (err) {
     console.error("[contact] Submit failed:", err);
@@ -127,7 +156,6 @@ export async function submitContactForm(
       err instanceof Error && err.message.includes("failed to fetch")
         ? "Network error — check your connection"
         : "Failed to send — please try again or email directly";
-    notify("Sending failed", errorMsg);
     return fail(errorMsg, Date.now());
   }
 }

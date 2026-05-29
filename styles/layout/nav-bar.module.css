@@ -14,20 +14,23 @@
 
 .navBarInner {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
+  gap: 0.5rem;
 }
 
 @media (min-width: 1024px) {
   .navBarInner {
     display: flex;
     justify-content: space-between;
+    gap: 0;
   }
 }
 
 .navLogo {
-  grid-column: 2;
-  justify-self: center;
+  grid-column: 1;
+  justify-self: start;
+  min-width: 0;
 }
 
 @media (min-width: 1024px) {
@@ -40,6 +43,7 @@
 .navActions {
   grid-column: 3;
   justify-self: end;
+  flex-shrink: 0;
 }
 
 @media (min-width: 1024px) {
@@ -277,5 +281,19 @@
 }
 
 .sectionLabel {
+  grid-column: 2;
+  justify-self: center;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
   text-transform: uppercase;
+}
+
+@media (min-width: 1024px) {
+  .sectionLabel {
+    display: none;
+  }
 }

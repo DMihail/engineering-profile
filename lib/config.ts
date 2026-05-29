@@ -5,7 +5,6 @@ export const SITE_ROLE = "Senior React Native & Full-Stack Developer";
 export const SITE_LOCATION = "Ireland · Remote EU & UK";
 export const SITE_WORK_AUTHORIZATION =
   "Eligible to work in Ireland · open to onsite and remote across EU & UK";
-export const SITE_REPO = "https://github.com/DMihail/engineering-profile";
 export const SITE_CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL ?? "";
 export const SITE_OG_IMAGE_PATH = "/opengraph-image";
 /** Square image for Person schema. Override with `/profile.jpg` when a real photo is in public/. */

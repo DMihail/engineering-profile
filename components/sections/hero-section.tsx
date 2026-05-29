@@ -42,9 +42,10 @@ export function HeroSection() {
             for production web at Elementica, and Next.js or Node.js when the product needs APIs.
           </p>
 
-          <nav
-            className="flex flex-col sm:flex-row flex-wrap gap-3 justify-center lg:justify-start mb-12"
+          <div
+            role="group"
             aria-label="Primary actions"
+            className="flex flex-col sm:flex-row flex-wrap gap-3 justify-center lg:justify-start mb-12"
           >
             <a href={HERO_CTA.cv} download className="btn-primary no-underline min-h-11">
               <Download size={15} aria-hidden />
@@ -72,26 +73,24 @@ export function HeroSection() {
               <Mail size={15} aria-hidden />
               Contact
             </a>
-          </nav>
+          </div>
 
-          <div
-            className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-xl mx-auto lg:mx-0"
-            role="list"
+          <ul
+            className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-xl mx-auto lg:mx-0 list-none p-0 m-0"
             aria-label="Career highlights"
           >
             {HERO_STATS.map((m) => (
-              <div
+              <li
                 key={m.label}
-                role="listitem"
                 className="text-center py-4 px-2 rounded-xl bg-card border border-border"
               >
                 <p className="font-sans text-hero-stat font-bold text-foreground tracking-[-0.03em] m-0">
                   {m.value}
                 </p>
                 <p className="text-xs text-muted-foreground mt-1 leading-snug m-0">{m.label}</p>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </div>
     </section>

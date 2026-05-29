@@ -1,4 +1,5 @@
-import { TESTIMONIALS } from "@/lib/data/testimonials";
+import { TESTIMONIALS, TESTIMONIALS_SECTION } from "@/lib/data/testimonials";
+import { SectionLabelRow } from "@/components/ui/primitives";
 import styles from "@/styles/sections/testimonials-section.module.css";
 
 export function TestimonialsSection() {
@@ -11,14 +12,9 @@ export function TestimonialsSection() {
       aria-labelledby="testimonials-heading"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 reveal-on-scroll">
-        <div className="flex items-center gap-3 mb-5" aria-hidden="true">
-          <span className="mono-sm tracking-[0.15em] uppercase text-primary">
-            · / Endorsements
-          </span>
-          <span className="flex-1 h-px bg-border" />
-        </div>
+        <SectionLabelRow n={TESTIMONIALS_SECTION.n} label={TESTIMONIALS_SECTION.label} />
         <h2 id="testimonials-heading" className="section-heading mb-8">
-          What collaborators say
+          {TESTIMONIALS_SECTION.heading}
         </h2>
         <ul className={styles.list}>
           {TESTIMONIALS.map((item) => (

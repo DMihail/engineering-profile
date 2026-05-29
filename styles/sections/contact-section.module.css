@@ -28,6 +28,7 @@
 
   .formFieldCompany,
   .formFieldMessage,
+  .formFieldConsent,
   .formActions {
     grid-column: 1 / -1;
   }

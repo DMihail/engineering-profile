@@ -9,8 +9,6 @@ import type { SkillLayer } from "@/lib/types";
 
 export type ResumeVariant = "ireland" | "ua";
 
-export const RESUME_VARIANTS: ResumeVariant[] = ["ireland", "ua"];
-
 const RESUME_LINKS = {
   linkedin: "https://www.linkedin.com/in/mihail-dzhezhelo-27a41114a/",
   github: "https://github.com/DMihail",

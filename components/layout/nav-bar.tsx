@@ -2,23 +2,20 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { NAV, NAV_LABELS, type NavId } from "@/lib/data/nav";
+import { NAV, type NavId } from "@/lib/data/nav";
 import { HERO_ID, sectionHref, PAGE_SECTION_IDS, isPageSectionId, SECTION_LABELS } from "@/lib/section-ids";
-import { getSectionIdFromHash } from "@/lib/section-navigation";
+import {
+  getActiveSectionFromScroll,
+  getSectionIdFromHash,
+} from "@/lib/section-navigation";
 import { MDLogo } from "@/components/ui/icons";
 import styles from "@/styles/layout/nav-bar.module.css";
 
 const SECTION_IDS = PAGE_SECTION_IDS;
-const SCROLL_LOCK_MS = 1200;
+const SCROLL_LOCK_MS = 2000;
+const HASH_SCROLL_LOCK_MS = 3500;
 const MOBILE_NAV_ID = "mobile-nav-menu";
 const DEFAULT_ACTIVE = HERO_ID;
-
-function getObserverMargin(): string {
-  const w = window.innerWidth;
-  if (w < 640) return "-8% 0px -40% 0px";
-  if (w < 1024) return "-15% 0px -45% 0px";
-  return "-25% 0px -55% 0px";
-}
 
 function SectionNavLink({
   id,
@@ -79,9 +76,9 @@ export function NavBar() {
     setMenuOpen((open) => !open);
   }, []);
 
-  const lockActiveSection = useCallback((id: string) => {
+  const lockActiveSection = useCallback((id: string, duration = SCROLL_LOCK_MS) => {
     setActive(id);
-    lockUntilRef.current = Date.now() + SCROLL_LOCK_MS;
+    lockUntilRef.current = Date.now() + duration;
   }, []);
 
   const onNavigate = useCallback(
@@ -93,55 +90,48 @@ export function NavBar() {
   );
 
   useEffect(() => {
-    let observer: IntersectionObserver;
-    let timer: ReturnType<typeof setTimeout>;
+    let ticking = false;
 
-    const createObserver = () => {
-      observer?.disconnect();
-      observer = new IntersectionObserver((entries) => {
-        if (Date.now() < lockUntilRef.current) return;
-        for (const entry of entries) {
-          if (entry.isIntersecting) setActive(entry.target.id);
-        }
-      }, { rootMargin: getObserverMargin() });
+    const updateActiveFromScroll = () => {
+      if (Date.now() < lockUntilRef.current) return;
+      setActive(getActiveSectionFromScroll(SECTION_IDS));
+    };
 
-      SECTION_IDS.forEach((id) => {
-        const el = document.getElementById(id);
-        if (el) observer.observe(el);
+    const onScrollOrResize = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        updateActiveFromScroll();
+        ticking = false;
       });
     };
 
-    createObserver();
-
-    const mo = new MutationObserver(() => {
-      clearTimeout(timer);
-      timer = setTimeout(createObserver, 80);
-    });
-    mo.observe(document.body, { childList: true, subtree: true });
-
-    const mq = window.matchMedia("(max-width: 1023px)");
-    const onResize = () => createObserver();
-    mq.addEventListener("change", onResize);
+    updateActiveFromScroll();
+    window.addEventListener("scroll", onScrollOrResize, { passive: true });
+    window.addEventListener("resize", onScrollOrResize, { passive: true });
 
     return () => {
-      observer.disconnect();
-      mo.disconnect();
-      mq.removeEventListener("change", onResize);
-      clearTimeout(timer);
+      window.removeEventListener("scroll", onScrollOrResize);
+      window.removeEventListener("resize", onScrollOrResize);
     };
   }, []);
 
   useEffect(() => {
-    const syncFromHash = () => {
+    const syncHash = () => {
       const hashId = getSectionIdFromHash();
       if (!hashId || !isPageSectionId(hashId)) return;
-      lockActiveSection(hashId);
+      lockActiveSection(hashId, HASH_SCROLL_LOCK_MS);
       closeMenu(false);
     };
 
-    syncFromHash();
-    window.addEventListener("hashchange", syncFromHash);
-    return () => window.removeEventListener("hashchange", syncFromHash);
+    syncHash();
+    window.addEventListener("hashchange", syncHash);
+    window.addEventListener("pageshow", syncHash);
+
+    return () => {
+      window.removeEventListener("hashchange", syncHash);
+      window.removeEventListener("pageshow", syncHash);
+    };
   }, [closeMenu, lockActiveSection]);
 
   useEffect(() => {
@@ -200,7 +190,7 @@ export function NavBar() {
     return () => mq.removeEventListener("change", onChange);
   }, [closeMenu]);
 
-  const activeLabel = active in SECTION_LABELS ? SECTION_LABELS[active as keyof typeof SECTION_LABELS] : active;
+  const activeLabel = isPageSectionId(active) ? SECTION_LABELS[active] : active;
 
   return (
     <header className={menuOpen ? styles.headerOpen : undefined}>
@@ -231,19 +221,20 @@ export function NavBar() {
               <NavItem
                 key={id}
                 id={id}
-                label={NAV_LABELS[id]}
+                label={SECTION_LABELS[id]}
                 active={active === id}
                 onNavigate={onNavigate}
               />
             ))}
           </ul>
 
+          {active !== "hero" && (
+            <span className={`lg:hidden mono-xs text-primary tracking-widest ${styles.sectionLabel}`}>
+              {activeLabel}
+            </span>
+          )}
+
           <div className={`${styles.navActions} relative z-10 flex items-center gap-3`}>
-            {active !== "hero" && (
-              <span className={`lg:hidden mono-xs text-primary tracking-widest ${styles.sectionLabel}`}>
-                {activeLabel}
-              </span>
-            )}
             <a
               href={sectionHref("contact")}
               onClick={() => onNavigate("contact")}
@@ -287,7 +278,7 @@ export function NavBar() {
             <NavItem
               key={id}
               id={id}
-              label={NAV_LABELS[id]}
+              label={SECTION_LABELS[id]}
               active={active === id}
               onNavigate={onNavigate}
             />

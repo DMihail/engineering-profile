@@ -1,9 +1,10 @@
-interface MDLogoProps {
+import type { SVGProps } from "react";
+
+interface MDLogoProps extends SVGProps<SVGSVGElement> {
   size?: number;
   color?: string;
   bg?: string;
   tile?: boolean;
-  className?: string;
 }
 
 export function MDLogo({
@@ -12,7 +13,12 @@ export function MDLogo({
   bg = "#0B0F17",
   tile = false,
   className,
+  "aria-hidden": ariaHidden,
+  "aria-label": ariaLabel,
+  ...props
 }: MDLogoProps) {
+  const decorative = ariaHidden === true || ariaHidden === "true";
+
   return (
     <svg
       width={size}
@@ -21,7 +27,9 @@ export function MDLogo({
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      aria-label="MD monogram"
+      aria-hidden={decorative ? true : undefined}
+      aria-label={decorative ? undefined : (ariaLabel ?? "MD monogram")}
+      {...props}
     >
       {tile && (
         <rect width="100" height="100" rx="22" fill={bg} />

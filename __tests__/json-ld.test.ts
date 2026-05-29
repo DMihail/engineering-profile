@@ -33,9 +33,12 @@ describe("buildSiteJsonLd", () => {
     });
   });
 
-  it("lists all case studies in ItemList", () => {
+  it("lists all case studies in ItemList with per-project URLs", () => {
     const list = buildSiteJsonLd()["@graph"].find(isItemListNode);
     expect(list?.itemListElement).toHaveLength(CASE_STUDIES.length);
     expect(list?.itemListElement[0]?.item?.name).toBe(CASE_STUDIES[0]?.title);
+    expect(list?.itemListElement[0]?.item?.url).toBe(
+      `https://dzhezhelo.dev/#project-${CASE_STUDIES[0]?.id}`,
+    );
   });
 });
