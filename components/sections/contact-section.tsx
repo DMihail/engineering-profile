@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useActionState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useActionState, useState } from "react";
 import { ensureRecaptchaLoaded } from "@/lib/recaptcha-client";
 import {
   CONTACT_FORM_INITIAL_STATE,
@@ -15,8 +15,12 @@ import { ContactSubmitButton } from "@/components/contact/contact-submit-button"
 import { PrivacyConsentField } from "@/components/forms/privacy-consent-field";
 import { useToast } from "@/components/ui/toast/toast-provider";
 import {
+  CONTACT_FIELD_DOM_IDS,
+  CONTACT_FIELD_ERROR_IDS,
   CONTACT_MESSAGE_MIN_LENGTH,
   CONTACT_NAME_MIN_LENGTH,
+  type ContactFormField,
+  type ContactFieldValidationFailure,
   applyContactFieldFailure,
   clearContactFieldValidity,
   focusContactField,
@@ -26,13 +30,37 @@ import { PRIVACY_CONSENT_FIELD } from "@/lib/privacy-consent";
 import { SITE_WORK_AUTHORIZATION } from "@/lib/config";
 import styles from "@/styles/sections/contact-section.module.css";
 
+function FieldError({ id, message }: { id: string; message?: string }) {
+  if (!message) return null;
+
+  return (
+    <p id={id} className="sr-only">
+      {message}
+    </p>
+  );
+}
+
 export function ContactSection() {
   const [state, formAction] = useActionState(submitContactForm, CONTACT_FORM_INITIAL_STATE);
+  const [clientFieldError, setClientFieldError] = useState<ContactFieldValidationFailure | null>(null);
   const toast = useToast();
   const formRef = useRef<HTMLFormElement>(null);
   const draftRef = useRef<FormData | null>(null);
   const recaptchaPrimed = useRef(false);
   const lastHandledTs = useRef(0);
+
+  if (state.success && clientFieldError) {
+    setClientFieldError(null);
+  }
+
+  const fieldError = useMemo(
+    () =>
+      clientFieldError
+      ?? (!state.success && state.field && state.error
+        ? { field: state.field, error: state.error }
+        : null),
+    [clientFieldError, state.success, state.field, state.error],
+  );
 
   const primeRecaptcha = () => {
     if (recaptchaPrimed.current) return;
@@ -42,6 +70,24 @@ export function ContactSection() {
 
   const success = state.success;
   const headingId = sectionHeadingId("contact");
+
+  const fieldMessage = useCallback(
+    (field: ContactFormField) => (fieldError?.field === field ? fieldError.error : undefined),
+    [fieldError],
+  );
+
+  const clearFieldError = useCallback((field: ContactFormField) => {
+    setClientFieldError((current) => (current?.field === field ? null : current));
+  }, []);
+
+  const handleFieldInput = useCallback(
+    (field: ContactFormField) =>
+      (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        clearContactFieldValidity(event);
+        clearFieldError(field);
+      },
+    [clearFieldError],
+  );
 
   function showFormErrorToast(message: string) {
     toast.error(message, contactFormFeedbackTitle("error"));
@@ -116,7 +162,10 @@ export function ContactSection() {
               if (failure) {
                 event.preventDefault();
                 applyContactFieldFailure(event.currentTarget, failure);
+                setClientFieldError(failure);
                 showFormErrorToast(failure.error);
+              } else {
+                setClientFieldError(null);
               }
             }}
             onFocusCapture={primeRecaptcha}
@@ -126,11 +175,12 @@ export function ContactSection() {
             <fieldset className={`${styles.formGrid} border-0 p-0 m-0 min-w-0`}>
               <legend className="sr-only">Contact form</legend>
               <div className={styles.formField}>
-                <label htmlFor="contact-name" className={styles.formLabel}>
+                <label htmlFor={CONTACT_FIELD_DOM_IDS.name} className={styles.formLabel}>
                   Name
                 </label>
+                <FieldError id={CONTACT_FIELD_ERROR_IDS.name} message={fieldMessage("name")} />
                 <input
-                  id="contact-name"
+                  id={CONTACT_FIELD_DOM_IDS.name}
                   type="text"
                   name="name"
                   required
@@ -139,16 +189,19 @@ export function ContactSection() {
                   autoComplete="name"
                   placeholder="Your name"
                   disabled={success}
-                  onInput={clearContactFieldValidity}
+                  aria-invalid={fieldMessage("name") ? true : undefined}
+                  aria-describedby={fieldMessage("name") ? CONTACT_FIELD_ERROR_IDS.name : undefined}
+                  onInput={handleFieldInput("name")}
                   className={styles.inputField}
                 />
               </div>
               <div className={styles.formField}>
-                <label htmlFor="contact-email" className={styles.formLabel}>
+                <label htmlFor={CONTACT_FIELD_DOM_IDS.email} className={styles.formLabel}>
                   Email
                 </label>
+                <FieldError id={CONTACT_FIELD_ERROR_IDS.email} message={fieldMessage("email")} />
                 <input
-                  id="contact-email"
+                  id={CONTACT_FIELD_DOM_IDS.email}
                   type="email"
                   name="email"
                   required
@@ -156,7 +209,9 @@ export function ContactSection() {
                   autoComplete="email"
                   placeholder="you@company.com"
                   disabled={success}
-                  onInput={clearContactFieldValidity}
+                  aria-invalid={fieldMessage("email") ? true : undefined}
+                  aria-describedby={fieldMessage("email") ? CONTACT_FIELD_ERROR_IDS.email : undefined}
+                  onInput={handleFieldInput("email")}
                   className={styles.inputField}
                 />
               </div>
@@ -176,11 +231,12 @@ export function ContactSection() {
                 />
               </div>
               <div className={`${styles.formField} ${styles.formFieldMessage}`}>
-                <label htmlFor="contact-message" className={styles.formLabel}>
+                <label htmlFor={CONTACT_FIELD_DOM_IDS.message} className={styles.formLabel}>
                   Message
                 </label>
+                <FieldError id={CONTACT_FIELD_ERROR_IDS.message} message={fieldMessage("message")} />
                 <textarea
-                  id="contact-message"
+                  id={CONTACT_FIELD_DOM_IDS.message}
                   name="message"
                   required
                   minLength={CONTACT_MESSAGE_MIN_LENGTH}
@@ -190,12 +246,21 @@ export function ContactSection() {
                   autoComplete="off"
                   placeholder="e.g. Senior RN role, Expo stack, remote EU, start Q3…"
                   disabled={success}
-                  onInput={clearContactFieldValidity}
+                  aria-invalid={fieldMessage("message") ? true : undefined}
+                  aria-describedby={fieldMessage("message") ? CONTACT_FIELD_ERROR_IDS.message : undefined}
+                  onInput={handleFieldInput("message")}
                   className={`${styles.inputField} ${styles.messageField}`}
                 />
               </div>
               <div className={`${styles.formField} ${styles.formFieldConsent}`}>
-                <PrivacyConsentField id="contact-privacy-consent" disabled={success} />
+                <FieldError id={CONTACT_FIELD_ERROR_IDS.consent} message={fieldMessage("consent")} />
+                <PrivacyConsentField
+                  id={CONTACT_FIELD_DOM_IDS.consent}
+                  disabled={success}
+                  errorMessage={fieldMessage("consent")}
+                  errorId={CONTACT_FIELD_ERROR_IDS.consent}
+                  onClearError={() => clearFieldError("consent")}
+                />
               </div>
               <div className={styles.formActions}>
                 <ContactSubmitButton success={success} />

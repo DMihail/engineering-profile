@@ -46,7 +46,6 @@
   --text-section-heading: clamp(1.75rem, 3.5vw, 2.5rem);
   --text-case-title: clamp(1.1875rem, 2vw, 1.25rem);
   --text-case-metric: clamp(1.625rem, 3vw, 1.75rem);
-  --text-404-display: clamp(6rem, 20vw, 9.75rem);
   --text-404-title: clamp(1.25rem, 3vw, 1.75rem);
 
   /* Line height */
@@ -100,7 +99,6 @@
   --overlay-backdrop: color-mix(in srgb, #000 50%, transparent);
   --shadow-primary: color-mix(in srgb, var(--primary) 5%, transparent);
   --shadow-primary-lg: color-mix(in srgb, var(--primary) 7%, transparent);
-  --glow-primary: color-mix(in srgb, var(--primary) 25%, transparent);
   --grid-line: color-mix(in srgb, var(--primary) 3%, transparent);
   --study-num: color-mix(in srgb, var(--primary) 58%, transparent);
   --study-num-open: color-mix(in srgb, var(--primary) 88%, transparent);
@@ -313,12 +311,7 @@
   .text-hero-stat    { font-size: var(--text-hero-stat); font-weight: 700; }
   .text-case-title   { font-size: var(--text-case-title); font-weight: 700; }
   .text-case-metric  { font-size: var(--text-case-metric); font-weight: 800; }
-  .text-404-display  { font-size: var(--text-404-display); font-weight: 800; }
   .text-404-title    { font-size: var(--text-404-title); font-weight: 700; }
-
-  .text-glow-primary {
-    text-shadow: 0 0 5rem var(--glow-primary);
-  }
 
   .leading-relaxed { line-height: var(--leading-relaxed); }
   .leading-loose   { line-height: var(--leading-loose); }

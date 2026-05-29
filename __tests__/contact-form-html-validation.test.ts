@@ -1,10 +1,9 @@
 import {
   MESSAGE_TOO_SHORT_ERROR,
   NAME_TOO_SHORT_ERROR,
-  enforceExtendedContactRules,
+  applyContactFieldFailure,
   getContactFormFailure,
   readContactFormValues,
-  setContactFieldCustomMessage,
 } from "@/lib/contact-form-rules";
 import { PRIVACY_CONSENT_ERROR, PRIVACY_CONSENT_VALUE } from "@/lib/privacy-consent";
 
@@ -41,7 +40,7 @@ describe("contact form HTML rules", () => {
     expect(getContactFormFailure(form)).toEqual({ field: "name", error: NAME_TOO_SHORT_ERROR });
   });
 
-  it("blocks submit when trimmed name is too short", () => {
+  it("returns name failure when trimmed name is too short", () => {
     const form = makeForm({
       name: "  ",
       email: "john@example.com",
@@ -49,11 +48,10 @@ describe("contact form HTML rules", () => {
       consent: true,
     });
 
-    const result = enforceExtendedContactRules(form);
-    expect(result).toEqual({ ok: false, field: "name", error: NAME_TOO_SHORT_ERROR });
+    expect(getContactFormFailure(form)).toEqual({ field: "name", error: NAME_TOO_SHORT_ERROR });
   });
 
-  it("blocks submit for disposable email after HTML email format passes", () => {
+  it("returns disposable email failure after format passes", () => {
     const form = makeForm({
       name: "John Doe",
       email: "test@mailinator.com",
@@ -61,15 +59,12 @@ describe("contact form HTML rules", () => {
       consent: true,
     });
 
-    const result = enforceExtendedContactRules(form);
-    expect(result.ok).toBe(false);
-    if (!result.ok) {
-      expect(result.field).toBe("email");
-      expect(result.error).toMatch(/disposable email/i);
-    }
+    const failure = getContactFormFailure(form);
+    expect(failure?.field).toBe("email");
+    expect(failure?.error).toMatch(/disposable email/i);
   });
 
-  it("passes when all extended rules succeed", () => {
+  it("returns null when all rules pass", () => {
     const form = makeForm({
       name: "John Doe",
       email: "john@example.com",
@@ -77,44 +72,51 @@ describe("contact form HTML rules", () => {
       consent: true,
     });
 
-    expect(enforceExtendedContactRules(form)).toEqual({ ok: true });
+    expect(getContactFormFailure(form)).toBeNull();
   });
 
-  it("maps native name validity flags to custom messages", () => {
-    const input = document.createElement("input");
-    Object.defineProperty(input, "validity", {
-      configurable: true,
-      value: {
-        valid: false,
-        valueMissing: false,
-        tooShort: true,
-        typeMismatch: false,
-      },
+  it("sets custom validity and focuses the failing field", () => {
+    const form = makeForm({
+      name: "  ",
+      email: "john@example.com",
+      message: "Long enough message here",
+      consent: true,
     });
+    const nameInput = form.elements.namedItem("name") as HTMLInputElement;
+    const focusSpy = jest.spyOn(nameInput, "focus").mockImplementation(() => {});
 
-    setContactFieldCustomMessage(input, "name");
-    expect(input.validationMessage).toBe(NAME_TOO_SHORT_ERROR);
-  });
+    applyContactFieldFailure(form, { field: "name", error: NAME_TOO_SHORT_ERROR });
 
-  it("maps native message validity flags to custom messages", () => {
-    const message = document.createElement("textarea");
-    Object.defineProperty(message, "validity", {
-      configurable: true,
-      value: {
-        valid: false,
-        valueMissing: true,
-        tooShort: false,
-        typeMismatch: false,
-      },
-    });
-
-    setContactFieldCustomMessage(message, "message");
-    expect(message.validationMessage).toBe(MESSAGE_TOO_SHORT_ERROR);
+    expect(nameInput.validationMessage).toBe(NAME_TOO_SHORT_ERROR);
+    expect(focusSpy).toHaveBeenCalled();
+    focusSpy.mockRestore();
   });
 
   it("uses consent error copy for unchecked checkbox", () => {
-    const consent = document.createElement("input");
-    consent.setCustomValidity(PRIVACY_CONSENT_ERROR);
+    const form = makeForm({
+      name: "John Doe",
+      email: "john@example.com",
+      message: "Long enough message here",
+      consent: false,
+    });
+    const consent = form.elements.namedItem("privacyConsent") as HTMLInputElement;
+    const focusSpy = jest.spyOn(consent, "focus").mockImplementation(() => {});
+
+    applyContactFieldFailure(form, { field: "consent", error: PRIVACY_CONSENT_ERROR });
+
     expect(consent.validationMessage).toBe(PRIVACY_CONSENT_ERROR);
+    expect(focusSpy).toHaveBeenCalled();
+    focusSpy.mockRestore();
+  });
+
+  it("returns message failure for short message", () => {
+    const form = makeForm({
+      name: "John Doe",
+      email: "john@example.com",
+      message: "short",
+      consent: true,
+    });
+
+    expect(getContactFormFailure(form)).toEqual({ field: "message", error: MESSAGE_TOO_SHORT_ERROR });
   });
 });

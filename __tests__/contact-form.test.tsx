@@ -229,4 +229,18 @@ describe("ContactSection form", () => {
     expect(mockFetch).not.toHaveBeenCalled();
     expect(mockExecute).not.toHaveBeenCalled();
   });
+
+  it("exposes sr-only field errors with aria-describedby on validation failure", async () => {
+    const user = userEvent.setup();
+    renderContactSection();
+
+    await user.click(screen.getByRole("button", { name: /send message/i }));
+
+    await waitFor(() => {
+      const nameInput = screen.getByLabelText(/^name$/i);
+      expect(nameInput).toHaveAttribute("aria-invalid", "true");
+      expect(nameInput).toHaveAttribute("aria-describedby", "contact-name-error");
+      expect(document.getElementById("contact-name-error")).toHaveTextContent(/please enter your name/i);
+    });
+  });
 });

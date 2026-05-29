@@ -102,20 +102,3 @@ export function scrollToSectionWhenReady(
     tryScroll();
   });
 }
-
-export function syncSectionFromHash(
-  sectionIds: readonly string[],
-  onMatch: (id: string) => void,
-  options?: { scroll?: boolean; behavior?: ScrollBehavior },
-): string | null {
-  const hashId = getSectionIdFromHash();
-  if (!hashId || !sectionIds.includes(hashId)) return null;
-
-  onMatch(hashId);
-
-  if (options?.scroll !== false) {
-    void scrollToSectionWhenReady(hashId, { behavior: options?.behavior ?? "auto" });
-  }
-
-  return hashId;
-}

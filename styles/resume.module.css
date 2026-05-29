@@ -38,7 +38,6 @@
   gap: 0.5rem;
 }
 
-.toolbarButton,
 .toolbarButtonPrimary {
   display: inline-flex;
   align-items: center;
@@ -47,19 +46,13 @@
   min-height: 2.25rem;
   padding-inline: 0.875rem;
   border-radius: 0.5rem;
-  border: 1px solid var(--resume-border);
-  background: var(--resume-bg);
-  color: var(--resume-fg);
+  border: 1px solid var(--resume-accent);
+  background: var(--resume-accent);
+  color: #ffffff;
   font-size: 0.8125rem;
   font-weight: 600;
   line-height: 1.2;
   cursor: pointer;
-}
-
-.toolbarButtonPrimary {
-  border-color: var(--resume-accent);
-  background: var(--resume-accent);
-  color: #ffffff;
 }
 
 .toolbarLink {

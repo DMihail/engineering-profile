@@ -20,13 +20,12 @@ export function Footer() {
 
         <div className={styles.metaBlock}>
           <nav aria-label="Footer links" className={styles.footerNav}>
-            <Link href="/privacy" className={styles.footerLink}>
-                Privacy Policy
-            </Link>
-            <span className={styles.divider} aria-hidden>
-              ·
-            </span>
-            <ul className={styles.socialList}>
+            <ul className={styles.linkList}>
+              <li>
+                <Link href="/privacy" className={styles.footerLink}>
+                  Privacy Policy
+                </Link>
+              </li>
               {SOCIAL_LINKS.map((link) => {
                 const isMailto = link.href.startsWith("mailto:");
                 return (
@@ -44,9 +43,10 @@ export function Footer() {
             </ul>
           </nav>
 
-          <span className={`status-dot ${styles.statusDot}`} role="status">
+          <div className={styles.availability}>
+            <span className={`status-dot ${styles.statusDot}`} aria-hidden />
             <span className="sr-only">Available for work</span>
-          </span>
+          </div>
         </div>
       </div>
     </footer>

@@ -6,9 +6,18 @@ import styles from "@/styles/forms/privacy-consent.module.css";
 interface PrivacyConsentFieldProps {
   id: string;
   disabled?: boolean;
+  errorId?: string;
+  errorMessage?: string;
+  onClearError?: () => void;
 }
 
-export function PrivacyConsentField({ id, disabled }: PrivacyConsentFieldProps) {
+export function PrivacyConsentField({
+  id,
+  disabled,
+  errorId,
+  errorMessage,
+  onClearError,
+}: PrivacyConsentFieldProps) {
   return (
     <div className={styles.field}>
       <input
@@ -18,7 +27,12 @@ export function PrivacyConsentField({ id, disabled }: PrivacyConsentFieldProps) 
         value={PRIVACY_CONSENT_VALUE}
         required
         disabled={disabled}
-        onInput={clearContactFieldValidity}
+        aria-invalid={errorMessage ? true : undefined}
+        aria-describedby={errorMessage && errorId ? errorId : undefined}
+        onInput={(event) => {
+          clearContactFieldValidity(event);
+          onClearError?.();
+        }}
         className={styles.checkbox}
       />
       <label htmlFor={id} className={styles.label}>

@@ -103,7 +103,3 @@ export function getFirebaseAdminApp(): App | null {
     }),
   });
 }
-
-export function isFirebaseAdminConfigured(): boolean {
-  return parseServiceAccount() !== null;
-}

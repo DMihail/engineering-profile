@@ -13,8 +13,14 @@ export const CONTACT_FIELD_DOM_IDS: Record<ContactFormField, string> = {
   consent: "contact-privacy-consent",
 };
 
+export const CONTACT_FIELD_ERROR_IDS: Record<ContactFormField, string> = {
+  name: "contact-name-error",
+  email: "contact-email-error",
+  message: "contact-message-error",
+  consent: "contact-privacy-consent-error",
+};
+
 export const NAME_TOO_SHORT_ERROR = "Please enter your name";
-export const EMAIL_REQUIRED_ERROR = "Please enter a valid email address";
 export const MESSAGE_TOO_SHORT_ERROR =
   "Message is too short — describe the role or project";
 
@@ -28,32 +34,12 @@ export type ContactFieldValidationFailure = {
 
 type ValidatableField = HTMLInputElement | HTMLTextAreaElement;
 
-const HTML_FIELD_MESSAGES: Partial<
-  Record<ContactFormField, Partial<Record<"valueMissing" | "tooShort" | "typeMismatch", string>>>
-> = {
-  name: {
-    valueMissing: NAME_TOO_SHORT_ERROR,
-    tooShort: NAME_TOO_SHORT_ERROR,
-  },
-  email: {
-    valueMissing: EMAIL_REQUIRED_ERROR,
-    typeMismatch: EMAIL_REQUIRED_ERROR,
-  },
-  message: {
-    valueMissing: MESSAGE_TOO_SHORT_ERROR,
-    tooShort: MESSAGE_TOO_SHORT_ERROR,
-  },
-  consent: {
-    valueMissing: PRIVACY_CONSENT_ERROR,
-  },
-};
-
 function isConsentGiven(consent: FormDataEntryValue | null | undefined | boolean): boolean {
   if (typeof consent === "boolean") return consent;
   return isPrivacyConsentGiven(consent);
 }
 
-function isValidatableField(element: Element | null): element is ValidatableField {
+function isValidatableField(element: Element | RadioNodeList | null): element is ValidatableField {
   return element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement;
 }
 
@@ -105,38 +91,6 @@ export function readContactFormValues(form: HTMLFormElement) {
   };
 }
 
-export function setContactFieldCustomMessage(input: ValidatableField, field: ContactFormField) {
-  const messages = HTML_FIELD_MESSAGES[field];
-  const { validity } = input;
-
-  if (validity.valid) {
-    input.setCustomValidity("");
-    return;
-  }
-
-  if (validity.valueMissing && messages?.valueMissing) {
-    input.setCustomValidity(messages.valueMissing);
-    return;
-  }
-
-  if (validity.tooShort && messages?.tooShort) {
-    input.setCustomValidity(messages.tooShort);
-    return;
-  }
-
-  if (validity.typeMismatch && messages?.typeMismatch) {
-    input.setCustomValidity(messages.typeMismatch);
-    return;
-  }
-
-  input.setCustomValidity(
-    messages?.tooShort
-    ?? messages?.valueMissing
-    ?? messages?.typeMismatch
-    ?? "Please check this field.",
-  );
-}
-
 export function clearContactFieldValidity(
   event: React.FormEvent<ValidatableField | HTMLInputElement>,
 ) {
@@ -165,17 +119,6 @@ export function applyContactFieldFailure(
     element.setCustomValidity(failure.error);
     element.focus();
   }
-}
-
-/** @deprecated Use getContactFormFailure + applyContactFieldFailure */
-export function enforceExtendedContactRules(
-  form: HTMLFormElement,
-): { ok: true } | { ok: false; field: ContactFormField; error: string } {
-  const failure = getContactFormFailure(form);
-  if (!failure) return { ok: true };
-
-  applyContactFieldFailure(form, failure);
-  return { ok: false, field: failure.field, error: failure.error };
 }
 
 export function focusContactField(field: ContactFormField): void {
