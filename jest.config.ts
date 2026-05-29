@@ -9,7 +9,7 @@ const config: Config = {
     "\\.css$": "<rootDir>/__mocks__/styleMock.ts",
     "^@/(.*)$": "<rootDir>/$1",
   },
-  testPathIgnorePatterns: ["/node_modules/", "/.next/"],
+  testPathIgnorePatterns: ["/node_modules/", "/.next/", "/__tests__/helpers/"],
 };
 
 export default config;

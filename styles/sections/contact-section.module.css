@@ -112,6 +112,47 @@
   outline-offset: 2px;
 }
 
+.emailRow {
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem;
+}
+
+.emailLink {
+  flex: 1;
+  min-width: 0;
+}
+
+.copyButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  inline-size: 3rem;
+  block-size: 3rem;
+  min-inline-size: 3rem;
+  min-block-size: 3rem;
+  padding: 0;
+  border-radius: var(--radius-button);
+  background: var(--card);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: border-color 200ms, box-shadow 200ms, background 200ms;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .copyButton:hover {
+    border-color: var(--border-hover);
+    background: var(--surface-muted);
+    box-shadow: 0 0 1.25rem var(--shadow-primary);
+  }
+}
+
+.copyButton:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
 .inputField {
   width: 100%;
   padding-block: 0.6875rem;

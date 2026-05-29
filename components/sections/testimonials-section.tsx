@@ -11,12 +11,12 @@ export function TestimonialsSection() {
       aria-labelledby="testimonials-heading"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 reveal-on-scroll">
-        <p className="flex items-center gap-3 mb-5" aria-label="Section: Endorsements">
-          <span className="mono-sm tracking-[0.15em] uppercase text-primary" aria-hidden>
+        <div className="flex items-center gap-3 mb-5" aria-hidden="true">
+          <span className="mono-sm tracking-[0.15em] uppercase text-primary">
             · / Endorsements
           </span>
-          <span className="flex-1 h-px bg-border" aria-hidden />
-        </p>
+          <span className="flex-1 h-px bg-border" />
+        </div>
         <h2 id="testimonials-heading" className="section-heading mb-8">
           What collaborators say
         </h2>

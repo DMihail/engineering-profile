@@ -13,12 +13,12 @@ export function SectionLabel({ sectionId }: SectionLabelProps) {
   const { n, label } = getSectionMeta(sectionId);
 
   return (
-    <p className="flex items-center gap-3 mb-5" aria-label={`Section ${n}: ${label}`}>
-      <span className="mono-sm tracking-[0.15em] uppercase text-primary" aria-hidden>
+    <div className="flex items-center gap-3 mb-5" aria-hidden="true">
+      <span className="mono-sm tracking-[0.15em] uppercase text-primary">
         {n} / {label}
       </span>
-      <span className="flex-1 h-px bg-border" aria-hidden />
-    </p>
+      <span className="flex-1 h-px bg-border" />
+    </div>
   );
 }
 
