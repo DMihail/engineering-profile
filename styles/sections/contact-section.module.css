@@ -96,6 +96,7 @@
   background: var(--card);
   border: 1px solid var(--border);
   text-decoration: none;
+  cursor: pointer;
   transition: border-color 200ms, box-shadow 200ms;
 }
 

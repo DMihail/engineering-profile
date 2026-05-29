@@ -224,7 +224,7 @@ function ResumeButton() {
       </div>
       <div className="flex-1 min-w-0">
         <div className="text-xs font-semibold text-foreground">{cv.label}</div>
-        <div className="mono-sm text-text-dim truncate">PDF · {cv.file.split("/").pop()}</div>
+        <div className="mono-sm text-text-dim">PDF download</div>
       </div>
     </a>
   );
@@ -259,7 +259,7 @@ function EmailCard({ link }: { link: typeof SOCIAL_LINKS[number] }) {
         type="button"
         onClick={handleCopy}
         aria-label={copied ? "Email copied" : `Copy ${email}`}
-        className="absolute inset-e-3 top-1/2 -translate-y-1/2 shrink-0 p-1.5 cursor-pointer bg-transparent border-0 rounded-md hover:bg-surface-muted"
+        className="absolute inset-e-3 top-1/2 -translate-y-1/2 shrink-0 p-1.5 cursor-pointer bg-transparent border-0 rounded-md hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-ring"
       >
         {copied
           ? <Check size={13} className="text-success" aria-hidden />

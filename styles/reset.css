@@ -1,98 +1,107 @@
 /**
  * Cross-browser foundation (complements Tailwind Preflight).
+ * Imported from globals.css with layer(base).
  */
-@layer base {
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-  }
 
-  h1, h2, h3, h4, h5, h6,
-  p, figure, blockquote, dl, dd {
-    margin: 0;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-  img, picture, video, canvas, svg {
-    display: block;
-    max-width: 100%;
-    height: auto;
-  }
+h1, h2, h3, h4, h5, h6,
+p, figure, blockquote, dl, dd {
+  margin: 0;
+}
 
-  a {
-    color: inherit;
-    text-decoration-skip-ink: auto;
-  }
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
 
-  :focus {
-    outline: none;
-  }
+a {
+  color: inherit;
+  text-decoration-skip-ink: auto;
+}
 
-  :focus:not(:focus-visible) {
-    outline: none;
-  }
+a[href] {
+  cursor: pointer;
+}
 
-  :focus-visible {
-    outline: 0.125rem solid var(--color-ring);
-    outline-offset: 0.125rem;
-  }
+input:not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+textarea {
+  cursor: text;
+}
 
-  button,
-  input,
-  textarea,
-  select {
-    font: inherit;
-    color: inherit;
-    letter-spacing: inherit;
-    margin: 0;
-    font-synthesis: none;
-  }
+:focus {
+  outline: none;
+}
 
-  button,
-  input[type="button"],
-  input[type="submit"],
-  input[type="reset"],
-  input[type="file"]::file-selector-button {
-    cursor: pointer;
-    appearance: none;
-  }
+:focus:not(:focus-visible) {
+  outline: none;
+}
 
-  button:disabled,
-  input:disabled,
-  textarea:disabled,
-  select:disabled {
-    cursor: not-allowed;
-    opacity: 0.65;
-  }
+:focus-visible {
+  outline: 0.125rem solid var(--color-ring);
+  outline-offset: 0.125rem;
+}
 
-  textarea {
-    resize: vertical;
-  }
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  margin: 0;
+  font-synthesis: none;
+}
 
-  table {
-    border-collapse: collapse;
-    border-spacing: 0;
-  }
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+input[type="file"]::file-selector-button {
+  cursor: pointer;
+  appearance: none;
+}
 
-  th {
-    text-align: inherit;
-  }
+button:disabled,
+input:disabled,
+textarea:disabled,
+select:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
 
-  ol, ul {
-    margin: 0;
-    padding: 0;
-  }
+textarea {
+  resize: vertical;
+}
 
-  summary {
-    list-style: none;
-    cursor: pointer;
-  }
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
 
-  summary::-webkit-details-marker {
-    display: none;
-  }
+th {
+  text-align: inherit;
+}
 
-  summary::marker {
-    content: "";
-  }
+ol, ul {
+  margin: 0;
+  padding: 0;
+}
+
+summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary::marker {
+  content: "";
 }
