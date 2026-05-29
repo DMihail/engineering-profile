@@ -16,31 +16,20 @@ import { ContactSidebar } from "@/components/contact/contact-sidebar";
 import { ContactSubmitButton } from "@/components/contact/contact-submit-button";
 import { PrivacyConsentField } from "@/components/forms/privacy-consent-field";
 import { useToast } from "@/components/ui/toast/toast-provider";
-import { isPrivacyConsentError, PRIVACY_CONSENT_FIELD } from "@/lib/privacy-consent";
+import { resolveContactFieldErrors } from "@/lib/contact-form-field-errors";
+import {
+  CONTACT_MESSAGE_MIN_LENGTH,
+  CONTACT_NAME_MIN_LENGTH,
+  focusContactField,
+} from "@/lib/contact-form-validation";
+import {
+  clearContactFieldValidity,
+  enforceExtendedContactRules,
+  setContactFieldCustomMessage,
+} from "@/lib/contact-form-html-validation";
+import { PRIVACY_CONSENT_ERROR, PRIVACY_CONSENT_FIELD } from "@/lib/privacy-consent";
 import { SITE_WORK_AUTHORIZATION } from "@/lib/config";
 import styles from "@/styles/sections/contact-section.module.css";
-
-function focusFieldForError(error: string) {
-  const lower = error.toLowerCase();
-  let id = "contact-message";
-  if (lower.includes("name")) id = "contact-name";
-  else if (lower.includes("email")) id = "contact-email";
-  else if (lower.includes("message") || lower.includes("short")) id = "contact-message";
-  else if (lower.includes("privacy") || lower.includes("accept the privacy")) id = "contact-privacy-consent";
-  document.getElementById(id)?.focus();
-}
-
-function shouldFocusField(error: string): boolean {
-  const lower = error.toLowerCase();
-  return (
-    lower.includes("name")
-    || lower.includes("email")
-    || lower.includes("message")
-    || lower.includes("short")
-    || lower.includes("privacy")
-    || lower.includes("accept the privacy")
-  );
-}
 
 export function ContactSection() {
   const [state, formAction] = useActionState(submitContactForm, CONTACT_FORM_INITIAL_STATE);
@@ -58,10 +47,43 @@ export function ContactSection() {
 
   const success = state.success;
   const error = !state.success ? state.error : undefined;
-  const consentError = isPrivacyConsentError(error);
-  const formError = error && !consentError ? error : undefined;
+  const { firstField } = resolveContactFieldErrors(error);
   const headingId = sectionHeadingId("contact");
-  const hasFieldError = Boolean(formError);
+
+  function showFormErrorToast(message: string) {
+    toast.error(message, contactFormFeedbackTitle("error"));
+  }
+
+  function handleFormInvalidCapture(event: React.InvalidEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const target = event.target;
+    if (!(target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement)) {
+      return;
+    }
+
+    if (target.name === "name") {
+      setContactFieldCustomMessage(target, "name");
+      showFormErrorToast(target.validationMessage);
+      return;
+    }
+
+    if (target.name === "email") {
+      setContactFieldCustomMessage(target, "email");
+      showFormErrorToast(target.validationMessage);
+      return;
+    }
+
+    if (target.name === "message") {
+      setContactFieldCustomMessage(target, "message");
+      showFormErrorToast(target.validationMessage);
+      return;
+    }
+
+    if (target.name === PRIVACY_CONSENT_FIELD) {
+      target.setCustomValidity(PRIVACY_CONSENT_ERROR);
+      showFormErrorToast(target.validationMessage);
+    }
+  }
 
   function restoreDraftFields() {
     const form = formRef.current;
@@ -101,11 +123,11 @@ export function ContactSection() {
 
     if (state.error) {
       restoreDraftFields();
-      if (shouldFocusField(state.error)) {
-        focusFieldForError(state.error);
+      if (firstField) {
+        focusContactField(firstField);
       }
     }
-  }, [state, toast]);
+  }, [firstField, state, toast]);
 
   return (
     <section id="contact" className="section-surface section-cv-auto" aria-labelledby={headingId}>
@@ -125,10 +147,16 @@ export function ContactSection() {
           <form
             ref={formRef}
             action={formAction}
-            noValidate
             onSubmit={(event) => {
               draftRef.current = new FormData(event.currentTarget);
+
+              const extended = enforceExtendedContactRules(event.currentTarget);
+              if (!extended.ok) {
+                event.preventDefault();
+                showFormErrorToast(extended.error);
+              }
             }}
+            onInvalidCapture={handleFormInvalidCapture}
             onFocusCapture={primeRecaptcha}
             className={`panel ${styles.formPanel} min-w-0`}
             aria-labelledby={headingId}
@@ -137,24 +165,25 @@ export function ContactSection() {
               <legend className="sr-only">Contact form</legend>
               <div className={styles.formField}>
                 <label htmlFor="contact-name" className={styles.formLabel}>
-                  NAME
+                  Name
                 </label>
                 <input
                   id="contact-name"
                   type="text"
                   name="name"
                   required
+                  minLength={CONTACT_NAME_MIN_LENGTH}
                   maxLength={100}
                   autoComplete="name"
                   placeholder="Your name"
                   disabled={success}
-                  aria-invalid={hasFieldError || undefined}
+                  onInput={clearContactFieldValidity}
                   className={styles.inputField}
                 />
               </div>
               <div className={styles.formField}>
                 <label htmlFor="contact-email" className={styles.formLabel}>
-                  EMAIL
+                  Email
                 </label>
                 <input
                   id="contact-email"
@@ -165,13 +194,13 @@ export function ContactSection() {
                   autoComplete="email"
                   placeholder="you@company.com"
                   disabled={success}
-                  aria-invalid={hasFieldError || undefined}
+                  onInput={clearContactFieldValidity}
                   className={styles.inputField}
                 />
               </div>
               <div className={`${styles.formField} ${styles.formFieldCompany}`}>
                 <label htmlFor="contact-company" className={styles.formLabel}>
-                  COMPANY <span className={styles.formLabelOptional}>(optional)</span>
+                  Company <span className={styles.formLabelOptional}>(optional)</span>
                 </label>
                 <input
                   id="contact-company"
@@ -186,28 +215,25 @@ export function ContactSection() {
               </div>
               <div className={`${styles.formField} ${styles.formFieldMessage}`}>
                 <label htmlFor="contact-message" className={styles.formLabel}>
-                  MESSAGE
+                  Message
                 </label>
                 <textarea
                   id="contact-message"
                   name="message"
                   required
+                  minLength={CONTACT_MESSAGE_MIN_LENGTH}
                   maxLength={2000}
                   rows={5}
                   spellCheck
                   autoComplete="off"
                   placeholder="e.g. Senior RN role, Expo stack, remote EU, start Q3…"
                   disabled={success}
-                  aria-invalid={hasFieldError || undefined}
+                  onInput={clearContactFieldValidity}
                   className={`${styles.inputField} ${styles.messageField}`}
                 />
               </div>
               <div className={`${styles.formField} ${styles.formFieldConsent}`}>
-                <PrivacyConsentField
-                  id="contact-privacy-consent"
-                  disabled={success}
-                  invalid={consentError}
-                />
+                <PrivacyConsentField id="contact-privacy-consent" disabled={success} />
               </div>
               <div className={styles.formActions}>
                 <ContactSubmitButton success={success} />

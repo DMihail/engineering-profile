@@ -84,7 +84,7 @@ function buildCaseStudiesItemList(): JsonLdItemList {
         "@id": `${SITE_URL}/#project-${study.id}`,
         name: study.title,
         description: study.summary,
-        url: `${SITE_URL}/#projects`,
+        url: `${SITE_URL}/#project-${study.id}`,
         keywords: study.stack.join(", "),
         author: { "@id": PERSON_ID },
       },

@@ -57,6 +57,12 @@ async function acceptPrivacyConsent(user: ReturnType<typeof userEvent.setup>) {
   );
 }
 
+async function expectFormError(pattern: RegExp) {
+  await waitFor(() => {
+    expect(screen.getByRole("alert")).toHaveTextContent(pattern);
+  });
+}
+
 describe("ContactSection form", () => {
   it("renders all form fields", () => {
     renderContactSection();
@@ -78,9 +84,7 @@ describe("ContactSection form", () => {
     await user.type(screen.getByLabelText(/message/i), "Hello, I have a project for you. Let's talk about it!");
     await user.click(screen.getByRole("button", { name: /send message/i }));
 
-    await waitFor(() => {
-      expect(screen.getByRole("alert")).toHaveTextContent(/accept the privacy terms/i);
-    });
+    await expectFormError(/accept the privacy terms/i);
     expect(mockFetch).not.toHaveBeenCalled();
   });
 
@@ -94,9 +98,7 @@ describe("ContactSection form", () => {
     await acceptPrivacyConsent(user);
     await user.click(screen.getByRole("button", { name: /send message/i }));
 
-    await waitFor(() => {
-      expect(screen.getByRole("alert")).toHaveTextContent(/please enter your name/i);
-    });
+    await expectFormError(/please enter your name/i);
     expect(mockFetch).not.toHaveBeenCalled();
   });
 
@@ -110,9 +112,7 @@ describe("ContactSection form", () => {
     await acceptPrivacyConsent(user);
     await user.click(screen.getByRole("button", { name: /send message/i }));
 
-    await waitFor(() => {
-      expect(screen.getByRole("alert")).toHaveTextContent(/valid email/i);
-    });
+    await expectFormError(/valid email/i);
     expect(mockFetch).not.toHaveBeenCalled();
   });
 
@@ -126,9 +126,7 @@ describe("ContactSection form", () => {
     await acceptPrivacyConsent(user);
     await user.click(screen.getByRole("button", { name: /send message/i }));
 
-    await waitFor(() => {
-      expect(screen.getByRole("alert")).toHaveTextContent(/disposable email/i);
-    });
+    await expectFormError(/disposable email/i);
     expect(mockFetch).not.toHaveBeenCalled();
   });
 
@@ -142,9 +140,7 @@ describe("ContactSection form", () => {
     await acceptPrivacyConsent(user);
     await user.click(screen.getByRole("button", { name: /send message/i }));
 
-    await waitFor(() => {
-      expect(screen.getByRole("alert")).toHaveTextContent(/too short/i);
-    });
+    await expectFormError(/too short/i);
     expect(mockFetch).not.toHaveBeenCalled();
   });
 
@@ -189,9 +185,7 @@ describe("ContactSection form", () => {
     await acceptPrivacyConsent(user);
     await user.click(screen.getByRole("button", { name: /send message/i }));
 
-    await waitFor(() => {
-      expect(screen.getByRole("alert")).toHaveTextContent(/captcha verification failed/i);
-    });
+    await expectFormError(/captcha verification failed/i);
 
     expect(screen.getByLabelText(/name/i)).toHaveValue("John Doe");
     expect(screen.getByLabelText(/email/i)).toHaveValue("john@example.com");
@@ -210,9 +204,7 @@ describe("ContactSection form", () => {
     await acceptPrivacyConsent(user);
     await user.click(screen.getByRole("button", { name: /send message/i }));
 
-    await waitFor(() => {
-      expect(screen.getByRole("alert")).toHaveTextContent(/too short/i);
-    });
+    await expectFormError(/too short/i);
 
     expect(screen.getByLabelText(/name/i)).toHaveValue("John Doe");
     expect(screen.getByLabelText(/email/i)).toHaveValue("john@example.com");
@@ -222,7 +214,19 @@ describe("ContactSection form", () => {
   it("has maxLength attributes on inputs", () => {
     renderContactSection();
     expect(screen.getByLabelText(/name/i)).toHaveAttribute("maxlength", "100");
+    expect(screen.getByLabelText(/name/i)).toHaveAttribute("minlength", "2");
     expect(screen.getByLabelText(/email/i)).toHaveAttribute("maxlength", "254");
     expect(screen.getByLabelText(/message/i)).toHaveAttribute("maxlength", "2000");
+    expect(screen.getByLabelText(/message/i)).toHaveAttribute("minlength", "10");
+  });
+
+  it("does not call the API when HTML validation fails on empty submit", async () => {
+    const user = userEvent.setup();
+    renderContactSection();
+
+    await user.click(screen.getByRole("button", { name: /send message/i }));
+
+    expect(mockFetch).not.toHaveBeenCalled();
+    expect(mockExecute).not.toHaveBeenCalled();
   });
 });

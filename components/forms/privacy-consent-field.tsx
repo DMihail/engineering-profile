@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { PRIVACY_CONSENT_FIELD, PRIVACY_CONSENT_VALUE } from "@/lib/privacy-consent";
+import { clearContactFieldValidity } from "@/lib/contact-form-html-validation";
 import styles from "@/styles/forms/privacy-consent.module.css";
 
 interface PrivacyConsentFieldProps {
   id: string;
   disabled?: boolean;
-  invalid?: boolean;
 }
 
-export function PrivacyConsentField({ id, disabled, invalid }: PrivacyConsentFieldProps) {
+export function PrivacyConsentField({ id, disabled }: PrivacyConsentFieldProps) {
   return (
     <div className={styles.field}>
       <input
@@ -18,7 +18,7 @@ export function PrivacyConsentField({ id, disabled, invalid }: PrivacyConsentFie
         value={PRIVACY_CONSENT_VALUE}
         required
         disabled={disabled}
-        aria-invalid={invalid || undefined}
+        onInput={clearContactFieldValidity}
         className={styles.checkbox}
       />
       <label htmlFor={id} className={styles.label}>

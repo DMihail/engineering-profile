@@ -78,11 +78,11 @@ describe("POST /api/contact", () => {
   it("returns 400 if privacy consent is missing", async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { privacyConsent, ...body } = validBody;
-    mockRecaptchaSuccess();
     const res = await POST(makeRequest(body));
     expect(res.status).toBe(400);
     const json = await res.json();
-    expect(json.error).toMatch(/privacy consent/i);
+    expect(json.error).toMatch(/accept the privacy terms/i);
+    expect(mockFetch).not.toHaveBeenCalled();
   });
 
   it("returns 403 if reCAPTCHA score is too low", async () => {
@@ -103,15 +103,14 @@ describe("POST /api/contact", () => {
   });
 
   it("returns 400 if email is invalid", async () => {
-    mockRecaptchaSuccess();
     const res = await POST(makeRequest({ ...validBody, email: "not-an-email" }));
     expect(res.status).toBe(400);
     const json = await res.json();
     expect(json.error).toMatch(/valid email/i);
+    expect(mockFetch).not.toHaveBeenCalled();
   });
 
   it("returns 400 for disposable email domains", async () => {
-    mockRecaptchaSuccess();
     const res = await POST(makeRequest({ ...validBody, email: "user@mailinator.com" }));
     expect(res.status).toBe(400);
     const json = await res.json();
@@ -120,15 +119,14 @@ describe("POST /api/contact", () => {
   });
 
   it("returns 400 if name is too short", async () => {
-    mockRecaptchaSuccess();
     const res = await POST(makeRequest({ ...validBody, name: "A" }));
     expect(res.status).toBe(400);
     const json = await res.json();
-    expect(json.error).toMatch(/name/i);
+    expect(json.error).toMatch(/please enter your name/i);
+    expect(mockFetch).not.toHaveBeenCalled();
   });
 
   it("returns 400 if message is too short", async () => {
-    mockRecaptchaSuccess();
     const res = await POST(makeRequest({ ...validBody, message: "Hi" }));
     expect(res.status).toBe(400);
     const json = await res.json();

@@ -15,7 +15,6 @@ export function ContactSubmitButton({ success }: ContactSubmitButtonProps) {
       type="submit"
       disabled={pending || success}
       aria-busy={pending || undefined}
-      aria-disabled={pending || success || undefined}
       className={`flex items-center gap-2 font-semibold ${
         success ? "form-success-banner" : "btn-primary disabled:opacity-60"
       }`}

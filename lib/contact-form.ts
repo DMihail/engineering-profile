@@ -1,8 +1,5 @@
-import {
-  isPrivacyConsentGiven,
-  PRIVACY_CONSENT_ERROR,
-  PRIVACY_CONSENT_FIELD,
-} from "@/lib/privacy-consent";
+import { PRIVACY_CONSENT_FIELD } from "@/lib/privacy-consent";
+import { validateContactFields } from "@/lib/contact-form-validation";
 
 export type ContactFormState = { success: boolean; error?: string; ts: number };
 
@@ -53,33 +50,24 @@ export async function submitContactForm(
 ): Promise<ContactFormState> {
   void _prev;
 
-  const { validateEmail } = await import("@/lib/validate-email");
-
   const now = Date.now();
   if (now - lastSubmitAt < THROTTLE_MS) {
     return fail("Please wait before sending again", now);
   }
 
-  if (!isPrivacyConsentGiven(data.get(PRIVACY_CONSENT_FIELD))) {
-    return fail(PRIVACY_CONSENT_ERROR, now);
+  const fieldFailure = validateContactFields({
+    name: (data.get("name") as string) ?? "",
+    email: (data.get("email") as string) ?? "",
+    message: (data.get("message") as string) ?? "",
+    consent: data.get(PRIVACY_CONSENT_FIELD),
+  });
+  if (fieldFailure) {
+    return fail(fieldFailure.error, now);
   }
 
-  const email = (data.get("email") as string)?.trim().toLowerCase() ?? "";
-  const emailError = validateEmail(email);
-  if (emailError) {
-    return fail(emailError, now);
-  }
-
-  const name = (data.get("name") as string)?.trim() ?? "";
-  if (name.length < 2) {
-    return fail("Please enter your name", now);
-  }
-
-  const message = (data.get("message") as string)?.trim() ?? "";
-  if (message.length < 10) {
-    return fail("Message is too short — describe the role or project", now);
-  }
-
+  const name = (data.get("name") as string).trim();
+  const email = (data.get("email") as string).trim().toLowerCase();
+  const message = (data.get("message") as string).trim();
   const company = (data.get("company") as string)?.trim() || null;
 
   try {

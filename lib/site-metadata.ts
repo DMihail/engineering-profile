@@ -46,6 +46,6 @@ export function buildTwitter(overrides: TwitterOverrides = {}): Metadata["twitte
 
 export const ROOT_SITE_METADATA = {
   description: SITE_DESCRIPTION,
-  openGraph: buildOpenGraph(),
-  twitter: buildTwitter(),
+  openGraph: buildOpenGraph({ description: SITE_DESCRIPTION }),
+  twitter: buildTwitter({ description: SITE_DESCRIPTION }),
 } as const;

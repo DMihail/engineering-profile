@@ -3,7 +3,7 @@ import { getFirestore, Timestamp } from "firebase-admin/firestore";
 import { getFirebaseAdminApp } from "@/lib/firebase-admin";
 import { sendContactPushNotification } from "@/lib/send-contact-push-notification";
 import { hasPrivacyConsentInBody } from "@/lib/privacy-consent";
-import { validateEmail } from "@/lib/validate-email";
+import { validateContactFields } from "@/lib/contact-form-validation";
 
 const SCORE_THRESHOLD = 0.5;
 
@@ -50,12 +50,23 @@ export async function POST(req: NextRequest) {
   try {
     const { name, email, company, message, recaptchaToken } = body;
 
-    if (!recaptchaToken || typeof recaptchaToken !== "string") {
-      return NextResponse.json({ error: "Missing captcha token" }, { status: 400 });
+    const trimmedName = (typeof name === "string" ? name : "").trim().slice(0, MAX_NAME);
+    const trimmedEmail = (typeof email === "string" ? email : "").trim().toLowerCase().slice(0, MAX_EMAIL);
+    const trimmedCompany = (typeof company === "string" ? company : "").trim().slice(0, MAX_COMPANY) || null;
+    const trimmedMessage = (typeof message === "string" ? message : "").trim().slice(0, MAX_MESSAGE);
+
+    const fieldFailure = validateContactFields({
+      name: trimmedName,
+      email: trimmedEmail,
+      message: trimmedMessage,
+      consent: hasPrivacyConsentInBody(body),
+    });
+    if (fieldFailure) {
+      return NextResponse.json({ error: fieldFailure.error }, { status: 400 });
     }
 
-    if (!hasPrivacyConsentInBody(body)) {
-      return NextResponse.json({ error: "Privacy consent is required" }, { status: 400 });
+    if (!recaptchaToken || typeof recaptchaToken !== "string") {
+      return NextResponse.json({ error: "Missing captcha token" }, { status: 400 });
     }
 
     let captcha: RecaptchaResponse;
@@ -68,24 +79,6 @@ export async function POST(req: NextRequest) {
 
     if (!captcha.success || captcha.score < SCORE_THRESHOLD || captcha.action !== "contact_submit") {
       return NextResponse.json({ error: "Captcha verification failed" }, { status: 403 });
-    }
-
-    const trimmedName = (typeof name === "string" ? name : "").trim().slice(0, MAX_NAME);
-    const trimmedEmail = (typeof email === "string" ? email : "").trim().toLowerCase().slice(0, MAX_EMAIL);
-    const trimmedCompany = (typeof company === "string" ? company : "").trim().slice(0, MAX_COMPANY) || null;
-    const trimmedMessage = (typeof message === "string" ? message : "").trim().slice(0, MAX_MESSAGE);
-
-    if (trimmedName.length < 2) {
-      return NextResponse.json({ error: "Name is too short" }, { status: 400 });
-    }
-
-    const emailError = validateEmail(trimmedEmail);
-    if (emailError) {
-      return NextResponse.json({ error: emailError }, { status: 400 });
-    }
-
-    if (trimmedMessage.length < 10) {
-      return NextResponse.json({ error: "Message is too short" }, { status: 400 });
     }
 
     const app = getFirebaseAdminApp();
