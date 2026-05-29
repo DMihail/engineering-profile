@@ -10,10 +10,10 @@ export function SkillsSection() {
   return (
     <section id="skills" className="section-surface section-cv-auto" aria-labelledby="skills-heading">
       <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6">
-        <SectionLabel n="03" label="Skills" />
-        <h2 id="skills-heading" className="section-heading mb-2">Skills & tools</h2>
+        <SectionLabel n="03" label="Stack" />
+        <h2 id="skills-heading" className="section-heading mb-2">Stack & tools</h2>
         <p className="section-comment mb-9">
-          React Native, web, and backend — primary tools in bold
+          What I reach for daily — primary tools in bold
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">

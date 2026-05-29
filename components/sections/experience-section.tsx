@@ -11,10 +11,10 @@ export function ExperienceSection() {
   return (
     <section id="experience" className="section-dark section-cv-auto" aria-labelledby="experience-heading">
       <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6">
-        <SectionLabel n="04" label="Experience" />
-        <h2 id="experience-heading" className="section-heading mb-2">Experience</h2>
+        <SectionLabel n="04" label="Work" />
+        <h2 id="experience-heading" className="section-heading mb-2">Work history</h2>
         <p className="section-comment mb-10">
-          Six years across mobile, web, and full-stack roles — from React Native apps to Node.js backends.
+          Six years on React Native, web, and Node.js — client teams and product work
         </p>
 
         <div className="relative">

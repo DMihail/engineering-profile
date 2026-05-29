@@ -7,13 +7,13 @@ export function ImpactSection() {
   return (
     <section id="impact" className="section-surface section-cv-auto border-t border-border-primary-soft" aria-labelledby="impact-heading">
       <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6">
-        <SectionLabel n="01" label="What I do" />
+        <SectionLabel n="01" label="Focus" />
 
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-10">
           <div>
-            <h2 id="impact-heading" className="section-heading">At a glance</h2>
+            <h2 id="impact-heading" className="section-heading">What I build</h2>
             <p className="section-comment">
-              Mobile, web, and backend — applied across client work and own products
+              Mobile, web, and backend — on client teams and my own products
             </p>
           </div>
         </div>
@@ -27,9 +27,9 @@ export function ImpactSection() {
             </colgroup>
             <thead>
               <tr>
-                <th scope="col" className="mono-label">Area</th>
-                <th scope="col" className="mono-label">Description</th>
-                <th scope="col" className="mono-label">In practice</th>
+                <th scope="col" className="mono-label">Domain</th>
+                <th scope="col" className="mono-label">Summary</th>
+                <th scope="col" className="mono-label">Benchmark</th>
               </tr>
             </thead>
             <tbody>
