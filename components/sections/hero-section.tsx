@@ -1,7 +1,7 @@
 import { Download, Mail } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
 import { SITE_AUTHOR, SITE_LOCATION, SITE_ROLE } from "@/lib/config";
-import { HERO_CTA, HERO_STATS } from "@/lib/data";
+import { HERO_CTA, HERO_STATS } from "@/lib/data/nav";
 import styles from "@/styles/sections/hero-section.module.css";
 
 export function HeroSection() {
@@ -26,20 +26,12 @@ export function HeroSection() {
             <span className="text-primary">{SITE_AUTHOR.split(" ").slice(1).join(" ")}</span>
           </h1>
 
-          <p className="font-semibold leading-snug text-text-secondary text-hero-lead mb-2">
+          <p className="font-semibold leading-snug text-text-secondary text-hero-lead mb-4">
             {SITE_ROLE}
           </p>
 
-          <p className="font-normal text-muted-foreground text-hero-support mb-6">
-            {SITE_LOCATION}
-          </p>
-
-          <p className="font-sans font-medium mb-4 leading-relaxed text-text-secondary text-hero-lead max-w-2xl mx-auto lg:mx-0 text-pretty">
-            Building high-performance mobile applications, realtime systems, and native integrations for production teams.
-          </p>
-
-          <p className="text-hero-support sm:text-base text-muted-foreground max-w-xl mb-10 leading-looser mx-auto lg:mx-0 text-pretty">
-            Focused on performance, realtime processing, and production-grade mobile architecture.
+          <p className="text-hero-support sm:text-base text-muted-foreground max-w-lg mb-10 leading-relaxed mx-auto lg:mx-0 text-pretty">
+            Expo and React Native for iOS and Android — App Store and Google Play. React, Next.js, and Node.js when the product needs web or APIs.
           </p>
 
           <nav className="flex flex-col sm:flex-row flex-wrap gap-3 justify-center lg:justify-start mb-12" aria-label="Primary actions">

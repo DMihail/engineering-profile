@@ -11,9 +11,9 @@ import {
   phoneForRegion,
   TELEGRAM,
 } from "@/lib/contact-region";
-import { RecaptchaScript } from "@/components/ui/recaptcha-script";
+import { ensureRecaptchaLoaded } from "@/lib/recaptcha-client";
 import { SectionLabel } from "@/components/ui/primitives";
-import { SOCIAL_LINKS } from "@/lib/data";
+import { SOCIAL_LINKS } from "@/lib/data/social-links";
 import styles from "@/styles/sections/contact-section.module.css";
 
 type FormState = { success: boolean; error?: string; ts: number };
@@ -93,24 +93,33 @@ let lastSubmitAt = 0;
 const THROTTLE_MS = 10_000;
 
 function getRecaptchaToken(): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
-    if (!siteKey) {
-      reject(new Error("reCAPTCHA is not configured"));
-      return;
-    }
-    if (!window.grecaptcha) {
-      reject(new Error("reCAPTCHA not loaded — check your connection"));
-      return;
-    }
-    const timeout = setTimeout(() => reject(new Error("reCAPTCHA timed out")), 10_000);
-    window.grecaptcha.ready(() => {
-      window.grecaptcha
-        .execute(siteKey, { action: "contact_submit" })
-        .then((token) => { clearTimeout(timeout); resolve(token); })
-        .catch((err) => { clearTimeout(timeout); reject(err); });
-    });
-  });
+  return ensureRecaptchaLoaded().then(
+    () =>
+      new Promise((resolve, reject) => {
+        const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+        if (!siteKey) {
+          reject(new Error("reCAPTCHA is not configured"));
+          return;
+        }
+        if (!window.grecaptcha) {
+          reject(new Error("reCAPTCHA not loaded — check your connection"));
+          return;
+        }
+        const timeout = setTimeout(() => reject(new Error("reCAPTCHA timed out")), 10_000);
+        window.grecaptcha.ready(() => {
+          window.grecaptcha
+            .execute(siteKey, { action: "contact_submit" })
+            .then((token) => {
+              clearTimeout(timeout);
+              resolve(token);
+            })
+            .catch((err) => {
+              clearTimeout(timeout);
+              reject(err);
+            });
+        });
+      }),
+  );
 }
 
 async function sendMessage(_prev: FormState, data: FormData): Promise<FormState> {
@@ -250,7 +259,7 @@ function EmailCard({ link }: { link: typeof SOCIAL_LINKS[number] }) {
         type="button"
         onClick={handleCopy}
         aria-label={copied ? "Email copied" : `Copy ${email}`}
-        className="absolute end-3 top-1/2 -translate-y-1/2 shrink-0 p-1.5 cursor-pointer bg-transparent border-0 rounded-md hover:bg-surface-muted"
+        className="absolute inset-e-3 top-1/2 -translate-y-1/2 shrink-0 p-1.5 cursor-pointer bg-transparent border-0 rounded-md hover:bg-surface-muted"
       >
         {copied
           ? <Check size={13} className="text-success" aria-hidden />
@@ -292,6 +301,13 @@ export function ContactSection() {
   const { ref, fade } = useFadeIn();
   const [state, formAction] = useActionState(sendMessage, INITIAL_STATE);
   const formRef = useRef<HTMLFormElement>(null);
+  const recaptchaPrimed = useRef(false);
+
+  const primeRecaptcha = () => {
+    if (recaptchaPrimed.current) return;
+    recaptchaPrimed.current = true;
+    void ensureRecaptchaLoaded().catch(() => {});
+  };
 
   const success = state.success;
   const error = !state.success ? state.error : undefined;
@@ -312,17 +328,16 @@ export function ContactSection() {
   }, [state.ts, state.success]);
 
   return (
-    <section id="contact" className="section-surface" aria-labelledby="contact-heading">
-      <RecaptchaScript />
+    <section id="contact" className="section-surface section-cv-auto" aria-labelledby="contact-heading">
       <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6" style={fade}>
         <SectionLabel n="06" label="Contact" />
-        <h2 id="contact-heading" className="section-heading">{"Let's build something"}</h2>
+        <h2 id="contact-heading" className="section-heading">Get in touch</h2>
         <div className="flex items-center gap-2 mb-3">
           <span className="status-dot-sm animate-pulse" />
-          <span className="mono-sm text-success tracking-[0.04em]">Available for contract work</span>
+          <span className="mono-sm text-success tracking-[0.04em]">Open to new roles</span>
         </div>
         <p className="text-sm text-muted-foreground mb-10 max-w-copy leading-body text-pretty">
-          Open to remote and onsite opportunities globally — EU, US, and worldwide. If you have a challenging mobile or frontend systems problem, reach out.
+          Open to full-time, contract, and freelance work — remote or onsite. Based in Dublin, available across EU, UK, and US time zones. Mobile app, web product, or full-stack team — let&apos;s talk.
         </p>
 
         <div className={`grid grid-cols-1 gap-8 md:gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(17.5rem,20rem)] lg:gap-12 lg:items-start ${styles.contactLayout}`}>
@@ -330,6 +345,7 @@ export function ContactSection() {
           <form
             ref={formRef}
             action={formAction}
+            onFocusCapture={primeRecaptcha}
             className={`panel ${styles.formPanel} p-5 sm:p-6 min-w-0`}
             aria-labelledby="contact-heading"
           >

@@ -2,7 +2,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 
 export const inter = Inter({
   subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "600", "800"],
   display: "swap",
   variable: "--font-inter",
   preload: true,
@@ -11,10 +11,10 @@ export const inter = Inter({
 
 export const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "600"],
   display: "swap",
   variable: "--font-jetbrains",
-  preload: true,
+  preload: false,
   adjustFontFallback: true,
 });
 

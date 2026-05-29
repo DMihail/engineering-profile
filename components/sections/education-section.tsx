@@ -1,10 +1,10 @@
-import { EDUCATION } from "@/lib/data";
+import { EDUCATION } from "@/lib/data/experience";
 import { SectionLabel } from "@/components/ui/primitives";
 import { FadeIn } from "@/components/ui/fade-in";
 
 export function EducationSection() {
   return (
-    <section id="education" className="section-surface" aria-labelledby="education-heading">
+    <section id="education" className="section-surface section-cv-auto" aria-labelledby="education-heading">
       <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
         <SectionLabel n="05" label="Education" />
         <h2 id="education-heading" className="section-heading mb-8 text-balance">Education</h2>

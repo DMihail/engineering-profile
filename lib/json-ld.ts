@@ -1,4 +1,4 @@
-import { CASE_STUDIES } from "@/lib/data";
+import { CASE_STUDIES } from "@/lib/data/case-studies";
 import {
   SITE_AUTHOR,
   SITE_DESCRIPTION,
@@ -13,11 +13,69 @@ const PERSON_ID = `${SITE_URL}/#person`;
 const WEBSITE_ID = `${SITE_URL}/#website`;
 const PROJECTS_ID = `${SITE_URL}/#projects`;
 
-function buildCaseStudiesItemList() {
+export type JsonLdItemList = {
+  "@type": "ItemList";
+  "@id": string;
+  name: string;
+  itemListElement: Array<{
+    "@type": "ListItem";
+    position: number;
+    item: {
+      "@type": "CreativeWork";
+      "@id": string;
+      name: string;
+      description: string;
+      url: string;
+      keywords: string;
+      author: { "@id": string };
+    };
+  }>;
+};
+
+type JsonLdWebSite = {
+  "@type": "WebSite";
+  "@id": string;
+  url: string;
+  name: string;
+  description: string;
+  inLanguage: string;
+  publisher: { "@id": string };
+};
+
+export type JsonLdPerson = {
+  "@type": "Person";
+  "@id": string;
+  name: string;
+  url: string;
+  image: string;
+  email: string;
+  jobTitle: string;
+  worksFor: { "@type": "Organization"; name: string };
+  address: {
+    "@type": "PostalAddress";
+    addressLocality: string;
+    addressCountry: string;
+  };
+  workLocation: { "@type": "Place"; name: string };
+  areaServed: string[];
+  sameAs: string[];
+  knowsAbout: string[];
+};
+
+type JsonLdItemListNode = JsonLdItemList;
+
+type JsonLdGraphNode = JsonLdWebSite | JsonLdPerson | JsonLdItemListNode;
+
+export type SiteJsonLd = {
+  "@context": "https://schema.org";
+  "@graph": JsonLdGraphNode[];
+};
+
+function buildCaseStudiesItemList(): JsonLdItemList {
   return {
     "@type": "ItemList",
     "@id": PROJECTS_ID,
-    name: "Case studies",
+    name: "Projects",
     itemListElement: CASE_STUDIES.map((study, index) => ({
       "@type": "ListItem",
       position: index + 1,
@@ -34,7 +92,7 @@ function buildCaseStudiesItemList() {
   };
 }
 
-export function buildSiteJsonLd() {
+export function buildSiteJsonLd(): SiteJsonLd {
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -75,13 +133,20 @@ export function buildSiteJsonLd() {
         ],
         knowsAbout: [
           "React Native",
+          "Expo",
+          "React",
+          "Next.js",
+          "Node.js",
           "TypeScript",
+          "Jest",
+          "Detox",
+          "Firebase",
+          "Firebase Crashlytics",
+          "Full-Stack Development",
           "iOS",
           "Android",
-          "Real-time Systems",
-          "Mobile Architecture",
-          "Performance Optimization",
-          "Native Modules",
+          "App Store",
+          "Google Play",
         ],
       },
       buildCaseStudiesItemList(),

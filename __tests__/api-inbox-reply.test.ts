@@ -8,6 +8,7 @@ const mockVerifyIdToken = jest.fn();
 const mockGetMessage = jest.fn();
 const mockMarkReplied = jest.fn();
 const mockSendReplyEmail = jest.fn();
+const mockIsMailConfigured = jest.fn(() => true);
 
 jest.mock("firebase-admin/auth", () => ({
   getAuth: () => ({ verifyIdToken: mockVerifyIdToken }),
@@ -23,7 +24,7 @@ jest.mock("@/lib/contact-message", () => ({
 }));
 
 jest.mock("@/lib/send-reply-email", () => ({
-  isMailConfigured: () => true,
+  isMailConfigured: () => mockIsMailConfigured(),
   sendReplyEmail: (...args: unknown[]) => mockSendReplyEmail(...args),
   MAX_REPLY_BODY: 10000,
 }));
@@ -55,6 +56,8 @@ const contact = {
 
 beforeEach(() => {
   jest.clearAllMocks();
+  mockIsMailConfigured.mockReturnValue(true);
+  delete process.env.INBOX_ALLOWED_UIDS;
   process.env.INBOX_APP_URL = "http://localhost:5173";
   mockVerifyIdToken.mockResolvedValue({ uid: "admin-uid", email: "me@example.com" });
   mockGetMessage.mockResolvedValue(contact);
@@ -108,9 +111,18 @@ describe("POST /api/inbox/reply", () => {
     });
   });
 
-  it("returns 400 for short reply", async () => {
-    const res = await POST(makeRequest({ messageId: "msg-1", body: " " }));
-    expect(res.status).toBe(400);
+  it("returns 403 for disallowed uid", async () => {
+    process.env.INBOX_ALLOWED_UIDS = "other-uid";
+    mockVerifyIdToken.mockResolvedValueOnce({ uid: "admin-uid", email: "me@example.com" });
+    const res = await POST(makeRequest({ messageId: "msg-1", body: "Thanks!" }));
+    expect(res.status).toBe(403);
+    expect(mockSendReplyEmail).not.toHaveBeenCalled();
+  });
+
+  it("returns 503 when mail is not configured", async () => {
+    mockIsMailConfigured.mockReturnValueOnce(false);
+    const res = await POST(makeRequest({ messageId: "msg-1", body: "Thanks!" }));
+    expect(res.status).toBe(503);
     expect(mockSendReplyEmail).not.toHaveBeenCalled();
   });
 });

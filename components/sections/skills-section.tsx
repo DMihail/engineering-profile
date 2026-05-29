@@ -1,15 +1,19 @@
-import { SKILL_LAYERS } from "@/lib/data";
+import { SKILL_LAYERS } from "@/lib/data/skills";
 import { SectionLabel } from "@/components/ui/primitives";
 import { FadeIn } from "@/components/ui/fade-in";
 
+function sortSkillsPrimaryFirst<T extends { primary: boolean }>(skills: T[]): T[] {
+  return [...skills].sort((a, b) => Number(b.primary) - Number(a.primary));
+}
+
 export function SkillsSection() {
   return (
-    <section id="skills" className="section-surface" aria-labelledby="skills-heading">
+    <section id="skills" className="section-surface section-cv-auto" aria-labelledby="skills-heading">
       <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6">
         <SectionLabel n="03" label="Skills" />
-        <h2 id="skills-heading" className="section-heading mb-2">Technical stack</h2>
+        <h2 id="skills-heading" className="section-heading mb-2">Skills & tools</h2>
         <p className="section-comment mb-9">
-          6 domains — primary tools highlighted
+          React Native, web, and backend — primary tools in bold
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -23,7 +27,7 @@ export function SkillsSection() {
                 <p className="mt-2 mono-xs text-text-faint">{layer.projectRefs}</p>
               </header>
               <ul className="p-3 grid grid-cols-2 gap-1.5 list-none m-0">
-                {layer.skills.map((skill) => {
+                {sortSkillsPrimaryFirst(layer.skills).map((skill) => {
                   const SkillIcon = skill.icon;
                   return (
                     <li

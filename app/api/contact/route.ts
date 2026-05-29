@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { getFirestore, Timestamp } from "firebase-admin/firestore";
+import { getFirebaseAdminApp } from "@/lib/firebase-admin";
 import { sendContactPushNotification } from "@/lib/send-contact-push-notification";
 
 const SCORE_THRESHOLD = 0.5;
@@ -79,12 +79,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Message is too short" }, { status: 400 });
     }
 
-    const docRef = await addDoc(collection(db, "messages"), {
+    const app = getFirebaseAdminApp();
+    if (!app) {
+      console.error("[api/contact] Firebase Admin is not configured");
+      return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    }
+
+    const docRef = await getFirestore(app).collection("messages").add({
       name: trimmedName,
       email: trimmedEmail,
       company: trimmedCompany,
       message: trimmedMessage,
-      createdAt: serverTimestamp(),
+      createdAt: Timestamp.now(),
       source: "portfolio",
       read: false,
     });

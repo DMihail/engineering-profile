@@ -1,5 +1,5 @@
 import { SITE_AUTHOR, SITE_ROLE } from "@/lib/config";
-import { SOCIAL_LINKS } from "@/lib/data";
+import { SOCIAL_LINKS } from "@/lib/data/social-links";
 import { MDLogo } from "@/components/ui/icons";
 
 export function Footer() {

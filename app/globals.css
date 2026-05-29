@@ -323,6 +323,12 @@
   .section-dark    { background: var(--color-background); }
   .section-surface { background: var(--color-secondary); }
 
+  /** Below-fold paint skipping — keeps full DOM for SEO/crawlers */
+  .section-cv-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 50rem;
+  }
+
   .min-h-hero {
     min-height: var(--hero-min-h);
   }
@@ -579,6 +585,10 @@
 @media (prefers-reduced-motion: reduce) {
   .case-details .case-details-content {
     transition: none;
+  }
+
+  .section-cv-auto {
+    content-visibility: visible;
   }
 }
 

@@ -27,10 +27,10 @@ export const metadata: Metadata = {
   },
   description: SITE_DESCRIPTION,
   keywords: [
-    "React Native", "Mobile Developer", "iOS", "Android",
-    "TypeScript", "React", "Next.js", "Node.js",
-    "Firebase", "Redux", "WebSockets", "GraphQL",
-    "Dublin", "Ireland", "Remote",
+    "React Native", "Expo", "Full-Stack Developer", "Mobile Developer", "iOS", "Android",
+    "TypeScript", "React", "Next.js", "Node.js", "Jest", "Detox",
+    "Firebase", "Crashlytics", "Redux", "WebSockets", "GraphQL",
+    "App Store", "Google Play", "Dublin", "Ireland", "Remote",
     SITE_AUTHOR,
   ],
   authors: [{ name: SITE_AUTHOR, url: SITE_URL }],
@@ -81,15 +81,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fontVariableClassName} h-full`}>
       <head>
+        <title>{title}</title>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
       <body className={`${fontBodyClassName} min-h-full`}>
-        <a href="#main-content" className="skip-link">
-          Skip to content
-        </a>
         {children}
       </body>
     </html>

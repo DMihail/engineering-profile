@@ -3,7 +3,7 @@
 import { ChevronDown } from "lucide-react";
 import type { ReactNode } from "react";
 import type { CaseStudy } from "@/lib/types";
-import { CASE_STUDIES } from "@/lib/data";
+import { CASE_STUDIES } from "@/lib/data/case-studies";
 import { useFadeIn } from "@/lib/hooks";
 import { SectionLabel, Chip } from "@/components/ui/primitives";
 import styles from "@/styles/sections/case-studies-section.module.css";
@@ -107,7 +107,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
         </section>
 
         <div className={styles.deepDive}>
-          <CollapsibleBlock title="Architecture" name={`${cs.id}-deep`}>
+          <CollapsibleBlock title="How it was built" name={`${cs.id}-deep`}>
             <ul className={styles.bulletList}>
               {cs.architecture.map((a) => (
                 <li key={a.decision}>
@@ -121,7 +121,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
           <CollapsibleBlock title="Technical details" name={`${cs.id}-deep`}>
             <div className="space-y-5">
               <div>
-                <p className={styles.subLabel}>Engineering focus</p>
+                <p className={styles.subLabel}>What I worked on</p>
                 <ul className={styles.bulletList}>
                   {cs.technicalPoints.map((point) => (
                     <li key={point} className="text-sm text-text-secondary leading-looser text-pretty">{point}</li>
@@ -129,7 +129,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
                 </ul>
               </div>
               <div>
-                <p className={styles.subLabel}>Constraints</p>
+                <p className={styles.subLabel}>What made it hard</p>
                 <ul className={styles.bulletList}>
                   {cs.constraints.map((c) => (
                     <li key={c} className="text-sm text-muted-foreground leading-looser text-pretty">{c}</li>
@@ -149,7 +149,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
             </div>
           </CollapsibleBlock>
 
-          <CollapsibleBlock title="Trade-offs" name={`${cs.id}-deep`}>
+          <CollapsibleBlock title="Key decisions" name={`${cs.id}-deep`}>
             <ul className={styles.bulletList}>
               {cs.tradeoffs.map((tr) => (
                 <li key={tr.chosen}>
@@ -160,7 +160,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
             </ul>
           </CollapsibleBlock>
 
-          <CollapsibleBlock title="Performance notes" name={`${cs.id}-deep`}>
+          <CollapsibleBlock title="Speed & reliability" name={`${cs.id}-deep`}>
             <ul className={styles.bulletList}>
               {cs.performanceNotes.map((note) => (
                 <li key={note} className="text-sm text-text-secondary leading-looser text-pretty">{note}</li>
@@ -176,12 +176,12 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
 export function CaseStudiesSection() {
   const { ref, fade } = useFadeIn();
   return (
-    <section id="projects" className="section-dark" aria-labelledby="projects-heading">
+    <section id="projects" className="section-dark section-cv-auto" aria-labelledby="projects-heading">
       <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6" style={fade}>
-        <SectionLabel n="02" label="Case Studies" />
-        <h2 id="projects-heading" className="section-heading">Case studies</h2>
+        <SectionLabel n="02" label="Projects" />
+        <h2 id="projects-heading" className="section-heading">Selected projects</h2>
         <p className="section-comment mb-10">
-          Production mobile work — context, outcomes, and optional technical depth.
+          Mobile apps, web platforms, and full-stack tools — selected work with measurable results.
         </p>
         <div className="space-y-5">
           {CASE_STUDIES.map((cs) => <CaseStudyPanel key={cs.id} cs={cs} />)}
