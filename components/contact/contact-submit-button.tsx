@@ -30,7 +30,7 @@ export function ContactSubmitButton({ success, error }: { success: boolean; erro
         )}
       </button>
       {error && (
-        <p role="alert" aria-live="polite" className="text-xs text-error mono-sm">
+        <p id="contact-form-error" role="alert" className="text-xs text-error mono-sm">
           {error}
         </p>
       )}

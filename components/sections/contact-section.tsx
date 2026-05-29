@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useActionState } from "react";
-import { useFadeIn } from "@/lib/hooks";
 import { ensureRecaptchaLoaded } from "@/lib/recaptcha-client";
 import {
   CONTACT_FORM_INITIAL_STATE,
@@ -14,7 +13,6 @@ import { SITE_WORK_AUTHORIZATION } from "@/lib/config";
 import styles from "@/styles/sections/contact-section.module.css";
 
 export function ContactSection() {
-  const { ref, fade } = useFadeIn();
   const [state, formAction] = useActionState(submitContactForm, CONTACT_FORM_INITIAL_STATE);
   const formRef = useRef<HTMLFormElement>(null);
   const recaptchaPrimed = useRef(false);
@@ -36,7 +34,7 @@ export function ContactSection() {
 
   return (
     <section id="contact" className="section-surface section-cv-auto" aria-labelledby={headingId}>
-      <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6 fade-in-target" style={fade}>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 reveal-on-scroll">
         <SectionHeader sectionId="contact" commentClassName="mb-6" />
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-3">
           <div className="flex items-center gap-2">
@@ -55,6 +53,7 @@ export function ContactSection() {
             onFocusCapture={primeRecaptcha}
             className={`panel ${styles.formPanel} min-w-0`}
             aria-labelledby={headingId}
+            aria-describedby={error ? "contact-form-error" : undefined}
           >
             <fieldset className={`${styles.formGrid} border-0 p-0 m-0 min-w-0`}>
               <legend className="sr-only">Contact form</legend>

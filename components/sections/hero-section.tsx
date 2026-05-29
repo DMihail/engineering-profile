@@ -74,19 +74,24 @@ export function HeroSection() {
             </a>
           </nav>
 
-          <dl className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-xl mx-auto lg:mx-0 m-0">
+          <div
+            className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-xl mx-auto lg:mx-0"
+            role="list"
+            aria-label="Career highlights"
+          >
             {HERO_STATS.map((m) => (
-              <div key={m.label} className="text-center py-4 px-2 rounded-xl bg-card border border-border">
-                <dt className="sr-only">{m.label}</dt>
-                <dd className="font-sans text-hero-stat font-bold text-foreground tracking-[-0.03em] m-0">
+              <div
+                key={m.label}
+                role="listitem"
+                className="text-center py-4 px-2 rounded-xl bg-card border border-border"
+              >
+                <p className="font-sans text-hero-stat font-bold text-foreground tracking-[-0.03em] m-0">
                   {m.value}
-                </dd>
-                <dd className="text-xs text-muted-foreground mt-1 leading-snug m-0" aria-hidden>
-                  {m.label}
-                </dd>
+                </p>
+                <p className="text-xs text-muted-foreground mt-1 leading-snug m-0">{m.label}</p>
               </div>
             ))}
-          </dl>
+          </div>
         </div>
       </div>
     </section>

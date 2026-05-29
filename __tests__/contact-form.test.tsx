@@ -4,13 +4,6 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import { ContactSection } from "@/components/sections/contact-section";
 
-jest.mock("@/lib/hooks", () => ({
-  useFadeIn: () => ({
-    ref: { current: null },
-    fade: {},
-  }),
-}));
-
 jest.mock("@/lib/data", () => ({
   SOCIAL_LINKS: [],
 }));

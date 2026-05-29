@@ -14,15 +14,26 @@ describe("proxy", () => {
     expect(res.status).toBe(200);
   });
 
+  it("allows resume page", () => {
+    const res = proxy(requestFor("/resume"));
+    expect(res.status).toBe(200);
+  });
+
   it("allows static files with extensions (e.g. CV PDFs)", () => {
     const res = proxy(requestFor("/Mykhailo_Dzhezhelo_CV_Ireland.pdf"));
     expect(res.status).toBe(200);
   });
 
-  it("redirects unknown paths to home with 308", () => {
+  it("passes unknown paths through for app 404 handling", () => {
     const res = proxy(requestFor("/not-a-real-page"));
-    expect(res.status).toBe(308);
-    expect(res.headers.get("location")).toBe("https://dzhezhelo.dev/");
+    expect(res.status).toBe(200);
+    expect(res.headers.get("location")).toBeNull();
+  });
+
+  it("passes nested unknown paths through for app 404 handling", () => {
+    const res = proxy(requestFor("/projects/not-real"));
+    expect(res.status).toBe(200);
+    expect(res.headers.get("location")).toBeNull();
   });
 
   it("redirects section paths to home hash", () => {

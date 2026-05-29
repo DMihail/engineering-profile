@@ -2,27 +2,20 @@ import type { Metadata, Viewport } from "next";
 import {
   SITE_URL,
   SITE_AUTHOR,
-  SITE_ROLE,
   SITE_DESCRIPTION,
-  SITE_SHORT_DESCRIPTION,
-  SITE_OG_IMAGE_PATH,
 } from "@/lib/config";
+import {
+  DEFAULT_SITE_TITLE,
+  ROOT_SITE_METADATA,
+} from "@/lib/site-metadata";
 import { SiteJsonLd } from "@/components/seo/site-json-ld";
 import { fontBodyClassName, fontVariableClassName } from "@/lib/fonts";
 import "./globals.css";
 
-const title = `${SITE_AUTHOR} — ${SITE_ROLE}`;
-const ogImage = {
-  url: SITE_OG_IMAGE_PATH,
-  width: 1200,
-  height: 630,
-  alt: title,
-};
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: title,
+    default: DEFAULT_SITE_TITLE,
     template: `%s | ${SITE_AUTHOR}`,
   },
   description: SITE_DESCRIPTION,
@@ -39,22 +32,8 @@ export const metadata: Metadata = {
     google: "lle48wjp7HiGdH_6SV2SEHd7_ShE51gH92oFBCJVLYA",
     yandex: "0b930a278e22c1b1",
   },
-  openGraph: {
-    type: "website",
-    locale: "en_IE",
-    url: SITE_URL,
-    siteName: SITE_AUTHOR,
-    title,
-    description: SITE_SHORT_DESCRIPTION,
-    images: [ogImage],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title,
-    description: SITE_SHORT_DESCRIPTION,
-    creator: "@mykhailo_dev",
-    images: [SITE_OG_IMAGE_PATH],
-  },
+  openGraph: ROOT_SITE_METADATA.openGraph,
+  twitter: ROOT_SITE_METADATA.twitter,
   robots: {
     index: true,
     follow: true,
@@ -77,7 +56,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${fontVariableClassName} h-full`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${fontVariableClassName} h-full`}>
       <body className={`${fontBodyClassName} min-h-full`}>
         <SiteJsonLd />
         {children}

@@ -1,16 +1,10 @@
 import type { NextConfig } from "next";
 import bundleAnalyzer from "@next/bundle-analyzer";
+import { getSecurityHeaders } from "@/lib/security-headers";
 
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
-
-const securityHeaders = [
-  { key: "X-DNS-Prefetch-Control", value: "on" },
-  { key: "X-Content-Type-Options", value: "nosniff" },
-  { key: "Referrer-Policy", value: "origin-when-cross-origin" },
-  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
-];
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -41,7 +35,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/(.*)",
-        headers: securityHeaders,
+        headers: getSecurityHeaders(),
       },
       {
         source: "/icon.svg",

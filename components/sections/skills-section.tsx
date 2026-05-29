@@ -1,6 +1,5 @@
 import { SKILL_LAYERS } from "@/lib/data/skills";
 import { SectionHeader, sectionHeadingId } from "@/components/ui/primitives";
-import { FadeIn } from "@/components/ui/fade-in";
 import styles from "@/styles/sections/skills-section.module.css";
 
 function sortSkillsPrimaryFirst<T extends { primary: boolean }>(skills: T[]): T[] {
@@ -12,7 +11,7 @@ export function SkillsSection() {
 
   return (
     <section id="skills" className="section-surface section-cv-auto" aria-labelledby={headingId}>
-      <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 reveal-on-scroll">
         <SectionHeader sectionId="skills" commentClassName="mb-9" />
 
         <div className={styles.grid}>
@@ -52,7 +51,7 @@ export function SkillsSection() {
             </article>
           ))}
         </div>
-      </FadeIn>
+      </div>
     </section>
   );
 }

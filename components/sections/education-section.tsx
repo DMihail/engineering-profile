@@ -1,7 +1,6 @@
 import { GraduationCap } from "lucide-react";
 import { EDUCATION } from "@/lib/data/experience";
 import { SectionHeader, sectionHeadingId } from "@/components/ui/primitives";
-import { FadeIn } from "@/components/ui/fade-in";
 
 const INSTITUTION = EDUCATION[0]?.institution ?? "University";
 
@@ -20,7 +19,7 @@ export function EducationSection() {
       className="section-surface section-cv-auto border-t border-border-primary-soft"
       aria-labelledby={headingId}
     >
-      <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 reveal-on-scroll">
         <SectionHeader sectionId="education" />
 
         <article className="panel max-w-2xl">
@@ -52,7 +51,7 @@ export function EducationSection() {
             </div>
           </div>
         </article>
-      </FadeIn>
+      </div>
     </section>
   );
 }

@@ -2,14 +2,13 @@ import { MapPin } from "lucide-react";
 import { XP_ENTRIES } from "@/lib/data/experience";
 import { sectionHref } from "@/lib/section-ids";
 import { SectionHeader, Chip, sectionHeadingId } from "@/components/ui/primitives";
-import { FadeIn } from "@/components/ui/fade-in";
 
 export function ExperienceSection() {
   const headingId = sectionHeadingId("experience");
 
   return (
     <section id="experience" className="section-dark section-cv-auto" aria-labelledby={headingId}>
-      <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 reveal-on-scroll">
         <SectionHeader sectionId="experience" />
 
         <div className="relative">
@@ -91,7 +90,7 @@ export function ExperienceSection() {
             })}
           </div>
         </div>
-      </FadeIn>
+      </div>
     </section>
   );
 }

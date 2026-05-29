@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
 import type { Transporter } from "nodemailer";
 import type { ContactMessageRecord } from "@/lib/contact-message";
+import { escapeHtml, sanitizeEmailHeaderValue } from "@/lib/escape-html";
 
 const MAX_REPLY_BODY = 10_000;
 
@@ -54,7 +55,13 @@ function formatQuotedOriginal(contact: ContactMessageRecord): string {
 }
 
 function buildSubject(contact: ContactMessageRecord): string {
-  return `Re: Message from ${contact.name}`;
+  return `Re: Message from ${sanitizeEmailHeaderValue(contact.name)}`;
+}
+
+function buildReplyHtml(trimmed: string, contact: ContactMessageRecord): string {
+  const bodyHtml = escapeHtml(trimmed).replace(/\n/g, "<br>");
+  const quotedHtml = escapeHtml(formatQuotedOriginal(contact));
+  return `<p>${bodyHtml}</p><hr><pre style="white-space:pre-wrap;color:#666">${quotedHtml}</pre>`;
 }
 
 export async function sendReplyEmail({
@@ -76,7 +83,7 @@ export async function sendReplyEmail({
   const replyTo = process.env.MAIL_REPLY_TO?.trim() || from;
 
   const text = `${trimmed}\n\n--\n${formatQuotedOriginal(contact)}`;
-  const html = `<p>${trimmed.replace(/\n/g, "<br>")}</p><hr><pre style="white-space:pre-wrap;color:#666">${formatQuotedOriginal(contact).replace(/</g, "&lt;")}</pre>`;
+  const html = buildReplyHtml(trimmed, contact);
 
   const info = await transport.sendMail({
     from: `"${fromName}" <${from}>`,
