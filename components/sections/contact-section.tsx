@@ -12,10 +12,32 @@ import { ContactSubmitButton } from "@/components/contact/contact-submit-button"
 import { SITE_WORK_AUTHORIZATION } from "@/lib/config";
 import styles from "@/styles/sections/contact-section.module.css";
 
+function focusFieldForError(error: string) {
+  const lower = error.toLowerCase();
+  let id = "contact-message";
+  if (lower.includes("name")) id = "contact-name";
+  else if (lower.includes("email")) id = "contact-email";
+  else if (lower.includes("message") || lower.includes("short")) id = "contact-message";
+  document.getElementById(id)?.focus();
+}
+
+function shouldFocusField(error: string): boolean {
+  const lower = error.toLowerCase();
+  return (
+    lower.includes("name")
+    || lower.includes("email")
+    || lower.includes("message")
+    || lower.includes("short")
+  );
+}
+
 export function ContactSection() {
   const [state, formAction] = useActionState(submitContactForm, CONTACT_FORM_INITIAL_STATE);
   const formRef = useRef<HTMLFormElement>(null);
+  const statusRef = useRef<HTMLDivElement>(null);
+  const draftRef = useRef<FormData | null>(null);
   const recaptchaPrimed = useRef(false);
+  const lastHandledTs = useRef(0);
 
   const primeRecaptcha = () => {
     if (recaptchaPrimed.current) return;
@@ -26,11 +48,41 @@ export function ContactSection() {
   const success = state.success;
   const error = !state.success ? state.error : undefined;
   const headingId = sectionHeadingId("contact");
+  const hasFieldError = Boolean(error);
+
+  function restoreDraftFields() {
+    const form = formRef.current;
+    const draft = draftRef.current;
+    if (!form || !draft) return;
+
+    for (const name of ["name", "email", "company", "message"]) {
+      const field = form.elements.namedItem(name);
+      if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) {
+        field.value = String(draft.get(name) ?? "");
+      }
+    }
+  }
 
   useEffect(() => {
-    if (!state.success || state.ts === 0) return;
-    formRef.current?.reset();
-  }, [state.ts, state.success]);
+    if (state.ts === 0 || state.ts === lastHandledTs.current) return;
+    lastHandledTs.current = state.ts;
+
+    if (state.success) {
+      formRef.current?.reset();
+      draftRef.current = null;
+      statusRef.current?.focus();
+      return;
+    }
+
+    if (state.error) {
+      restoreDraftFields();
+      if (shouldFocusField(state.error)) {
+        focusFieldForError(state.error);
+      } else {
+        statusRef.current?.focus();
+      }
+    }
+  }, [state.ts, state.success, state.error]);
 
   return (
     <section id="contact" className="section-surface section-cv-auto" aria-labelledby={headingId}>
@@ -50,10 +102,14 @@ export function ContactSection() {
           <form
             ref={formRef}
             action={formAction}
+            noValidate
+            onSubmit={(event) => {
+              draftRef.current = new FormData(event.currentTarget);
+            }}
             onFocusCapture={primeRecaptcha}
             className={`panel ${styles.formPanel} min-w-0`}
             aria-labelledby={headingId}
-            aria-describedby={error ? "contact-form-error" : undefined}
+            aria-describedby={error ? "contact-form-status" : undefined}
           >
             <fieldset className={`${styles.formGrid} border-0 p-0 m-0 min-w-0`}>
               <legend className="sr-only">Contact form</legend>
@@ -69,6 +125,8 @@ export function ContactSection() {
                   maxLength={100}
                   autoComplete="name"
                   placeholder="Your name"
+                  disabled={success}
+                  aria-invalid={hasFieldError || undefined}
                   className={styles.inputField}
                 />
               </div>
@@ -84,6 +142,8 @@ export function ContactSection() {
                   maxLength={254}
                   autoComplete="email"
                   placeholder="you@company.com"
+                  disabled={success}
+                  aria-invalid={hasFieldError || undefined}
                   className={styles.inputField}
                 />
               </div>
@@ -98,6 +158,7 @@ export function ContactSection() {
                   maxLength={120}
                   autoComplete="organization"
                   placeholder="Company or agency"
+                  disabled={success}
                   className={styles.inputField}
                 />
               </div>
@@ -114,11 +175,17 @@ export function ContactSection() {
                   spellCheck
                   autoComplete="off"
                   placeholder="e.g. Senior RN role, Expo stack, remote EU, start Q3…"
+                  disabled={success}
+                  aria-invalid={hasFieldError || undefined}
                   className={`${styles.inputField} ${styles.messageField}`}
                 />
               </div>
               <div className={styles.formActions}>
-                <ContactSubmitButton success={success} error={error} />
+                <ContactSubmitButton
+                  success={success}
+                  error={error}
+                  statusRef={statusRef}
+                />
               </div>
             </fieldset>
           </form>

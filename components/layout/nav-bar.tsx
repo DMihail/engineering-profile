@@ -61,11 +61,18 @@ function NavItem({
 
 export function NavBar() {
   const lockUntilRef = useRef(0);
+  const menuToggleRef = useRef<HTMLButtonElement>(null);
+  const mobileNavRef = useRef<HTMLElement>(null);
   const [active, setActive] = useState(DEFAULT_ACTIVE);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const closeMenu = useCallback(() => {
-    setMenuOpen(false);
+  const closeMenu = useCallback((returnFocus = true) => {
+    setMenuOpen((open) => {
+      if (open && returnFocus) {
+        requestAnimationFrame(() => menuToggleRef.current?.focus());
+      }
+      return false;
+    });
   }, []);
 
   const toggleMenu = useCallback(() => {
@@ -80,7 +87,7 @@ export function NavBar() {
   const onNavigate = useCallback(
     (id: string) => {
       lockActiveSection(id);
-      closeMenu();
+      closeMenu(false);
     },
     [closeMenu, lockActiveSection],
   );
@@ -129,7 +136,7 @@ export function NavBar() {
       const hashId = getSectionIdFromHash();
       if (!hashId || !isPageSectionId(hashId)) return;
       lockActiveSection(hashId);
-      closeMenu();
+      closeMenu(false);
     };
 
     syncFromHash();
@@ -144,9 +151,36 @@ export function NavBar() {
     document.body.style.overflow = "hidden";
     document.body.style.touchAction = "none";
 
+    const nav = mobileNavRef.current;
+    const focusable = nav
+      ? Array.from(
+          nav.querySelectorAll<HTMLElement>(
+            'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+          ),
+        )
+      : [];
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    requestAnimationFrame(() => first?.focus());
+
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeMenu();
+      if (e.key === "Escape") {
+        closeMenu();
+        return;
+      }
+
+      if (e.key !== "Tab" || focusable.length === 0) return;
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last?.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first?.focus();
+      }
     };
+
     document.addEventListener("keydown", onKeyDown);
 
     return () => {
@@ -160,7 +194,7 @@ export function NavBar() {
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
     const onChange = () => {
-      if (mq.matches) closeMenu();
+      if (mq.matches) closeMenu(false);
     };
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
@@ -175,7 +209,7 @@ export function NavBar() {
           <button
             type="button"
             className={`${styles.navBackdrop} ${styles.navBackdropOpen} lg:hidden`}
-            onClick={closeMenu}
+            onClick={() => closeMenu()}
             aria-label="Close navigation menu"
             tabIndex={-1}
           />
@@ -220,11 +254,13 @@ export function NavBar() {
             </a>
             <button
               type="button"
+              ref={menuToggleRef}
               className={`${styles.menuToggle} lg:hidden`}
               onClick={toggleMenu}
               aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={menuOpen}
               aria-controls={MOBILE_NAV_ID}
+              aria-haspopup="true"
             >
               <Menu size={20} className={styles.menuIconOpen} aria-hidden />
               <X size={20} className={styles.menuIconClose} aria-hidden />
@@ -234,10 +270,10 @@ export function NavBar() {
       </nav>
 
       <nav
+        ref={mobileNavRef}
         id={MOBILE_NAV_ID}
         aria-label="Mobile navigation"
         inert={!menuOpen ? true : undefined}
-        {...(!menuOpen ? { "aria-hidden": true } : {})}
         className={`${styles.navList} lg:hidden ${menuOpen ? styles.navListOpen : ""}`}
       >
         <ul className="flex flex-col items-center gap-[inherit] list-none m-0 p-0 w-full">
