@@ -23,18 +23,6 @@ function withContactRegionCookie(request: NextRequest, response: NextResponse): 
 
 const HOME = "/";
 
-/** Legacy index URLs → canonical home (Yandex / Google sitemap checks). */
-const INDEX_ALIASES = new Set([
-  "/index.html",
-  "/index.htm",
-  "/index.php",
-  "/index.asp",
-  "/default.html",
-  "/default.htm",
-  "/home.html",
-  "/home.htm",
-]);
-
 const ALLOWED_EXACT = new Set([
   "/",
   "/favicon.ico",
@@ -58,28 +46,17 @@ const SECTION_IDS = new Set([
   "contact",
 ]);
 
-function isIndexAlias(pathname: string): boolean {
-  return INDEX_ALIASES.has(pathname.toLowerCase());
-}
-
 function isAllowed(pathname: string): boolean {
-  if (isIndexAlias(pathname)) return false;
   if (ALLOWED_EXACT.has(pathname)) return true;
   if (ALLOWED_PREFIXES.some((prefix) => pathname.startsWith(prefix))) return true;
   if (ALLOWED_STARTS.some((prefix) => pathname.startsWith(prefix))) return true;
   // Public files (CV PDFs, etc.)
   return /\.[a-z0-9]+$/i.test(pathname);
+
 }
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-
-  if (isIndexAlias(pathname)) {
-    return withContactRegionCookie(
-      request,
-      NextResponse.redirect(new URL(HOME, request.url), 301),
-    );
-  }
 
   if (isAllowed(pathname)) {
     return withContactRegionCookie(request, NextResponse.next());
