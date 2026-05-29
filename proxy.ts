@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { CONTACT_REGION_COOKIE, type ContactRegion } from "@/lib/contact-region";
+import { PAGE_SECTION_IDS } from "@/lib/section-ids";
 
 function contactRegionFromRequest(request: NextRequest): ContactRegion {
   const country =
@@ -35,16 +36,7 @@ const ALLOWED_EXACT = new Set([
 const ALLOWED_PREFIXES = ["/api/", "/_next/"];
 const ALLOWED_STARTS = ["/opengraph-image", "/apple-icon", "/profile-image"];
 
-/** Section ids on the home page — optional redirect to /#section */
-const SECTION_IDS = new Set([
-  "hero",
-  "impact",
-  "projects",
-  "skills",
-  "experience",
-  "education",
-  "contact",
-]);
+const SECTION_IDS = new Set<string>(PAGE_SECTION_IDS);
 
 function isAllowed(pathname: string): boolean {
   if (ALLOWED_EXACT.has(pathname)) return true;
@@ -52,7 +44,6 @@ function isAllowed(pathname: string): boolean {
   if (ALLOWED_STARTS.some((prefix) => pathname.startsWith(prefix))) return true;
   // Public files (CV PDFs, etc.)
   return /\.[a-z0-9]+$/i.test(pathname);
-
 }
 
 export function proxy(request: NextRequest) {

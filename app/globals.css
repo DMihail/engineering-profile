@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "../styles/reset.css";
+@import "../styles/reset.css" layer(base);
 
 /* ───────────────────────────── Design Tokens ───────────────────────────── */
 
@@ -252,6 +252,27 @@
     outline-offset: 2px;
   }
 
+  .fade-in-target {
+    opacity: 0;
+    transform: translateY(1rem);
+    transition:
+      opacity 560ms ease,
+      transform 560ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .fade-in-target.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in-target {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
   /* ── Typography ────────────────────────────────────────────────────── */
 
   .mono-2xs,
@@ -365,6 +386,7 @@
 
   .panel-hover {
     transition: border-color 200ms, box-shadow 200ms;
+    cursor: default;
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -391,6 +413,10 @@
     border: none;
     cursor: pointer;
     transition: background 200ms, transform 150ms;
+  }
+
+  .btn-primary:disabled {
+    cursor: not-allowed;
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -505,6 +531,7 @@
     color: var(--color-success);
     border: 1px solid var(--border-success-strong);
     font-size: var(--text-sm);
+    cursor: default;
   }
 
   /* ── Icon wells ────────────────────────────────────────────────────── */
@@ -530,35 +557,6 @@
 
   .shadow-primary-glow {
     box-shadow: 0 0 0.625rem color-mix(in srgb, var(--primary) 50%, transparent);
-  }
-
-  .skill-tile {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    padding-block: var(--space-2);
-    padding-inline: 0.625rem;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--color-border);
-    background: var(--surface-subtle);
-    cursor: default;
-    transition: transform 150ms, border-color 150ms;
-  }
-
-  .skill-tile-primary {
-    border-color: var(--border-primary-muted);
-    background: var(--surface-primary-muted);
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    .skill-tile:hover {
-      transform: scale(1.02);
-      border-color: var(--surface-raised);
-    }
-
-    .skill-tile-primary:hover {
-      border-color: var(--border-primary-emphasis);
-    }
   }
 }
 

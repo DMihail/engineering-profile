@@ -1,25 +1,21 @@
 import { CAPABILITIES } from "@/lib/data/capabilities";
-import { SectionLabel, Chip } from "@/components/ui/primitives";
+import { SectionHeader, Chip, sectionHeadingId } from "@/components/ui/primitives";
 import { FadeIn } from "@/components/ui/fade-in";
 import styles from "@/styles/sections/impact-section.module.css";
 
 export function ImpactSection() {
-  return (
-    <section id="impact" className="section-surface section-cv-auto border-t border-border-primary-soft" aria-labelledby="impact-heading">
-      <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6">
-        <SectionLabel n="01" label="Focus" />
+  const headingId = sectionHeadingId("impact");
 
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-10">
-          <div>
-            <h2 id="impact-heading" className="section-heading">What I build</h2>
-            <p className="section-comment">
-              Mobile, web, and backend — on client teams and my own products
-            </p>
-          </div>
-        </div>
+  return (
+    <section id="impact" className="section-surface section-cv-auto border-t border-border-primary-soft" aria-labelledby={headingId}>
+      <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6">
+        <SectionHeader sectionId="impact" />
 
         <div className="hidden lg:block rounded-xl overflow-hidden border border-border impact-table-wrap">
-          <table className={styles.capTable}>
+          <table className={styles.capTable} aria-describedby="impact-table-caption">
+            <caption id="impact-table-caption" className="sr-only">
+              Capabilities by domain with summary and benchmark
+            </caption>
             <colgroup>
               <col />
               <col />
@@ -45,7 +41,9 @@ export function ImpactSection() {
                         <span className={styles.capRowTitle}>{cap.title}</span>
                       </div>
                       <div className="flex flex-wrap gap-1 mb-2">
-                        {cap.tags.slice(0, 3).map((tag) => <Chip key={tag} label={tag} />)}
+                        {cap.tags.slice(0, 3).map((tag) => (
+                          <Chip key={tag} label={tag} />
+                        ))}
                       </div>
                       <div className="mono-xs text-text-faint">{cap.appliedIn}</div>
                     </th>
@@ -67,7 +65,7 @@ export function ImpactSection() {
           {CAPABILITIES.map((cap) => {
             const CapIcon = cap.icon;
             return (
-              <article key={cap.id} className="rounded-xl overflow-hidden bg-card border border-border">
+              <article key={cap.id} className="panel">
                 <div className="p-4">
                   <div className="flex items-start gap-3 mb-3">
                     <div className="flex items-center gap-2 min-w-0 flex-1">

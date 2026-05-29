@@ -30,4 +30,10 @@ describe("proxy", () => {
     expect(res.status).toBe(308);
     expect(res.headers.get("location")).toBe("https://dzhezhelo.dev/#projects");
   });
+
+  it("redirects education path to home hash", () => {
+    const res = proxy(requestFor("/education"));
+    expect(res.status).toBe(308);
+    expect(res.headers.get("location")).toBe("https://dzhezhelo.dev/#education");
+  });
 });
