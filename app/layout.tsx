@@ -84,11 +84,8 @@ export default function RootLayout({
     <html lang="en" className={`${fontVariableClassName} h-full`}>
       <head>
         <meta name="theme-color" content="#0B0F17" />
-        <meta name="google-site-verification" content="" />
-        <meta name="yandex-verification" content="" />
-        <meta name="msvalidate.01" content="" />
-        <meta name="naver-site-verification" content="" />
-        <meta name="baidu-site-verification" content="" />
+        <meta name="google-site-verification" content="lle48wjp7HiGdH_6SV2SEHd7_ShE51gH92oFBCJVLYA" />
+        <meta name="yandex-verification" content="0b930a278e22c1b1" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
