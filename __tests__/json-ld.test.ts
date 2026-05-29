@@ -1,5 +1,6 @@
 import { buildSiteJsonLd, type JsonLdPerson, type JsonLdItemList } from "@/lib/json-ld";
 import { CASE_STUDIES } from "@/lib/data/case-studies";
+import { SITE_LOCATION } from "@/lib/config";
 
 function isPersonNode(node: { "@type": string }): node is JsonLdPerson {
   return node["@type"] === "Person";
@@ -28,7 +29,7 @@ describe("buildSiteJsonLd", () => {
     });
     expect(person?.workLocation).toMatchObject({
       "@type": "Place",
-      name: expect.stringContaining("Dublin"),
+      name: SITE_LOCATION,
     });
   });
 

@@ -11,7 +11,7 @@ jest.mock("@/lib/hooks", () => ({
   }),
 }));
 
-jest.mock("@/lib/data/social-links", () => ({
+jest.mock("@/lib/data", () => ({
   SOCIAL_LINKS: [],
 }));
 

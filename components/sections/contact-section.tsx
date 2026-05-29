@@ -9,8 +9,6 @@ import { SectionLabel } from "@/components/ui/primitives";
 import { SOCIAL_LINKS } from "@/lib/data";
 import styles from "@/styles/sections/contact-section.module.css";
 
-const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!;
-
 type FormState = { success: boolean; error?: string; ts: number };
 
 const INITIAL_STATE: FormState = { success: false, ts: 0 };
@@ -47,6 +45,11 @@ let lastSubmitAt = 0;
 const THROTTLE_MS = 10_000;
 
 function getRecaptchaToken(): Promise<string> {
+  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+  if (!siteKey) {
+    return Promise.reject(new Error("reCAPTCHA is not configured"));
+  }
+
   return new Promise((resolve, reject) => {
     if (!window.grecaptcha) {
       reject(new Error("reCAPTCHA not loaded — check your connection"));
@@ -55,7 +58,7 @@ function getRecaptchaToken(): Promise<string> {
     const timeout = setTimeout(() => reject(new Error("reCAPTCHA timed out")), 10_000);
     window.grecaptcha.ready(() => {
       window.grecaptcha
-        .execute(RECAPTCHA_SITE_KEY, { action: "contact_submit" })
+        .execute(siteKey, { action: "contact_submit" })
         .then((token) => { clearTimeout(timeout); resolve(token); })
         .catch((err) => { clearTimeout(timeout); reject(err); });
     });
