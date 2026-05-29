@@ -4,24 +4,25 @@
 import { POST } from "@/app/api/contact/route";
 import { NextRequest } from "next/server";
 
-const mockAddDoc = jest.fn().mockResolvedValue({ id: "test-doc-id" });
+const mockAdd = jest.fn().mockResolvedValue({ id: "test-doc-id" });
 const mockSendContactPush = jest.fn().mockResolvedValue({ sent: 1, failed: 0 });
+const mockGetFirebaseAdminApp = jest.fn((): object | null => ({}));
 
 jest.mock("@/lib/send-contact-push-notification", () => ({
   sendContactPushNotification: (...args: unknown[]) => mockSendContactPush(...args),
 }));
 
-jest.mock("firebase/firestore", () => ({
-  getFirestore: jest.fn(),
-  collection: jest.fn(),
-  addDoc: (...args: unknown[]) => mockAddDoc(...args),
-  serverTimestamp: () => "MOCK_TIMESTAMP",
+jest.mock("@/lib/firebase-admin", () => ({
+  getFirebaseAdminApp: () => mockGetFirebaseAdminApp(),
 }));
 
-jest.mock("firebase/app", () => ({
-  initializeApp: jest.fn(),
-  getApps: () => [],
-  getApp: jest.fn(),
+jest.mock("firebase-admin/firestore", () => ({
+  getFirestore: jest.fn(() => ({
+    collection: jest.fn(() => ({
+      add: (...args: unknown[]) => mockAdd(...args),
+    })),
+  })),
+  Timestamp: { now: () => "MOCK_TIMESTAMP" },
 }));
 
 const mockFetch = jest.fn();
@@ -59,6 +60,7 @@ const validBody = {
 
 beforeEach(() => {
   jest.clearAllMocks();
+  mockGetFirebaseAdminApp.mockReturnValue({});
   process.env.RECAPTCHA_SECRET_KEY = "test-secret";
 });
 
@@ -111,9 +113,8 @@ describe("POST /api/contact", () => {
     expect(res.status).toBe(200);
     const json = await res.json();
     expect(json.success).toBe(true);
-    expect(mockAddDoc).toHaveBeenCalledTimes(1);
-    expect(mockAddDoc).toHaveBeenCalledWith(
-      undefined,
+    expect(mockAdd).toHaveBeenCalledTimes(1);
+    expect(mockAdd).toHaveBeenCalledWith(
       expect.objectContaining({
         name: "John Doe",
         email: "john@example.com",
@@ -121,7 +122,7 @@ describe("POST /api/contact", () => {
         message: validBody.message,
         source: "portfolio",
         read: false,
-      })
+      }),
     );
     expect(mockSendContactPush).toHaveBeenCalledWith({
       messageId: "test-doc-id",
@@ -144,18 +145,16 @@ describe("POST /api/contact", () => {
   it("trims and lowercases email", async () => {
     mockRecaptchaSuccess();
     await POST(makeRequest({ ...validBody, email: "  USER@GMAIL.COM  " }));
-    expect(mockAddDoc).toHaveBeenCalledWith(
-      undefined,
-      expect.objectContaining({ email: "user@gmail.com" })
+    expect(mockAdd).toHaveBeenCalledWith(
+      expect.objectContaining({ email: "user@gmail.com" }),
     );
   });
 
   it("sets company to null if empty", async () => {
     mockRecaptchaSuccess();
     await POST(makeRequest({ ...validBody, company: "   " }));
-    expect(mockAddDoc).toHaveBeenCalledWith(
-      undefined,
-      expect.objectContaining({ company: null })
+    expect(mockAdd).toHaveBeenCalledWith(
+      expect.objectContaining({ company: null }),
     );
   });
 
@@ -163,14 +162,24 @@ describe("POST /api/contact", () => {
     mockRecaptchaSuccess();
     const longName = "A".repeat(200);
     await POST(makeRequest({ ...validBody, name: longName }));
-    const savedDoc = mockAddDoc.mock.calls[0][1];
+    const savedDoc = mockAdd.mock.calls[0][0];
     expect(savedDoc.name.length).toBe(100);
+  });
+
+  it("returns 500 when Firebase Admin is not configured", async () => {
+    const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+    mockRecaptchaSuccess();
+    mockGetFirebaseAdminApp.mockReturnValueOnce(null);
+    const res = await POST(makeRequest(validBody));
+    expect(res.status).toBe(500);
+    expect(mockAdd).not.toHaveBeenCalled();
+    spy.mockRestore();
   });
 
   it("returns 500 on Firestore error", async () => {
     const spy = jest.spyOn(console, "error").mockImplementation(() => {});
     mockRecaptchaSuccess();
-    mockAddDoc.mockRejectedValueOnce(new Error("Firestore down"));
+    mockAdd.mockRejectedValueOnce(new Error("Firestore down"));
     const res = await POST(makeRequest(validBody));
     expect(res.status).toBe(500);
     spy.mockRestore();

@@ -1,8 +1,7 @@
 export const SITE_URL = "https://dzhezhelo.dev";
 export const SITE_AUTHOR = "Mykhailo Dzhezhelo";
 export const SITE_EMAIL = "dzhezhelomikhail@gmail.com";
-export const SITE_ROLE = "React Native & Mobile Systems Engineer";
-export const SITE_LOCATION = "Dublin, Ireland · Remote EU & UK";
+export const SITE_LOCATION = "Ireland · Remote EU & UK";
 export const SITE_OG_IMAGE_PATH = "/opengraph-image";
 /** Square image for Person schema. Override with `/profile.jpg` when a real photo is in public/. */
 export const SITE_PROFILE_IMAGE_PATH =
@@ -17,7 +16,7 @@ export const CV_FILES = [
 export function mailtoUrl(subject = "Project Inquiry"): string {
   return `mailto:${SITE_EMAIL}?subject=${encodeURIComponent(subject)}`;
 }
+export const SITE_ROLE = "React Native & Mobile Systems Engineer";
 export const SITE_DESCRIPTION =
-  `React Native engineer (${SITE_LOCATION}) — realtime systems, native integrations, performance optimization, and cross-platform mobile architecture. Available for remote and onsite roles.`;
-export const SITE_SHORT_DESCRIPTION =
-  `React Native engineer — ${SITE_LOCATION}. Mobile apps, realtime systems, and native integrations.`;
+  "React Native engineer specializing in realtime systems, native integrations, performance optimization, and cross-platform mobile architecture.";
+export const SITE_SHORT_DESCRIPTION = SITE_DESCRIPTION;

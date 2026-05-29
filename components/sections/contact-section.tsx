@@ -2,16 +2,9 @@
 
 import { useEffect, useRef, useState, useActionState, useSyncExternalStore } from "react";
 import { useFormStatus } from "react-dom";
-import { Send, CheckCircle, Loader2, ExternalLink, Download, Copy, Check, Phone } from "lucide-react";
+import { Send, CheckCircle, Loader2, ExternalLink, Download, Copy, Check } from "lucide-react";
 import { useFadeIn } from "@/lib/hooks";
 import { validateEmail } from "@/lib/validate-email";
-import {
-  getContactRegionFromClient,
-  getServerContactRegion,
-  phoneForRegion,
-  TELEGRAM,
-} from "@/lib/contact-region";
-import { RecaptchaScript } from "@/components/ui/recaptcha-script";
 import { SectionLabel } from "@/components/ui/primitives";
 import { SOCIAL_LINKS } from "@/lib/data";
 import styles from "@/styles/sections/contact-section.module.css";
@@ -39,47 +32,6 @@ function getServerCvSnapshot() {
   return CV_INTL;
 }
 
-function useContactRegion() {
-  return useSyncExternalStore(NOOP_SUBSCRIBE, getContactRegionFromClient, getServerContactRegion);
-}
-
-function PhoneCard() {
-  const region = useContactRegion();
-  const phone = phoneForRegion(region);
-
-  return (
-    <a href={`tel:${phone.e164}`} className={`${styles.linkCard} no-underline`}>
-      <div className="icon-well icon-well-md">
-        <Phone size={14} className="text-primary" aria-hidden />
-      </div>
-      <div className="flex-1 min-w-0">
-        <div className="text-xs font-semibold text-foreground">Phone</div>
-        <div className="mono-sm text-text-dim">{phone.display}</div>
-      </div>
-    </a>
-  );
-}
-
-function TelegramCard() {
-  return (
-    <a
-      href={TELEGRAM.href}
-      target="_blank"
-      rel="noreferrer"
-      className={`${styles.linkCard} group no-underline`}
-    >
-      <div className="icon-well icon-well-md">
-        <Send size={14} className="text-primary" aria-hidden />
-      </div>
-      <div className="flex-1 min-w-0">
-        <div className="text-xs font-semibold text-foreground">Telegram</div>
-        <div className="mono-sm text-text-dim truncate">{TELEGRAM.hint}</div>
-      </div>
-      <ExternalLink size={11} className="text-text-dim shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden />
-    </a>
-  );
-}
-
 function notify(title: string, body: string) {
   try {
     if (!("Notification" in window) || Notification.permission !== "granted") return;
@@ -93,12 +45,12 @@ let lastSubmitAt = 0;
 const THROTTLE_MS = 10_000;
 
 function getRecaptchaToken(): Promise<string> {
+  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+  if (!siteKey) {
+    return Promise.reject(new Error("reCAPTCHA is not configured"));
+  }
+
   return new Promise((resolve, reject) => {
-    const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
-    if (!siteKey) {
-      reject(new Error("reCAPTCHA is not configured"));
-      return;
-    }
     if (!window.grecaptcha) {
       reject(new Error("reCAPTCHA not loaded — check your connection"));
       return;
@@ -181,13 +133,13 @@ async function sendMessage(_prev: FormState, data: FormData): Promise<FormState>
 function SubmitButton({ success, error }: { success: boolean; error?: string }) {
   const { pending } = useFormStatus();
   return (
-    <>
+    <div className="flex items-center gap-4 flex-wrap">
       <button
         type="submit"
         disabled={pending || success}
         className={`flex items-center gap-2 font-semibold ${
           success
-            ? "form-success-banner"
+            ? "py-3 px-6 rounded-[10px] bg-[rgba(34,197,94,0.1)] text-success border border-[rgba(34,197,94,0.2)] text-sm"
             : "btn-primary disabled:opacity-60"
         }`}
       >
@@ -199,9 +151,9 @@ function SubmitButton({ success, error }: { success: boolean; error?: string }) 
         }
       </button>
       {error && (
-        <p role="alert" className="text-xs text-error mono-sm">{error}</p>
+        <p role="alert" className="text-xs text-[#ef4444] mono-sm">{error}</p>
       )}
-    </>
+    </div>
   );
 }
 
@@ -209,13 +161,13 @@ function ResumeButton() {
   const cv = useSyncExternalStore(NOOP_SUBSCRIBE, getCvSnapshot, getServerCvSnapshot);
 
   return (
-    <a href={cv.file} download className={`${styles.resumeLink} no-underline`}>
-      <div className="icon-well icon-well-md">
-        <Download size={14} className="text-primary" aria-hidden />
+    <a href={cv.file} download className={styles.resumeLink}>
+      <div className="flex items-center justify-center w-7 h-7 rounded-lg shrink-0 bg-[rgba(56,189,248,0.12)]">
+        <Download size={13} className="text-primary" aria-hidden />
       </div>
       <div className="flex-1 min-w-0">
         <div className="text-xs font-semibold text-primary">{cv.label}</div>
-        <div className="mono-sm text-text-dim truncate">{cv.file.split("/").pop()}</div>
+        <div className="mono-xs text-text-dim truncate">{cv.file.split("/").pop()}</div>
       </div>
     </a>
   );
@@ -237,8 +189,8 @@ function EmailCard({ link }: { link: typeof SOCIAL_LINKS[number] }) {
 
   return (
     <div className="relative group w-full">
-      <a href={link.href} className={`${styles.linkCard} w-full pe-11 no-underline`}>
-        <div className="icon-well icon-well-md">
+      <a href={link.href} className={`${styles.linkCard} w-full pr-11 no-underline`}>
+        <div className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0 bg-[rgba(56,189,248,0.1)]">
           <LinkIcon size={14} className="text-primary" aria-hidden />
         </div>
         <div className="flex-1 min-w-0">
@@ -250,7 +202,7 @@ function EmailCard({ link }: { link: typeof SOCIAL_LINKS[number] }) {
         type="button"
         onClick={handleCopy}
         aria-label={copied ? "Email copied" : `Copy ${email}`}
-        className="absolute end-3 top-1/2 -translate-y-1/2 shrink-0 p-1.5 cursor-pointer bg-transparent border-0 rounded-md hover:bg-surface-muted"
+        className="absolute right-3 top-1/2 -translate-y-1/2 shrink-0 p-1.5 cursor-pointer bg-transparent border-0 rounded-md hover:bg-[rgba(255,255,255,0.04)]"
       >
         {copied
           ? <Check size={13} className="text-success" aria-hidden />
@@ -264,8 +216,6 @@ function EmailCard({ link }: { link: typeof SOCIAL_LINKS[number] }) {
 function SocialLinks() {
   return (
     <div className="space-y-2.5">
-      <PhoneCard />
-      <TelegramCard />
       {SOCIAL_LINKS.map((link) => {
         if (link.href.startsWith("mailto:")) {
           return <EmailCard key={link.label} link={link} />;
@@ -273,7 +223,7 @@ function SocialLinks() {
         const LinkIcon = link.icon;
         return (
           <a key={link.label} href={link.href} target="_blank" rel="noreferrer" className={`${styles.linkCard} group`}>
-            <div className="icon-well icon-well-md">
+            <div className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0 bg-[rgba(56,189,248,0.1)]">
               <LinkIcon size={14} className="text-primary" aria-hidden />
             </div>
             <div className="flex-1 min-w-0">
@@ -313,7 +263,6 @@ export function ContactSection() {
 
   return (
     <section id="contact" className="section-surface" aria-labelledby="contact-heading">
-      <RecaptchaScript />
       <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6" style={fade}>
         <SectionLabel n="06" label="Contact" />
         <h2 id="contact-heading" className="section-heading">{"Let's build something"}</h2>
@@ -321,53 +270,38 @@ export function ContactSection() {
           <span className="status-dot-sm animate-pulse" />
           <span className="mono-sm text-success tracking-[0.04em]">Available for contract work</span>
         </div>
-        <p className="text-sm text-muted-foreground mb-10 max-w-copy leading-body text-pretty">
+        <p className="text-sm text-muted-foreground mb-10 max-w-110 leading-[1.68]">
           Open to remote and onsite opportunities globally — EU, US, and worldwide. If you have a challenging mobile or frontend systems problem, reach out.
         </p>
 
-        <div className={`grid grid-cols-1 gap-8 md:gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(17.5rem,20rem)] lg:gap-12 lg:items-start ${styles.contactLayout}`}>
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-10">
 
-          <form
-            ref={formRef}
-            action={formAction}
-            className={`panel ${styles.formPanel} p-5 sm:p-6 min-w-0`}
-            aria-labelledby="contact-heading"
-          >
-            <fieldset className={`${styles.formGrid} border-0 p-0 m-0 min-w-0`}>
+          <form ref={formRef} action={formAction} className="space-y-4" aria-labelledby="contact-heading">
+            <fieldset className="space-y-4 border-0 p-0 m-0 min-w-0">
               <legend className="sr-only">Contact form</legend>
-              <div className={styles.formField}>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
                 <label htmlFor="contact-name" className={styles.formLabel}>NAME</label>
                 <input id="contact-name" type="text" name="name" required maxLength={100} placeholder="Your name" className={styles.inputField} />
               </div>
-              <div className={styles.formField}>
+              <div>
                 <label htmlFor="contact-email" className={styles.formLabel}>EMAIL</label>
                 <input id="contact-email" type="email" name="email" required maxLength={254} placeholder="you@example.com" className={styles.inputField} />
               </div>
-              <div className={`${styles.formField} ${styles.formFieldCompany}`}>
-                <label htmlFor="contact-company" className={styles.formLabel}>
-                  COMPANY <span className={styles.formLabelOptional}>(optional)</span>
-                </label>
+              <div>
+                <label htmlFor="contact-company" className={styles.formLabel}>COMPANY <span className="opacity-50">(optional)</span></label>
                 <input id="contact-company" type="text" name="company" maxLength={120} placeholder="Your company" className={styles.inputField} />
               </div>
-              <div className={`${styles.formField} ${styles.formFieldMessage}`}>
-                <label htmlFor="contact-message" className={styles.formLabel}>MESSAGE</label>
-                <textarea
-                  id="contact-message"
-                  name="message"
-                  required
-                  maxLength={2000}
-                  rows={5}
-                  placeholder="Tell me about the project..."
-                  className={`${styles.inputField} ${styles.messageField} leading-relaxed`}
-                />
-              </div>
-              <div className={styles.formActions}>
-                <SubmitButton success={success} error={error} />
-              </div>
+            </div>
+            <div>
+              <label htmlFor="contact-message" className={styles.formLabel}>MESSAGE</label>
+              <textarea id="contact-message" name="message" required maxLength={2000} rows={5} placeholder="Tell me about the project..." className={`${styles.inputField} resize-none leading-[1.6]`} />
+            </div>
+            <SubmitButton success={success} error={error} />
             </fieldset>
           </form>
 
-          <aside className={styles.contactAside} aria-labelledby="contact-links-heading">
+          <aside aria-labelledby="contact-links-heading">
             <h3 id="contact-links-heading" className="mono-label mb-3.5">Links</h3>
             <SocialLinks />
 

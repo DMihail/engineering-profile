@@ -15,6 +15,10 @@ jest.mock("@/lib/data", () => ({
   SOCIAL_LINKS: [],
 }));
 
+jest.mock("@/lib/recaptcha-client", () => ({
+  ensureRecaptchaLoaded: jest.fn().mockResolvedValue(undefined),
+}));
+
 const mockFetch = jest.fn();
 global.fetch = mockFetch;
 

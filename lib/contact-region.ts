@@ -22,7 +22,7 @@ export function phoneForRegion(region: ContactRegion) {
   return region === "ua" ? PHONE_UA : PHONE_INTL;
 }
 
-/** Client-only: cookie from middleware, then timezone / language fallback. */
+/** Client-only: cookie from proxy, then timezone / language fallback. */
 export function getContactRegionFromClient(): ContactRegion {
   if (typeof document !== "undefined") {
     const match = document.cookie.match(

@@ -1,4 +1,9 @@
 import type { NextConfig } from "next";
+import bundleAnalyzer from "@next/bundle-analyzer";
+
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
 
 const securityHeaders = [
   { key: "X-DNS-Prefetch-Control", value: "on" },
@@ -12,6 +17,25 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   poweredByHeader: false,
   compress: true,
+
+  serverExternalPackages: ["firebase-admin", "nodemailer"],
+
+  experimental: {
+    optimizePackageImports: ["lucide-react"],
+  },
+
+  async redirects() {
+    return [
+      { source: "/index.html", destination: "/", permanent: true },
+      { source: "/index.htm", destination: "/", permanent: true },
+      { source: "/index.php", destination: "/", permanent: true },
+      { source: "/index.asp", destination: "/", permanent: true },
+      { source: "/default.html", destination: "/", permanent: true },
+      { source: "/default.htm", destination: "/", permanent: true },
+      { source: "/home.html", destination: "/", permanent: true },
+      { source: "/home.htm", destination: "/", permanent: true },
+    ];
+  },
 
   async headers() {
     return [
@@ -31,4 +55,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);

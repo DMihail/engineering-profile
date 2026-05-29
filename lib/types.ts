@@ -10,7 +10,7 @@ declare global {
 type Icon = React.ComponentType<{ size?: number; className?: string; style?: React.CSSProperties }>;
 
 interface SkillItem  { name: string; primary: boolean; icon: Icon }
-export interface SkillLayer { id: string; layer: string; desc: string; scope: string; projectRefs: string; skills: SkillItem[] }
+export interface SkillLayer { id: string; layer: string; desc: string; projectRefs: string; skills: SkillItem[] }
 export interface Capability { id: string; title: string; desc: string; kpi: string; kpiSub: string; tags: string[]; appliedIn: string; icon: Icon }
 interface ArchDecision { decision: string; rationale: string }
 interface TradeOff     { chosen: string; rationale: string }
@@ -30,9 +30,9 @@ export interface XP {
   location: string;
   current: boolean;
   systems: string;
-  items: string[];
   tags: string[];
   highlight: string;
   relatedCaseId?: string;
+  items: string[];
 }
 export interface SocialLink { label: string; hint: string; icon: Icon; href: string }

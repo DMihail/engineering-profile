@@ -3,6 +3,7 @@ import { CV_FILES, SITE_LAST_MODIFIED, SITE_URL } from "@/lib/config";
 
 const lastModified = new Date(SITE_LAST_MODIFIED);
 
+/** Indexable HTML + downloadable CV assets only (no API, images, or SW routes). */
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
@@ -15,7 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${SITE_URL}${path}`,
       lastModified,
       changeFrequency: "yearly" as const,
-      priority: 0.6,
+      priority: 0.5,
     })),
   ];
 }

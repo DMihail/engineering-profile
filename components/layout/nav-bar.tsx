@@ -2,20 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { NAV, NAV_LABELS, type NavId } from "@/lib/data";
+import { NAV, NAV_LABELS, type NavId } from "@/lib/data/nav";
+import { HERO_ID, sectionHref, PAGE_SECTION_IDS, isPageSectionId } from "@/lib/section-ids";
 import { getSectionIdFromHash, scrollToSection } from "@/lib/section-navigation";
 import { MDLogo } from "@/components/ui/icons";
 import styles from "@/styles/layout/nav-bar.module.css";
 
-const SECTION_IDS = ["hero", ...NAV];
+const SECTION_IDS = PAGE_SECTION_IDS;
 const SCROLL_LOCK_MS = 1200;
 const MOBILE_NAV_ID = "mobile-nav-menu";
-
-function getInitialActiveSection(): string {
-  if (typeof window === "undefined") return "hero";
-  const hashId = getSectionIdFromHash();
-  return hashId && SECTION_IDS.includes(hashId) ? hashId : "hero";
-}
+const DEFAULT_ACTIVE = HERO_ID;
 
 function getObserverMargin(): string {
   const w = window.innerWidth;
@@ -29,33 +25,22 @@ function NavItem({
   label,
   active,
   onClick,
-  variant,
 }: {
   id: NavId;
   label: string;
   active: boolean;
   onClick: (id: string) => void;
-  variant: "desktop" | "mobile";
 }) {
-  const linkClass =
-    variant === "desktop"
-      ? active
-        ? `${styles.navLinkDesktop} ${styles.navLinkDesktopActive}`
-        : styles.navLinkDesktop
-      : active
-        ? `${styles.navLinkMobile} ${styles.navLinkMobileActive}`
-        : styles.navLinkMobile;
-
   return (
     <li>
       <a
-        href={`#${id}`}
+        href={sectionHref(id)}
         onClick={(e) => {
           e.preventDefault();
           onClick(id);
         }}
         aria-current={active ? "true" : undefined}
-        className={`${linkClass} no-underline`}
+        className={`${styles.navLink} ${active ? styles.navLinkActive : ""} no-underline`}
       >
         {label}
       </a>
@@ -64,7 +49,7 @@ function NavItem({
 }
 
 export function NavBar() {
-  const [active, setActive] = useState(getInitialActiveSection);
+  const [active, setActive] = useState(DEFAULT_ACTIVE);
   const [menuOpen, setMenuOpen] = useState(false);
   const lockUntilRef = useRef(0);
 
@@ -129,10 +114,15 @@ export function NavBar() {
 
   useEffect(() => {
     const hashId = getSectionIdFromHash();
-    if (!hashId || !SECTION_IDS.includes(hashId)) return;
+    if (!hashId || !isPageSectionId(hashId)) return;
 
     lockUntilRef.current = Date.now() + SCROLL_LOCK_MS;
     void scrollToSection(hashId);
+
+    const frame = requestAnimationFrame(() => {
+      setActive(hashId);
+    });
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   useEffect(() => {
@@ -158,7 +148,7 @@ export function NavBar() {
       <nav aria-label="Main navigation" className={`${styles.navGlass} fixed inset-x-0 top-0 z-50`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-(--nav-h)">
           <a
-            href="#hero"
+            href={sectionHref(HERO_ID)}
             onClick={(e) => {
               e.preventDefault();
               navigateTo("hero");
@@ -172,13 +162,13 @@ export function NavBar() {
           {menuOpen && (
             <button
               type="button"
-              className={`${styles.navBackdrop} ${menuOpen ? styles.navBackdropOpen : ""}`}
+              className={`${styles.navBackdrop} ${styles.navBackdropOpen} lg:hidden`}
               onClick={() => setMenuOpen(false)}
               aria-label="Close navigation menu"
             />
           )}
 
-          <ul className={styles.desktopNav}>
+          <ul className="hidden lg:flex items-center list-none m-0 p-0">
             {NAV.map((id) => (
               <NavItem
                 key={id}
@@ -186,14 +176,13 @@ export function NavBar() {
                 label={NAV_LABELS[id]}
                 active={active === id}
                 onClick={navigateTo}
-                variant="desktop"
               />
             ))}
           </ul>
 
           <ul
             id={MOBILE_NAV_ID}
-            className={`${styles.mobileNavList} ${menuOpen ? styles.mobileNavListOpen : ""}`}
+            className={`${styles.navList} lg:hidden ${menuOpen ? styles.navListOpen : ""}`}
             aria-hidden={!menuOpen}
           >
             {NAV.map((id) => (
@@ -203,12 +192,11 @@ export function NavBar() {
                 label={NAV_LABELS[id]}
                 active={active === id}
                 onClick={navigateTo}
-                variant="mobile"
               />
             ))}
             <li>
               <a
-                href="#contact"
+                href={sectionHref("contact")}
                 onClick={(e) => {
                   e.preventDefault();
                   navigateTo("contact");
@@ -228,12 +216,12 @@ export function NavBar() {
               </span>
             )}
             <a
-              href="#contact"
+              href={sectionHref("contact")}
               onClick={(e) => {
                 e.preventDefault();
                 navigateTo("contact");
               }}
-              className="hidden lg:inline-flex items-center gap-1.5 py-1.5 px-3 rounded-md border border-primary/30 bg-primary/10 text-primary font-mono mono-sm font-medium tracking-[0.04em] leading-none whitespace-nowrap hover:bg-primary/20 hover:border-primary/50 transition-colors no-underline"
+              className="hidden lg:flex items-center gap-1.5 py-1.25 px-3 rounded-md border border-primary/30 bg-primary/10 text-primary font-mono mono-sm font-medium tracking-[0.04em] leading-none whitespace-nowrap hover:bg-primary/20 hover:border-primary/50 transition-colors no-underline"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" aria-hidden />
               Let&apos;s talk
