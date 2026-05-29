@@ -75,11 +75,11 @@ describe("security headers", () => {
     });
   });
 
-  it("adds Trusted Types directives in production CSP", () => {
+  it("omits Trusted Types in production CSP for Next.js chunk loading", () => {
     withNodeEnv("production", () => {
       const csp = buildContentSecurityPolicy(createCspNonce());
-      expect(csp).toContain("trusted-types default");
-      expect(csp).toContain("require-trusted-types-for 'script'");
+      expect(csp).not.toContain("trusted-types");
+      expect(csp).not.toContain("require-trusted-types-for");
     });
   });
 

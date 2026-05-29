@@ -50,8 +50,6 @@ export function buildContentSecurityPolicy(nonce?: string): string {
 
   if (isProd) {
     directives.push("upgrade-insecure-requests");
-    directives.push("trusted-types default");
-    directives.push("require-trusted-types-for 'script'");
   }
 
   return directives.join("; ");

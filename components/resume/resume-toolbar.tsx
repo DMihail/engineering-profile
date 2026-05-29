@@ -18,14 +18,14 @@ export function ResumeToolbar({ variant }: ResumeToolbarProps) {
           className={variant === "ireland" ? styles.toolbarLinkActive : styles.toolbarLink}
           aria-current={variant === "ireland" ? "page" : undefined}
         >
-          Ireland
+          Europe
         </Link>
         <Link
-          href={resumePath("uk")}
-          className={variant === "uk" ? styles.toolbarLinkActive : styles.toolbarLink}
-          aria-current={variant === "uk" ? "page" : undefined}
+          href={resumePath("ua")}
+          className={variant === "ua" ? styles.toolbarLinkActive : styles.toolbarLink}
+          aria-current={variant === "ua" ? "page" : undefined}
         >
-          UK / EU
+          Ukraine
         </Link>
         <Link href="/" className={styles.toolbarLink}>
           Portfolio

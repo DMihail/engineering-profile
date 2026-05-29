@@ -1,6 +1,7 @@
 import { ResumeDocument } from "@/components/resume/resume-document";
 import { ResumeToolbar } from "@/components/resume/resume-toolbar";
-import { parseResumeVariant } from "@/lib/resume-content";
+import { getContactRegionFromCookies } from "@/lib/contact-region-server";
+import { resolveResumeVariant } from "@/lib/resume-content";
 import styles from "@/styles/resume.module.css";
 
 interface ResumePageProps {
@@ -9,7 +10,8 @@ interface ResumePageProps {
 
 export default async function ResumePage({ searchParams }: ResumePageProps) {
   const { variant: variantParam } = await searchParams;
-  const variant = parseResumeVariant(variantParam);
+  const region = await getContactRegionFromCookies();
+  const variant = resolveResumeVariant(variantParam, region);
 
   return (
     <main className={styles.page}>

@@ -4,12 +4,12 @@ import {
   SITE_EMAIL,
   SITE_ROLE,
 } from "@/lib/config";
-import { PHONE_INTL } from "@/lib/contact-region";
+import { phoneForRegion, type ContactRegion } from "@/lib/contact-region";
 import type { SkillLayer } from "@/lib/types";
 
-export type ResumeVariant = "ireland" | "uk";
+export type ResumeVariant = "ireland" | "ua";
 
-export const RESUME_VARIANTS: ResumeVariant[] = ["ireland", "uk"];
+export const RESUME_VARIANTS: ResumeVariant[] = ["ireland", "ua"];
 
 const RESUME_LINKS = {
   linkedin: "https://www.linkedin.com/in/mihail-dzhezhelo-27a41114a/",
@@ -43,30 +43,42 @@ const VARIANT_CONTENT: Record<ResumeVariant, ResumeVariantContent> = {
       "Expo and React Native for iOS and Android, React with Material UI for web, Node.js APIs, and Firebase in production. " +
       "Track record of App Store and Google Play releases, live WebSocket features under load, and Jest/Detox coverage on critical paths.",
   },
-  uk: {
-    locationLine: "Remote · EU & UK",
-    authorizationLine: "Open to remote and contract roles across EU & UK time zones",
+  ua: {
+    locationLine: "Ukraine · Remote EU & international",
+    authorizationLine: "Open to remote and contract roles across EU and international time zones",
     summary:
-      "Senior React Native and full-stack developer with six years delivering mobile and web products for EU and UK clients. " +
+      "Senior React Native and full-stack developer with six years delivering mobile and web products for EU and international clients. " +
       "Expo/React Native for iOS and Android, React and Next.js for web, Node.js backends, and Firebase integrations. " +
       "Experienced with store releases, realtime bidding systems, and test automation on production codebases.",
   },
 };
 
 export function parseResumeVariant(value: string | undefined): ResumeVariant {
-  if (value === "uk") return "uk";
+  if (value === "ua" || value === "uk") return "ua";
   return "ireland";
 }
 
-export function resumePath(variant: ResumeVariant): string {
-  return variant === "ireland" ? "/resume" : "/resume?variant=uk";
+export function resolveResumeVariant(
+  queryVariant: string | undefined,
+  region: ContactRegion,
+): ResumeVariant {
+  if (queryVariant !== undefined) {
+    return parseResumeVariant(queryVariant);
+  }
+  return region === "ua" ? "ua" : "ireland";
 }
 
-export function getResumeContact(): ResumeContact {
+export function resumePath(variant: ResumeVariant): string {
+  return variant === "ireland" ? "/resume" : "/resume?variant=ua";
+}
+
+export function getResumeContact(variant: ResumeVariant): ResumeContact {
+  const phone = phoneForRegion(variant === "ua" ? "ua" : "intl");
+
   return {
     email: SITE_EMAIL,
-    phone: PHONE_INTL.display,
-    phoneTel: PHONE_INTL.e164,
+    phone: phone.display,
+    phoneTel: phone.e164,
     linkedin: RESUME_LINKS.linkedin,
     linkedinLabel: "linkedin.com/in/mihail-dzhezhelo",
     github: RESUME_LINKS.github,

@@ -15,7 +15,7 @@ interface ResumeDocumentProps {
 
 export function ResumeDocument({ variant }: ResumeDocumentProps) {
   const heading = getResumeHeading();
-  const contact = getResumeContact();
+  const contact = getResumeContact(variant);
   const content = getResumeVariantContent(variant);
   const skillGroups = getResumeSkillGroups();
   const experience = getResumeExperience();
