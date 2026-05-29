@@ -20,19 +20,19 @@ export function HeroSection() {
             <span className="text-sm text-text-secondary">Available for remote and onsite · {SITE_LOCATION}</span>
           </div>
 
-          <h1 className="font-sans mb-6 tracking-[-0.045em] text-balance">
-            <span className="block font-extrabold leading-[0.98] text-foreground text-hero-name">
-              {SITE_AUTHOR.split(" ")[0]}
-              <br />
-              <span className="text-primary">{SITE_AUTHOR.split(" ").slice(1).join(" ")}</span>
-            </span>
-            <span className="block mt-4 font-semibold leading-snug text-text-secondary text-hero-lead">
-              {SITE_ROLE}
-            </span>
-            <span className="block mt-2 font-normal text-muted-foreground text-hero-support">
-              {SITE_LOCATION}
-            </span>
+          <h1 className="font-sans font-extrabold mb-3 tracking-[-0.045em] leading-[0.98] text-foreground text-hero-name text-balance">
+            {SITE_AUTHOR.split(" ")[0]}
+            <br />
+            <span className="text-primary">{SITE_AUTHOR.split(" ").slice(1).join(" ")}</span>
           </h1>
+
+          <p className="font-semibold leading-snug text-text-secondary text-hero-lead mb-2">
+            {SITE_ROLE}
+          </p>
+
+          <p className="font-normal text-muted-foreground text-hero-support mb-6">
+            {SITE_LOCATION}
+          </p>
 
           <p className="font-sans font-medium mb-4 leading-relaxed text-text-secondary text-hero-lead max-w-2xl mx-auto lg:mx-0 text-pretty">
             Building high-performance mobile applications, realtime systems, and native integrations for production teams.

@@ -13,6 +13,19 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
 
+  async redirects() {
+    return [
+      { source: "/index.html", destination: "/", permanent: true },
+      { source: "/index.htm", destination: "/", permanent: true },
+      { source: "/index.php", destination: "/", permanent: true },
+      { source: "/index.asp", destination: "/", permanent: true },
+      { source: "/default.html", destination: "/", permanent: true },
+      { source: "/default.htm", destination: "/", permanent: true },
+      { source: "/home.html", destination: "/", permanent: true },
+      { source: "/home.htm", destination: "/", permanent: true },
+    ];
+  },
+
   async headers() {
     return [
       {
