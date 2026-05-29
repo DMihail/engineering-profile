@@ -2,9 +2,9 @@ export const SITE_URL = "https://dzhezhelo.dev";
 export const SITE_AUTHOR = "Mykhailo Dzhezhelo";
 export const SITE_EMAIL = "dzhezhelomikhail@gmail.com";
 export const SITE_ROLE = "Senior React Native & Full-Stack Developer";
-export const SITE_LOCATION = "Dublin, Ireland · Remote EU & UK";
+export const SITE_LOCATION = "Ireland · Remote EU & UK";
 export const SITE_WORK_AUTHORIZATION =
-  "Eligible to work in Ireland · open to onsite in Dublin and remote across EU & UK";
+  "Eligible to work in Ireland · open to onsite and remote across EU & UK";
 export const SITE_REPO = "https://github.com/DMihail/engineering-profile";
 export const SITE_CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL ?? "";
 export const SITE_OG_IMAGE_PATH = "/opengraph-image";
