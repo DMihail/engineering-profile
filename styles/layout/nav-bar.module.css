@@ -8,6 +8,10 @@
   transform: translateZ(0);
 }
 
+.navRoot {
+  isolation: isolate;
+}
+
 .navBarInner {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -45,25 +49,84 @@
   }
 }
 
-/* ── Single nav list: mobile-first, responsive ────────────────── */
+/* ── Menu toggle (checkbox hack) ──────────────────────────────── */
 
-/* Mobile: fullscreen overlay */
+.navToggle {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+  /* Visually hidden; do not use aria-hidden — label click focuses this input */
+}
+
+@media (max-width: 1023px) {
+  .navRoot:has(.navToggle:checked) .navLogo,
+  .navRoot:has(.navToggle:checked) .navActions {
+    position: relative;
+    z-index: 60;
+  }
+}
+
+@media (max-width: 1023px) {
+  html:has(.navToggle:checked) {
+    overflow: hidden;
+  }
+
+  html:has(.navToggle:checked) body {
+    overflow: hidden;
+    touch-action: none;
+  }
+}
+
+.menuToggle {
+  cursor: pointer;
+  padding: 0.25rem;
+  color: var(--muted-foreground);
+  position: relative;
+  z-index: 1;
+}
+
+.menuIconOpen,
+.menuIconClose {
+  display: block;
+}
+
+.menuIconClose {
+  display: none;
+}
+
+.navRoot:has(.navToggle:checked) .menuIconOpen {
+  display: none;
+}
+
+.navRoot:has(.navToggle:checked) .menuIconClose {
+  display: block;
+}
+
+/* ── Mobile nav overlay ───────────────────────────────────────── */
+
 .navList {
   position: fixed;
-  top: 0;
+  top: calc(var(--nav-h) + env(safe-area-inset-top));
   left: 0;
   right: 0;
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - var(--nav-h) - env(safe-area-inset-top));
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 1.75rem;
-  padding: calc(var(--nav-h) + env(safe-area-inset-top)) env(safe-area-inset-right) calc(5rem + env(safe-area-inset-bottom)) env(safe-area-inset-left);
+  padding: 2rem env(safe-area-inset-right) calc(3rem + env(safe-area-inset-bottom)) env(safe-area-inset-left);
   background: var(--background);
   list-style: none;
   margin: 0;
+  z-index: 40;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -73,7 +136,7 @@
   overflow: hidden;
 }
 
-.navListOpen {
+.navRoot:has(.navToggle:checked) .navList {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
@@ -87,11 +150,11 @@
 
 @supports (height: 100dvh) {
   .navList {
-    height: 100dvh;
+    height: calc(100dvh - var(--nav-h) - env(safe-area-inset-top));
   }
 }
 
-/* Tablet (640px–1023px): right-side drawer, half width */
+/* Tablet (640px–1023px): right-side drawer */
 @media (min-width: 640px) {
   .navList {
     left: auto;
@@ -99,10 +162,11 @@
     width: 50%;
     min-width: 280px;
     max-width: 360px;
-    height: 100vh;
+    top: calc(var(--nav-h) + env(safe-area-inset-top));
+    height: calc(100vh - var(--nav-h) - env(safe-area-inset-top));
     align-items: center;
     justify-content: center;
-    padding-top: calc(var(--nav-h) + env(safe-area-inset-top) + 2rem);
+    padding-top: 2rem;
     padding-left: calc(2rem + env(safe-area-inset-left));
     padding-right: calc(2rem + env(safe-area-inset-right));
     background: rgba(11, 15, 23, 0.97);
@@ -115,37 +179,43 @@
     transition: opacity 250ms ease, transform 300ms cubic-bezier(0.4, 0, 0.2, 1), visibility 0ms 300ms;
   }
 
-  .navListOpen {
+  .navRoot:has(.navToggle:checked) .navList {
     -webkit-transform: translateX(0);
     transform: translateX(0);
     transition: opacity 250ms ease, transform 300ms cubic-bezier(0.4, 0, 0.2, 1), visibility 0ms;
     overflow-y: auto;
   }
+
+  @supports (height: 100dvh) {
+    .navList {
+      height: calc(100dvh - var(--nav-h) - env(safe-area-inset-top));
+    }
+  }
 }
 
-/* Backdrop overlay for tablet drawer */
+/* Backdrop — tablet: tap outside drawer to close */
 .navBackdrop {
   display: none;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 640px) and (max-width: 1023px) {
   .navBackdrop {
     display: block;
+    position: fixed;
+    inset: 0;
     border: none;
     padding: 0;
     margin: 0;
     cursor: pointer;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.55);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
     transition: opacity 300ms ease, visibility 0ms 300ms;
-    z-index: -1;
+    z-index: 35;
   }
 
-  .navBackdropOpen {
+  .navRoot:has(.navToggle:checked) .navBackdrop {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
@@ -153,7 +223,7 @@
   }
 }
 
-/* ── Nav link: mobile-first, responsive ───────────────────────── */
+/* ── Nav link ─────────────────────────────────────────────────── */
 
 .navLink {
   font-family: var(--font-mono), monospace;
@@ -217,9 +287,6 @@
   border-radius: 4px;
 }
 
-/* ── Section label in header bar ──────────────────────────────── */
-
 .sectionLabel {
   text-transform: uppercase;
 }
-

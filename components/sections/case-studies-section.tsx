@@ -1,10 +1,7 @@
-"use client";
-
 import { ChevronDown } from "lucide-react";
 import type { ReactNode } from "react";
 import type { CaseStudy } from "@/lib/types";
 import { CASE_STUDIES } from "@/lib/data";
-import { useFadeIn } from "@/lib/hooks";
 import { SectionHeader, Chip, sectionHeadingId } from "@/components/ui/primitives";
 import styles from "@/styles/sections/case-studies-section.module.css";
 
@@ -192,12 +189,11 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
 }
 
 export function CaseStudiesSection() {
-  const { ref, fade } = useFadeIn();
   const headingId = sectionHeadingId("projects");
 
   return (
     <section id="projects" className="section-dark section-cv-auto" aria-labelledby={headingId}>
-      <div ref={ref} className="max-w-6xl mx-auto px-4 sm:px-6 fade-in-target" style={fade}>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 reveal-on-scroll">
         <SectionHeader sectionId="projects" />
         <div className="space-y-4 sm:space-y-5">
           {CASE_STUDIES.map((cs) => (

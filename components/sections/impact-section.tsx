@@ -1,6 +1,5 @@
 import { CAPABILITIES } from "@/lib/data/capabilities";
 import { SectionHeader, Chip, sectionHeadingId } from "@/components/ui/primitives";
-import { FadeIn } from "@/components/ui/fade-in";
 import styles from "@/styles/sections/impact-section.module.css";
 
 export function ImpactSection() {
@@ -8,7 +7,7 @@ export function ImpactSection() {
 
   return (
     <section id="impact" className="section-surface section-cv-auto border-t border-border-primary-soft" aria-labelledby={headingId}>
-      <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 reveal-on-scroll">
         <SectionHeader sectionId="impact" />
 
         <div className="hidden lg:block rounded-xl overflow-hidden border border-border impact-table-wrap">
@@ -87,7 +86,7 @@ export function ImpactSection() {
             );
           })}
         </div>
-      </FadeIn>
+      </div>
     </section>
   );
 }

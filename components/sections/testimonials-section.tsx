@@ -1,5 +1,4 @@
 import { TESTIMONIALS } from "@/lib/data/testimonials";
-import { FadeIn } from "@/components/ui/fade-in";
 import styles from "@/styles/sections/testimonials-section.module.css";
 
 export function TestimonialsSection() {
@@ -11,7 +10,7 @@ export function TestimonialsSection() {
       className="section-dark section-cv-auto border-t border-border-primary-soft"
       aria-labelledby="testimonials-heading"
     >
-      <FadeIn className="max-w-6xl mx-auto px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 reveal-on-scroll">
         <p className="flex items-center gap-3 mb-5" aria-label="Section: Endorsements">
           <span className="mono-sm tracking-[0.15em] uppercase text-primary" aria-hidden>
             · / Endorsements
@@ -37,7 +36,7 @@ export function TestimonialsSection() {
             </li>
           ))}
         </ul>
-      </FadeIn>
+      </div>
     </section>
   );
 }

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getFirestore, Timestamp } from "firebase-admin/firestore";
 import { getFirebaseAdminApp } from "@/lib/firebase-admin";
 import { sendContactPushNotification } from "@/lib/send-contact-push-notification";
+import { validateEmail } from "@/lib/validate-email";
 
 const SCORE_THRESHOLD = 0.5;
 
@@ -72,9 +73,12 @@ export async function POST(req: NextRequest) {
     if (trimmedName.length < 2) {
       return NextResponse.json({ error: "Name is too short" }, { status: 400 });
     }
-    if (!trimmedEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
-      return NextResponse.json({ error: "Invalid email" }, { status: 400 });
+
+    const emailError = validateEmail(trimmedEmail);
+    if (emailError) {
+      return NextResponse.json({ error: emailError }, { status: 400 });
     }
+
     if (trimmedMessage.length < 10) {
       return NextResponse.json({ error: "Message is too short" }, { status: 400 });
     }

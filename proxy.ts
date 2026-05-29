@@ -26,6 +26,7 @@ const HOME = "/";
 
 const ALLOWED_EXACT = new Set([
   "/",
+  "/resume",
   "/favicon.ico",
   "/icon.svg",
   "/robots.txt",

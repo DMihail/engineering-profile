@@ -14,6 +14,11 @@ describe("proxy", () => {
     expect(res.status).toBe(200);
   });
 
+  it("allows resume page", () => {
+    const res = proxy(requestFor("/resume"));
+    expect(res.status).toBe(200);
+  });
+
   it("allows static files with extensions (e.g. CV PDFs)", () => {
     const res = proxy(requestFor("/Mykhailo_Dzhezhelo_CV_Ireland.pdf"));
     expect(res.status).toBe(200);

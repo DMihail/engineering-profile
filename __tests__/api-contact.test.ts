@@ -91,6 +91,23 @@ describe("POST /api/contact", () => {
     expect(res.status).toBe(403);
   });
 
+  it("returns 400 if email is invalid", async () => {
+    mockRecaptchaSuccess();
+    const res = await POST(makeRequest({ ...validBody, email: "not-an-email" }));
+    expect(res.status).toBe(400);
+    const json = await res.json();
+    expect(json.error).toMatch(/valid email/i);
+  });
+
+  it("returns 400 for disposable email domains", async () => {
+    mockRecaptchaSuccess();
+    const res = await POST(makeRequest({ ...validBody, email: "user@mailinator.com" }));
+    expect(res.status).toBe(400);
+    const json = await res.json();
+    expect(json.error).toMatch(/disposable email/i);
+    expect(mockAdd).not.toHaveBeenCalled();
+  });
+
   it("returns 400 if name is too short", async () => {
     mockRecaptchaSuccess();
     const res = await POST(makeRequest({ ...validBody, name: "A" }));
