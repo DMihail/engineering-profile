@@ -4,30 +4,25 @@ import { useEffect, useRef, useActionState } from "react";
 import { ensureRecaptchaLoaded } from "@/lib/recaptcha-client";
 import {
   CONTACT_FORM_INITIAL_STATE,
-  submitContactForm,
-} from "@/lib/contact-form";
-import {
   contactFormFeedbackMessage,
   contactFormFeedbackTitle,
   contactFormFeedbackVariant,
-} from "@/lib/contact-form-feedback";
+  submitContactForm,
+} from "@/lib/contact-form";
 import { SectionHeader, sectionHeadingId } from "@/components/ui/primitives";
 import { ContactSidebar } from "@/components/contact/contact-sidebar";
 import { ContactSubmitButton } from "@/components/contact/contact-submit-button";
 import { PrivacyConsentField } from "@/components/forms/privacy-consent-field";
 import { useToast } from "@/components/ui/toast/toast-provider";
-import { resolveContactFieldErrors } from "@/lib/contact-form-field-errors";
 import {
   CONTACT_MESSAGE_MIN_LENGTH,
   CONTACT_NAME_MIN_LENGTH,
-  focusContactField,
-} from "@/lib/contact-form-validation";
-import {
+  applyContactFieldFailure,
   clearContactFieldValidity,
-  enforceExtendedContactRules,
-  setContactFieldCustomMessage,
-} from "@/lib/contact-form-html-validation";
-import { PRIVACY_CONSENT_ERROR, PRIVACY_CONSENT_FIELD } from "@/lib/privacy-consent";
+  focusContactField,
+  getContactFormFailure,
+} from "@/lib/contact-form-rules";
+import { PRIVACY_CONSENT_FIELD } from "@/lib/privacy-consent";
 import { SITE_WORK_AUTHORIZATION } from "@/lib/config";
 import styles from "@/styles/sections/contact-section.module.css";
 
@@ -46,43 +41,10 @@ export function ContactSection() {
   };
 
   const success = state.success;
-  const error = !state.success ? state.error : undefined;
-  const { firstField } = resolveContactFieldErrors(error);
   const headingId = sectionHeadingId("contact");
 
   function showFormErrorToast(message: string) {
     toast.error(message, contactFormFeedbackTitle("error"));
-  }
-
-  function handleFormInvalidCapture(event: React.InvalidEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const target = event.target;
-    if (!(target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement)) {
-      return;
-    }
-
-    if (target.name === "name") {
-      setContactFieldCustomMessage(target, "name");
-      showFormErrorToast(target.validationMessage);
-      return;
-    }
-
-    if (target.name === "email") {
-      setContactFieldCustomMessage(target, "email");
-      showFormErrorToast(target.validationMessage);
-      return;
-    }
-
-    if (target.name === "message") {
-      setContactFieldCustomMessage(target, "message");
-      showFormErrorToast(target.validationMessage);
-      return;
-    }
-
-    if (target.name === PRIVACY_CONSENT_FIELD) {
-      target.setCustomValidity(PRIVACY_CONSENT_ERROR);
-      showFormErrorToast(target.validationMessage);
-    }
   }
 
   function restoreDraftFields() {
@@ -111,8 +73,7 @@ export function ContactSection() {
     const message = contactFormFeedbackMessage(state);
 
     if (variant && message) {
-      const title = contactFormFeedbackTitle(variant);
-      toast.show({ variant, title, message });
+      toast.show({ variant, title: contactFormFeedbackTitle(variant), message });
     }
 
     if (state.success) {
@@ -123,11 +84,11 @@ export function ContactSection() {
 
     if (state.error) {
       restoreDraftFields();
-      if (firstField) {
-        focusContactField(firstField);
+      if (state.field) {
+        focusContactField(state.field);
       }
     }
-  }, [firstField, state, toast]);
+  }, [state, toast]);
 
   return (
     <section id="contact" className="section-surface section-cv-auto" aria-labelledby={headingId}>
@@ -147,16 +108,17 @@ export function ContactSection() {
           <form
             ref={formRef}
             action={formAction}
+            noValidate
             onSubmit={(event) => {
               draftRef.current = new FormData(event.currentTarget);
 
-              const extended = enforceExtendedContactRules(event.currentTarget);
-              if (!extended.ok) {
+              const failure = getContactFormFailure(event.currentTarget);
+              if (failure) {
                 event.preventDefault();
-                showFormErrorToast(extended.error);
+                applyContactFieldFailure(event.currentTarget, failure);
+                showFormErrorToast(failure.error);
               }
             }}
-            onInvalidCapture={handleFormInvalidCapture}
             onFocusCapture={primeRecaptcha}
             className={`panel ${styles.formPanel} min-w-0`}
             aria-labelledby={headingId}

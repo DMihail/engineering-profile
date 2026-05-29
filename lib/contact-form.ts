@@ -1,15 +1,60 @@
 import { PRIVACY_CONSENT_FIELD } from "@/lib/privacy-consent";
-import { validateContactFields } from "@/lib/contact-form-validation";
+import {
+  type ContactFormField,
+  validateContactFields,
+} from "@/lib/contact-form-rules";
 
-export type ContactFormState = { success: boolean; error?: string; ts: number };
+export type ContactFormFeedbackVariant = "success" | "error" | "warning";
+
+export type ContactFormState = {
+  success: boolean;
+  error?: string;
+  field?: ContactFormField;
+  ts: number;
+};
 
 export const CONTACT_FORM_INITIAL_STATE: ContactFormState = { success: false, ts: 0 };
 
 const THROTTLE_MS = 10_000;
 let lastSubmitAt = 0;
 
-function fail(error: string, ts: number): ContactFormState {
-  return { success: false, error, ts };
+function fail(error: string, ts: number, field?: ContactFormField): ContactFormState {
+  return { success: false, error, field, ts };
+}
+
+export function contactFormFeedbackVariant(
+  state: Pick<ContactFormState, "success" | "error">,
+): ContactFormFeedbackVariant | null {
+  if (state.success) return "success";
+  if (!state.error) return null;
+
+  const lower = state.error.toLowerCase();
+  if (lower.includes("please wait before sending")) {
+    return "warning";
+  }
+
+  return "error";
+}
+
+export function contactFormFeedbackMessage(
+  state: Pick<ContactFormState, "success" | "error">,
+): string | null {
+  if (state.success) {
+    return "Thanks for reaching out — I'll get back to you within 24 hours.";
+  }
+
+  return state.error ?? null;
+}
+
+export function contactFormFeedbackTitle(variant: ContactFormFeedbackVariant): string {
+  switch (variant) {
+    case "success":
+      return "Message sent";
+    case "warning":
+      return "Please wait";
+    case "error":
+      return "Could not send";
+  }
 }
 
 function getRecaptchaToken(): Promise<string> {
@@ -62,7 +107,7 @@ export async function submitContactForm(
     consent: data.get(PRIVACY_CONSENT_FIELD),
   });
   if (fieldFailure) {
-    return fail(fieldFailure.error, now);
+    return fail(fieldFailure.error, now, fieldFailure.field);
   }
 
   const name = (data.get("name") as string).trim();

@@ -1,12 +1,11 @@
 import {
   MESSAGE_TOO_SHORT_ERROR,
   NAME_TOO_SHORT_ERROR,
-} from "@/lib/contact-form-validation";
-import {
   enforceExtendedContactRules,
+  getContactFormFailure,
   readContactFormValues,
   setContactFieldCustomMessage,
-} from "@/lib/contact-form-html-validation";
+} from "@/lib/contact-form-rules";
 import { PRIVACY_CONSENT_ERROR, PRIVACY_CONSENT_VALUE } from "@/lib/privacy-consent";
 
 function makeForm(values: {
@@ -25,10 +24,21 @@ function makeForm(values: {
   return form;
 }
 
-describe("contact-form-html-validation", () => {
+describe("contact form HTML rules", () => {
   it("reads checkbox consent as checked value or null", () => {
     expect(readContactFormValues(makeForm({ consent: true })).consent).toBe(PRIVACY_CONSENT_VALUE);
     expect(readContactFormValues(makeForm({ consent: false })).consent).toBeNull();
+  });
+
+  it("returns the first failure in field order when multiple values are invalid", () => {
+    const form = makeForm({
+      name: "A",
+      email: "bad",
+      message: "short",
+      consent: false,
+    });
+
+    expect(getContactFormFailure(form)).toEqual({ field: "name", error: NAME_TOO_SHORT_ERROR });
   });
 
   it("blocks submit when trimmed name is too short", () => {

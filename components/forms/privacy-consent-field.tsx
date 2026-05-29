@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { PRIVACY_CONSENT_FIELD, PRIVACY_CONSENT_VALUE } from "@/lib/privacy-consent";
-import { clearContactFieldValidity } from "@/lib/contact-form-html-validation";
+import { clearContactFieldValidity } from "@/lib/contact-form-rules";
 import styles from "@/styles/forms/privacy-consent.module.css";
 
 interface PrivacyConsentFieldProps {

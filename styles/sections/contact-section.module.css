@@ -228,10 +228,3 @@
   text-transform: none;
   letter-spacing: 0.02em;
 }
-
-.fieldError {
-  margin: 0.375rem 0 0;
-  font-size: var(--text-xs);
-  line-height: 1.45;
-  color: var(--error);
-}

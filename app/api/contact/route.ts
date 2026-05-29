@@ -3,7 +3,7 @@ import { getFirestore, Timestamp } from "firebase-admin/firestore";
 import { getFirebaseAdminApp } from "@/lib/firebase-admin";
 import { sendContactPushNotification } from "@/lib/send-contact-push-notification";
 import { hasPrivacyConsentInBody } from "@/lib/privacy-consent";
-import { validateContactFields } from "@/lib/contact-form-validation";
+import { validateContactFields } from "@/lib/contact-form-rules";
 
 const SCORE_THRESHOLD = 0.5;
 

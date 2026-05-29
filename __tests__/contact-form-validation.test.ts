@@ -2,7 +2,7 @@ import {
   MESSAGE_TOO_SHORT_ERROR,
   NAME_TOO_SHORT_ERROR,
   validateContactFields,
-} from "@/lib/contact-form-validation";
+} from "@/lib/contact-form-rules";
 import { PRIVACY_CONSENT_ERROR, PRIVACY_CONSENT_VALUE } from "@/lib/privacy-consent";
 
 const validInput = {

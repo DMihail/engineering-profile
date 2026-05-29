@@ -2,7 +2,7 @@ import {
   contactFormFeedbackMessage,
   contactFormFeedbackTitle,
   contactFormFeedbackVariant,
-} from "@/lib/contact-form-feedback";
+} from "@/lib/contact-form";
 
 describe("contact form feedback", () => {
   it("maps success state to success toast copy", () => {
@@ -19,7 +19,7 @@ describe("contact form feedback", () => {
   });
 
   it("maps validation errors to error", () => {
-    const state = { success: false, error: "Please enter your name", ts: 1 };
+    const state = { success: false, error: "Please enter your name", field: "name" as const, ts: 1 };
     expect(contactFormFeedbackVariant(state)).toBe("error");
     expect(contactFormFeedbackTitle("error")).toBe("Could not send");
   });
