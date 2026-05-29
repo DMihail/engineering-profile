@@ -1,7 +1,7 @@
 import { Download, Mail } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
 import { SITE_AUTHOR, SITE_LOCATION, SITE_ROLE } from "@/lib/config";
-import { HERO_CTA, HERO_STATS } from "@/lib/data";
+import { HERO_CTA, HERO_STATS } from "@/lib/data/nav";
 import styles from "@/styles/sections/hero-section.module.css";
 
 export function HeroSection() {
@@ -20,26 +20,18 @@ export function HeroSection() {
             <span className="text-sm text-text-secondary">Available for remote and onsite · {SITE_LOCATION}</span>
           </div>
 
-          <h1 className="font-sans mb-6 tracking-[-0.045em] text-balance">
-            <span className="block font-extrabold leading-[0.98] text-foreground text-hero-name">
-              {SITE_AUTHOR.split(" ")[0]}
-              <br />
-              <span className="text-primary">{SITE_AUTHOR.split(" ").slice(1).join(" ")}</span>
-            </span>
-            <span className="block mt-4 font-semibold leading-snug text-text-secondary text-hero-lead">
-              {SITE_ROLE}
-            </span>
-            <span className="block mt-2 font-normal text-muted-foreground text-hero-support">
-              {SITE_LOCATION}
-            </span>
+          <h1 className="font-sans font-extrabold mb-3 tracking-[-0.045em] leading-[0.98] text-foreground text-hero-name text-balance">
+            {SITE_AUTHOR.split(" ")[0]}
+            <br />
+            <span className="text-primary">{SITE_AUTHOR.split(" ").slice(1).join(" ")}</span>
           </h1>
 
-          <p className="font-sans font-medium mb-4 leading-relaxed text-text-secondary text-hero-lead max-w-2xl mx-auto lg:mx-0 text-pretty">
-            Building high-performance mobile applications, realtime systems, and native integrations for production teams.
+          <p className="font-semibold leading-snug text-text-secondary text-hero-lead mb-4">
+            {SITE_ROLE}
           </p>
 
-          <p className="text-hero-support sm:text-base text-muted-foreground max-w-xl mb-10 leading-looser mx-auto lg:mx-0 text-pretty">
-            Focused on performance, realtime processing, and production-grade mobile architecture.
+          <p className="text-hero-support sm:text-base text-muted-foreground max-w-lg mb-10 leading-relaxed mx-auto lg:mx-0 text-pretty">
+            Expo and React Native for iOS and Android — App Store and Google Play. React, Next.js, and Node.js when the product needs web or APIs.
           </p>
 
           <nav className="flex flex-col sm:flex-row flex-wrap gap-3 justify-center lg:justify-start mb-12" aria-label="Primary actions">
