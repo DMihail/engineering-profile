@@ -1,38 +1,15 @@
-import { CASE_STUDIES } from "@/lib/data";
 import {
   SITE_AUTHOR,
   SITE_DESCRIPTION,
   SITE_EMAIL,
   SITE_LOCATION,
-  SITE_PROFILE_IMAGE_PATH,
+  SITE_OG_IMAGE_PATH,
   SITE_ROLE,
   SITE_URL,
 } from "@/lib/config";
 
 const PERSON_ID = `${SITE_URL}/#person`;
 const WEBSITE_ID = `${SITE_URL}/#website`;
-const PROJECTS_ID = `${SITE_URL}/#projects`;
-
-function buildCaseStudiesItemList() {
-  return {
-    "@type": "ItemList",
-    "@id": PROJECTS_ID,
-    name: "Case studies",
-    itemListElement: CASE_STUDIES.map((study, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      item: {
-        "@type": "CreativeWork",
-        "@id": `${SITE_URL}/#project-${study.id}`,
-        name: study.title,
-        description: study.summary,
-        url: `${SITE_URL}/#projects`,
-        keywords: study.stack.join(", "),
-        author: { "@id": PERSON_ID },
-      },
-    })),
-  };
-}
 
 export function buildSiteJsonLd() {
   return {
@@ -52,7 +29,7 @@ export function buildSiteJsonLd() {
         "@id": PERSON_ID,
         name: SITE_AUTHOR,
         url: SITE_URL,
-        image: `${SITE_URL}${SITE_PROFILE_IMAGE_PATH}`,
+        image: `${SITE_URL}${SITE_OG_IMAGE_PATH}`,
         email: `mailto:${SITE_EMAIL}`,
         jobTitle: SITE_ROLE,
         worksFor: {
@@ -84,7 +61,6 @@ export function buildSiteJsonLd() {
           "Native Modules",
         ],
       },
-      buildCaseStudiesItemList(),
     ],
   };
 }
