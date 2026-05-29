@@ -238,12 +238,13 @@ export function NavBar() {
             ))}
           </ul>
 
+          {active !== "hero" && (
+            <span className={`lg:hidden mono-xs text-primary tracking-widest ${styles.sectionLabel}`}>
+              {activeLabel}
+            </span>
+          )}
+
           <div className={`${styles.navActions} relative z-10 flex items-center gap-3`}>
-            {active !== "hero" && (
-              <span className={`lg:hidden mono-xs text-primary tracking-widest ${styles.sectionLabel}`}>
-                {activeLabel}
-              </span>
-            )}
             <a
               href={sectionHref("contact")}
               onClick={() => onNavigate("contact")}
