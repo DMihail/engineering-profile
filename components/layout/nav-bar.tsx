@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { NAV, NAV_LABELS, type NavId } from "@/lib/data/nav";
+import { NAV, type NavId } from "@/lib/data/nav";
 import { HERO_ID, sectionHref, PAGE_SECTION_IDS, isPageSectionId, SECTION_LABELS } from "@/lib/section-ids";
 import {
   getActiveSectionFromScroll,
@@ -190,7 +190,7 @@ export function NavBar() {
     return () => mq.removeEventListener("change", onChange);
   }, [closeMenu]);
 
-  const activeLabel = active in SECTION_LABELS ? SECTION_LABELS[active as keyof typeof SECTION_LABELS] : active;
+  const activeLabel = isPageSectionId(active) ? SECTION_LABELS[active] : active;
 
   return (
     <header className={menuOpen ? styles.headerOpen : undefined}>
@@ -221,7 +221,7 @@ export function NavBar() {
               <NavItem
                 key={id}
                 id={id}
-                label={NAV_LABELS[id]}
+                label={SECTION_LABELS[id]}
                 active={active === id}
                 onNavigate={onNavigate}
               />
@@ -278,7 +278,7 @@ export function NavBar() {
             <NavItem
               key={id}
               id={id}
-              label={NAV_LABELS[id]}
+              label={SECTION_LABELS[id]}
               active={active === id}
               onNavigate={onNavigate}
             />

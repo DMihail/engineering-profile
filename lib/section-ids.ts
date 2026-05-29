@@ -1,4 +1,4 @@
-import { NAV, type NavId } from "@/lib/data/nav";
+import { NAV, NAV_LABELS } from "@/lib/data/nav";
 
 export const MAIN_CONTENT_ID = "main-content";
 export const HERO_ID = "hero";
@@ -8,12 +8,7 @@ export type PageSectionId = (typeof PAGE_SECTION_IDS)[number];
 
 export const SECTION_LABELS: Record<PageSectionId, string> = {
   hero: "Home",
-  impact: "About",
-  projects: "Projects",
-  skills: "Skills",
-  experience: "Experience",
-  education: "Education",
-  contact: "Contact",
+  ...NAV_LABELS,
 };
 
 export function isPageSectionId(id: string): id is PageSectionId {
@@ -24,5 +19,3 @@ export function isPageSectionId(id: string): id is PageSectionId {
 export function sectionHref(id: string): `/#${string}` {
   return `/#${id}`;
 }
-
-export { NAV, type NavId };

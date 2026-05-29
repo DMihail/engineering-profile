@@ -5,13 +5,7 @@ export function sectionHeadingId(sectionId: ContentSectionId): string {
   return `${sectionId}-heading`;
 }
 
-interface SectionLabelProps {
-  sectionId: ContentSectionId;
-}
-
-export function SectionLabel({ sectionId }: SectionLabelProps) {
-  const { n, label } = getSectionMeta(sectionId);
-
+export function SectionLabelRow({ n, label }: { n: string; label: string }) {
   return (
     <div className="flex items-center gap-3 mb-5" aria-hidden="true">
       <span className="mono-sm tracking-[0.15em] uppercase text-primary">
@@ -20,6 +14,12 @@ export function SectionLabel({ sectionId }: SectionLabelProps) {
       <span className="flex-1 h-px bg-border" />
     </div>
   );
+}
+
+function SectionLabel({ sectionId }: { sectionId: ContentSectionId }) {
+  const { n, label } = getSectionMeta(sectionId);
+
+  return <SectionLabelRow n={n} label={label} />;
 }
 
 export function Chip({ label, variant = "default" }: { label: string; variant?: "default" | "blue" }) {

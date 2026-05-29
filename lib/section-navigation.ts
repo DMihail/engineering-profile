@@ -67,7 +67,7 @@ export function getActiveSectionFromScroll(
   return active;
 }
 
-export function scrollToSection(id: string, behavior: ScrollBehavior = "auto"): void {
+function scrollToSection(id: string, behavior: ScrollBehavior = "auto"): void {
   const el = document.getElementById(id);
   if (!el) return;
   el.scrollIntoView({ behavior, block: "start" });

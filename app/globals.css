@@ -372,10 +372,6 @@
     background: radial-gradient(ellipse 100% 90% at 50% 50%, transparent 10%, var(--background) 100%);
   }
 
-  .bg-vignette-sm {
-    background: radial-gradient(ellipse 90% 80% at 50% 50%, transparent 10%, var(--background) 100%);
-  }
-
   /* ── Cards / Panels ────────────────────────────────────────────────── */
 
   .panel {
@@ -457,23 +453,6 @@
   }
 
   .btn-outline:focus-visible {
-    outline: 2px solid var(--color-ring);
-    outline-offset: 2px;
-  }
-
-  .btn-sm {
-    padding-block: 0.3125rem;
-    padding-inline: 0.875rem;
-    border-radius: var(--radius-sm);
-    font-family: var(--font-mono), serif;
-    font-size: var(--text-mono-sm);
-    letter-spacing: 0.04em;
-    border: none;
-    cursor: pointer;
-    transition: background 150ms;
-  }
-
-  .btn-sm:focus-visible {
     outline: 2px solid var(--color-ring);
     outline-offset: 2px;
   }

@@ -39,6 +39,16 @@ describe("validateContactFields", () => {
     ).toMatchObject({ field: "email" });
   });
 
+  it("rejects disposable email addresses", () => {
+    const failure = validateContactFields({
+      ...validInput,
+      email: "test@mailinator.com",
+    });
+
+    expect(failure?.field).toBe("email");
+    expect(failure?.error).toMatch(/disposable email/i);
+  });
+
   it("checks message before consent", () => {
     expect(
       validateContactFields({

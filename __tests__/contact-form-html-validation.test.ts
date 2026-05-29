@@ -1,5 +1,4 @@
 import {
-  MESSAGE_TOO_SHORT_ERROR,
   NAME_TOO_SHORT_ERROR,
   applyContactFieldFailure,
   getContactFormFailure,
@@ -23,48 +22,13 @@ function makeForm(values: {
   return form;
 }
 
-describe("contact form HTML rules", () => {
+describe("contact form DOM helpers", () => {
   it("reads checkbox consent as checked value or null", () => {
     expect(readContactFormValues(makeForm({ consent: true })).consent).toBe(PRIVACY_CONSENT_VALUE);
     expect(readContactFormValues(makeForm({ consent: false })).consent).toBeNull();
   });
 
-  it("returns the first failure in field order when multiple values are invalid", () => {
-    const form = makeForm({
-      name: "A",
-      email: "bad",
-      message: "short",
-      consent: false,
-    });
-
-    expect(getContactFormFailure(form)).toEqual({ field: "name", error: NAME_TOO_SHORT_ERROR });
-  });
-
-  it("returns name failure when trimmed name is too short", () => {
-    const form = makeForm({
-      name: "  ",
-      email: "john@example.com",
-      message: "Long enough message here",
-      consent: true,
-    });
-
-    expect(getContactFormFailure(form)).toEqual({ field: "name", error: NAME_TOO_SHORT_ERROR });
-  });
-
-  it("returns disposable email failure after format passes", () => {
-    const form = makeForm({
-      name: "John Doe",
-      email: "test@mailinator.com",
-      message: "Long enough message here",
-      consent: true,
-    });
-
-    const failure = getContactFormFailure(form);
-    expect(failure?.field).toBe("email");
-    expect(failure?.error).toMatch(/disposable email/i);
-  });
-
-  it("returns null when all rules pass", () => {
+  it("delegates validation to readContactFormValues + validateContactFields", () => {
     const form = makeForm({
       name: "John Doe",
       email: "john@example.com",
@@ -107,16 +71,5 @@ describe("contact form HTML rules", () => {
     expect(consent.validationMessage).toBe(PRIVACY_CONSENT_ERROR);
     expect(focusSpy).toHaveBeenCalled();
     focusSpy.mockRestore();
-  });
-
-  it("returns message failure for short message", () => {
-    const form = makeForm({
-      name: "John Doe",
-      email: "john@example.com",
-      message: "short",
-      consent: true,
-    });
-
-    expect(getContactFormFailure(form)).toEqual({ field: "message", error: MESSAGE_TOO_SHORT_ERROR });
   });
 });
