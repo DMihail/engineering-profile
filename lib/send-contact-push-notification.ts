@@ -1,5 +1,6 @@
 import { getFirebaseAdminApp } from "@/lib/firebase-admin";
 import {
+  type FcmDeviceRegistration,
   listAllFcmDeviceRegistrations,
   pruneStaleFcmDeviceRegistrations,
 } from "@/lib/fcm-tokens";
@@ -28,7 +29,7 @@ function buildPreview(message: string): string {
 
 export async function sendContactPushNotification(
   payload: ContactPushPayload,
-): Promise<{ sent: number; failed: number } | null> {
+): Promise<{ sent: number; failed: number; targets?: FcmDeviceRegistration[] } | null> {
   const app = getFirebaseAdminApp();
   if (!app) {
     return null;
@@ -36,13 +37,15 @@ export async function sendContactPushNotification(
 
   const registrations = await listAllFcmDeviceRegistrations(app);
   if (registrations.length === 0) {
-    return { sent: 0, failed: 0 };
+    return { sent: 0, failed: 0, targets: [] };
   }
 
   const title = DEFAULT_TITLE;
   const body = buildBody(payload);
   const preview = buildPreview(payload.preview);
   const inboxUrl = resolveInboxAppUrl();
+  const hasAbsoluteInboxUrl = /^https?:\/\//i.test(inboxUrl);
+  const iconUrl = hasAbsoluteInboxUrl ? `${inboxUrl}/favicon.png` : undefined;
 
   const messaging = getMessaging(app);
   const response = await messaging.sendEachForMulticast({
@@ -58,7 +61,12 @@ export async function sendContactPushNotification(
     },
     webpush: {
       headers: { Urgency: "high" },
-      fcmOptions: { link: inboxUrl },
+      notification: {
+        title,
+        body,
+        ...(iconUrl ? { icon: iconUrl } : {}),
+      },
+      ...(hasAbsoluteInboxUrl ? { fcmOptions: { link: inboxUrl } } : {}),
     },
   });
 
@@ -67,5 +75,6 @@ export async function sendContactPushNotification(
   return {
     sent: response.successCount,
     failed: response.failureCount,
+    targets: registrations,
   };
 }

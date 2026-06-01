@@ -26,12 +26,17 @@ export async function sendInboxTestPush(uid: string): Promise<InboxTestPushResul
   }
 
   const inboxUrl = resolveInboxAppUrl();
+  const hasAbsoluteInboxUrl = /^https?:\/\//i.test(inboxUrl);
+  const iconUrl = hasAbsoluteInboxUrl ? `${inboxUrl}/favicon.png` : undefined;
   const messaging = getMessaging(app);
+
+  const title = "Test notification";
+  const body = "Developer Inbox — server push works.";
 
   const payload = {
     data: {
-      title: "Test notification",
-      body: "Developer Inbox — server push works.",
+      title,
+      body,
       messageId: "test",
       url: inboxUrl,
       preview: "If you see this, FCM delivery from the API works.",
@@ -40,7 +45,12 @@ export async function sendInboxTestPush(uid: string): Promise<InboxTestPushResul
     },
     webpush: {
       headers: { Urgency: "high" as const },
-      fcmOptions: { link: inboxUrl },
+      notification: {
+        title,
+        body,
+        ...(iconUrl ? { icon: iconUrl } : {}),
+      },
+      ...(hasAbsoluteInboxUrl ? { fcmOptions: { link: inboxUrl } } : {}),
     },
   };
 

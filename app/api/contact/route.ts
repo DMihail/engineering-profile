@@ -114,8 +114,10 @@ export async function POST(req: NextRequest) {
           "[api/contact] Push not delivered — no FCM devices in Firestore (enable push in inbox PWA on each device)",
         );
       } else {
+        const targets =
+          pushResult.targets?.map((t) => `${t.platform ?? "?"}:${t.deviceId}`).join(", ") ?? "";
         console.info(
-          `[api/contact] Push sent to ${pushResult.sent} device(s), failed=${pushResult.failed}`,
+          `[api/contact] Push sent to ${pushResult.sent} device(s), failed=${pushResult.failed}${targets ? ` (${targets})` : ""}`,
         );
       }
     } catch (pushErr) {
