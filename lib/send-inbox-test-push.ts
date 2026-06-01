@@ -3,6 +3,7 @@ import {
   listFcmDeviceRegistrations,
   pruneStaleFcmDeviceRegistrations,
 } from "@/lib/fcm-tokens";
+import { resolveInboxAppUrl } from "@/lib/inbox-app-url";
 import { getMessaging } from "firebase-admin/messaging";
 
 export interface InboxTestPushResult {
@@ -24,7 +25,7 @@ export async function sendInboxTestPush(uid: string): Promise<InboxTestPushResul
     return { sent: false, reason: "no-token" };
   }
 
-  const inboxUrl = process.env.INBOX_APP_URL?.trim() || "/";
+  const inboxUrl = resolveInboxAppUrl();
   const messaging = getMessaging(app);
 
   const payload = {

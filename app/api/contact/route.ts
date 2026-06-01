@@ -100,13 +100,24 @@ export async function POST(req: NextRequest) {
     });
 
     try {
-      await sendContactPushNotification({
+      const pushResult = await sendContactPushNotification({
         messageId: docRef.id,
         name: trimmedName,
         email: trimmedEmail,
         company: trimmedCompany,
         preview: trimmedMessage,
       });
+      if (pushResult === null) {
+        console.warn("[api/contact] Push skipped — Firebase Admin not configured");
+      } else if (pushResult.sent === 0) {
+        console.warn(
+          "[api/contact] Push not delivered — no FCM devices in Firestore (enable push in inbox PWA on each device)",
+        );
+      } else {
+        console.info(
+          `[api/contact] Push sent to ${pushResult.sent} device(s), failed=${pushResult.failed}`,
+        );
+      }
     } catch (pushErr) {
       console.error("[api/contact] Push notification error:", pushErr);
     }
