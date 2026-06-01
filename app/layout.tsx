@@ -63,7 +63,7 @@ export default async function RootLayout({
 
   return (
     <html
-      lang="en"
+      lang="en-IE"
       data-scroll-behavior="smooth"
       className={`${fontVariableClassName} h-full`}
       {...(nonce ? { nonce } : {})}
