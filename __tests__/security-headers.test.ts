@@ -89,6 +89,15 @@ describe("security headers", () => {
     expect(keys).toContain("Referrer-Policy");
     expect(keys).toContain("Cross-Origin-Opener-Policy");
     expect(keys).toContain("Cross-Origin-Resource-Policy");
+    expect(keys).toContain("X-Permitted-Cross-Domain-Policies");
+    expect(keys).toContain("Origin-Agent-Cluster");
+  });
+
+  it("restricts sensitive browser features in Permissions-Policy", () => {
+    const policy = getSecurityHeaders().find((header) => header.key === "Permissions-Policy");
+    expect(policy?.value).toContain("camera=()");
+    expect(policy?.value).toContain("payment=()");
+    expect(policy?.value).toContain("browsing-topics=()");
   });
 
   it("includes HSTS with includeSubDomains and preload in production", () => {

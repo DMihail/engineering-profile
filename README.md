@@ -96,7 +96,7 @@ Used with the separate **personal-site-inbox** PWA (same Firebase project):
 | Variable | Description |
 |----------|-------------|
 | `INBOX_APP_URL` | Inbox app origin (CORS + notification click URL) |
-| `INBOX_ALLOWED_UIDS` | Comma-separated Firebase Auth UIDs allowed on `POST /api/inbox/reply` |
+| `INBOX_ALLOWED_UIDS` | Comma-separated Firebase Auth UIDs allowed on inbox API routes |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` | Outbound mail for inbox replies |
 | `MAIL_FROM`, `MAIL_FROM_NAME`, `MAIL_REPLY_TO` | From / Reply-To headers |
 
@@ -108,6 +108,7 @@ Without Admin credentials the contact UI still works locally; submissions fail s
 |-------|--------|---------|
 | `/api/contact` | `POST` | Contact form → Firestore + optional FCM |
 | `/api/inbox/reply` | `POST` | Authenticated reply from inbox PWA → email via SMTP |
+| `/api/inbox/test-push` | `POST` | Authenticated FCM test push to the signed-in user's device token |
 
 ## Deployment
 
