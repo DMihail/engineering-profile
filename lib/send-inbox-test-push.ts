@@ -1,5 +1,6 @@
 import { getFirebaseAdminApp } from "@/lib/firebase-admin";
 import {
+  dedupeFcmRegistrationsByToken,
   listFcmDeviceRegistrations,
   pruneStaleFcmDeviceRegistrations,
 } from "@/lib/fcm-tokens";
@@ -20,14 +21,15 @@ export async function sendInboxTestPush(uid: string): Promise<InboxTestPushResul
     return { sent: false, reason: "no-admin" };
   }
 
-  const registrations = await listFcmDeviceRegistrations(uid, app);
+  const registrations = dedupeFcmRegistrationsByToken(
+    await listFcmDeviceRegistrations(uid, app),
+  );
   if (registrations.length === 0) {
     return { sent: false, reason: "no-token" };
   }
 
   const inboxUrl = resolveInboxAppUrl();
   const hasAbsoluteInboxUrl = /^https?:\/\//i.test(inboxUrl);
-  const iconUrl = hasAbsoluteInboxUrl ? `${inboxUrl}/favicon.png` : undefined;
   const messaging = getMessaging(app);
 
   const title = "Test notification";
@@ -38,20 +40,16 @@ export async function sendInboxTestPush(uid: string): Promise<InboxTestPushResul
       title,
       body,
       messageId: "test",
-      url: inboxUrl,
+      url: hasAbsoluteInboxUrl ? inboxUrl : "/",
       preview: "If you see this, FCM delivery from the API works.",
       senderName: "Test",
       senderEmail: "test@example.com",
     },
     webpush: {
       headers: { Urgency: "high" as const },
-      notification: {
-        title,
-        body,
-        ...(iconUrl ? { icon: iconUrl } : {}),
-      },
       ...(hasAbsoluteInboxUrl ? { fcmOptions: { link: inboxUrl } } : {}),
     },
+    android: { priority: "high" as const },
   };
 
   const response = await messaging.sendEachForMulticast({
