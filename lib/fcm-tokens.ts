@@ -54,27 +54,30 @@ export async function listFcmTokensForUser(uid: string, app?: App): Promise<stri
 /** Every registered device for all operators (contact form → inbox push). */
 export async function listAllFcmDeviceRegistrations(app?: App): Promise<FcmDeviceRegistration[]> {
   const db = firestore(app);
-  const userSnaps = await db.collection("fcmTokens").get();
   const all: FcmDeviceRegistration[] = [];
+  const uidsFromDevices = new Set<string>();
 
+  // Subcollection docs do not create `fcmTokens/{uid}` parent docs — use collection group.
+  const deviceSnap = await db.collectionGroup("devices").get();
+  deviceSnap.forEach((deviceDoc) => {
+    const uid = deviceDoc.ref.parent.parent?.id;
+    if (!uid) return;
+
+    const token = typeof deviceDoc.data().token === "string" ? deviceDoc.data().token : "";
+    if (!token) return;
+
+    uidsFromDevices.add(uid);
+    all.push({ uid, deviceId: deviceDoc.id, token });
+  });
+
+  const userSnaps = await db.collection("fcmTokens").get();
   for (const userDoc of userSnaps.docs) {
-    const uid = userDoc.id;
-    const devicesSnap = await userDoc.ref.collection("devices").get();
-
-    if (!devicesSnap.empty) {
-      devicesSnap.forEach((deviceDoc) => {
-        const token = typeof deviceDoc.data().token === "string" ? deviceDoc.data().token : "";
-        if (token) {
-          all.push({ uid, deviceId: deviceDoc.id, token });
-        }
-      });
-      continue;
-    }
+    if (uidsFromDevices.has(userDoc.id)) continue;
 
     const legacyToken =
       typeof userDoc.data().token === "string" ? userDoc.data().token : "";
     if (legacyToken) {
-      all.push({ uid, deviceId: "__legacy__", token: legacyToken });
+      all.push({ uid: userDoc.id, deviceId: "__legacy__", token: legacyToken });
     }
   }
 
