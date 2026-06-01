@@ -5,6 +5,7 @@ import {
   pruneStaleFcmDeviceRegistrations,
 } from "@/lib/fcm-tokens";
 import { buildInboxFcmMulticastFields } from "@/lib/build-inbox-fcm-message";
+import { logFcmSendTarget } from "@/lib/fcm-log";
 import { resolveInboxAppUrl } from "@/lib/inbox-app-url";
 import { getMessaging } from "firebase-admin/messaging";
 
@@ -34,11 +35,16 @@ export async function sendInboxTestPush(uid: string): Promise<InboxTestPushResul
 
   const title = "Test notification";
   const body = "Developer Inbox — server push works.";
+  const messageId = `test-${Date.now()}`;
+
+  for (const reg of registrations) {
+    logFcmSendTarget("test-push", reg, messageId);
+  }
 
   const fcmFields = buildInboxFcmMulticastFields(inboxUrl, {
     title,
     body,
-    messageId: "test",
+    messageId,
     preview: "If you see this, FCM delivery from the API works.",
     senderName: "Test",
     senderEmail: "test@example.com",
