@@ -5,6 +5,7 @@ export interface FcmDeviceRegistration {
   uid: string;
   deviceId: string;
   token: string;
+  platform?: string;
 }
 
 const STALE_TOKEN_CODES = new Set([
@@ -26,9 +27,15 @@ export async function listFcmDeviceRegistrations(
 
   const registrations: FcmDeviceRegistration[] = [];
   devicesSnap.forEach((doc) => {
-    const token = typeof doc.data().token === "string" ? doc.data().token : "";
+    const data = doc.data();
+    const token = typeof data.token === "string" ? data.token : "";
     if (token) {
-      registrations.push({ uid, deviceId: doc.id, token });
+      registrations.push({
+        uid,
+        deviceId: doc.id,
+        token,
+        platform: typeof data.platform === "string" ? data.platform : undefined,
+      });
     }
   });
 
@@ -67,7 +74,13 @@ export async function listAllFcmDeviceRegistrations(app?: App): Promise<FcmDevic
     if (!token) return;
 
     uidsFromDevices.add(uid);
-    all.push({ uid, deviceId: deviceDoc.id, token });
+    const data = deviceDoc.data();
+    all.push({
+      uid,
+      deviceId: deviceDoc.id,
+      token,
+      platform: typeof data.platform === "string" ? data.platform : undefined,
+    });
   });
 
   const userSnaps = await db.collection("fcmTokens").get();
