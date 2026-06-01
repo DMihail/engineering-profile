@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getFirebaseAdminApp } from "@/lib/firebase-admin";
 import { inboxOptionsResponse, withInboxCors } from "@/lib/inbox-cors";
 import { sendInboxTestPush } from "@/lib/send-inbox-test-push";
 import { verifyInboxAuth } from "@/lib/verify-inbox-auth";
@@ -13,11 +14,19 @@ export async function POST(request: NextRequest) {
     return auth.response;
   }
 
-  const appConfigured = Boolean(process.env.FIREBASE_PROJECT_ID?.trim());
-  if (!appConfigured) {
+  if (!getFirebaseAdminApp()) {
+    console.error(
+      "[api/inbox/test-push] Firebase Admin is not configured — set FIREBASE_SERVICE_ACCOUNT_JSON or FIREBASE_CLIENT_EMAIL + FIREBASE_PRIVATE_KEY (+ project id) in .env.local",
+    );
     return withInboxCors(
       request,
-      NextResponse.json({ error: "Push is not configured on the server (FCM)" }, { status: 503 }),
+      NextResponse.json(
+        {
+          error:
+            "Push is not configured on the server (FCM). Add Firebase Admin credentials to engineering-profile .env.local and restart npm run dev.",
+        },
+        { status: 503 },
+      ),
     );
   }
 
@@ -27,7 +36,13 @@ export async function POST(request: NextRequest) {
       if (result.reason === "no-admin") {
         return withInboxCors(
           request,
-          NextResponse.json({ error: "Push is not configured on the server (FCM)" }, { status: 503 }),
+          NextResponse.json(
+            {
+              error:
+                "Push is not configured on the server (FCM). Add Firebase Admin credentials to engineering-profile .env.local.",
+            },
+            { status: 503 },
+          ),
         );
       }
       return withInboxCors(

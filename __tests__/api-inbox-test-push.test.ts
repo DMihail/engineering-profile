@@ -34,7 +34,7 @@ function makeRequest(headers: Record<string, string> = {}) {
 
 beforeEach(() => {
   jest.clearAllMocks();
-  process.env.FIREBASE_PROJECT_ID = "test-project";
+  process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID = "test-project";
   process.env.INBOX_APP_URL = "http://localhost:5173";
   mockVerifyIdToken.mockResolvedValue({ uid: "admin-uid", email: "me@example.com" });
   mockSendTestPush.mockResolvedValue({ sent: true });
