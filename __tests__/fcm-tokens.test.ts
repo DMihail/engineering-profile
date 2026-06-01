@@ -17,7 +17,7 @@ jest.mock("firebase-admin/firestore", () => ({
       if (name !== "fcmTokens") throw new Error(`unexpected collection ${name}`);
 
       return {
-        doc: (uid: string) => ({
+        doc: () => ({
           get: mockLegacyGet,
           collection: (sub: string) => {
             if (sub !== "devices") throw new Error(`unexpected sub ${sub}`);

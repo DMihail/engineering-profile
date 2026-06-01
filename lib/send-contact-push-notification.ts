@@ -5,6 +5,7 @@ import {
   listAllFcmDeviceRegistrations,
   pruneStaleFcmDeviceRegistrations,
 } from "@/lib/fcm-tokens";
+import { buildInboxFcmMulticastFields } from "@/lib/build-inbox-fcm-message";
 import { resolveInboxAppUrl } from "@/lib/inbox-app-url";
 import { getMessaging } from "firebase-admin/messaging";
 
@@ -43,6 +44,9 @@ export async function sendContactPushNotification(
     await listAllFcmDeviceRegistrations(app),
   );
   if (registrations.length === 0) {
+    console.warn(
+      "[api/contact] No FCM device tokens in Firestore — enable push in the inbox PWA and check fcmTokens/{uid}/devices",
+    );
     return { sent: 0, failed: 0, targets: [] };
   }
 
@@ -58,22 +62,18 @@ export async function sendContactPushNotification(
   }
 
   const messaging = getMessaging(app);
+  const fcmFields = buildInboxFcmMulticastFields(inboxUrl, {
+    title,
+    body,
+    messageId: payload.messageId,
+    preview,
+    senderName: payload.name,
+    senderEmail: payload.email,
+  });
+
   const response = await messaging.sendEachForMulticast({
     tokens: registrations.map((r) => r.token),
-    data: {
-      title,
-      body,
-      messageId: payload.messageId,
-      url: hasAbsoluteInboxUrl ? inboxUrl : "/",
-      preview,
-      senderName: payload.name,
-      senderEmail: payload.email,
-    },
-    webpush: {
-      headers: { Urgency: "high" },
-      ...(hasAbsoluteInboxUrl ? { fcmOptions: { link: inboxUrl } } : {}),
-    },
-    android: { priority: "high" },
+    ...fcmFields,
   });
 
   response.responses.forEach((result, index) => {
@@ -87,6 +87,12 @@ export async function sendContactPushNotification(
   });
 
   await pruneStaleFcmDeviceRegistrations(registrations, response.responses, app);
+
+  if (response.successCount === 0 && registrations.length > 0) {
+    console.warn(
+      `[api/contact] FCM delivered to 0/${registrations.length} device(s) — tokens may be stale; re-enable push in inbox`,
+    );
+  }
 
   return {
     sent: response.successCount,

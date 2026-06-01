@@ -4,6 +4,7 @@ import {
   listFcmDeviceRegistrations,
   pruneStaleFcmDeviceRegistrations,
 } from "@/lib/fcm-tokens";
+import { buildInboxFcmMulticastFields } from "@/lib/build-inbox-fcm-message";
 import { resolveInboxAppUrl } from "@/lib/inbox-app-url";
 import { getMessaging } from "firebase-admin/messaging";
 
@@ -29,32 +30,23 @@ export async function sendInboxTestPush(uid: string): Promise<InboxTestPushResul
   }
 
   const inboxUrl = resolveInboxAppUrl();
-  const hasAbsoluteInboxUrl = /^https?:\/\//i.test(inboxUrl);
   const messaging = getMessaging(app);
 
   const title = "Test notification";
   const body = "Developer Inbox — server push works.";
 
-  const payload = {
-    data: {
-      title,
-      body,
-      messageId: "test",
-      url: hasAbsoluteInboxUrl ? inboxUrl : "/",
-      preview: "If you see this, FCM delivery from the API works.",
-      senderName: "Test",
-      senderEmail: "test@example.com",
-    },
-    webpush: {
-      headers: { Urgency: "high" as const },
-      ...(hasAbsoluteInboxUrl ? { fcmOptions: { link: inboxUrl } } : {}),
-    },
-    android: { priority: "high" as const },
-  };
+  const fcmFields = buildInboxFcmMulticastFields(inboxUrl, {
+    title,
+    body,
+    messageId: "test",
+    preview: "If you see this, FCM delivery from the API works.",
+    senderName: "Test",
+    senderEmail: "test@example.com",
+  });
 
   const response = await messaging.sendEachForMulticast({
     tokens: registrations.map((r) => r.token),
-    ...payload,
+    ...fcmFields,
   });
 
   await pruneStaleFcmDeviceRegistrations(registrations, response.responses, app);
