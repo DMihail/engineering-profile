@@ -6,6 +6,7 @@ import {
   pruneStaleFcmDeviceRegistrations,
 } from "@/lib/fcm-tokens";
 import { buildInboxFcmMulticastFields } from "@/lib/build-inbox-fcm-message";
+import { logFcmSendTarget } from "@/lib/fcm-log";
 import { resolveInboxAppUrl } from "@/lib/inbox-app-url";
 import { getMessaging } from "firebase-admin/messaging";
 
@@ -59,6 +60,10 @@ export async function sendContactPushNotification(
     console.warn(
       "[api/contact] INBOX_APP_URL must be https://your-inbox.vercel.app — iOS/Android may not show or open notifications",
     );
+  }
+
+  for (const reg of registrations) {
+    logFcmSendTarget("contact", reg, payload.messageId);
   }
 
   const messaging = getMessaging(app);
