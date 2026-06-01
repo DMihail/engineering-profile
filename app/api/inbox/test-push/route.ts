@@ -50,14 +50,21 @@ export async function POST(request: NextRequest) {
         NextResponse.json(
           {
             error:
-              "No FCM token for this account. Enable push in the inbox app while signed in as this user.",
+              "No FCM devices for this account. Enable push on each phone or browser while signed in as this user.",
           },
           { status: 404 },
         ),
       );
     }
 
-    return withInboxCors(request, NextResponse.json({ success: true }));
+    return withInboxCors(
+      request,
+      NextResponse.json({
+        success: true,
+        deviceCount: result.deviceCount,
+        successCount: result.successCount,
+      }),
+    );
   } catch (err) {
     console.error("[api/inbox/test-push] Send failed:", err);
     const message = err instanceof Error ? err.message : "Failed to send test push";
