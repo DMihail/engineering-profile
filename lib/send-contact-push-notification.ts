@@ -3,6 +3,7 @@ import {
   listAllFcmDeviceRegistrations,
   pruneStaleFcmDeviceRegistrations,
 } from "@/lib/fcm-tokens";
+import { resolveInboxAppUrl } from "@/lib/inbox-app-url";
 import { getMessaging } from "firebase-admin/messaging";
 
 export interface ContactPushPayload {
@@ -41,7 +42,7 @@ export async function sendContactPushNotification(
   const title = DEFAULT_TITLE;
   const body = buildBody(payload);
   const preview = buildPreview(payload.preview);
-  const inboxUrl = process.env.INBOX_APP_URL?.trim() || "/";
+  const inboxUrl = resolveInboxAppUrl();
 
   const messaging = getMessaging(app);
   const response = await messaging.sendEachForMulticast({
