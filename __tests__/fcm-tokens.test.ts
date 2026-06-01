@@ -9,6 +9,7 @@ import {
 const mockDevicesGet = jest.fn();
 const mockLegacyGet = jest.fn();
 const mockUserDocs = jest.fn();
+const mockCollectionGroupGet = jest.fn();
 
 jest.mock("firebase-admin/firestore", () => ({
   getFirestore: () => ({
@@ -26,11 +27,17 @@ jest.mock("firebase-admin/firestore", () => ({
         get: mockUserDocs,
       };
     },
+    collectionGroup: (name: string) => {
+      if (name !== "devices") throw new Error(`unexpected collection group ${name}`);
+      return { get: mockCollectionGroupGet };
+    },
   }),
 }));
 
 beforeEach(() => {
   jest.clearAllMocks();
+  mockUserDocs.mockResolvedValue({ docs: [] });
+  mockCollectionGroupGet.mockResolvedValue({ forEach: () => undefined });
 });
 
 describe("listFcmDeviceRegistrations", () => {
@@ -64,26 +71,35 @@ describe("listFcmDeviceRegistrations", () => {
 });
 
 describe("listAllFcmDeviceRegistrations", () => {
-  it("aggregates devices across users", async () => {
+  it("aggregates devices via collection group (no parent fcmTokens doc required)", async () => {
+    mockCollectionGroupGet.mockResolvedValue({
+      forEach: (fn: (doc: { id: string; data: () => object; ref: { parent: { parent: { id: string } } } }) => void) => {
+        fn({
+          id: "iphone",
+          data: () => ({ token: "t1" }),
+          ref: { parent: { parent: { id: "user-1" } } },
+        });
+      },
+    });
+
+    const regs = await listAllFcmDeviceRegistrations();
+    expect(regs).toEqual([{ uid: "user-1", deviceId: "iphone", token: "t1" }]);
+    expect(mockUserDocs).toHaveBeenCalled();
+  });
+
+  it("includes legacy parent token when collection group is empty", async () => {
     mockUserDocs.mockResolvedValue({
       docs: [
         {
-          id: "user-1",
-          data: () => ({}),
-          ref: {
-            collection: () => ({
-              get: jest.fn().mockResolvedValue({
-                forEach: (fn: (doc: { id: string; data: () => object }) => void) => {
-                  fn({ id: "iphone", data: () => ({ token: "t1" }) });
-                },
-              }),
-            }),
-          },
+          id: "user-legacy",
+          data: () => ({ token: "legacy-only" }),
         },
       ],
     });
 
     const regs = await listAllFcmDeviceRegistrations();
-    expect(regs).toEqual([{ uid: "user-1", deviceId: "iphone", token: "t1" }]);
+    expect(regs).toEqual([
+      { uid: "user-legacy", deviceId: "__legacy__", token: "legacy-only" },
+    ]);
   });
 });
