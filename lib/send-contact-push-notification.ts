@@ -1,6 +1,7 @@
 import { getFirebaseAdminApp } from "@/lib/firebase-admin";
 import {
   type FcmDeviceRegistration,
+  dedupeFcmRegistrationsByToken,
   listAllFcmDeviceRegistrations,
   pruneStaleFcmDeviceRegistrations,
 } from "@/lib/fcm-tokens";
@@ -15,7 +16,10 @@ export interface ContactPushPayload {
   preview: string;
 }
 
-const DEFAULT_TITLE = "New contact message";
+function buildTitle(name: string): string {
+  const trimmed = name.trim();
+  return trimmed ? `Message from ${trimmed}` : "New contact message";
+}
 
 function buildBody({ name, email }: Pick<ContactPushPayload, "name" | "email">): string {
   return `${name} · ${email}`;
@@ -35,17 +39,23 @@ export async function sendContactPushNotification(
     return null;
   }
 
-  const registrations = await listAllFcmDeviceRegistrations(app);
+  const registrations = dedupeFcmRegistrationsByToken(
+    await listAllFcmDeviceRegistrations(app),
+  );
   if (registrations.length === 0) {
     return { sent: 0, failed: 0, targets: [] };
   }
 
-  const title = DEFAULT_TITLE;
+  const title = buildTitle(payload.name);
   const body = buildBody(payload);
   const preview = buildPreview(payload.preview);
   const inboxUrl = resolveInboxAppUrl();
   const hasAbsoluteInboxUrl = /^https?:\/\//i.test(inboxUrl);
-  const iconUrl = hasAbsoluteInboxUrl ? `${inboxUrl}/favicon.png` : undefined;
+  if (!hasAbsoluteInboxUrl) {
+    console.warn(
+      "[api/contact] INBOX_APP_URL must be https://your-inbox.vercel.app — iOS/Android may not show or open notifications",
+    );
+  }
 
   const messaging = getMessaging(app);
   const response = await messaging.sendEachForMulticast({
@@ -54,20 +64,26 @@ export async function sendContactPushNotification(
       title,
       body,
       messageId: payload.messageId,
-      url: inboxUrl,
+      url: hasAbsoluteInboxUrl ? inboxUrl : "/",
       preview,
       senderName: payload.name,
       senderEmail: payload.email,
     },
     webpush: {
       headers: { Urgency: "high" },
-      notification: {
-        title,
-        body,
-        ...(iconUrl ? { icon: iconUrl } : {}),
-      },
       ...(hasAbsoluteInboxUrl ? { fcmOptions: { link: inboxUrl } } : {}),
     },
+    android: { priority: "high" },
+  });
+
+  response.responses.forEach((result, index) => {
+    if (result.success) return;
+    const target = registrations[index];
+    console.warn(
+      `[api/contact] FCM failed for ${target?.platform ?? "?"} device ${target?.deviceId ?? "?"}:`,
+      result.error?.code,
+      result.error?.message,
+    );
   });
 
   await pruneStaleFcmDeviceRegistrations(registrations, response.responses, app);

@@ -97,6 +97,18 @@ export async function listAllFcmDeviceRegistrations(app?: App): Promise<FcmDevic
   return all;
 }
 
+/** One multicast entry per FCM token (duplicate device docs break sendEach response indexing). */
+export function dedupeFcmRegistrationsByToken(
+  registrations: FcmDeviceRegistration[],
+): FcmDeviceRegistration[] {
+  const byToken = new Map<string, FcmDeviceRegistration>();
+  for (const reg of registrations) {
+    if (!reg.token) continue;
+    byToken.set(reg.token, reg);
+  }
+  return [...byToken.values()];
+}
+
 export async function pruneStaleFcmDeviceRegistrations(
   registrations: FcmDeviceRegistration[],
   responses: { success: boolean; error?: { code?: string } }[],
@@ -126,6 +138,10 @@ export async function pruneStaleFcmDeviceRegistrations(
         .doc(reg.deviceId)
         .delete()
         .catch(() => undefined);
+
+      console.info(
+        `[fcm] Removed stale device registration ${reg.platform ?? "?"}:${reg.deviceId} (${code})`,
+      );
     }),
   );
 }
