@@ -20,6 +20,7 @@ describe("sendContactTelegramNotification", () => {
     jest.clearAllMocks();
     delete process.env.TELEGRAM_BOT_TOKEN;
     delete process.env.TELEGRAM_CHAT_ID;
+    delete process.env.INBOX_APP_URL;
   });
 
   it("reports not configured when env vars are missing", () => {
@@ -38,9 +39,39 @@ describe("sendContactTelegramNotification", () => {
     expect(html).not.toContain("<script>");
   });
 
-  it("omits company line when company is null", () => {
+  it("omits company block when company is null", () => {
     const html = buildTelegramHtml({ ...payload, company: null });
-    expect(html).not.toContain("Company:");
+    expect(html).not.toContain("🏢");
+  });
+
+  it("includes lead header, reply link, and message ref", () => {
+    const html = buildTelegramHtml(payload);
+
+    expect(html).toContain("New portfolio lead");
+    expect(html).toContain("dzhezhelo.dev");
+    expect(html).toContain("Reply by email");
+    expect(html).toContain('href="mailto:john@example.com');
+    expect(html).toContain("<pre>Hello there</pre>");
+    expect(html).toContain("<code>msg-abc</code>");
+    expect(html).toContain("Ireland");
+  });
+
+  it("adds inbox deep link when INBOX_APP_URL is set", () => {
+    process.env.INBOX_APP_URL = "https://inbox.example.com/";
+    const html = buildTelegramHtml(payload);
+
+    expect(html).toContain("Open in inbox");
+    expect(html).toContain("https://inbox.example.com/?message=msg-abc");
+  });
+
+  it("truncates very long messages", () => {
+    const html = buildTelegramHtml({
+      ...payload,
+      message: "x".repeat(2000),
+    });
+
+    expect(html).toContain("(+");
+    expect(html).toContain("chars)");
   });
 
   it("returns false without calling Telegram when not configured", async () => {

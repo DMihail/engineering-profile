@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/config";
 import { escapeHtml } from "@/lib/escape-html";
 
 export interface ContactTelegramPayload {
@@ -8,27 +9,89 @@ export interface ContactTelegramPayload {
   message: string;
 }
 
+const MESSAGE_PREVIEW_MAX = 1200;
+const TELEGRAM_TEXT_MAX = 3900;
+
 export function isTelegramContactNotifyConfigured(): boolean {
   return Boolean(
     process.env.TELEGRAM_BOT_TOKEN?.trim() && process.env.TELEGRAM_CHAT_ID?.trim(),
   );
 }
 
-function buildTelegramHtml(payload: ContactTelegramPayload): string {
-  const lines = [
-    "📬 <b>New contact form message</b>",
-    `👤 <b>Name:</b> ${escapeHtml(payload.name)}`,
-    `✉️ <b>Email:</b> ${escapeHtml(payload.email)}`,
+function formatReceivedAt(): string {
+  return new Date().toLocaleString("en-IE", {
+    timeZone: "Europe/Dublin",
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
+}
+
+function truncateMessage(text: string, max = MESSAGE_PREVIEW_MAX): string {
+  const normalized = text.replace(/\r\n/g, "\n").trim();
+  if (normalized.length <= max) return normalized;
+  const omitted = normalized.length - max + 1;
+  return `${normalized.slice(0, max - 1)}… (+${omitted} chars)`;
+}
+
+function buildReplyMailto(email: string, name: string): string {
+  const subject = encodeURIComponent("Re: Your message on dzhezhelo.dev");
+  const body = encodeURIComponent(
+    `Hi ${name},\n\nThanks for reaching out via dzhezhelo.dev — I received your message and will get back to you within 24 hours.\n\n`,
+  );
+  return `mailto:${email}?subject=${subject}&body=${body}`;
+}
+
+function inboxDeepLink(messageId: string): string | null {
+  const base = process.env.INBOX_APP_URL?.trim().replace(/\/$/, "");
+  if (!base || !/^https?:\/\//i.test(base)) return null;
+  return `${base}/?message=${encodeURIComponent(messageId)}`;
+}
+
+export function buildTelegramHtml(payload: ContactTelegramPayload): string {
+  const name = escapeHtml(payload.name);
+  const email = escapeHtml(payload.email);
+  const company = payload.company ? escapeHtml(payload.company) : null;
+  const preview = escapeHtml(truncateMessage(payload.message));
+  const messageId = escapeHtml(payload.messageId);
+  const receivedAt = escapeHtml(formatReceivedAt());
+  const siteHost = escapeHtml(SITE_URL.replace(/^https?:\/\//, ""));
+
+  const replyHref = escapeHtml(buildReplyMailto(payload.email, payload.name));
+  const inboxHref = inboxDeepLink(payload.messageId);
+  const inboxLine = inboxHref
+    ? `\n📥 <a href="${escapeHtml(inboxHref)}">Open in inbox</a>`
+    : "";
+
+  const blocks = [
+    "━━━━━━━━━━━━━━━━━━━━",
+    `🎯 <b>New portfolio lead</b>`,
+    `🌐 <a href="${escapeHtml(SITE_URL)}">${siteHost}</a>`,
+    "━━━━━━━━━━━━━━━━━━━━",
+    "",
+    `<b>${name}</b>${company ? `\n🏢 ${company}` : ""}`,
+    "",
+    "✉️ <b>Email</b>",
+    `<a href="${replyHref}">${email}</a>`,
+    "",
+    "💬 <b>Message</b>",
+    `<pre>${preview}</pre>`,
+    "",
+    `↩️ <a href="${replyHref}"><b>Reply by email</b></a>${inboxLine}`,
+    "",
+    "────────────────────",
+    `🕐 ${receivedAt} · Ireland`,
+    `🔖 Ref <code>${messageId}</code>`,
   ];
 
-  if (payload.company) {
-    lines.push(`🏢 <b>Company:</b> ${escapeHtml(payload.company)}`);
+  let text = blocks.join("\n");
+  if (text.length > TELEGRAM_TEXT_MAX) {
+    const shorterPreview = escapeHtml(truncateMessage(payload.message, 600));
+    text = blocks
+      .map((line) => (line.startsWith("<pre>") ? `<pre>${shorterPreview}</pre>` : line))
+      .join("\n");
   }
 
-  lines.push(`📝 <b>Message:</b>\n${escapeHtml(payload.message)}`);
-  lines.push(`\n<i>ID: ${escapeHtml(payload.messageId)}</i>`);
-
-  return lines.join("\n");
+  return text;
 }
 
 /** Sends a Telegram alert when bot token and chat id are configured. */
@@ -60,5 +123,3 @@ export async function sendContactTelegramNotification(
 
   return true;
 }
-
-export { buildTelegramHtml };
