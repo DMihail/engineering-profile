@@ -7,11 +7,11 @@ import { HERO_ID, sectionHref, PAGE_SECTION_IDS, isPageSectionId, SECTION_LABELS
 import {
   getActiveSectionFromScroll,
   getSectionIdFromHash,
+  navigateToSection,
+  unlockPageScroll,
 } from "@/lib/section-navigation";
 import { MDLogo } from "@/components/ui/icons";
 import styles from "@/styles/layout/nav-bar.module.css";
-
-const SECTION_IDS = PAGE_SECTION_IDS;
 const SCROLL_LOCK_MS = 2000;
 const HASH_SCROLL_LOCK_MS = 3500;
 const MOBILE_NAV_ID = "mobile-nav-menu";
@@ -32,7 +32,10 @@ function SectionNavLink({
     <li>
       <a
         href={sectionHref(id)}
-        onClick={() => onNavigate(id)}
+        onClick={(event) => {
+          event.preventDefault();
+          onNavigate(id);
+        }}
         aria-current={active ? "true" : undefined}
         className={`${styles.navLink} ${active ? styles.navLinkActive : ""} no-underline`}
       >
@@ -85,6 +88,8 @@ export function NavBar() {
     (id: string) => {
       lockActiveSection(id);
       closeMenu(false);
+      unlockPageScroll();
+      void navigateToSection(id);
     },
     [closeMenu, lockActiveSection],
   );
@@ -94,7 +99,7 @@ export function NavBar() {
 
     const updateActiveFromScroll = () => {
       if (Date.now() < lockUntilRef.current) return;
-      setActive(getActiveSectionFromScroll(SECTION_IDS));
+      setActive(getActiveSectionFromScroll(PAGE_SECTION_IDS));
     };
 
     const onScrollOrResize = () => {
@@ -208,7 +213,10 @@ export function NavBar() {
         <div className={`max-w-6xl mx-auto px-4 sm:px-6 h-(--nav-h) ${styles.navBarInner}`}>
           <a
             href={sectionHref(HERO_ID)}
-            onClick={() => onNavigate(HERO_ID)}
+            onClick={(event) => {
+              event.preventDefault();
+              onNavigate(HERO_ID);
+            }}
             aria-label="Go to top of portfolio"
             className={`${styles.navLogo} relative z-10 flex items-center gap-2 mono-base text-primary tracking-[0.02em] no-underline`}
           >
@@ -237,7 +245,10 @@ export function NavBar() {
           <div className={`${styles.navActions} relative z-10 flex items-center gap-3`}>
             <a
               href={sectionHref("contact")}
-              onClick={() => onNavigate("contact")}
+              onClick={(event) => {
+                event.preventDefault();
+                onNavigate("contact");
+              }}
               className="hidden lg:flex items-center gap-1.5 py-1.25 px-3 rounded-md border border-primary/30 bg-primary/10 text-primary font-mono mono-sm font-medium tracking-[0.04em] leading-none whitespace-nowrap hover:bg-primary/20 hover:border-primary/50 transition-colors no-underline cursor-pointer"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" aria-hidden />
@@ -286,7 +297,10 @@ export function NavBar() {
           <li>
             <a
               href={sectionHref("contact")}
-              onClick={() => onNavigate("contact")}
+              onClick={(event) => {
+                event.preventDefault();
+                onNavigate("contact");
+              }}
               className="btn-primary mt-6 py-3.5 px-10 text-hero-support whitespace-nowrap no-underline"
             >
               <span className="status-dot-sm bg-background! shadow-none! animate-pulse" aria-hidden />

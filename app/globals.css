@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "../styles/reset.css" layer(base);
+@import "react-toastify/dist/ReactToastify.css";
+@import "../styles/ui/react-toastify.css";
 
 /* ───────────────────────────── Design Tokens ───────────────────────────── */
 
@@ -181,6 +183,10 @@
     color-scheme: dark;
     tab-size: 4;
     -webkit-tap-highlight-color: transparent;
+  }
+
+  section[id] {
+    scroll-margin-top: calc(var(--nav-h) + env(safe-area-inset-top, 0px));
   }
 
   body {

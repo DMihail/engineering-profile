@@ -1,13 +1,15 @@
 import { HERO_ID } from "@/lib/section-ids";
 
+const ALIGN_TOLERANCE_PX = 12;
+
 export function getSectionIdFromHash(): string | null {
   if (typeof window === "undefined") return null;
   const hash = window.location.hash.slice(1);
   return hash || null;
 }
 
-/** Offset from viewport top where the active section is measured (nav + scroll-padding). */
-export function getSectionScrollAnchor(): number {
+/** Offset from viewport top where sections align (nav + scroll-padding + safe area). */
+function getSectionScrollAnchor(): number {
   if (typeof window === "undefined") return 0;
 
   const styles = getComputedStyle(document.documentElement);
@@ -21,11 +23,55 @@ export function getSectionScrollAnchor(): number {
   return (Number.isFinite(navHeight) ? navHeight : 56) + safeArea + 8;
 }
 
+export function unlockPageScroll(): void {
+  if (typeof document === "undefined") return;
+  document.documentElement.style.overflow = "";
+  document.body.style.overflow = "";
+  document.body.style.touchAction = "";
+}
+
+export function getSectionScrollBehavior(): ScrollBehavior {
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") return "auto";
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+}
+
+function getMaxScrollY(): number {
+  return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+}
+
 function isNearPageBottom(): boolean {
-  const docEl = document.documentElement;
-  const scrollRange = docEl.scrollHeight - window.innerHeight;
+  const scrollRange = getMaxScrollY();
   if (scrollRange <= 24) return false;
-  return window.scrollY + window.innerHeight >= docEl.scrollHeight - 24;
+  return window.scrollY >= scrollRange - 24;
+}
+
+function revealAllSections(): void {
+  document.querySelectorAll(".section-cv-auto").forEach((node) => {
+    (node as HTMLElement).style.contentVisibility = "visible";
+  });
+}
+
+function isSectionAligned(id: string, anchor: number): boolean {
+  const el = document.getElementById(id);
+  if (!el) return false;
+
+  const { top, bottom } = el.getBoundingClientRect();
+  if (Math.abs(top - anchor) <= ALIGN_TOLERANCE_PX) return true;
+
+  if (isNearPageBottom()) {
+    return top <= anchor + ALIGN_TOLERANCE_PX && bottom > anchor;
+  }
+
+  return false;
+}
+
+function scrollToSection(id: string, behavior: ScrollBehavior = "auto"): void {
+  document.getElementById(id)?.scrollIntoView({ behavior, block: "start" });
+
+  const maxScrollY = getMaxScrollY();
+  if (window.scrollY > maxScrollY) {
+    window.scrollTo({ top: maxScrollY, behavior });
+  }
 }
 
 /**
@@ -67,38 +113,69 @@ export function getActiveSectionFromScroll(
   return active;
 }
 
-function scrollToSection(id: string, behavior: ScrollBehavior = "auto"): void {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.scrollIntoView({ behavior, block: "start" });
-}
-
 export function scrollToSectionWhenReady(
   id: string,
   options: { behavior?: ScrollBehavior; maxAttempts?: number } = {},
 ): Promise<boolean> {
-  const { behavior = "auto", maxAttempts = 32 } = options;
+  const { behavior = "auto", maxAttempts = 60 } = options;
 
   return new Promise((resolve) => {
     let attempts = 0;
+    let lastHeight = 0;
+    let stableFrames = 0;
 
-    const tryScroll = () => {
+    revealAllSections();
+
+    const tick = () => {
+      const anchor = getSectionScrollAnchor();
       const el = document.getElementById(id);
-      if (el) {
+      const height = document.documentElement.scrollHeight;
+
+      if (height === lastHeight) {
+        stableFrames += 1;
+      } else {
+        stableFrames = 0;
+        lastHeight = height;
+      }
+
+      if (!el) {
+        attempts += 1;
+        if (attempts >= maxAttempts) {
+          resolve(false);
+          return;
+        }
+        requestAnimationFrame(tick);
+        return;
+      }
+
+      if (stableFrames >= 2) {
+        scrollToSection(id, behavior);
+
+        if (isSectionAligned(id, anchor)) {
+          resolve(true);
+          return;
+        }
+      }
+
+      attempts += 1;
+      if (attempts >= maxAttempts) {
         scrollToSection(id, behavior);
         resolve(true);
         return;
       }
 
-      attempts += 1;
-      if (attempts >= maxAttempts) {
-        resolve(false);
-        return;
-      }
-
-      requestAnimationFrame(tryScroll);
+      requestAnimationFrame(tick);
     };
 
-    tryScroll();
+    requestAnimationFrame(tick);
   });
+}
+
+export function navigateToSection(id: string): Promise<boolean> {
+  if (typeof window !== "undefined") {
+    window.history.pushState(null, "", `/#${id}`);
+  }
+
+  unlockPageScroll();
+  return scrollToSectionWhenReady(id, { behavior: getSectionScrollBehavior() });
 }

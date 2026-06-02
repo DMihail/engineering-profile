@@ -12,6 +12,7 @@ import {
 import { SiteJsonLd } from "@/components/seo/site-json-ld";
 import { AppProviders } from "@/components/providers/app-providers";
 import { fontBodyClassName, fontVariableClassName } from "@/lib/fonts";
+import { SCROLL_HASH_BOOTSTRAP_SCRIPT } from "@/lib/scroll-hash-bootstrap";
 import { CSP_NONCE_HEADER } from "@/lib/security-headers";
 import "./globals.css";
 
@@ -22,13 +23,6 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_AUTHOR}`,
   },
   description: SITE_DESCRIPTION,
-  keywords: [
-    "Senior React Native", "Expo", "Full-Stack Developer", "Mobile Developer", "iOS", "Android",
-    "TypeScript", "React", "Next.js", "Node.js", "Jest", "Detox",
-    "Firebase", "Crashlytics", "Redux", "WebSockets", "GraphQL",
-    "App Store", "Google Play", "Dublin", "Ireland", "Stamp 4", "Remote",
-    SITE_AUTHOR,
-  ],
   authors: [{ name: SITE_AUTHOR, url: SITE_URL }],
   creator: SITE_AUTHOR,
   verification: {
@@ -70,6 +64,11 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className={`${fontBodyClassName} min-h-full`}>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: SCROLL_HASH_BOOTSTRAP_SCRIPT,
+          }}
+        />
         <SiteJsonLd />
         <AppProviders>{children}</AppProviders>
       </body>

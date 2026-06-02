@@ -89,6 +89,13 @@
   flex-shrink: 0;
 }
 
+.availabilityText {
+  font-family: var(--font-mono), monospace;
+  font-size: var(--text-mono-sm);
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
 .statusDot {
   flex-shrink: 0;
 }

@@ -6,7 +6,7 @@ export interface Testimonial {
 }
 
 export const TESTIMONIALS_SECTION = {
-  n: "06",
+  n: "07",
   label: "Endorsements",
   heading: "What collaborators say",
 } as const;

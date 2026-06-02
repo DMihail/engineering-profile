@@ -46,17 +46,6 @@ export function contactFormFeedbackMessage(
   return state.error ?? null;
 }
 
-export function contactFormFeedbackTitle(variant: ContactFormFeedbackVariant): string {
-  switch (variant) {
-    case "success":
-      return "Message sent";
-    case "warning":
-      return "Please wait";
-    case "error":
-      return "Could not send";
-  }
-}
-
 function getRecaptchaToken(): Promise<string> {
   return import("@/lib/recaptcha-client").then(({ ensureRecaptchaLoaded }) =>
     ensureRecaptchaLoaded().then(

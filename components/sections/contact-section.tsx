@@ -5,15 +5,15 @@ import { ensureRecaptchaLoaded } from "@/lib/recaptcha-client";
 import {
   CONTACT_FORM_INITIAL_STATE,
   contactFormFeedbackMessage,
-  contactFormFeedbackTitle,
   contactFormFeedbackVariant,
   submitContactForm,
+  type ContactFormFeedbackVariant,
 } from "@/lib/contact-form";
+import { toast } from "react-toastify/unstyled";
 import { SectionHeader, sectionHeadingId } from "@/components/ui/primitives";
 import { ContactSidebar } from "@/components/contact/contact-sidebar";
 import { ContactSubmitButton } from "@/components/contact/contact-submit-button";
 import { PrivacyConsentField } from "@/components/forms/privacy-consent-field";
-import { useToast } from "@/components/ui/toast/toast-provider";
 import {
   CONTACT_FIELD_DOM_IDS,
   CONTACT_FIELD_ERROR_IDS,
@@ -43,7 +43,6 @@ function FieldError({ id, message }: { id: string; message?: string }) {
 export function ContactSection() {
   const [state, formAction] = useActionState(submitContactForm, CONTACT_FORM_INITIAL_STATE);
   const [clientFieldError, setClientFieldError] = useState<ContactFieldValidationFailure | null>(null);
-  const toast = useToast();
   const formRef = useRef<HTMLFormElement>(null);
   const draftRef = useRef<FormData | null>(null);
   const recaptchaPrimed = useRef(false);
@@ -90,7 +89,21 @@ export function ContactSection() {
   );
 
   function showFormErrorToast(message: string) {
-    toast.error(message, contactFormFeedbackTitle("error"));
+    toast.error(message);
+  }
+
+  function showFormFeedbackToast(variant: ContactFormFeedbackVariant, message: string) {
+    switch (variant) {
+      case "success":
+        toast.success(message, { role: "status" });
+        break;
+      case "warning":
+        toast.warning(message);
+        break;
+      case "error":
+        toast.error(message);
+        break;
+    }
   }
 
   function restoreDraftFields() {
@@ -119,7 +132,7 @@ export function ContactSection() {
     const message = contactFormFeedbackMessage(state);
 
     if (variant && message) {
-      toast.show({ variant, title: contactFormFeedbackTitle(variant), message });
+      showFormFeedbackToast(variant, message);
     }
 
     if (state.success) {
@@ -134,7 +147,7 @@ export function ContactSection() {
         focusContactField(state.field);
       }
     }
-  }, [state, toast]);
+  }, [state]);
 
   return (
     <section id="contact" className="section-surface section-cv-auto" aria-labelledby={headingId}>
