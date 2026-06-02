@@ -1,4 +1,5 @@
 import { randomBytes } from "node:crypto";
+import { SCROLL_HASH_BOOTSTRAP_CSP_HASH } from "./scroll-hash-bootstrap";
 
 type Header = { key: string; value: string };
 
@@ -21,6 +22,7 @@ export function buildContentSecurityPolicy(nonce?: string): string {
       ? [
           "'self'",
           `'nonce-${nonce}'`,
+          `'${SCROLL_HASH_BOOTSTRAP_CSP_HASH}'`,
           "'strict-dynamic'",
           "https://www.google.com",
           "https://www.gstatic.com",

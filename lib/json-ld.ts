@@ -102,7 +102,7 @@ export function buildSiteJsonLd(): SiteJsonLd {
         url: SITE_URL,
         name: SITE_AUTHOR,
         description: SITE_DESCRIPTION,
-        inLanguage: "en",
+        inLanguage: "en-IE",
         publisher: { "@id": PERSON_ID },
       },
       {
@@ -111,7 +111,7 @@ export function buildSiteJsonLd(): SiteJsonLd {
         name: SITE_AUTHOR,
         url: SITE_URL,
         image: `${SITE_URL}${SITE_PROFILE_IMAGE_PATH}`,
-        email: `mailto:${SITE_EMAIL}`,
+        email: SITE_EMAIL,
         jobTitle: SITE_ROLE,
         worksFor: {
           "@type": "Organization",

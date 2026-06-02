@@ -4,6 +4,7 @@ import {
   getSecurityHeaders,
   HSTS_HEADER_VALUE,
 } from "@/lib/security-headers";
+import { SCROLL_HASH_BOOTSTRAP_CSP_HASH } from "@/lib/scroll-hash-bootstrap";
 import { withNodeEnv } from "./helpers/with-node-env";
 
 describe("security headers", () => {
@@ -27,6 +28,7 @@ describe("security headers", () => {
       const csp = buildContentSecurityPolicy(nonce);
       const scriptSrc = csp.split(";").find((part) => part.trim().startsWith("script-src")) ?? "";
       expect(scriptSrc).toContain(`'nonce-${nonce}'`);
+      expect(scriptSrc).toContain(`'${SCROLL_HASH_BOOTSTRAP_CSP_HASH}'`);
       expect(scriptSrc).toContain("'strict-dynamic'");
       expect(scriptSrc).not.toContain("'unsafe-inline'");
       expect(csp).toContain("style-src 'self' 'unsafe-inline'");

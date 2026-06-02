@@ -1,6 +1,6 @@
 import { buildSiteJsonLd, type JsonLdPerson, type JsonLdItemList } from "@/lib/json-ld";
 import { CASE_STUDIES } from "@/lib/data/case-studies";
-import { SITE_LOCATION } from "@/lib/config";
+import { SITE_EMAIL, SITE_LOCATION } from "@/lib/config";
 
 function isPersonNode(node: { "@type": string }): node is JsonLdPerson {
   return node["@type"] === "Person";
@@ -23,6 +23,7 @@ describe("buildSiteJsonLd", () => {
   it("uses square profile image for Person", () => {
     const person = buildSiteJsonLd()["@graph"].find(isPersonNode);
     expect(person?.image).toMatch(/profile-image$/);
+    expect(person?.email).toBe(SITE_EMAIL);
     expect(person?.address).toMatchObject({
       addressLocality: "Dublin",
       addressCountry: "IE",
@@ -31,6 +32,11 @@ describe("buildSiteJsonLd", () => {
       "@type": "Place",
       name: SITE_LOCATION,
     });
+  });
+
+  it("uses en-IE for WebSite language", () => {
+    const website = buildSiteJsonLd()["@graph"].find((node) => node["@type"] === "WebSite");
+    expect(website).toMatchObject({ inLanguage: "en-IE" });
   });
 
   it("lists all case studies in ItemList with per-project URLs", () => {

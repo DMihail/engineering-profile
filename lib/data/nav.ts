@@ -1,4 +1,5 @@
 import { SECTIONS, type ContentSectionId } from "@/lib/data/sections";
+import { CV_FILES } from "@/lib/config";
 
 export const NAV: ContentSectionId[] = SECTIONS.map((s) => s.id);
 
@@ -9,7 +10,7 @@ export const NAV_LABELS: Record<NavId, string> = Object.fromEntries(
 ) as Record<NavId, string>;
 
 export const HERO_CTA = {
-  cv: "/Mykhailo_Dzhezhelo_CV_Ireland.pdf",
+  cv: CV_FILES[0],
   github: "https://github.com/DMihail",
   linkedin: "https://www.linkedin.com/in/mihail-dzhezhelo-27a41114a/",
   contact: "/#contact",

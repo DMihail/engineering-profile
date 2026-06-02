@@ -1,13 +1,26 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { headers } from "next/headers";
-import { absoluteTitle } from "@/lib/page-metadata";
+import { absoluteTitle, titledPage } from "@/lib/page-metadata";
+import { buildOpenGraph, buildTwitter } from "@/lib/site-metadata";
 import { MAIN_CONTENT_ID } from "@/lib/section-ids";
 
+const NOT_FOUND_DESCRIPTION = "The requested page does not exist on dzhezhelo.dev.";
+
+const NOT_FOUND_TITLE = "Page not found";
+
 export const metadata: Metadata = {
-  title: absoluteTitle("Page not found"),
-  description: "The requested page does not exist on dzhezhelo.dev.",
+  title: absoluteTitle(NOT_FOUND_TITLE),
+  description: NOT_FOUND_DESCRIPTION,
   robots: { index: false, follow: true },
+  openGraph: buildOpenGraph({
+    title: titledPage(NOT_FOUND_TITLE),
+    description: NOT_FOUND_DESCRIPTION,
+  }),
+  twitter: buildTwitter({
+    title: titledPage(NOT_FOUND_TITLE),
+    description: NOT_FOUND_DESCRIPTION,
+  }),
 };
 
 export default async function NotFound() {

@@ -45,7 +45,7 @@ export function Footer() {
 
           <div className={styles.availability}>
             <span className={`status-dot ${styles.statusDot}`} aria-hidden />
-            <span className="sr-only">Available for work</span>
+            <span className={styles.availabilityText}>Available for work</span>
           </div>
         </div>
       </div>
