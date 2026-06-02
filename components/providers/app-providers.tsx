@@ -1,8 +1,13 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { ToastProvider } from "@/components/ui/toast/toast-provider";
+import { ToastContainer } from "react-toastify/unstyled";
 
 export function AppProviders({ children }: { children: ReactNode }) {
-  return <ToastProvider>{children}</ToastProvider>;
+  return (
+    <>
+      {children}
+      <ToastContainer theme="dark" position="bottom-right" />
+    </>
+  );
 }

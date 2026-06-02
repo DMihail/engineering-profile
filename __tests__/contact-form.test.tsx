@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
-import { ToastProvider } from "@/components/ui/toast/toast-provider";
+import { AppProviders } from "@/components/providers/app-providers";
 import { ContactSection } from "@/components/sections/contact-section";
 
 jest.mock("@/lib/data", () => ({
@@ -45,9 +45,9 @@ afterAll(() => {
 
 function renderContactSection() {
   return render(
-    <ToastProvider>
+    <AppProviders>
       <ContactSection />
-    </ToastProvider>,
+    </AppProviders>,
   );
 }
 
