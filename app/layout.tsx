@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { headers } from "next/headers";
 import {
   SITE_URL,
@@ -70,6 +71,9 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className={`${fontBodyClassName} min-h-full`}>
+        <Script id="hash-scroll-bootstrap" strategy="beforeInteractive" nonce={nonce}>
+          {`if(location.hash){history.scrollRestoration="manual";window.scrollTo(0,0);}`}
+        </Script>
         <SiteJsonLd />
         <AppProviders>{children}</AppProviders>
       </body>

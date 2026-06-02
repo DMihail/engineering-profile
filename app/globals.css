@@ -185,6 +185,10 @@
     -webkit-tap-highlight-color: transparent;
   }
 
+  section[id] {
+    scroll-margin-top: calc(var(--nav-h) + env(safe-area-inset-top, 0px));
+  }
+
   body {
     margin: 0;
     min-height: var(--viewport-min-h);
