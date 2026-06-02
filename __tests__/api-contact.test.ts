@@ -6,10 +6,15 @@ import { NextRequest } from "next/server";
 
 const mockAdd = jest.fn().mockResolvedValue({ id: "test-doc-id" });
 const mockSendContactPush = jest.fn().mockResolvedValue({ sent: 1, failed: 0 });
+const mockSendContactTelegram = jest.fn().mockResolvedValue(false);
 const mockGetFirebaseAdminApp = jest.fn((): object | null => ({}));
 
 jest.mock("@/lib/send-contact-push-notification", () => ({
   sendContactPushNotification: (...args: unknown[]) => mockSendContactPush(...args),
+}));
+
+jest.mock("@/lib/send-contact-telegram-notification", () => ({
+  sendContactTelegramNotification: (...args: unknown[]) => mockSendContactTelegram(...args),
 }));
 
 jest.mock("@/lib/firebase-admin", () => ({
@@ -157,6 +162,22 @@ describe("POST /api/contact", () => {
       company: "Acme Inc",
       preview: validBody.message,
     });
+    expect(mockSendContactTelegram).toHaveBeenCalledWith({
+      messageId: "test-doc-id",
+      name: "John Doe",
+      email: "john@example.com",
+      company: "Acme Inc",
+      message: validBody.message,
+    });
+  });
+
+  it("still returns 200 if telegram notification fails", async () => {
+    const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+    mockRecaptchaSuccess();
+    mockSendContactTelegram.mockRejectedValueOnce(new Error("Telegram down"));
+    const res = await POST(makeRequest(validBody));
+    expect(res.status).toBe(200);
+    spy.mockRestore();
   });
 
   it("still returns 200 if push notification fails", async () => {
