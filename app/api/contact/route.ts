@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getFirestore, Timestamp } from "firebase-admin/firestore";
 import { getFirebaseAdminApp } from "@/lib/firebase-admin";
 import { sendContactPushNotification } from "@/lib/send-contact-push-notification";
+import { sendContactTelegramNotification } from "@/lib/send-contact-telegram-notification";
 import { hasPrivacyConsentInBody } from "@/lib/privacy-consent";
 import { validateContactFields } from "@/lib/contact-form-rules";
 
@@ -122,6 +123,21 @@ export async function POST(req: NextRequest) {
       }
     } catch (pushErr) {
       console.error("[api/contact] Push notification error:", pushErr);
+    }
+
+    try {
+      const telegramSent = await sendContactTelegramNotification({
+        messageId: docRef.id,
+        name: trimmedName,
+        email: trimmedEmail,
+        company: trimmedCompany,
+        message: trimmedMessage,
+      });
+      if (telegramSent) {
+        console.info("[api/contact] Telegram notification sent");
+      }
+    } catch (telegramErr) {
+      console.error("[api/contact] Telegram notification error:", telegramErr);
     }
 
     return NextResponse.json({ success: true });
