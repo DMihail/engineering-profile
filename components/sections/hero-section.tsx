@@ -1,6 +1,6 @@
 import { Download, Mail } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
-import { SITE_AUTHOR, SITE_LOCATION, SITE_ROLE, SITE_WORK_AUTHORIZATION } from "@/lib/config";
+import { SITE_AUTHOR, SITE_HERO_INTRO, SITE_LOCATION, SITE_ROLE } from "@/lib/config";
 import { HERO_CTA, HERO_STATS } from "@/lib/data";
 import styles from "@/styles/sections/hero-section.module.css";
 
@@ -34,13 +34,10 @@ export function HeroSection() {
             <span className="text-primary">{SITE_AUTHOR.split(" ").slice(1).join(" ")}</span>
           </h1>
 
-          <p className="font-semibold leading-snug text-text-secondary text-hero-lead mb-3">{SITE_ROLE}</p>
-
-          <p className="text-xs text-text-dim mb-4">{SITE_WORK_AUTHORIZATION}</p>
+          <p className="font-semibold leading-snug text-text-secondary text-hero-lead mb-4">{SITE_ROLE}</p>
 
           <p className="text-hero-support sm:text-base text-muted-foreground max-w-xl mb-10 leading-relaxed mx-auto lg:mx-0 text-pretty">
-            Six years across mobile and web — Expo and React Native for iOS and Android, React with Material UI
-            for production web at Elementica, and Next.js or Node.js when the product needs APIs.
+            {SITE_HERO_INTRO}
           </p>
 
           <div

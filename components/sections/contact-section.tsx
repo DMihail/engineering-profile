@@ -27,7 +27,6 @@ import {
   getContactFormFailure,
 } from "@/lib/contact-form-rules";
 import { PRIVACY_CONSENT_FIELD } from "@/lib/privacy-consent";
-import { SITE_WORK_AUTHORIZATION } from "@/lib/config";
 import styles from "@/styles/sections/contact-section.module.css";
 
 function FieldError({ id, message }: { id: string; message?: string }) {
@@ -160,7 +159,6 @@ export function ContactSection() {
               Open to full-time, contract, and freelance
             </span>
           </div>
-          <span className="text-xs text-text-dim">{SITE_WORK_AUTHORIZATION}</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(17.5rem,20rem)] gap-8 lg:gap-12 lg:items-start">

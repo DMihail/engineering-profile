@@ -1,10 +1,10 @@
 export const SITE_URL = "https://dzhezhelo.dev";
 export const SITE_AUTHOR = "Mykhailo Dzhezhelo";
 export const SITE_EMAIL = "dzezelomihail@gmail.com";
-export const SITE_ROLE = "Senior React Native & Full-Stack Developer";
-export const SITE_LOCATION = "Ireland · Remote EU & UK";
-export const SITE_WORK_AUTHORIZATION =
-  "Eligible to work in Ireland · open to onsite and remote across EU & UK";
+export const SITE_ROLE = "Mobile Engineer · React Native · Web Developer";
+export const SITE_LOCATION = "Dublin, Ireland · Remote EU, UK & US";
+export const SITE_HERO_INTRO =
+  "7+ years of software development experience, including 5+ years building production mobile applications with React Native. App Store and Google Play releases, Firebase, REST APIs, GraphQL, WebSockets, offline-first apps, and React web dashboards when the product needs them.";
 export const SITE_CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL ?? "";
 export const SITE_OG_IMAGE_PATH = "/opengraph-image";
 /** Square image for Person schema. Override with `/profile.jpg` when a real photo is in public/. */
@@ -22,7 +22,7 @@ export function mailtoUrl(subject = "Role inquiry"): string {
 }
 
 export const SITE_DESCRIPTION =
-  "Senior React Native and full-stack developer in Dublin. Expo apps for iOS and Android, React and Next.js web, Node.js APIs, and Firebase. Six years of App Store and Google Play releases. Eligible to work in Ireland — open to remote and onsite roles in EU, UK, and US time zones.";
+  "Mobile Engineer and React Native Developer in Dublin, Ireland. 7+ years software development, 5+ years shipping iOS and Android apps to App Store and Google Play. Firebase, REST APIs, GraphQL, WebSockets, offline-first, healthcare, auctions, and workforce apps. Open to roles in Ireland, EU, UK, and US remote.";
 
 export const SITE_SHORT_DESCRIPTION =
-  "Senior Expo & React Native developer in Dublin — mobile, web, and Node.js in production.";
+  "Mobile Engineer · React Native in Dublin — production iOS & Android apps, Firebase, and real-time features.";

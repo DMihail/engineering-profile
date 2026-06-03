@@ -17,7 +17,7 @@ export const HERO_CTA = {
 } as const;
 
 export const HERO_STATS = [
-  { value: "6+", label: "Years in mobile & web" },
-  { value: "20+", label: "Client apps & releases" },
-  { value: "RN + Web", label: "Expo · React · MUI" },
+  { value: "7+", label: "Years software development" },
+  { value: "5+", label: "Years React Native" },
+  { value: "Stores", label: "App Store & Google Play" },
 ];

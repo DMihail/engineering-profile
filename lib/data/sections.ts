@@ -20,43 +20,46 @@ export const SECTIONS: SectionMeta[] = [
     id: "impact",
     n: "01",
     label: "About",
-    heading: "What I build",
-    comment: "End-to-end delivery: mobile in the stores, web in production, APIs behind both — on agency teams and my own apps.",
+    heading: "What I deliver",
+    comment:
+      "Production mobile apps for iOS and Android — shipped to the stores, maintained in production, and built with product teams.",
   },
   {
     id: "projects",
     n: "02",
     label: "Projects",
-    heading: "Selected work",
-    comment: "Production client work and personal projects — shipped auction apps and a focus app in active development.",
+    heading: "Production work",
+    comment:
+      "Healthcare, auctions, workforce, media, and education — React Native, Firebase, REST APIs, and real-time features.",
   },
   {
     id: "skills",
     n: "03",
     label: "Skills",
     heading: "Stack & tools",
-    comment: "What I reach for daily — primary tools highlighted.",
+    comment: "Mobile-first stack aligned with production delivery — primary tools highlighted.",
   },
   {
     id: "experience",
     n: "04",
     label: "Experience",
     heading: "Work history",
-    comment: "Six years shipping React Native, web, and Node.js — client teams and owned products.",
+    comment: "7+ years software development — 5+ years focused on React Native and mobile delivery.",
   },
   {
     id: "education",
     n: "05",
     label: "Education",
     heading: "Education",
-    comment: "Systems analysis — analytical foundation for product and backend work.",
+    comment: "Systems Analysis — Bachelor's and Master's degrees from Dnipro National University.",
   },
   {
     id: "contact",
     n: "06",
     label: "Contact",
     heading: "Contact",
-    comment: "Hiring for React Native or full-stack? Share the role, stack, and timeline — I reply within 24 hours.",
+    comment:
+      "Hiring for React Native or Mobile Engineer? Share the role, stack, and timeline — I reply within 24 hours.",
   },
 ];
 
