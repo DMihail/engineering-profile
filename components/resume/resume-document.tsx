@@ -9,6 +9,7 @@ import {
   getResumeVariantContent,
   type ResumeVariant,
 } from "@/lib/resume-content";
+import { UI_LABELS } from "@/lib/content/ui-labels";
 import styles from "@/styles/resume.module.css";
 
 interface ResumeDocumentProps {
@@ -71,14 +72,14 @@ export function ResumeDocument({ variant }: ResumeDocumentProps) {
 
       <section className={styles.section} aria-labelledby="resume-summary">
         <h2 id="resume-summary" className={styles.sectionTitle}>
-          Summary
+          {UI_LABELS.resume.summary}
         </h2>
         <p className={styles.summary}>{content.summary}</p>
       </section>
 
       <section className={styles.section} aria-labelledby="resume-experience">
         <h2 id="resume-experience" className={styles.sectionTitle}>
-          Professional Experience
+          {UI_LABELS.resume.experience}
         </h2>
         {experience.map((xp) => (
           <article key={`${xp.company}-${xp.period}`} className={styles.entry}>
@@ -108,7 +109,7 @@ export function ResumeDocument({ variant }: ResumeDocumentProps) {
 
             {xp.applications?.length ? (
               <div className={styles.selectedApps}>
-                <p className={styles.selectedAppsLabel}>{xp.applicationsLabel ?? "Applications:"}</p>
+                <p className={styles.selectedAppsLabel}>{xp.applicationsLabel ?? UI_LABELS.resume.applications}</p>
                 <BulletList items={xp.applications} />
               </div>
             ) : null}
@@ -118,7 +119,7 @@ export function ResumeDocument({ variant }: ResumeDocumentProps) {
 
       <section className={styles.section} aria-labelledby="resume-skills">
         <h2 id="resume-skills" className={styles.sectionTitle}>
-          Skills
+          {UI_LABELS.resume.skills}
         </h2>
         {skillGroups.map((group) => (
           <p key={group.label} className={styles.skillRow}>
@@ -130,7 +131,7 @@ export function ResumeDocument({ variant }: ResumeDocumentProps) {
 
       <section className={styles.section} aria-labelledby="resume-projects">
         <h2 id="resume-projects" className={styles.sectionTitle}>
-          Projects
+          {UI_LABELS.resume.projects}
         </h2>
         {projects.map((project) => (
           <article key={`${project.title}-${project.period}`} className={styles.entry}>
@@ -143,7 +144,7 @@ export function ResumeDocument({ variant }: ResumeDocumentProps) {
             <BulletList items={project.bullets} />
             {project.technologies ? (
               <p className={styles.technologies}>
-                <span className={styles.skillLabel}>Technologies: </span>
+                <span className={styles.skillLabel}>{UI_LABELS.resume.technologies} </span>
                 {project.technologies}
               </p>
             ) : null}
@@ -153,7 +154,7 @@ export function ResumeDocument({ variant }: ResumeDocumentProps) {
 
       <section className={styles.section} aria-labelledby="resume-education">
         <h2 id="resume-education" className={styles.sectionTitle}>
-          Education
+          {UI_LABELS.resume.education}
         </h2>
         {education.map((item) => (
           <article key={`${item.degree}-${item.period}`} className={styles.educationEntry}>
@@ -169,7 +170,7 @@ export function ResumeDocument({ variant }: ResumeDocumentProps) {
 
       <section className={styles.section} aria-labelledby="resume-languages">
         <h2 id="resume-languages" className={styles.sectionTitle}>
-          Languages
+          {UI_LABELS.resume.languages}
         </h2>
         <ul className={styles.languageList}>
           {languages.map((entry) => (

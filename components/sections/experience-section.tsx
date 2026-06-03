@@ -1,6 +1,7 @@
 import { MapPin } from "lucide-react";
 import { XP_ENTRIES } from "@/lib/data/experience";
-import { sectionHref } from "@/lib/section-ids";
+import { UI_LABELS } from "@/lib/content/ui-labels";
+import { projectHref } from "@/lib/section-ids";
 import type { XPProject } from "@/lib/types";
 import { SectionHeader, Chip, sectionHeadingId } from "@/components/ui/primitives";
 
@@ -28,10 +29,10 @@ function ExperienceProjectBlock({ project }: { project: XPProject }) {
         <h4 className="text-sm font-semibold text-foreground m-0">{project.title}</h4>
         {project.relatedCaseId ? (
           <a
-            href={`${sectionHref("projects")}#project-${project.relatedCaseId}`}
+            href={projectHref(project.relatedCaseId)}
             className="mono-xs text-primary no-underline hover:underline underline-offset-2 shrink-0"
           >
-            View project →
+            {UI_LABELS.experience.viewProject}
           </a>
         ) : null}
       </div>
@@ -92,7 +93,7 @@ export function ExperienceSection() {
                         </div>
                       </div>
 
-                      <div className="flex flex-wrap gap-1.5" aria-label={`Technologies at ${xp.company}`}>
+                      <div className="flex flex-wrap gap-1.5" aria-label={UI_LABELS.experience.technologiesAt(xp.company)}>
                         {xp.tags.map((tag) => (
                           <Chip key={tag} label={tag} />
                         ))}
@@ -101,10 +102,10 @@ export function ExperienceSection() {
                       {xp.relatedCaseTitle && !xp.projects?.length ? (
                         <p className="mt-3 mb-0">
                           <a
-                            href={`${sectionHref("projects")}#project-${xp.relatedCaseId}`}
+                            href={projectHref(xp.relatedCaseId!)}
                             className="mono-xs text-primary no-underline hover:underline underline-offset-2"
                           >
-                            Related project: {xp.relatedCaseTitle} →
+                            {UI_LABELS.experience.relatedProject} {xp.relatedCaseTitle} →
                           </a>
                         </p>
                       ) : null}
@@ -121,7 +122,7 @@ export function ExperienceSection() {
                         {xp.applications?.length ? (
                           <div className="mt-5">
                             <p className="text-sm font-semibold text-foreground m-0 mb-2">
-                              {xp.applicationsLabel ?? "Applications:"}
+                              {xp.applicationsLabel ?? UI_LABELS.experience.applications}
                             </p>
                             <ExperienceBulletList items={xp.applications} />
                           </div>

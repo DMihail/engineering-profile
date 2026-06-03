@@ -27,6 +27,7 @@ import {
   getContactFormFailure,
 } from "@/lib/contact-form-rules";
 import { PRIVACY_CONSENT_FIELD } from "@/lib/privacy-consent";
+import { UI_LABELS } from "@/lib/content/ui-labels";
 import styles from "@/styles/sections/contact-section.module.css";
 
 function FieldError({ id, message }: { id: string; message?: string }) {
@@ -156,7 +157,7 @@ export function ContactSection() {
           <div className="flex items-center gap-2">
             <span className="status-dot-sm animate-pulse" aria-hidden />
             <span className="mono-sm text-success tracking-[0.04em]">
-              Open to full-time, contract, and freelance
+              {UI_LABELS.contact.availability}
             </span>
           </div>
         </div>
@@ -184,10 +185,10 @@ export function ContactSection() {
             aria-labelledby={headingId}
           >
             <fieldset className={`${styles.formGrid} border-0 p-0 m-0 min-w-0`}>
-              <legend className="sr-only">Contact form</legend>
+              <legend className="sr-only">{UI_LABELS.contact.formLegend}</legend>
               <div className={styles.formField}>
                 <label htmlFor={CONTACT_FIELD_DOM_IDS.name} className={styles.formLabel}>
-                  Name
+                  {UI_LABELS.contact.name}
                 </label>
                 <FieldError id={CONTACT_FIELD_ERROR_IDS.name} message={fieldMessage("name")} />
                 <input
@@ -198,7 +199,7 @@ export function ContactSection() {
                   minLength={CONTACT_NAME_MIN_LENGTH}
                   maxLength={100}
                   autoComplete="name"
-                  placeholder="Your name"
+                  placeholder={UI_LABELS.contact.namePlaceholder}
                   disabled={success}
                   aria-invalid={fieldMessage("name") ? true : undefined}
                   aria-describedby={fieldMessage("name") ? CONTACT_FIELD_ERROR_IDS.name : undefined}
@@ -208,7 +209,7 @@ export function ContactSection() {
               </div>
               <div className={styles.formField}>
                 <label htmlFor={CONTACT_FIELD_DOM_IDS.email} className={styles.formLabel}>
-                  Email
+                  {UI_LABELS.contact.email}
                 </label>
                 <FieldError id={CONTACT_FIELD_ERROR_IDS.email} message={fieldMessage("email")} />
                 <input
@@ -218,7 +219,7 @@ export function ContactSection() {
                   required
                   maxLength={254}
                   autoComplete="email"
-                  placeholder="you@company.com"
+                  placeholder={UI_LABELS.contact.emailPlaceholder}
                   disabled={success}
                   aria-invalid={fieldMessage("email") ? true : undefined}
                   aria-describedby={fieldMessage("email") ? CONTACT_FIELD_ERROR_IDS.email : undefined}
@@ -228,7 +229,8 @@ export function ContactSection() {
               </div>
               <div className={`${styles.formField} ${styles.formFieldCompany}`}>
                 <label htmlFor="contact-company" className={styles.formLabel}>
-                  Company <span className={styles.formLabelOptional}>(optional)</span>
+                  {UI_LABELS.contact.company}{" "}
+                  <span className={styles.formLabelOptional}>{UI_LABELS.contact.companyOptional}</span>
                 </label>
                 <input
                   id="contact-company"
@@ -236,14 +238,14 @@ export function ContactSection() {
                   name="company"
                   maxLength={120}
                   autoComplete="organization"
-                  placeholder="Company or agency"
+                  placeholder={UI_LABELS.contact.companyPlaceholder}
                   disabled={success}
                   className={styles.inputField}
                 />
               </div>
               <div className={`${styles.formField} ${styles.formFieldMessage}`}>
                 <label htmlFor={CONTACT_FIELD_DOM_IDS.message} className={styles.formLabel}>
-                  Message
+                  {UI_LABELS.contact.message}
                 </label>
                 <FieldError id={CONTACT_FIELD_ERROR_IDS.message} message={fieldMessage("message")} />
                 <textarea
@@ -255,7 +257,7 @@ export function ContactSection() {
                   rows={5}
                   spellCheck
                   autoComplete="off"
-                  placeholder="e.g. Senior RN role, Expo stack, remote EU, start Q3…"
+                  placeholder={UI_LABELS.contact.messagePlaceholder}
                   disabled={success}
                   aria-invalid={fieldMessage("message") ? true : undefined}
                   aria-describedby={fieldMessage("message") ? CONTACT_FIELD_ERROR_IDS.message : undefined}

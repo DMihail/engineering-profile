@@ -1,7 +1,8 @@
 import { Download, Mail } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
-import { SITE_AUTHOR, SITE_HERO_INTRO, SITE_LOCATION, SITE_ROLE } from "@/lib/config";
+import { SITE_AUTHOR, SITE_HERO_AVAILABILITY, SITE_HERO_INTRO, SITE_LOCATION, SITE_ROLE } from "@/lib/config";
 import { HERO_CTA, HERO_STATS } from "@/lib/data";
+import { UI_LABELS } from "@/lib/content/ui-labels";
 import styles from "@/styles/sections/hero-section.module.css";
 
 export function HeroSection() {
@@ -20,7 +21,7 @@ export function HeroSection() {
           <div className={`${styles.badgeAvailable} mb-6 mx-auto lg:mx-0`}>
             <span className="status-dot-sm animate-pulse" aria-hidden />
             <span className="text-sm text-text-secondary">
-              Available · full-time, contract, remote & onsite · {SITE_LOCATION}
+              {SITE_HERO_AVAILABILITY} · {SITE_LOCATION}
             </span>
           </div>
 
@@ -42,12 +43,12 @@ export function HeroSection() {
 
           <div
             role="group"
-            aria-label="Primary actions"
+            aria-label={UI_LABELS.hero.primaryActions}
             className="flex flex-col sm:flex-row flex-wrap gap-3 justify-center lg:justify-start mb-12"
           >
             <a href={HERO_CTA.cv} download className="btn-primary no-underline min-h-11">
               <Download size={15} aria-hidden />
-              Download CV
+              {UI_LABELS.hero.downloadCv}
             </a>
             <a
               href={HERO_CTA.github}
@@ -56,7 +57,7 @@ export function HeroSection() {
               className="btn-outline no-underline min-h-11"
             >
               <GithubIcon size={15} aria-hidden />
-              GitHub
+              {UI_LABELS.hero.github}
             </a>
             <a
               href={HERO_CTA.linkedin}
@@ -65,17 +66,17 @@ export function HeroSection() {
               className="btn-outline no-underline min-h-11"
             >
               <LinkedinIcon size={15} aria-hidden />
-              LinkedIn
+              {UI_LABELS.hero.linkedin}
             </a>
             <a href={HERO_CTA.contact} className="btn-outline no-underline min-h-11">
               <Mail size={15} aria-hidden />
-              Contact
+              {UI_LABELS.hero.contact}
             </a>
           </div>
 
           <ul
             className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-xl mx-auto lg:mx-0 list-none p-0 m-0"
-            aria-label="Career highlights"
+            aria-label={UI_LABELS.hero.careerHighlights}
           >
             {HERO_STATS.map((m) => (
               <li

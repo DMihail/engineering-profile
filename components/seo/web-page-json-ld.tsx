@@ -1,4 +1,5 @@
 import { SITE_URL } from "@/lib/config";
+import { SEO_IDS } from "@/lib/content/seo";
 
 type WebPageJsonLd = {
   "@context": "https://schema.org";
@@ -9,12 +10,15 @@ type WebPageJsonLd = {
   description: string;
   isPartOf: { "@id": string };
   inLanguage: string;
+  about?: { "@id": string };
+  mainEntity?: { "@id": string };
 };
 
 export function buildWebPageJsonLd(options: {
   path: `/${string}` | "/";
   name: string;
   description: string;
+  aboutPerson?: boolean;
 }): WebPageJsonLd {
   const url = `${SITE_URL}${options.path}`;
 
@@ -25,8 +29,14 @@ export function buildWebPageJsonLd(options: {
     url,
     name: options.name,
     description: options.description,
-    isPartOf: { "@id": `${SITE_URL}/#website` },
+    isPartOf: { "@id": SEO_IDS.website },
     inLanguage: "en-IE",
+    ...(options.aboutPerson
+      ? {
+          about: { "@id": SEO_IDS.person },
+          mainEntity: { "@id": SEO_IDS.person },
+        }
+      : {}),
   };
 }
 

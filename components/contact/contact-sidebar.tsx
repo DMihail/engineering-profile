@@ -12,6 +12,7 @@ import {
 import { getClientCvLink, getServerCvLink } from "@/lib/contact-cv";
 import { SOCIAL_LINKS } from "@/lib/data";
 import { SITE_CALENDLY_URL } from "@/lib/config";
+import { UI_LABELS } from "@/lib/content/ui-labels";
 import styles from "@/styles/sections/contact-section.module.css";
 
 const NOOP_SUBSCRIBE = () => () => {};
@@ -34,7 +35,7 @@ function PhoneCard() {
         <Phone size={14} className="text-primary" aria-hidden />
       </div>
       <div className="flex-1 min-w-0">
-        <div className="text-xs font-semibold text-foreground">Phone</div>
+        <div className="text-xs font-semibold text-foreground">{UI_LABELS.contact.phone}</div>
         <div className="mono-sm text-text-dim">{phone.display}</div>
       </div>
     </a>
@@ -53,7 +54,7 @@ function TelegramCard() {
         <Send size={14} className="text-primary" aria-hidden />
       </div>
       <div className="flex-1 min-w-0">
-        <div className="text-xs font-semibold text-foreground">Telegram</div>
+        <div className="text-xs font-semibold text-foreground">{UI_LABELS.contact.telegram}</div>
         <div className="mono-sm text-text-dim truncate">{TELEGRAM.hint}</div>
       </div>
       <ExternalLink size={11} className="text-text-dim shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden />
@@ -71,7 +72,7 @@ function ResumeButton() {
       </div>
       <div className="flex-1 min-w-0">
         <div className="text-xs font-semibold text-foreground">{cv.label}</div>
-        <div className="mono-sm text-text-dim">PDF download</div>
+        <div className="mono-sm text-text-dim">{UI_LABELS.contact.pdfDownload}</div>
       </div>
     </a>
   );
@@ -105,7 +106,7 @@ function EmailCard({ link }: { link: (typeof SOCIAL_LINKS)[number] }) {
       <button
         type="button"
         onClick={handleCopy}
-        aria-label={copied ? "Email copied" : `Copy ${email}`}
+        aria-label={copied ? UI_LABELS.contact.emailCopied : UI_LABELS.contact.copyEmail(email)}
         className={styles.copyButton}
       >
         {copied ? (
@@ -132,8 +133,8 @@ function CalendlyLink() {
         <ExternalLink size={14} className="text-primary" aria-hidden />
       </div>
       <div className="flex-1 min-w-0">
-        <div className="text-xs font-semibold text-foreground">Book a call</div>
-        <div className="mono-sm text-text-dim">15-minute intro</div>
+        <div className="text-xs font-semibold text-foreground">{UI_LABELS.contact.bookCall}</div>
+        <div className="mono-sm text-text-dim">{UI_LABELS.contact.bookCallHint}</div>
       </div>
     </a>
   );
@@ -142,10 +143,11 @@ function CalendlyLink() {
 export function ContactSidebar() {
   return (
     <aside className={styles.contactAside} aria-labelledby="contact-links-heading">
-      <h3 id="contact-links-heading" className="mono-label mb-3.5">
-        Links
-      </h3>
-      <div className="space-y-3">
+      <address className="not-italic">
+        <h3 id="contact-links-heading" className="mono-label mb-3.5">
+          {UI_LABELS.contact.linksHeading}
+        </h3>
+        <div className="space-y-3">
         <PhoneCard />
         <TelegramCard />
         <CalendlyLink />
@@ -173,10 +175,11 @@ export function ContactSidebar() {
             </a>
           );
         })}
-      </div>
+        </div>
+      </address>
 
       <div className="pt-4 border-t border-border mt-4">
-        <h3 className="mono-label mb-2.5">Resume</h3>
+        <h3 className="mono-label mb-2.5">{UI_LABELS.contact.resumeHeading}</h3>
         <ResumeButton />
       </div>
     </aside>

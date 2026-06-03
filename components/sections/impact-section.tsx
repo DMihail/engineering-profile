@@ -1,4 +1,5 @@
 import { CAPABILITIES } from "@/lib/data/capabilities";
+import { UI_LABELS } from "@/lib/content/ui-labels";
 import { SectionHeader, Chip, sectionHeadingId } from "@/components/ui/primitives";
 import styles from "@/styles/sections/impact-section.module.css";
 
@@ -13,7 +14,7 @@ export function ImpactSection() {
         <div className="hidden lg:block rounded-xl overflow-hidden border border-border impact-table-wrap">
           <table className={styles.capTable} aria-describedby="impact-table-caption">
             <caption id="impact-table-caption" className="sr-only">
-              Capabilities by domain with summary and benchmark
+              {UI_LABELS.impact.tableCaption}
             </caption>
             <colgroup>
               <col />
@@ -22,9 +23,9 @@ export function ImpactSection() {
             </colgroup>
             <thead>
               <tr>
-                <th scope="col" className="mono-label">Domain</th>
-                <th scope="col" className="mono-label">Summary</th>
-                <th scope="col" className="mono-label">Benchmark</th>
+                <th scope="col" className="mono-label">{UI_LABELS.impact.domain}</th>
+                <th scope="col" className="mono-label">{UI_LABELS.impact.summary}</th>
+                <th scope="col" className="mono-label">{UI_LABELS.impact.benchmark}</th>
               </tr>
             </thead>
             <tbody>
