@@ -23,17 +23,23 @@ export interface CaseStudy {
   tradeoffs: TradeOff[]; performanceNotes: string[]; results: Result[];
 }
 export interface Education { institution: string; field: string; period?: string }
+export interface XPProject {
+  title: string;
+  items: string[];
+  relatedCaseId?: string;
+}
 export interface XP {
   company: string;
   role: string;
   period: string;
   location: string;
   current: boolean;
-  systems: string;
   tags: string[];
-  highlight: string;
+  items: string[];
+  projects?: XPProject[];
+  applications?: string[];
+  applicationsLabel?: string;
   relatedCaseId?: string;
   relatedCaseTitle?: string;
-  items: string[];
 }
 export interface SocialLink { label: string; hint: string; icon: Icon; href: string }

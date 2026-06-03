@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { NAV, type NavId } from "@/lib/data/nav";
 import { HERO_ID, sectionHref, PAGE_SECTION_IDS, isPageSectionId, SECTION_LABELS } from "@/lib/section-ids";
+import { UI_LABELS } from "@/lib/content/ui-labels";
 import {
   getActiveSectionFromScroll,
   getSectionIdFromHash,
@@ -199,7 +200,7 @@ export function NavBar() {
 
   return (
     <header className={menuOpen ? styles.headerOpen : undefined}>
-      <nav aria-label="Main navigation" className={`${styles.navRoot} ${styles.navGlass} fixed inset-x-0 top-0 z-50`}>
+      <nav aria-label={UI_LABELS.nav.main} className={`${styles.navRoot} ${styles.navGlass} fixed inset-x-0 top-0 z-50`}>
         {menuOpen && (
           <button
             type="button"
@@ -221,7 +222,7 @@ export function NavBar() {
             className={`${styles.navLogo} relative z-10 flex items-center gap-2 mono-base text-primary tracking-[0.02em] no-underline`}
           >
             <MDLogo size={22} aria-hidden />
-            <span>md://portfolio</span>
+            <span>{UI_LABELS.nav.portfolio}</span>
           </a>
 
           <ul className="hidden lg:flex items-center list-none m-0 p-0">
@@ -252,7 +253,7 @@ export function NavBar() {
               className="hidden lg:flex items-center gap-1.5 py-1.25 px-3 rounded-md border border-primary/30 bg-primary/10 text-primary font-mono mono-sm font-medium tracking-[0.04em] leading-none whitespace-nowrap hover:bg-primary/20 hover:border-primary/50 transition-colors no-underline cursor-pointer"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" aria-hidden />
-              Let&apos;s talk
+              {UI_LABELS.nav.letsTalk}
             </a>
             <button
               type="button"
@@ -274,7 +275,7 @@ export function NavBar() {
       <nav
         ref={mobileNavRef}
         id={MOBILE_NAV_ID}
-        aria-label="Mobile navigation"
+        aria-label={UI_LABELS.nav.mobile}
         inert={!menuOpen ? true : undefined}
         className={`${styles.navList} lg:hidden ${menuOpen ? styles.navListOpen : ""}`}
       >
@@ -304,7 +305,7 @@ export function NavBar() {
               className="btn-primary mt-6 py-3.5 px-10 text-hero-support whitespace-nowrap no-underline"
             >
               <span className="status-dot-sm bg-background! shadow-none! animate-pulse" aria-hidden />
-              Let&apos;s talk
+              {UI_LABELS.nav.letsTalk}
             </a>
           </li>
         </ul>

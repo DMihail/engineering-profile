@@ -1,17 +1,21 @@
-import { CASE_STUDIES } from "@/lib/data/case-studies";
+import { CASE_STUDIES } from "@/lib/content/portfolio/case-studies";
 import {
   SITE_AUTHOR,
   SITE_DESCRIPTION,
   SITE_EMAIL,
   SITE_LOCATION,
-  SITE_PROFILE_IMAGE_PATH,
   SITE_ROLE,
   SITE_URL,
-} from "@/lib/config";
-
-const PERSON_ID = `${SITE_URL}/#person`;
-const WEBSITE_ID = `${SITE_URL}/#website`;
-const PROJECTS_ID = `${SITE_URL}/#projects`;
+} from "@/lib/content/site";
+import {
+  SEO_ADDRESS,
+  SEO_AREA_SERVED,
+  SEO_IDS,
+  buildKnowsAbout,
+  buildSameAs,
+  projectUrl,
+} from "@/lib/content/seo";
+import { SITE_PROFILE_IMAGE_PATH } from "@/lib/config";
 
 export type JsonLdItemList = {
   "@type": "ItemList";
@@ -74,19 +78,19 @@ export type SiteJsonLd = {
 function buildCaseStudiesItemList(): JsonLdItemList {
   return {
     "@type": "ItemList",
-    "@id": PROJECTS_ID,
+    "@id": SEO_IDS.projects,
     name: "Projects",
     itemListElement: CASE_STUDIES.map((study, index) => ({
       "@type": "ListItem",
       position: index + 1,
       item: {
         "@type": "CreativeWork",
-        "@id": `${SITE_URL}/#project-${study.id}`,
+        "@id": projectUrl(study.id),
         name: study.title,
         description: study.summary,
-        url: `${SITE_URL}/#project-${study.id}`,
+        url: projectUrl(study.id),
         keywords: study.stack.join(", "),
-        author: { "@id": PERSON_ID },
+        author: { "@id": SEO_IDS.person },
       },
     })),
   };
@@ -98,16 +102,16 @@ export function buildSiteJsonLd(): SiteJsonLd {
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": WEBSITE_ID,
+        "@id": SEO_IDS.website,
         url: SITE_URL,
         name: SITE_AUTHOR,
         description: SITE_DESCRIPTION,
         inLanguage: "en-IE",
-        publisher: { "@id": PERSON_ID },
+        publisher: { "@id": SEO_IDS.person },
       },
       {
         "@type": "Person",
-        "@id": PERSON_ID,
+        "@id": SEO_IDS.person,
         name: SITE_AUTHOR,
         url: SITE_URL,
         image: `${SITE_URL}${SITE_PROFILE_IMAGE_PATH}`,
@@ -119,35 +123,16 @@ export function buildSiteJsonLd(): SiteJsonLd {
         },
         address: {
           "@type": "PostalAddress",
-          addressLocality: "Dublin",
-          addressCountry: "IE",
+          addressLocality: SEO_ADDRESS.locality,
+          addressCountry: SEO_ADDRESS.country,
         },
         workLocation: {
           "@type": "Place",
           name: SITE_LOCATION,
         },
-        areaServed: ["Ireland", "European Union", "United Kingdom", "Ukraine", "Remote"],
-        sameAs: [
-          "https://github.com/DMihail",
-          "https://www.linkedin.com/in/mihail-dzhezhelo-27a41114a/",
-        ],
-        knowsAbout: [
-          "React Native",
-          "Expo",
-          "React",
-          "Next.js",
-          "Node.js",
-          "TypeScript",
-          "Jest",
-          "Detox",
-          "Firebase",
-          "Firebase Crashlytics",
-          "Full-Stack Development",
-          "iOS",
-          "Android",
-          "App Store",
-          "Google Play",
-        ],
+        areaServed: [...SEO_AREA_SERVED],
+        sameAs: buildSameAs(),
+        knowsAbout: buildKnowsAbout(),
       },
       buildCaseStudiesItemList(),
     ],

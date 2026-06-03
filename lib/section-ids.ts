@@ -15,7 +15,21 @@ export function isPageSectionId(id: string): id is PageSectionId {
   return (PAGE_SECTION_IDS as readonly string[]).includes(id);
 }
 
+export function isProjectFragmentId(id: string): boolean {
+  return id.startsWith("project-");
+}
+
+/** Section or deep-linked project panel on the homepage. */
+export function isHomeScrollTargetId(id: string): boolean {
+  return isPageSectionId(id) || isProjectFragmentId(id);
+}
+
 /** Root-relative hash href — resolves in IDE and works from any path. */
 export function sectionHref(id: string): `/#${string}` {
   return `/#${id}`;
+}
+
+/** Deep link to a project panel on the homepage. */
+export function projectHref(projectId: string): `/#${string}` {
+  return `/#project-${projectId}`;
 }

@@ -2,6 +2,8 @@ import { ChevronDown } from "lucide-react";
 import type { ReactNode } from "react";
 import type { CaseStudy } from "@/lib/types";
 import { CASE_STUDIES } from "@/lib/data";
+import { UI_LABELS } from "@/lib/content/ui-labels";
+import { projectFragmentId } from "@/lib/content/seo";
 import { SectionHeader, Chip, sectionHeadingId } from "@/components/ui/primitives";
 import styles from "@/styles/sections/case-studies-section.module.css";
 
@@ -43,7 +45,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
   const [typePrimary, typeSecondary] = cs.type.split(" · ");
 
   return (
-    <details className={`${styles.panel} case-details`} name="case-studies">
+    <details id={projectFragmentId(cs.id)} className={`${styles.panel} case-details`} name="case-studies">
       <summary className={styles.summary}>
         <div className="flex items-start gap-4 sm:gap-5">
           <span className={`hidden sm:block shrink-0 font-mono font-bold tracking-[-0.05em] leading-none mt-0.5 ${styles.studyNum}`}>
@@ -69,7 +71,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
               {cs.summary}
             </p>
 
-            <div className={styles.metricStrip} aria-label="Key results">
+            <div className={styles.metricStrip} aria-label={UI_LABELS.caseStudies.keyResults}>
               {cs.results.map((r) => (
                 <div key={r.label} className={styles.metricPill}>
                   <div className={styles.metricValue}>{r.metric}</div>
@@ -87,22 +89,22 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
 
       <div className={`${styles.content} case-details-content`}>
         <section className={styles.block} aria-labelledby={`${cs.id}-context`}>
-          <StudyHeading id={`${cs.id}-context`}>Context</StudyHeading>
+          <StudyHeading id={`${cs.id}-context`}>{UI_LABELS.caseStudies.context}</StudyHeading>
           <p className={styles.bodyText}>{cs.context}</p>
         </section>
 
         <section className={`${styles.problemBox} ${styles.block}`} aria-labelledby={`${cs.id}-problem`}>
-          <StudyHeading id={`${cs.id}-problem`}>Problem</StudyHeading>
+          <StudyHeading id={`${cs.id}-problem`}>{UI_LABELS.caseStudies.problem}</StudyHeading>
           <p className={styles.bodyText}>{cs.problem}</p>
         </section>
 
         <section className={styles.block} aria-labelledby={`${cs.id}-solution`}>
-          <StudyHeading id={`${cs.id}-solution`}>Solution</StudyHeading>
+          <StudyHeading id={`${cs.id}-solution`}>{UI_LABELS.caseStudies.solution}</StudyHeading>
           <p className={styles.bodyText}>{cs.solution}</p>
         </section>
 
         <section className={styles.block} aria-labelledby={`${cs.id}-results`}>
-          <StudyHeading id={`${cs.id}-results`}>Results</StudyHeading>
+          <StudyHeading id={`${cs.id}-results`}>{UI_LABELS.caseStudies.results}</StudyHeading>
           <ul className={styles.resultGrid}>
             {cs.results.map((r) => (
               <li key={r.label} className={styles.resultCard}>
@@ -116,7 +118,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
         </section>
 
         <div className={styles.deepDive}>
-          <CollapsibleBlock title="Architecture" name={`${cs.id}-deep`}>
+          <CollapsibleBlock title={UI_LABELS.caseStudies.architecture} name={`${cs.id}-deep`}>
             <ul className={styles.bulletList}>
               {cs.architecture.map((a) => (
                 <li key={a.decision}>
@@ -127,10 +129,10 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
             </ul>
           </CollapsibleBlock>
 
-          <CollapsibleBlock title="Technical details" name={`${cs.id}-deep`}>
+          <CollapsibleBlock title={UI_LABELS.caseStudies.technicalDetails} name={`${cs.id}-deep`}>
             <div className="space-y-5">
               <div>
-                <p className={styles.subLabel}>Engineering focus</p>
+                <p className={styles.subLabel}>{UI_LABELS.caseStudies.engineeringFocus}</p>
                 <ul className={styles.bulletList}>
                   {cs.technicalPoints.map((point) => (
                     <li key={point} className="text-sm text-text-secondary leading-looser text-pretty">
@@ -140,7 +142,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
                 </ul>
               </div>
               <div>
-                <p className={styles.subLabel}>Constraints</p>
+                <p className={styles.subLabel}>{UI_LABELS.caseStudies.constraints}</p>
                 <ul className={styles.bulletList}>
                   {cs.constraints.map((c) => (
                     <li key={c} className="text-sm text-muted-foreground leading-looser text-pretty">
@@ -150,7 +152,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
                 </ul>
               </div>
               <div>
-                <p className={styles.subLabel}>Stack</p>
+                <p className={styles.subLabel}>{UI_LABELS.caseStudies.stack}</p>
                 <ul className="flex flex-wrap gap-2 list-none p-0 m-0">
                   {cs.stack.map((t) => (
                     <li key={t}>
@@ -162,7 +164,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
             </div>
           </CollapsibleBlock>
 
-          <CollapsibleBlock title="Trade-offs" name={`${cs.id}-deep`}>
+          <CollapsibleBlock title={UI_LABELS.caseStudies.tradeoffs} name={`${cs.id}-deep`}>
             <ul className={styles.bulletList}>
               {cs.tradeoffs.map((tr) => (
                 <li key={tr.chosen}>
@@ -173,7 +175,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
             </ul>
           </CollapsibleBlock>
 
-          <CollapsibleBlock title="Performance notes" name={`${cs.id}-deep`}>
+          <CollapsibleBlock title={UI_LABELS.caseStudies.performanceNotes} name={`${cs.id}-deep`}>
             <ul className={styles.bulletList}>
               {cs.performanceNotes.map((note) => (
                 <li key={note} className="text-sm text-text-secondary leading-looser text-pretty">

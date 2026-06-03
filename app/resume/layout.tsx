@@ -7,7 +7,7 @@ import styles from "@/styles/resume.module.css";
 
 const resumeTitle = titledPage("Resume", " — ");
 const resumeDescription =
-  "ATS-friendly resume for Mykhailo Dzhezhelo — Senior React Native and full-stack developer. Print or save as PDF.";
+  "ATS-friendly resume for Mykhailo Dzhezhelo — Mobile Engineer, React Native and Web Developer. Print or save as PDF.";
 
 export const metadata: Metadata = buildRouteMetadata({
   title: resumeTitle,
