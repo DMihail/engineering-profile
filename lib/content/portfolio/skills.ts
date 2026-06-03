@@ -1,0 +1,96 @@
+import {
+  Smartphone, Layers, Eye, Code2, Cpu,
+  Globe, GitBranch,
+  Server, Shield, Database, Wifi, Boxes,
+  Workflow, RefreshCw, Package,
+  Wrench, CircleCheck,
+} from "lucide-react";
+import type { SkillLayer } from "@/lib/types";
+
+export const SKILL_LAYERS: SkillLayer[] = [
+  {
+    id: "mobile",
+    layer: "Mobile · React Native",
+    desc: "iOS and Android — Expo, releases, Firebase, offline storage, push, deep linking",
+    projectRefs: "Vitadrop · Waddingtons · Amako · BetKing",
+    skills: [
+      { name: "React Native", primary: true, icon: Smartphone },
+      { name: "Expo", primary: true, icon: Layers },
+      { name: "TypeScript", primary: true, icon: Code2 },
+      { name: "Firebase", primary: true, icon: Shield },
+      { name: "SQLite", primary: true, icon: Database },
+      { name: "Vision Camera", primary: false, icon: Eye },
+      { name: "Push Notifications", primary: false, icon: Package },
+    ],
+  },
+  {
+    id: "frontend",
+    layer: "Web · React",
+    desc: "Dashboards, admin tools, and product UIs with React and TypeScript",
+    projectRefs: "Vidalytics · Education platform · Kultprosvet",
+    skills: [
+      { name: "React", primary: true, icon: Globe },
+      { name: "TypeScript", primary: true, icon: Code2 },
+      { name: "Redux Toolkit", primary: true, icon: Workflow },
+      { name: "React Query", primary: false, icon: RefreshCw },
+      { name: "Zustand", primary: false, icon: Database },
+      { name: "GraphQL", primary: false, icon: GitBranch },
+      { name: "Postman", primary: false, icon: Wrench },
+    ],
+  },
+  {
+    id: "realtime",
+    layer: "Backend · Node.js & APIs",
+    desc: "REST, GraphQL, WebSockets, and Firebase for mobile and web clients",
+    projectRefs: "Kultprosvet · Waddingtons · Amako",
+    skills: [
+      { name: "Node.js", primary: true, icon: Server },
+      { name: "Express.js", primary: true, icon: Server },
+      { name: "WebSockets", primary: true, icon: Wifi },
+      { name: "GraphQL", primary: true, icon: GitBranch },
+      { name: "Firebase", primary: true, icon: Shield },
+      { name: "MySQL", primary: false, icon: Database },
+      { name: "MongoDB", primary: false, icon: Database },
+    ],
+  },
+  {
+    id: "native",
+    layer: "Platforms · iOS & Android",
+    desc: "Store releases, Turbo Modules, and native host projects for SDK and system API access",
+    projectRefs: "FocusGuard · Vitadrop · App Store · Google Play",
+    skills: [
+      { name: "iOS", primary: true, icon: Cpu },
+      { name: "Android", primary: true, icon: Cpu },
+      { name: "Turbo Modules", primary: true, icon: Boxes },
+      { name: "Xcode", primary: false, icon: Wrench },
+      { name: "Android Studio", primary: false, icon: Wrench },
+      { name: "Deep Linking", primary: false, icon: GitBranch },
+    ],
+  },
+  {
+    id: "perf",
+    layer: "Production & quality",
+    desc: "Crashlytics, releases, Jest, code reviews, and production support",
+    projectRefs: "NetGame · Elementica · Waddingtons",
+    skills: [
+      { name: "Firebase Crashlytics", primary: true, icon: Shield },
+      { name: "Jest", primary: true, icon: CircleCheck },
+      { name: "App Store Connect", primary: false, icon: Package },
+      { name: "Google Play Console", primary: false, icon: Package },
+      { name: "Docker", primary: false, icon: Boxes },
+      { name: "Git", primary: false, icon: GitBranch },
+    ],
+  },
+  {
+    id: "state",
+    layer: "App state",
+    desc: "Redux Toolkit, React Query, and Zustand for sync with APIs and real-time data",
+    projectRefs: "Waddingtons · Vidalytics · Amako",
+    skills: [
+      { name: "Redux Toolkit", primary: true, icon: Workflow },
+      { name: "React Query", primary: true, icon: RefreshCw },
+      { name: "Zustand", primary: true, icon: Database },
+      { name: "MMKV", primary: false, icon: Database },
+    ],
+  },
+];

@@ -65,7 +65,15 @@ function isSectionAligned(id: string, anchor: number): boolean {
   return false;
 }
 
+function prepareHashTarget(id: string): void {
+  const el = document.getElementById(id);
+  if (el instanceof HTMLDetailsElement) {
+    el.open = true;
+  }
+}
+
 function scrollToSection(id: string, behavior: ScrollBehavior = "auto"): void {
+  prepareHashTarget(id);
   document.getElementById(id)?.scrollIntoView({ behavior, block: "start" });
 
   const maxScrollY = getMaxScrollY();

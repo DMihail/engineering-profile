@@ -1,17 +1,24 @@
-import { EDUCATION, SKILL_LAYERS, XP_ENTRIES } from "@/lib/data";
 import {
-  SITE_AUTHOR,
-  SITE_EMAIL,
-  SITE_ROLE,
-} from "@/lib/config";
+  RESUME_EDUCATION,
+  RESUME_EXPERIENCE,
+  RESUME_LANGUAGES,
+  RESUME_PROJECTS,
+  RESUME_ROLE,
+  RESUME_SKILL_GROUPS,
+  RESUME_SUMMARY,
+  type ResumeEducationEntry,
+  type ResumeExperienceEntry,
+  type ResumeLanguageEntry,
+  type ResumeProjectEntry,
+  type ResumeSkillGroup,
+} from "@/lib/data/resume";
+import { SITE_AUTHOR, SITE_EMAIL } from "@/lib/config";
 import { phoneForRegion, type ContactRegion } from "@/lib/contact-region";
-import type { SkillLayer } from "@/lib/types";
 
 export type ResumeVariant = "ireland" | "ua";
 
 const RESUME_LINKS = {
   linkedin: "https://www.linkedin.com/in/mihail-dzhezhelo-27a41114a/",
-  github: "https://github.com/DMihail",
   website: "https://dzhezhelo.dev",
 } as const;
 
@@ -21,33 +28,22 @@ export interface ResumeContact {
   phoneTel: string;
   linkedin: string;
   linkedinLabel: string;
-  github: string;
-  githubLabel: string;
   website: string;
 }
 
 export interface ResumeVariantContent {
   locationLine: string;
-  authorizationLine: string;
   summary: string;
 }
 
 const VARIANT_CONTENT: Record<ResumeVariant, ResumeVariantContent> = {
   ireland: {
-    locationLine: "Dublin, Ireland · Remote EU & UK",
-    authorizationLine: "Eligible to work in Ireland · open to onsite and remote across EU & UK",
-    summary:
-      "Senior React Native and full-stack developer with six years shipping production mobile and web products. " +
-      "Expo and React Native for iOS and Android, React with Material UI for web, Node.js APIs, and Firebase in production. " +
-      "Track record of App Store and Google Play releases, live WebSocket features under load, and Jest/Detox coverage on critical paths.",
+    locationLine: "Dublin, Ireland",
+    summary: RESUME_SUMMARY.ireland,
   },
   ua: {
-    locationLine: "Ukraine · Remote EU & international",
-    authorizationLine: "Open to remote and contract roles across EU and international time zones",
-    summary:
-      "Senior React Native and full-stack developer with six years delivering mobile and web products for EU and international clients. " +
-      "Expo/React Native for iOS and Android, React and Next.js for web, Node.js backends, and Firebase integrations. " +
-      "Experienced with store releases, realtime bidding systems, and test automation on production codebases.",
+    locationLine: "Dublin, Ireland",
+    summary: RESUME_SUMMARY.ua,
   },
 };
 
@@ -78,9 +74,7 @@ export function getResumeContact(variant: ResumeVariant): ResumeContact {
     phone: phone.display,
     phoneTel: phone.e164,
     linkedin: RESUME_LINKS.linkedin,
-    linkedinLabel: "linkedin.com/in/mihail-dzhezhelo",
-    github: RESUME_LINKS.github,
-    githubLabel: "github.com/DMihail",
+    linkedinLabel: "linkedin.com/in/mihail-dzhezhelo-27a41114a",
     website: RESUME_LINKS.website,
   };
 }
@@ -89,29 +83,29 @@ export function getResumeVariantContent(variant: ResumeVariant): ResumeVariantCo
   return VARIANT_CONTENT[variant];
 }
 
-export function getResumeSkillGroups(): Array<{ label: string; skills: string }> {
-  return SKILL_LAYERS.map((layer: SkillLayer) => ({
-    label: skillGroupLabel(layer),
-    skills: layer.skills.map((skill) => skill.name).join(", "),
-  }));
+export function getResumeSkillGroups(): ResumeSkillGroup[] {
+  return RESUME_SKILL_GROUPS;
 }
 
-function skillGroupLabel(layer: SkillLayer): string {
-  const [head] = layer.layer.split("·");
-  return head.trim();
+export function getResumeExperience(): ResumeExperienceEntry[] {
+  return RESUME_EXPERIENCE;
 }
 
-export function getResumeExperience() {
-  return XP_ENTRIES;
+export function getResumeProjects(): ResumeProjectEntry[] {
+  return RESUME_PROJECTS;
 }
 
-export function getResumeEducation() {
-  return EDUCATION;
+export function getResumeEducation(): ResumeEducationEntry[] {
+  return RESUME_EDUCATION;
+}
+
+export function getResumeLanguages(): ResumeLanguageEntry[] {
+  return RESUME_LANGUAGES;
 }
 
 export function getResumeHeading() {
   return {
     name: SITE_AUTHOR,
-    role: SITE_ROLE,
+    role: RESUME_ROLE,
   };
 }

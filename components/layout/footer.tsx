@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SITE_AUTHOR, SITE_ROLE } from "@/lib/config";
 import { SOCIAL_LINKS } from "@/lib/data/social-links";
+import { UI_LABELS } from "@/lib/content/ui-labels";
 import { MDLogo } from "@/components/ui/icons";
 import styles from "@/styles/layout/footer.module.css";
 
@@ -19,11 +20,11 @@ export function Footer() {
         </div>
 
         <div className={styles.metaBlock}>
-          <nav aria-label="Footer links" className={styles.footerNav}>
+          <nav aria-label={UI_LABELS.footer.links} className={styles.footerNav}>
             <ul className={styles.linkList}>
               <li>
                 <Link href="/privacy" className={styles.footerLink}>
-                  Privacy Policy
+                  {UI_LABELS.footer.privacyPolicy}
                 </Link>
               </li>
               {SOCIAL_LINKS.map((link) => {
@@ -45,7 +46,7 @@ export function Footer() {
 
           <div className={styles.availability}>
             <span className={`status-dot ${styles.statusDot}`} aria-hidden />
-            <span className={styles.availabilityText}>Available for work</span>
+            <span className={styles.availabilityText}>{UI_LABELS.footer.availableForWork}</span>
           </div>
         </div>
       </div>

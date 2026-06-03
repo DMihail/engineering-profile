@@ -1,5 +1,7 @@
 import { GraduationCap } from "lucide-react";
 import { EDUCATION } from "@/lib/data/experience";
+import { SITE_EDUCATION_FOCUS } from "@/lib/config";
+import { UI_LABELS } from "@/lib/content/ui-labels";
 import { SectionHeader, sectionHeadingId } from "@/components/ui/primitives";
 
 const INSTITUTION = EDUCATION[0]?.institution ?? "University";
@@ -31,9 +33,9 @@ export function EducationSection() {
               <h3 className="text-base font-semibold text-foreground tracking-[-0.01em]">
                 {INSTITUTION}
               </h3>
-              <p className="text-sm text-text-secondary mt-1">Systems Analysis</p>
+              <p className="text-sm text-text-secondary mt-1">{SITE_EDUCATION_FOCUS}</p>
 
-              <ul className="mt-5 space-y-3 list-none p-0 m-0" aria-label="Degrees">
+              <ul className="mt-5 space-y-3 list-none p-0 m-0" aria-label={UI_LABELS.education.degrees}>
                 {[...EDUCATION].reverse().map((entry) => (
                   <li
                     key={entry.period ?? entry.field}

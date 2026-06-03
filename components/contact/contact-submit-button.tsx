@@ -2,6 +2,7 @@
 
 import { CheckCircle, Loader2, Send } from "lucide-react";
 import { useFormStatus } from "react-dom";
+import { UI_LABELS } from "@/lib/content/ui-labels";
 
 interface ContactSubmitButtonProps {
   success: boolean;
@@ -21,15 +22,15 @@ export function ContactSubmitButton({ success }: ContactSubmitButtonProps) {
     >
       {success ? (
         <>
-          <CheckCircle size={15} aria-hidden /> Message sent
+          <CheckCircle size={15} aria-hidden /> {UI_LABELS.submit.sent}
         </>
       ) : pending ? (
         <>
-          <Loader2 size={15} className="animate-spin" aria-hidden /> Sending...
+          <Loader2 size={15} className="animate-spin" aria-hidden /> {UI_LABELS.submit.sending}
         </>
       ) : (
         <>
-          <Send size={15} aria-hidden /> Send message
+          <Send size={15} aria-hidden /> {UI_LABELS.submit.send}
         </>
       )}
     </button>

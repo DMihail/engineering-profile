@@ -1,7 +1,7 @@
 "use client";
 
 import { useLayoutEffect } from "react";
-import { isPageSectionId } from "@/lib/section-ids";
+import { isHomeScrollTargetId } from "@/lib/section-ids";
 import {
   getSectionIdFromHash,
   scrollToSectionWhenReady,
@@ -14,7 +14,7 @@ export function SectionHashScroll() {
 
     const sync = () => {
       const hashId = getSectionIdFromHash();
-      if (!hashId || !isPageSectionId(hashId)) return;
+      if (!hashId || !isHomeScrollTargetId(hashId)) return;
       void scrollToSectionWhenReady(hashId, { behavior: "auto" });
     };
 
