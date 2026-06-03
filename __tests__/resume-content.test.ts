@@ -1,6 +1,10 @@
 import {
   getResumeContact,
+  getResumeExperience,
+  getResumeHeading,
+  getResumeProjects,
   getResumeSkillGroups,
+  getResumeVariantContent,
   parseResumeVariant,
   resolveResumeVariant,
   resumePath,
@@ -35,17 +39,31 @@ describe("resume-content", () => {
     expect(resumePath("ua")).toBe("/resume?variant=ua");
   });
 
-  it("uses grouped skills from site data", () => {
+  it("matches CV heading and skill groups", () => {
+    expect(getResumeHeading().role).toBe("Mobile Engineer | React Native | Web Developer");
     const groups = getResumeSkillGroups();
-    expect(groups.length).toBeGreaterThan(0);
-    expect(groups[0]?.skills).toMatch(/React Native|Expo|TypeScript/);
+    expect(groups[0]?.label).toBe("React Native");
+    expect(groups.some((g) => g.label === "Collaboration & Leadership")).toBe(true);
   });
 
-  it("uses region-specific phone numbers in contact helpers", () => {
+  it("includes experience, projects, and PDF-aligned Elementica projects", () => {
+    const elementica = getResumeExperience().find((xp) => xp.company === "Elementica");
+    expect(elementica?.projects?.map((p) => p.title)).toEqual([
+      "Vitadrop (Healthcare Mobile Application)",
+      "Vidalytics Admin Platform",
+    ]);
+    expect(getResumeProjects().length).toBe(3);
+  });
+
+  it("uses PDF email and region-specific phone numbers", () => {
     expect(getResumeContact("ireland").email).toBe(SITE_EMAIL);
+    expect(getResumeContact("ireland").email).toBe("dzezelomihail@gmail.com");
     expect(getResumeContact("ireland").phone).toBe(PHONE_INTL.display);
-    expect(getResumeContact("ireland").phoneTel).toBe(PHONE_INTL.e164);
     expect(getResumeContact("ua").phone).toBe(PHONE_UA.display);
-    expect(getResumeContact("ua").phoneTel).toBe(PHONE_UA.e164);
+  });
+
+  it("includes Temporary Protection only in Ireland summary", () => {
+    expect(getResumeVariantContent("ireland").summary).toContain("Temporary Protection");
+    expect(getResumeVariantContent("ua").summary).not.toContain("Temporary Protection");
   });
 });

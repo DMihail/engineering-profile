@@ -1,6 +1,6 @@
 export const SITE_URL = "https://dzhezhelo.dev";
 export const SITE_AUTHOR = "Mykhailo Dzhezhelo";
-export const SITE_EMAIL = "dzhezhelomikhail@gmail.com";
+export const SITE_EMAIL = "dzezelomihail@gmail.com";
 export const SITE_ROLE = "Senior React Native & Full-Stack Developer";
 export const SITE_LOCATION = "Ireland · Remote EU & UK";
 export const SITE_WORK_AUTHORIZATION =
