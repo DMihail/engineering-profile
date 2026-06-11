@@ -308,14 +308,3 @@
     padding-inline: 1.75rem;
   }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .panel,
-  .subChevron,
-  .chevron,
-  .studyNum,
-  .subSummary,
-  .summary {
-    transition: none;
-  }
-}
