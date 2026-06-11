@@ -1,0 +1,46 @@
+/**
+ * Respects OS “Reduce motion” — disables decorative animation and motion,
+ * keeps instant layout/state changes and focus affordances.
+ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-pulse,
+  .animate-spin,
+  .animate-bounce,
+  .animate-ping {
+    animation: none !important;
+  }
+
+  .reveal-on-scroll {
+    animation: none !important;
+  }
+
+  .heroEntrance {
+    animation: none !important;
+  }
+
+  .case-details .case-details-content {
+    transition: none !important;
+  }
+
+  .section-cv-auto {
+    content-visibility: visible;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}

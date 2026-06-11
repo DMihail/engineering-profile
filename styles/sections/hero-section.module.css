@@ -26,9 +26,3 @@
   border: 1px solid var(--border-success-strong);
   background: var(--surface-success-subtle);
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .heroEntrance {
-    animation: none;
-  }
-}
