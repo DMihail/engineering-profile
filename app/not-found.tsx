@@ -3,6 +3,7 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import { absoluteTitle, titledPage } from "@/lib/page-metadata";
 import { buildOpenGraph, buildTwitter } from "@/lib/site-metadata";
+import { SkipLink } from "@/components/layout/skip-link";
 import { MAIN_CONTENT_ID } from "@/lib/section-ids";
 
 const NOT_FOUND_DESCRIPTION = "The requested page does not exist on dzhezhelo.dev.";
@@ -28,9 +29,7 @@ export default async function NotFound() {
 
   return (
     <>
-      <a href={`#${MAIN_CONTENT_ID}`} className="skip-link">
-        Skip to content
-      </a>
+      <SkipLink />
       <main
         id={MAIN_CONTENT_ID}
         tabIndex={-1}

@@ -1,7 +1,7 @@
 import { Download, Mail } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
 import { SITE_AUTHOR, SITE_HERO_AVAILABILITY, SITE_HERO_INTRO, SITE_LOCATION, SITE_ROLE } from "@/lib/config";
-import { HERO_CTA, HERO_STATS } from "@/lib/data";
+import { HERO_CTA, HERO_STATS } from "@/lib/content/hero";
 import { UI_LABELS } from "@/lib/content/ui-labels";
 import styles from "@/styles/sections/hero-section.module.css";
 

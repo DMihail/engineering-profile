@@ -1,4 +1,4 @@
-import { SKILL_LAYERS } from "@/lib/data/skills";
+import { SKILL_LAYERS } from "@/lib/content/portfolio/skills";
 import { SectionHeader, sectionHeadingId } from "@/components/ui/primitives";
 import styles from "@/styles/sections/skills-section.module.css";
 

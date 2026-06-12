@@ -51,7 +51,7 @@ const ALLOWED_EXACT = new Set([
 ]);
 
 const ALLOWED_PREFIXES = ["/api/", "/_next/"];
-const ALLOWED_STARTS = ["/opengraph-image", "/apple-icon", "/profile-image"];
+const ALLOWED_STARTS = ["/opengraph-image", "/apple-icon"];
 
 const SECTION_IDS = new Set<string>(PAGE_SECTION_IDS);
 

@@ -10,7 +10,7 @@ import {
   TELEGRAM,
 } from "@/lib/contact-region";
 import { getClientCvLink, getServerCvLink } from "@/lib/contact-cv";
-import { SOCIAL_LINKS } from "@/lib/data";
+import { SOCIAL_LINKS } from "@/lib/content/portfolio/social-links";
 import { SITE_CALENDLY_URL } from "@/lib/config";
 import { UI_LABELS } from "@/lib/content/ui-labels";
 import styles from "@/styles/sections/contact-section.module.css";

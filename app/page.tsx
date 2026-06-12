@@ -1,20 +1,21 @@
 import type { Metadata } from "next";
 import { NavBar } from "@/components/layout/nav-bar";
 import { SectionHashScroll } from "@/components/layout/section-hash-scroll";
+import { SkipLink } from "@/components/layout/skip-link";
 import { HeroSection } from "@/components/sections/hero-section";
 import { HomeSections } from "@/components/sections/home-sections";
 import { Footer } from "@/components/layout/footer";
 import { WebPageJsonLdScript, buildWebPageJsonLd } from "@/components/seo/web-page-json-ld";
 import { SITE_DESCRIPTION } from "@/lib/config";
-import { UI_LABELS } from "@/lib/content/ui-labels";
 import { DEFAULT_SITE_TITLE } from "@/lib/site-metadata";
-import { MAIN_CONTENT_ID, sectionHref } from "@/lib/section-ids";
+import { buildRouteMetadata } from "@/lib/page-metadata";
+import { MAIN_CONTENT_ID } from "@/lib/section-ids";
 
-export const metadata: Metadata = {
-  title: { absolute: DEFAULT_SITE_TITLE },
+export const metadata: Metadata = buildRouteMetadata({
+  title: DEFAULT_SITE_TITLE,
   description: SITE_DESCRIPTION,
-  alternates: { canonical: "/" },
-};
+  path: "/",
+});
 
 const homeWebPageJsonLd = buildWebPageJsonLd({
   path: "/",
@@ -27,9 +28,7 @@ export default function Home() {
   return (
     <>
       <WebPageJsonLdScript data={homeWebPageJsonLd} />
-      <a href={sectionHref(MAIN_CONTENT_ID)} className="skip-link">
-        {UI_LABELS.skipToContent}
-      </a>
+      <SkipLink home />
       <NavBar />
       <SectionHashScroll />
       <main

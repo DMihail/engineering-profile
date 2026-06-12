@@ -1,5 +1,2 @@
-export * from "./data/nav";
-export * from "./data/case-studies";
-export * from "./data/experience";
-export * from "./data/skills";
-export * from "./data/social-links";
+/** @deprecated Prefer `@/lib/content` — re-export shim for legacy imports. */
+export * from "@/lib/content";

@@ -1,12 +1,25 @@
+import type { Metadata } from "next";
 import { ResumeDocument } from "@/components/resume/resume-document";
 import { ResumeToolbar } from "@/components/resume/resume-toolbar";
 import { getContactRegionFromCookies } from "@/lib/contact-region-server";
-import { resolveResumeVariant } from "@/lib/resume-content";
+import { parseResumeVariant, resolveResumeVariant } from "@/lib/resume-content";
 import { MAIN_CONTENT_ID } from "@/lib/section-ids";
 import styles from "@/styles/resume.module.css";
 
 interface ResumePageProps {
   searchParams: Promise<{ variant?: string }>;
+}
+
+export async function generateMetadata({ searchParams }: ResumePageProps): Promise<Metadata> {
+  const { variant } = await searchParams;
+
+  if (variant !== undefined && parseResumeVariant(variant) === "ua") {
+    return {
+      robots: { index: false, follow: true },
+    };
+  }
+
+  return {};
 }
 
 export default async function ResumePage({ searchParams }: ResumePageProps) {
