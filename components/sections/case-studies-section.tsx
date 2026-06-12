@@ -1,7 +1,7 @@
 import { ChevronDown } from "lucide-react";
 import type { ReactNode } from "react";
 import type { CaseStudy } from "@/lib/types";
-import { CASE_STUDIES } from "@/lib/data";
+import { CASE_STUDIES } from "@/lib/content/portfolio/case-studies";
 import { UI_LABELS } from "@/lib/content/ui-labels";
 import { projectFragmentId } from "@/lib/content/seo";
 import { SectionHeader, Chip, sectionHeadingId } from "@/components/ui/primitives";
@@ -43,30 +43,35 @@ function CollapsibleBlock({
 
 function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
   const [typePrimary, typeSecondary] = cs.type.split(" · ");
+  const panelHeadingId = `${cs.id}-title`;
 
   return (
-    <details id={projectFragmentId(cs.id)} className={`${styles.panel} case-details`} name="case-studies">
-      <summary className={styles.summary}>
-        <div className="flex items-start gap-4 sm:gap-5">
-          <span className={`hidden sm:block shrink-0 font-mono font-bold tracking-[-0.05em] leading-none mt-0.5 ${styles.studyNum}`}>
-            {cs.num}
-          </span>
+    <article aria-labelledby={panelHeadingId}>
+      <details id={projectFragmentId(cs.id)} className={`${styles.panel} case-details`} name="case-studies">
+        <summary className={styles.summary}>
+          <div className="flex items-start gap-4 sm:gap-5">
+            <span className={`hidden sm:block shrink-0 font-mono font-bold tracking-[-0.05em] leading-none mt-0.5 ${styles.studyNum}`}>
+              {cs.num}
+            </span>
 
-          <div className="flex-1 min-w-0">
-            <div className={styles.metaRow}>
-              <span className="sm:hidden text-xs text-primary font-bold">#{cs.num}</span>
-              <span className={`${styles.metaBadge} ${styles.metaBadgePrimary}`}>
-                {typePrimary ?? cs.type}
-              </span>
-              {typeSecondary && (
-                <span className={`${styles.metaBadge} hidden sm:inline-flex`}>{typeSecondary}</span>
-              )}
-              <span className={styles.metaBadge}>{cs.version}</span>
-            </div>
+            <div className="flex-1 min-w-0">
+              <div className={styles.metaRow}>
+                <span className="sm:hidden text-xs text-primary font-bold">#{cs.num}</span>
+                <span className={`${styles.metaBadge} ${styles.metaBadgePrimary}`}>
+                  {typePrimary ?? cs.type}
+                </span>
+                {typeSecondary && (
+                  <span className={`${styles.metaBadge} hidden sm:inline-flex`}>{typeSecondary}</span>
+                )}
+                <span className={styles.metaBadge}>{cs.version}</span>
+              </div>
 
-            <h3 className="font-sans text-case-title font-bold tracking-[-0.025em] text-foreground mb-2">
-              {cs.title}
-            </h3>
+              <h3
+                id={panelHeadingId}
+                className="font-sans text-case-title font-bold tracking-[-0.025em] text-foreground mb-2"
+              >
+                {cs.title}
+              </h3>
             <p className="text-sm text-text-secondary leading-loose max-w-copy mb-4 text-pretty">
               {cs.summary}
             </p>
@@ -187,6 +192,7 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
         </div>
       </div>
     </details>
+    </article>
   );
 }
 

@@ -1,4 +1,4 @@
-import { CAPABILITIES } from "@/lib/data/capabilities";
+import { CAPABILITIES } from "@/lib/content/portfolio/capabilities";
 import { UI_LABELS } from "@/lib/content/ui-labels";
 import { SectionHeader, Chip, sectionHeadingId } from "@/components/ui/primitives";
 import styles from "@/styles/sections/impact-section.module.css";

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { NAV, type NavId } from "@/lib/data/nav";
+import { NAV, type NavId } from "@/lib/content/nav";
 import { HERO_ID, sectionHref, PAGE_SECTION_IDS, isPageSectionId, SECTION_LABELS } from "@/lib/section-ids";
 import { UI_LABELS } from "@/lib/content/ui-labels";
 import {

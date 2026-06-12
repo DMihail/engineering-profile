@@ -16,6 +16,9 @@ export const UI_LABELS = {
     portfolio: "md://portfolio",
     letsTalk: "Let's talk",
   },
+  subpage: {
+    backToPortfolio: "← Back to portfolio",
+  },
   footer: {
     links: "Footer links",
     privacyPolicy: "Privacy Policy",
@@ -72,6 +75,9 @@ export const UI_LABELS = {
     emailPlaceholder: "you@company.com",
     companyPlaceholder: "Company or agency",
     messagePlaceholder: "e.g. Senior RN role, Expo stack, remote EU, start Q3…",
+  },
+  project: {
+    viewOnPortfolio: "View on portfolio →",
   },
   resume: {
     summary: "Summary",

@@ -1,5 +1,5 @@
 import { GraduationCap } from "lucide-react";
-import { EDUCATION } from "@/lib/data/experience";
+import { EDUCATION } from "@/lib/content/portfolio/experience";
 import { SITE_EDUCATION_FOCUS } from "@/lib/config";
 import { UI_LABELS } from "@/lib/content/ui-labels";
 import { SectionHeader, sectionHeadingId } from "@/components/ui/primitives";

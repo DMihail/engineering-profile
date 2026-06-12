@@ -1,0 +1,44 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding: 1rem 1rem 0;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--primary);
+  font-family: var(--font-mono), monospace;
+  font-size: var(--text-mono-base);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+.brandText {
+  display: none;
+}
+
+.backLink {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.backLink:hover {
+  color: var(--foreground);
+}
+
+@media (min-width: 640px) {
+  .header {
+    padding-inline: 1.5rem;
+  }
+
+  .brandText {
+    display: inline;
+  }
+}

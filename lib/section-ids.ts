@@ -1,4 +1,4 @@
-import { NAV, NAV_LABELS } from "@/lib/data/nav";
+import { NAV, NAV_LABELS } from "@/lib/content/nav";
 
 export const MAIN_CONTENT_ID = "main-content";
 export const HERO_ID = "hero";

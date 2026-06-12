@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { SITE_AUTHOR, SITE_ROLE } from "@/lib/config";
-import { SOCIAL_LINKS } from "@/lib/data/social-links";
+import { SOCIAL_LINKS } from "@/lib/content/portfolio/social-links";
 import { UI_LABELS } from "@/lib/content/ui-labels";
 import { MDLogo } from "@/components/ui/icons";
 import styles from "@/styles/layout/footer.module.css";

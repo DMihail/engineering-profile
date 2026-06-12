@@ -1,5 +1,5 @@
-import type { ContentSectionId } from "@/lib/data/sections";
-import { getSectionMeta } from "@/lib/data/sections";
+import type { ContentSectionId } from "@/lib/content/sections";
+import { getSectionMeta } from "@/lib/content/sections";
 
 export function sectionHeadingId(sectionId: ContentSectionId): string {
   return `${sectionId}-heading`;

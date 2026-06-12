@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Footer } from "@/components/layout/footer";
+import { SkipLink } from "@/components/layout/skip-link";
+import { SubpageHeader } from "@/components/layout/subpage-header";
 import { PrivacyPolicyDocument } from "@/components/legal/privacy-policy-document";
 import { WebPageJsonLdScript, buildWebPageJsonLd } from "@/components/seo/web-page-json-ld";
 import { BreadcrumbJsonLdScript, buildBreadcrumbJsonLd } from "@/components/seo/breadcrumb-json-ld";
@@ -36,13 +37,9 @@ export default function PrivacyPage() {
     <div className={styles.page}>
       <WebPageJsonLdScript data={privacyWebPageJsonLd} />
       <BreadcrumbJsonLdScript data={privacyBreadcrumbJsonLd} />
-      <a href={`#${MAIN_CONTENT_ID}`} className="skip-link">
-        Skip to content
-      </a>
+      <SkipLink />
+      <SubpageHeader />
       <main id={MAIN_CONTENT_ID} tabIndex={-1} className={styles.main}>
-        <Link href="/" className={styles.backLink}>
-          ← Back to portfolio
-        </Link>
         <PrivacyPolicyDocument />
         <p className={`${styles.meta} mt-8`}>
           Questions:{" "}

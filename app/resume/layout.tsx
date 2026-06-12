@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
+import { SkipLink } from "@/components/layout/skip-link";
+import { SubpageHeader } from "@/components/layout/subpage-header";
 import { WebPageJsonLdScript, buildWebPageJsonLd } from "@/components/seo/web-page-json-ld";
 import { BreadcrumbJsonLdScript, buildBreadcrumbJsonLd } from "@/components/seo/breadcrumb-json-ld";
+import {
+  ProfilePageJsonLdScript,
+  buildProfilePageJsonLd,
+} from "@/components/seo/profile-page-json-ld";
 import { buildRouteMetadata, titledPage } from "@/lib/page-metadata";
-import { MAIN_CONTENT_ID } from "@/lib/section-ids";
 import styles from "@/styles/resume.module.css";
 
 const resumeTitle = titledPage("Resume", " — ");
@@ -17,6 +22,12 @@ export const metadata: Metadata = buildRouteMetadata({
 
 const resumeWebPageJsonLd = buildWebPageJsonLd({
   path: "/resume",
+  name: resumeTitle,
+  description: resumeDescription,
+  aboutPerson: true,
+});
+
+const resumeProfilePageJsonLd = buildProfilePageJsonLd({
   name: resumeTitle,
   description: resumeDescription,
 });
@@ -34,10 +45,10 @@ export default function ResumeLayout({
   return (
     <div className={styles.root}>
       <WebPageJsonLdScript data={resumeWebPageJsonLd} />
+      <ProfilePageJsonLdScript data={resumeProfilePageJsonLd} />
       <BreadcrumbJsonLdScript data={resumeBreadcrumbJsonLd} />
-      <a href={`#${MAIN_CONTENT_ID}`} className="skip-link">
-        Skip to content
-      </a>
+      <SkipLink />
+      <SubpageHeader />
       {children}
     </div>
   );

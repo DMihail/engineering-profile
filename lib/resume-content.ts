@@ -6,12 +6,14 @@ import {
   RESUME_ROLE,
   RESUME_SKILL_GROUPS,
   RESUME_SUMMARY,
-  type ResumeEducationEntry,
-  type ResumeExperienceEntry,
-  type ResumeLanguageEntry,
-  type ResumeProjectEntry,
-  type ResumeSkillGroup,
-} from "@/lib/data/resume";
+} from "@/lib/content/resume";
+import type {
+  ResumeEducationEntry,
+  ResumeExperienceEntry,
+  ResumeLanguageEntry,
+  ResumeProjectEntry,
+  ResumeSkillGroup,
+} from "@/lib/content/resume-types";
 import { SITE_AUTHOR, SITE_EMAIL } from "@/lib/config";
 import { phoneForRegion, type ContactRegion } from "@/lib/contact-region";
 

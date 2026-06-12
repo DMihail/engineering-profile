@@ -1,5 +1,5 @@
 import { MapPin } from "lucide-react";
-import { XP_ENTRIES } from "@/lib/data/experience";
+import { XP_ENTRIES } from "@/lib/content/portfolio/experience";
 import { UI_LABELS } from "@/lib/content/ui-labels";
 import { projectHref } from "@/lib/section-ids";
 import type { XPProject } from "@/lib/types";
