@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
+import { isModifiedNavigation } from "@/lib/focus-main-content";
 import { Menu, X } from "lucide-react";
 import { NAV, type NavId } from "@/lib/content/nav";
 import { HERO_ID, sectionHref, PAGE_SECTION_IDS, isPageSectionId, SECTION_LABELS } from "@/lib/section-ids";
@@ -18,6 +19,16 @@ const HASH_SCROLL_LOCK_MS = 3500;
 const MOBILE_NAV_ID = "mobile-nav-menu";
 const DEFAULT_ACTIVE = HERO_ID;
 
+function handleSectionNavClick(
+  event: MouseEvent<HTMLAnchorElement>,
+  id: string,
+  onNavigate: (id: string) => void,
+) {
+  if (isModifiedNavigation(event)) return;
+  event.preventDefault();
+  onNavigate(id);
+}
+
 function SectionNavLink({
   id,
   label,
@@ -34,8 +45,7 @@ function SectionNavLink({
       <a
         href={sectionHref(id)}
         onClick={(event) => {
-          event.preventDefault();
-          onNavigate(id);
+          handleSectionNavClick(event, id, onNavigate);
         }}
         aria-current={active ? "true" : undefined}
         className={`${styles.navLink} ${active ? styles.navLinkActive : ""} no-underline`}
@@ -215,8 +225,7 @@ export function NavBar() {
           <a
             href={sectionHref(HERO_ID)}
             onClick={(event) => {
-              event.preventDefault();
-              onNavigate(HERO_ID);
+              handleSectionNavClick(event, HERO_ID, onNavigate);
             }}
             aria-label="Go to top of portfolio"
             className={`${styles.navLogo} relative z-10 flex items-center gap-2 mono-base text-primary tracking-[0.02em] no-underline`}
@@ -247,8 +256,7 @@ export function NavBar() {
             <a
               href={sectionHref("contact")}
               onClick={(event) => {
-                event.preventDefault();
-                onNavigate("contact");
+                handleSectionNavClick(event, "contact", onNavigate);
               }}
               className="hidden lg:flex items-center gap-1.5 py-1.25 px-3 rounded-md border border-primary/30 bg-primary/10 text-primary font-mono mono-sm font-medium tracking-[0.04em] leading-none whitespace-nowrap hover:bg-primary/20 hover:border-primary/50 transition-colors no-underline cursor-pointer"
             >
@@ -299,8 +307,7 @@ export function NavBar() {
             <a
               href={sectionHref("contact")}
               onClick={(event) => {
-                event.preventDefault();
-                onNavigate("contact");
+                handleSectionNavClick(event, "contact", onNavigate);
               }}
               className="btn-primary mt-6 py-3.5 px-10 text-hero-support whitespace-nowrap no-underline"
             >

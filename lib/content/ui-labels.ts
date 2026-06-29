@@ -19,6 +19,16 @@ export const UI_LABELS = {
   subpage: {
     backToPortfolio: "← Back to portfolio",
   },
+  breadcrumb: {
+    label: "Breadcrumb",
+  },
+  errorPage: {
+    boundaryLabel: "// error_boundary",
+    title: "Something went wrong",
+    fallbackMessage: "An unexpected error occurred. Please try again.",
+    tryAgain: "Try again",
+    backHome: "Back to homepage",
+  },
   footer: {
     links: "Footer links",
     privacyPolicy: "Privacy Policy",
@@ -75,6 +85,7 @@ export const UI_LABELS = {
     emailPlaceholder: "you@company.com",
     companyPlaceholder: "Company or agency",
     messagePlaceholder: "e.g. Senior RN role, Expo stack, remote EU, start Q3…",
+    toastRegion: "Form notifications",
   },
   project: {
     viewOnPortfolio: "View on portfolio →",

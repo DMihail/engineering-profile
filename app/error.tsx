@@ -1,6 +1,10 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
+import { SkipLink } from "@/components/layout/skip-link";
+import { SubpageHeader } from "@/components/layout/subpage-header";
+import { UI_LABELS } from "@/lib/content/ui-labels";
 import { MAIN_CONTENT_ID } from "@/lib/section-ids";
 
 export default function Error({
@@ -16,21 +20,29 @@ export default function Error({
 
   return (
     <>
-      <a href={`#${MAIN_CONTENT_ID}`} className="skip-link">
-        Skip to content
-      </a>
-      <main id={MAIN_CONTENT_ID} tabIndex={-1} className="min-h-[60vh] flex items-center justify-center px-4">
-        <section className="text-center max-w-md">
-          <p className="mono-label mb-3">{"// error_boundary"}</p>
-          <h1 className="font-sans text-2xl font-bold text-foreground mb-2">
-            Something went wrong
+      <SkipLink />
+      <SubpageHeader />
+      <main
+        id={MAIN_CONTENT_ID}
+        tabIndex={-1}
+        className="min-h-[60vh] flex items-center justify-center px-4 bg-background font-sans"
+      >
+        <section className="text-center max-w-md" aria-labelledby="error-title">
+          <p className="mono-label mb-3">{UI_LABELS.errorPage.boundaryLabel}</p>
+          <h1 id="error-title" className="font-sans text-2xl font-bold text-foreground mb-2">
+            {UI_LABELS.errorPage.title}
           </h1>
           <p className="text-sm text-muted-foreground mb-6" role="alert">
-            {error.message || "An unexpected error occurred. Please try again."}
+            {error.message || UI_LABELS.errorPage.fallbackMessage}
           </p>
-          <button type="button" onClick={reset} className="btn-primary">
-            Try again
-          </button>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <button type="button" onClick={reset} className="btn-primary">
+              {UI_LABELS.errorPage.tryAgain}
+            </button>
+            <Link href="/" className="btn-outline no-underline">
+              {UI_LABELS.errorPage.backHome}
+            </Link>
+          </div>
         </section>
       </main>
     </>

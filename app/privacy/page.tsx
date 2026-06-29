@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/layout/footer";
+import { BreadcrumbNav } from "@/components/layout/breadcrumb-nav";
 import { SkipLink } from "@/components/layout/skip-link";
 import { SubpageHeader } from "@/components/layout/subpage-header";
 import { PrivacyPolicyDocument } from "@/components/legal/privacy-policy-document";
 import { WebPageJsonLdScript, buildWebPageJsonLd } from "@/components/seo/web-page-json-ld";
-import { BreadcrumbJsonLdScript, buildBreadcrumbJsonLd } from "@/components/seo/breadcrumb-json-ld";
+import { BreadcrumbJsonLdScript, buildBreadcrumbJsonLd, type BreadcrumbItem } from "@/components/seo/breadcrumb-json-ld";
 import { SITE_EMAIL } from "@/lib/config";
 import { buildRouteMetadata, titledPage } from "@/lib/page-metadata";
 import { PRIVACY_POLICY_LAST_UPDATED } from "@/lib/privacy-policy-content";
@@ -27,10 +28,12 @@ const privacyWebPageJsonLd = buildWebPageJsonLd({
   description: privacyDescription,
 });
 
-const privacyBreadcrumbJsonLd = buildBreadcrumbJsonLd([
+const privacyBreadcrumbItems = [
   { name: "Home", path: "/" },
   { name: "Privacy Policy", path: "/privacy" },
-]);
+] satisfies BreadcrumbItem[];
+
+const privacyBreadcrumbJsonLd = buildBreadcrumbJsonLd(privacyBreadcrumbItems);
 
 export default function PrivacyPage() {
   return (
@@ -39,6 +42,7 @@ export default function PrivacyPage() {
       <BreadcrumbJsonLdScript data={privacyBreadcrumbJsonLd} />
       <SkipLink />
       <SubpageHeader />
+      <BreadcrumbNav items={privacyBreadcrumbItems} />
       <main id={MAIN_CONTENT_ID} tabIndex={-1} className={styles.main}>
         <PrivacyPolicyDocument />
         <p className={`${styles.meta} mt-8`}>
