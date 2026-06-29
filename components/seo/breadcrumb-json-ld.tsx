@@ -1,5 +1,10 @@
 import { SITE_URL } from "@/lib/config";
 
+export type BreadcrumbItem = {
+  name: string;
+  path?: `/${string}` | "/";
+};
+
 export type BreadcrumbJsonLd = {
   "@context": "https://schema.org";
   "@type": "BreadcrumbList";
@@ -11,9 +16,7 @@ export type BreadcrumbJsonLd = {
   }>;
 };
 
-export function buildBreadcrumbJsonLd(
-  items: Array<{ name: string; path?: `/${string}` | "/" }>,
-): BreadcrumbJsonLd {
+export function buildBreadcrumbJsonLd(items: BreadcrumbItem[]): BreadcrumbJsonLd {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

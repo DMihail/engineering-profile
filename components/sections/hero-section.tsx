@@ -1,6 +1,6 @@
 import { Download, Mail } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
-import { SITE_AUTHOR, SITE_HERO_AVAILABILITY, SITE_HERO_INTRO, SITE_LOCATION, SITE_ROLE } from "@/lib/config";
+import { SITE_AUTHOR, SITE_HERO_AVAILABILITY_LABEL, SITE_HERO_AVAILABILITY_TYPES, SITE_HERO_INTRO, SITE_LOCATION, SITE_ROLE } from "@/lib/config";
 import { HERO_CTA, HERO_STATS } from "@/lib/content/hero";
 import { UI_LABELS } from "@/lib/content/ui-labels";
 import styles from "@/styles/sections/hero-section.module.css";
@@ -19,10 +19,17 @@ export function HeroSection() {
       <div className={`relative w-full max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-24 lg:max-w-4xl ${styles.heroEntrance}`}>
         <div className="text-center lg:text-left">
           <div className={`${styles.badgeAvailable} mb-6 mx-auto lg:mx-0`}>
-            <span className="status-dot-sm animate-pulse" aria-hidden />
-            <span className="text-sm text-text-secondary">
-              {SITE_HERO_AVAILABILITY} · {SITE_LOCATION}
-            </span>
+            <p className={styles.badgeLead}>
+              <span className="status-dot-sm animate-pulse" aria-hidden />
+              <span>{SITE_HERO_AVAILABILITY_LABEL}</span>
+            </p>
+            <p className={styles.badgeCopy}>
+              <span>{SITE_HERO_AVAILABILITY_TYPES}</span>
+              <span className={styles.badgeSep} aria-hidden>
+                ·
+              </span>
+              <span>{SITE_LOCATION}</span>
+            </p>
           </div>
 
           <h1

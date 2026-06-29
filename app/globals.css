@@ -267,6 +267,12 @@
     outline-offset: 2px;
   }
 
+  @media print {
+    .skip-link {
+      display: none !important;
+    }
+  }
+
   /* Scroll reveal — visible by default; animated where view() is supported */
   @supports (animation-timeline: view()) {
     @keyframes revealOnScroll {

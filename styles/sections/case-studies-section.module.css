@@ -39,6 +39,9 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.625rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .metricPill {

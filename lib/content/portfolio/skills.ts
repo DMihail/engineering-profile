@@ -12,7 +12,7 @@ export const SKILL_LAYERS: SkillLayer[] = [
     id: "mobile",
     layer: "Mobile · React Native",
     desc: "iOS and Android — Expo, releases, Firebase, offline storage, push, deep linking",
-    projectRefs: "Vitadrop · Waddingtons · Amako · BetKing",
+    projectRefs: "Vitadrop · Keept · Waddingtons · Amako",
     skills: [
       { name: "React Native", primary: true, icon: Smartphone },
       { name: "Expo", primary: true, icon: Layers },
@@ -57,7 +57,7 @@ export const SKILL_LAYERS: SkillLayer[] = [
     id: "native",
     layer: "Platforms · iOS & Android",
     desc: "Store releases, Turbo Modules, and native host projects for SDK and system API access",
-    projectRefs: "FocusGuard · Vitadrop · App Store · Google Play",
+    projectRefs: "Keept · Vitadrop · App Store · Google Play",
     skills: [
       { name: "iOS", primary: true, icon: Cpu },
       { name: "Android", primary: true, icon: Cpu },

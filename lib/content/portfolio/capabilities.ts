@@ -48,9 +48,9 @@ export const CAPABILITIES: Capability[] = [
     kpiSub: "Turbo Modules",
     icon: Terminal,
     title: "Native integration",
-    desc: "Turbo Modules and native host projects when React Native needs camera pipelines, UsageStats, third-party SDKs, or platform-specific behaviour.",
-    tags: ["turbo-modules", "kotlin", "ios", "android"],
-    appliedIn: "FocusGuard · Vitadrop",
+    desc: "Turbo Modules and native host projects when React Native needs camera pipelines, UsageStats, Screen Time APIs, third-party SDKs, or platform-specific behaviour.",
+    tags: ["turbo-modules", "kotlin", "swift", "ios", "android"],
+    appliedIn: "Keept · Vitadrop",
   },
   {
     id: "perf",

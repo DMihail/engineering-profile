@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { absoluteTitle, titledPage } from "@/lib/page-metadata";
 import { buildOpenGraph, buildTwitter } from "@/lib/site-metadata";
 import { SkipLink } from "@/components/layout/skip-link";
+import { SubpageHeader } from "@/components/layout/subpage-header";
 import { MAIN_CONTENT_ID } from "@/lib/section-ids";
 
 const NOT_FOUND_DESCRIPTION = "The requested page does not exist on dzhezhelo.dev.";
@@ -30,6 +31,7 @@ export default async function NotFound() {
   return (
     <>
       <SkipLink />
+      <SubpageHeader />
       <main
         id={MAIN_CONTENT_ID}
         tabIndex={-1}

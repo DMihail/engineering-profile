@@ -25,6 +25,11 @@
   outline-offset: 2px;
 }
 
+.checkbox[aria-invalid="true"] {
+  outline: 2px solid color-mix(in srgb, var(--error) 70%, transparent);
+  outline-offset: 2px;
+}
+
 .label {
   font-size: var(--text-sm);
   line-height: 1.55;

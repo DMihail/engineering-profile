@@ -76,14 +76,14 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
               {cs.summary}
             </p>
 
-            <div className={styles.metricStrip} aria-label={UI_LABELS.caseStudies.keyResults}>
+            <ul className={styles.metricStrip} aria-label={UI_LABELS.caseStudies.keyResults}>
               {cs.results.map((r) => (
-                <div key={r.label} className={styles.metricPill}>
-                  <div className={styles.metricValue}>{r.metric}</div>
-                  <div className={styles.metricLabel}>{r.label}</div>
-                </div>
+                <li key={r.label} className={styles.metricPill}>
+                  <span className={styles.metricValue}>{r.metric}</span>
+                  <span className={styles.metricLabel}>{r.label}</span>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
           <div className={styles.chevron} aria-hidden>

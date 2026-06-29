@@ -10,7 +10,6 @@ import {
   ROOT_SITE_METADATA,
 } from "@/lib/site-metadata";
 import { SiteJsonLd } from "@/components/seo/site-json-ld";
-import { AppProviders } from "@/components/providers/app-providers";
 import { fontBodyClassName, fontVariableClassName } from "@/lib/fonts";
 import { SCROLL_HASH_BOOTSTRAP_SCRIPT } from "@/lib/scroll-hash-bootstrap";
 import { CSP_NONCE_HEADER } from "@/lib/security-headers";
@@ -69,7 +68,7 @@ export default async function RootLayout({
           }}
         />
         <SiteJsonLd />
-        <AppProviders>{children}</AppProviders>
+        {children}
       </body>
     </html>
   );

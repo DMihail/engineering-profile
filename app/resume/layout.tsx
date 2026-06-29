@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { BreadcrumbNav } from "@/components/layout/breadcrumb-nav";
 import { SkipLink } from "@/components/layout/skip-link";
 import { SubpageHeader } from "@/components/layout/subpage-header";
 import { WebPageJsonLdScript, buildWebPageJsonLd } from "@/components/seo/web-page-json-ld";
-import { BreadcrumbJsonLdScript, buildBreadcrumbJsonLd } from "@/components/seo/breadcrumb-json-ld";
+import { BreadcrumbJsonLdScript, buildBreadcrumbJsonLd, type BreadcrumbItem } from "@/components/seo/breadcrumb-json-ld";
 import {
   ProfilePageJsonLdScript,
   buildProfilePageJsonLd,
@@ -32,10 +33,12 @@ const resumeProfilePageJsonLd = buildProfilePageJsonLd({
   description: resumeDescription,
 });
 
-const resumeBreadcrumbJsonLd = buildBreadcrumbJsonLd([
+const resumeBreadcrumbItems = [
   { name: "Home", path: "/" },
   { name: "Resume", path: "/resume" },
-]);
+] satisfies BreadcrumbItem[];
+
+const resumeBreadcrumbJsonLd = buildBreadcrumbJsonLd(resumeBreadcrumbItems);
 
 export default function ResumeLayout({
   children,
@@ -49,6 +52,7 @@ export default function ResumeLayout({
       <BreadcrumbJsonLdScript data={resumeBreadcrumbJsonLd} />
       <SkipLink />
       <SubpageHeader />
+      <BreadcrumbNav items={resumeBreadcrumbItems} />
       {children}
     </div>
   );

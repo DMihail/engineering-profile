@@ -2,7 +2,6 @@ import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
-import { AppProviders } from "@/components/providers/app-providers";
 import { ContactSection } from "@/components/sections/contact-section";
 
 jest.mock("@/lib/data", () => ({
@@ -44,11 +43,7 @@ afterAll(() => {
 });
 
 function renderContactSection() {
-  return render(
-    <AppProviders>
-      <ContactSection />
-    </AppProviders>,
-  );
+  return render(<ContactSection />);
 }
 
 async function acceptPrivacyConsent(user: ReturnType<typeof userEvent.setup>) {
@@ -230,7 +225,7 @@ describe("ContactSection form", () => {
     expect(mockExecute).not.toHaveBeenCalled();
   });
 
-  it("exposes sr-only field errors with aria-describedby on validation failure", async () => {
+  it("exposes field hints below inputs with aria-describedby on validation failure", async () => {
     const user = userEvent.setup();
     renderContactSection();
 

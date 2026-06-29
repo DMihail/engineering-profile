@@ -31,6 +31,8 @@ export function buildKnowsAbout(): string[] {
     "GraphQL",
     "WebSockets",
     "Firebase Crashlytics",
+    "Zustand",
+    "Screen Time",
     "App Store",
     "Google Play",
   ];

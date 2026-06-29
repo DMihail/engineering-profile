@@ -45,7 +45,7 @@ export function ResumeDocument({ variant }: ResumeDocumentProps) {
         <p className={styles.role}>{heading.role}</p>
         <p className={styles.metaLine}>{content.locationLine}</p>
 
-        <div className={styles.contactRow}>
+        <address className={styles.contactRow}>
           <a className={styles.contactItem} href={`mailto:${contact.email}`}>
             {contact.email}
           </a>
@@ -67,7 +67,7 @@ export function ResumeDocument({ variant }: ResumeDocumentProps) {
           <a className={styles.contactItem} href={contact.website}>
             dzhezhelo.dev
           </a>
-        </div>
+        </address>
       </header>
 
       <section className={styles.section} aria-labelledby="resume-summary">
