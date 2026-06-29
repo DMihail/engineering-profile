@@ -172,7 +172,7 @@ export const CAREER_FEATURED_PROJECTS: CareerFeaturedProject[] = [
     technologies: "React Native, Expo, TypeScript, REST API",
   },
   {
-    title: "FocusGuard, Education Platform",
+    title: "Education Platform",
     period: "06/2022 – 12/2022",
     bullets: [
       "Participated in development of an educational platform for teachers and students.",
