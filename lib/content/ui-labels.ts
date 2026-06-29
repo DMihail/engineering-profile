@@ -87,9 +87,6 @@ export const UI_LABELS = {
     messagePlaceholder: "e.g. Senior RN role, Expo stack, remote EU, start Q3…",
     toastRegion: "Form notifications",
   },
-  project: {
-    viewOnPortfolio: "View on portfolio →",
-  },
   resume: {
     summary: "Summary",
     experience: "Professional Experience",

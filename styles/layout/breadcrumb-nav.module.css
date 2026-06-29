@@ -2,7 +2,7 @@
   max-width: 72rem;
   margin-inline: auto;
   padding-inline: 1rem;
-  padding-block-end: 0.75rem;
+  padding-block-end: 0.5rem;
 }
 
 .list {
@@ -58,6 +58,7 @@
 @media (min-width: 640px) {
   .nav {
     padding-inline: 1.5rem;
+    padding-block-end: 0.75rem;
   }
 }
 

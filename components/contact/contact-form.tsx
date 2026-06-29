@@ -1,17 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useActionState, useState } from "react";
-import { ToastContainer } from "react-toastify/unstyled";
+import { ToastContainer, toast } from "react-toastify/unstyled";
 import { ensureRecaptchaLoaded } from "@/lib/recaptcha-client";
 import {
   CONTACT_FORM_INITIAL_STATE,
   contactFormFeedbackMessage,
   contactFormFeedbackVariant,
   submitContactForm,
-  type ContactFormFeedbackVariant,
 } from "@/lib/contact-form";
-import { toast } from "react-toastify/unstyled";
 import { ContactSubmitButton } from "@/components/contact/contact-submit-button";
+import { ContactTextAreaField, ContactTextField } from "@/components/contact/contact-form-field";
 import { FieldHint } from "@/components/contact/field-hint";
 import { PrivacyConsentField } from "@/components/forms/privacy-consent-field";
 import {
@@ -62,12 +61,6 @@ export function ContactForm({ headingId }: ContactFormProps) {
     return message;
   }, [state, dismissedStatusTs]);
 
-  const primeRecaptcha = () => {
-    if (recaptchaPrimed.current) return;
-    recaptchaPrimed.current = true;
-    void ensureRecaptchaLoaded().catch(() => {});
-  };
-
   const success = state.success;
 
   const fieldMessage = useCallback(
@@ -93,21 +86,7 @@ export function ContactForm({ headingId }: ContactFormProps) {
     [clearFieldError, dismissFormStatus],
   );
 
-  function showFormFeedbackToast(variant: ContactFormFeedbackVariant, message: string) {
-    switch (variant) {
-      case "success":
-        toast.success(message);
-        break;
-      case "warning":
-        toast.warning(message);
-        break;
-      case "error":
-        toast.error(message);
-        break;
-    }
-  }
-
-  function restoreDraftFields() {
+  const restoreDraftFields = useCallback(() => {
     const form = formRef.current;
     const draft = draftRef.current;
     if (!form || !draft) return;
@@ -123,17 +102,15 @@ export function ContactForm({ headingId }: ContactFormProps) {
     if (consent instanceof HTMLInputElement && consent.type === "checkbox") {
       consent.checked = draft.get(PRIVACY_CONSENT_FIELD) === "yes";
     }
-  }
+  }, []);
 
   useEffect(() => {
     if (state.ts === 0 || state.ts === lastHandledTs.current) return;
     lastHandledTs.current = state.ts;
 
-    const variant = contactFormFeedbackVariant(state);
     const message = contactFormFeedbackMessage(state);
-
-    if (variant === "success" && message) {
-      showFormFeedbackToast(variant, message);
+    if (contactFormFeedbackVariant(state) === "success" && message) {
+      toast.success(message);
     }
 
     if (state.success) {
@@ -148,7 +125,13 @@ export function ContactForm({ headingId }: ContactFormProps) {
         focusContactField(state.field);
       }
     }
-  }, [state]);
+  }, [state, restoreDraftFields]);
+
+  const primeRecaptcha = () => {
+    if (recaptchaPrimed.current) return;
+    recaptchaPrimed.current = true;
+    void ensureRecaptchaLoaded().catch(() => {});
+  };
 
   const formStatusClassName = success
     ? `${styles.formStatus} ${styles.formStatusSuccess}`
@@ -171,9 +154,10 @@ export function ContactForm({ headingId }: ContactFormProps) {
             applyContactFieldFailure(event.currentTarget, failure);
             setClientFieldError(failure);
             dismissFormStatus();
-          } else {
-            setClientFieldError(null);
+            return;
           }
+
+          setClientFieldError(null);
         }}
         onFocusCapture={primeRecaptcha}
         className={`panel ${styles.formPanel} min-w-0`}
@@ -189,103 +173,88 @@ export function ContactForm({ headingId }: ContactFormProps) {
           {formStatus}
         </output>
 
-        <fieldset className={`${styles.formGrid} border-0 p-0 m-0 min-w-0`}>
+        <fieldset className={`${styles.formGrid} border-0 p-0 m-0 min-w-0`} disabled={success}>
           <legend className="sr-only">{UI_LABELS.contact.formLegend}</legend>
-          <div className={styles.formField}>
-            <label htmlFor={CONTACT_FIELD_DOM_IDS.name} className={styles.formLabel}>
-              {UI_LABELS.contact.name}
-            </label>
-            <input
-              id={CONTACT_FIELD_DOM_IDS.name}
-              type="text"
-              name="name"
-              required
-              minLength={CONTACT_NAME_MIN_LENGTH}
-              maxLength={100}
-              autoComplete="name"
-              enterKeyHint="next"
-              placeholder={UI_LABELS.contact.namePlaceholder}
-              disabled={success}
-              aria-invalid={fieldMessage("name") ? true : undefined}
-              aria-describedby={fieldMessage("name") ? CONTACT_FIELD_ERROR_IDS.name : undefined}
-              onInput={handleFieldInput("name")}
-              className={styles.inputField}
-            />
-            <FieldHint id={CONTACT_FIELD_ERROR_IDS.name} message={fieldMessage("name")} />
-          </div>
-          <div className={styles.formField}>
-            <label htmlFor={CONTACT_FIELD_DOM_IDS.email} className={styles.formLabel}>
-              {UI_LABELS.contact.email}
-            </label>
-            <input
-              id={CONTACT_FIELD_DOM_IDS.email}
-              type="email"
-              name="email"
-              required
-              maxLength={254}
-              autoComplete="email"
-              enterKeyHint="next"
-              inputMode="email"
-              spellCheck={false}
-              placeholder={UI_LABELS.contact.emailPlaceholder}
-              disabled={success}
-              aria-invalid={fieldMessage("email") ? true : undefined}
-              aria-describedby={fieldMessage("email") ? CONTACT_FIELD_ERROR_IDS.email : undefined}
-              onInput={handleFieldInput("email")}
-              className={styles.inputField}
-            />
-            <FieldHint id={CONTACT_FIELD_ERROR_IDS.email} message={fieldMessage("email")} />
-          </div>
-          <div className={`${styles.formField} ${styles.formFieldCompany}`}>
-            <label htmlFor="contact-company" className={styles.formLabel}>
-              {UI_LABELS.contact.company}{" "}
-              <span className={styles.formLabelOptional}>{UI_LABELS.contact.companyOptional}</span>
-            </label>
-            <input
-              id="contact-company"
-              type="text"
-              name="company"
-              maxLength={120}
-              autoComplete="organization"
-              enterKeyHint="next"
-              placeholder={UI_LABELS.contact.companyPlaceholder}
-              disabled={success}
-              className={styles.inputField}
-            />
-          </div>
-          <div className={`${styles.formField} ${styles.formFieldMessage}`}>
-            <label htmlFor={CONTACT_FIELD_DOM_IDS.message} className={styles.formLabel}>
-              {UI_LABELS.contact.message}
-            </label>
-            <textarea
-              id={CONTACT_FIELD_DOM_IDS.message}
-              name="message"
-              required
-              minLength={CONTACT_MESSAGE_MIN_LENGTH}
-              maxLength={2000}
-              rows={5}
-              spellCheck
-              autoComplete="off"
-              enterKeyHint="send"
-              placeholder={UI_LABELS.contact.messagePlaceholder}
-              disabled={success}
-              aria-invalid={fieldMessage("message") ? true : undefined}
-              aria-describedby={fieldMessage("message") ? CONTACT_FIELD_ERROR_IDS.message : undefined}
-              onInput={handleFieldInput("message")}
-              className={`${styles.inputField} ${styles.messageField}`}
-            />
-            <FieldHint id={CONTACT_FIELD_ERROR_IDS.message} message={fieldMessage("message")} />
-          </div>
+
+          <ContactTextField
+            id={CONTACT_FIELD_DOM_IDS.name}
+            name="name"
+            label={UI_LABELS.contact.name}
+            errorId={CONTACT_FIELD_ERROR_IDS.name}
+            errorMessage={fieldMessage("name")}
+            type="text"
+            required
+            minLength={CONTACT_NAME_MIN_LENGTH}
+            maxLength={100}
+            autoComplete="name"
+            enterKeyHint="next"
+            placeholder={UI_LABELS.contact.namePlaceholder}
+            onInput={handleFieldInput("name")}
+          />
+
+          <ContactTextField
+            id={CONTACT_FIELD_DOM_IDS.email}
+            name="email"
+            label={UI_LABELS.contact.email}
+            errorId={CONTACT_FIELD_ERROR_IDS.email}
+            errorMessage={fieldMessage("email")}
+            type="email"
+            required
+            maxLength={254}
+            autoComplete="email"
+            enterKeyHint="next"
+            inputMode="email"
+            spellCheck={false}
+            placeholder={UI_LABELS.contact.emailPlaceholder}
+            onInput={handleFieldInput("email")}
+          />
+
+          <ContactTextField
+            id="contact-company"
+            name="company"
+            className={styles.formFieldCompany}
+            label={
+              <>
+                {UI_LABELS.contact.company}{" "}
+                <span className={styles.formLabelOptional}>{UI_LABELS.contact.companyOptional}</span>
+              </>
+            }
+            errorId="contact-company-hint"
+            type="text"
+            maxLength={120}
+            autoComplete="organization"
+            enterKeyHint="next"
+            placeholder={UI_LABELS.contact.companyPlaceholder}
+          />
+
+          <ContactTextAreaField
+            id={CONTACT_FIELD_DOM_IDS.message}
+            name="message"
+            className={styles.formFieldMessage}
+            label={UI_LABELS.contact.message}
+            errorId={CONTACT_FIELD_ERROR_IDS.message}
+            errorMessage={fieldMessage("message")}
+            required
+            minLength={CONTACT_MESSAGE_MIN_LENGTH}
+            maxLength={2000}
+            rows={5}
+            spellCheck
+            autoComplete="off"
+            enterKeyHint="send"
+            placeholder={UI_LABELS.contact.messagePlaceholder}
+            onInput={handleFieldInput("message")}
+          />
+
           <div className={`${styles.formField} ${styles.formFieldConsent}`}>
             <PrivacyConsentField
               id={CONTACT_FIELD_DOM_IDS.consent}
-              disabled={success}
               errorMessage={fieldMessage("consent")}
               errorId={CONTACT_FIELD_ERROR_IDS.consent}
               onClearError={() => clearFieldError("consent")}
             />
             <FieldHint id={CONTACT_FIELD_ERROR_IDS.consent} message={fieldMessage("consent")} />
           </div>
+
           <div className={styles.formActions}>
             <ContactSubmitButton success={success} />
           </div>

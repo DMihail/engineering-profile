@@ -10,6 +10,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
+  align-items: start;
 }
 
 .formField {
@@ -281,4 +282,19 @@
   font-weight: 400;
   text-transform: none;
   letter-spacing: 0.02em;
+}
+
+@media (max-width: 639px) {
+  .formPanel {
+    padding: 1rem;
+  }
+
+  .inputField {
+    font-size: 1rem;
+    min-height: 2.75rem;
+  }
+
+  .messageField {
+    min-height: 9rem;
+  }
 }
