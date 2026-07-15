@@ -113,10 +113,8 @@ function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
           <ul className={styles.resultGrid}>
             {cs.results.map((r) => (
               <li key={r.label} className={styles.resultCard}>
-                <div className="font-sans text-case-metric font-extrabold text-success tracking-[-0.04em] leading-none mb-1.5">
-                  {r.metric}
-                </div>
-                <div className="text-xs text-success-muted">{r.label}</div>
+                <div className={styles.resultMetric}>{r.metric}</div>
+                <div className={styles.resultLabel}>{r.label}</div>
               </li>
             ))}
           </ul>

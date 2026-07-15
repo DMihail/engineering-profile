@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import { ContactSection } from "@/components/sections/contact-section";
 
-jest.mock("@/lib/data", () => ({
+jest.mock("@/lib/content/portfolio/social-links", () => ({
   SOCIAL_LINKS: [],
 }));
 

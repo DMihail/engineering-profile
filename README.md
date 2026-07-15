@@ -14,7 +14,7 @@ The repo is meant to be readable: production patterns, typed API routes, tests, 
 
 - **Next.js 16 App Router** — static home page, dynamic API routes, `proxy.ts` for edge routing and geo hints
 - **React 19** — `useActionState`, `useFormStatus`, React Compiler enabled
-- **Performance** — `content-visibility: auto` on below-fold sections, dynamic imports, optimized `lucide-react` imports
+- **Performance** — `content-visibility: auto` on below-fold sections, optimized `lucide-react` imports, no-JS fallbacks for nav and contact
 - **SEO** — Metadata API, JSON-LD (`Person`, `WebSite`, `ItemList`), sitemap, robots, OG image route
 - **Contact form** — client validation, reCAPTCHA v3, Firestore persistence, optional FCM push to a companion inbox app
 - **Accessibility** — semantic landmarks, skip link, keyboard nav, reduced-motion-aware animations
@@ -40,7 +40,7 @@ components/
   sections/             Hero, case studies, skills, experience, contact, …
   seo/                  JSON-LD script component
 lib/
-  data/                 Content modules (case studies, skills, experience, nav)
+  content/              Typed site content (career, portfolio, nav, UI labels)
   config.ts             Site constants (URL, author, SEO copy)
   json-ld.ts            Schema.org graph builder
 proxy.ts                Edge proxy (section aliases → /#id, 404 passthrough, contact region cookie)
@@ -132,7 +132,7 @@ CI runs on every push and pull request to `main` (lint is run locally; CI runs t
 
 You may use this codebase as a reference or starting point for your own portfolio. Please:
 
-- Replace personal content in `lib/data/`, `lib/config.ts`, and `public/` CVs
+- Replace personal content in `lib/content/`, `lib/config.ts`, and `public/` CVs
 - Use your own Firebase project, reCAPTCHA keys, and domain
 - Do not republish my case studies, copy, or CV as your own
 
