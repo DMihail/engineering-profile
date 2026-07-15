@@ -284,6 +284,29 @@
   letter-spacing: 0.02em;
 }
 
+.noScriptPanel {
+  padding: 1rem 1.25rem;
+  margin-block-end: 1rem;
+  border-radius: var(--radius-button);
+  border: 1px solid var(--border-success-strong);
+  background: var(--surface-success-subtle);
+}
+
+.noScriptText {
+  margin: 0 0 0.5rem;
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+}
+
+.noScriptLink {
+  font-family: var(--font-mono), monospace;
+  font-size: var(--text-sm);
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
 @media (max-width: 639px) {
   .formPanel {
     padding: 1rem;

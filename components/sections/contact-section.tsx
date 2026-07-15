@@ -1,7 +1,9 @@
 import { ContactForm } from "@/components/contact/contact-form";
+import { ContactNoScriptFallback } from "@/components/contact/contact-noscript-fallback";
 import { ContactSidebar } from "@/components/contact/contact-sidebar";
 import { SectionHeader, sectionHeadingId } from "@/components/ui/primitives";
 import { UI_LABELS } from "@/lib/content/ui-labels";
+import styles from "@/styles/sections/contact-section.module.css";
 
 export function ContactSection() {
   const headingId = sectionHeadingId("contact");
@@ -20,7 +22,12 @@ export function ContactSection() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(17.5rem,20rem)] gap-8 lg:gap-12 lg:items-start">
-          <ContactForm headingId={headingId} />
+          <div>
+            <ContactNoScriptFallback />
+            <div className={styles.contactJsOnly}>
+              <ContactForm headingId={headingId} />
+            </div>
+          </div>
           <ContactSidebar />
         </div>
       </div>

@@ -13,6 +13,7 @@ export const UI_LABELS = {
   nav: {
     main: "Main navigation",
     mobile: "Mobile navigation",
+    noScript: "Section navigation without JavaScript",
     portfolio: "md://portfolio",
     letsTalk: "Let's talk",
   },
@@ -86,6 +87,8 @@ export const UI_LABELS = {
     companyPlaceholder: "Company or agency",
     messagePlaceholder: "e.g. Senior RN role, Expo stack, remote EU, start Q3…",
     toastRegion: "Form notifications",
+    noScriptMessage: "JavaScript is required for the contact form. Email directly instead:",
+    noScriptMailSubject: "Portfolio inquiry",
   },
   resume: {
     summary: "Summary",
