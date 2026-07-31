@@ -7,6 +7,7 @@ import {
   getResumeProjects,
   getResumeSkillGroups,
   getResumeVariantContent,
+  resumePeriodDateTime,
   type ResumeVariant,
 } from "@/lib/resume-content";
 import { UI_LABELS } from "@/lib/content/ui-labels";
@@ -91,7 +92,7 @@ export function ResumeDocument({ variant }: ResumeDocumentProps) {
               </div>
               <div>
                 <p className={styles.entryMeta}>
-                  <time dateTime={xp.period.replace(/\s/g, "")}>{xp.period}</time>
+                  <time dateTime={resumePeriodDateTime(xp.period)}>{xp.period}</time>
                   {" | "}
                   {xp.location}
                 </p>
@@ -138,7 +139,7 @@ export function ResumeDocument({ variant }: ResumeDocumentProps) {
             <div className={styles.entryHeader}>
               <h3 className={styles.entryRole}>{project.title}</h3>
               <p className={styles.entryMeta}>
-                <time dateTime={project.period.replace(/\s/g, "")}>{project.period}</time>
+                <time dateTime={resumePeriodDateTime(project.period)}>{project.period}</time>
               </p>
             </div>
             <BulletList items={project.bullets} />
@@ -156,16 +157,25 @@ export function ResumeDocument({ variant }: ResumeDocumentProps) {
         <h2 id="resume-education" className={styles.sectionTitle}>
           {UI_LABELS.resume.education}
         </h2>
-        {education.map((item) => (
-          <article key={`${item.degree}-${item.period}`} className={styles.educationEntry}>
-            <p className={styles.educationDegree}>
-              {item.degree}, {item.institution}
-            </p>
-            <p className={styles.educationPeriod}>
-              {item.period} | {item.location}
-            </p>
-          </article>
-        ))}
+        {education.map((item) => {
+          const headingId = `resume-edu-${item.period.replace(/\W+/g, "-")}`;
+          return (
+            <article
+              key={`${item.degree}-${item.period}`}
+              className={styles.educationEntry}
+              aria-labelledby={headingId}
+            >
+              <h3 id={headingId} className={styles.educationDegree}>
+                {item.degree}, {item.institution}
+              </h3>
+              <p className={styles.educationPeriod}>
+                <time dateTime={resumePeriodDateTime(item.period)}>{item.period}</time>
+                {" | "}
+                {item.location}
+              </p>
+            </article>
+          );
+        })}
       </section>
 
       <section className={styles.section} aria-labelledby="resume-languages">

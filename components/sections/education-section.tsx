@@ -7,9 +7,13 @@ import { SectionHeader, sectionHeadingId } from "@/components/ui/primitives";
 const INSTITUTION = EDUCATION[0]?.institution ?? "University";
 
 function periodDateTime(period: string): string | undefined {
-  const match = period.match(/(\d{4})\s*[—–-]\s*(\d{4})/);
-  if (!match) return undefined;
-  return `${match[1]}/${match[2]}`;
+  const monthYear = period.match(/(\d{1,2})\/(\d{4})\s*[—–-]\s*(\d{1,2})\/(\d{4})/);
+  if (monthYear) {
+    return `${monthYear[2]}-${monthYear[1].padStart(2, "0")}/${monthYear[4]}-${monthYear[3].padStart(2, "0")}`;
+  }
+  const yearOnly = period.match(/(\d{4})\s*[—–-]\s*(\d{4})/);
+  if (!yearOnly) return undefined;
+  return `${yearOnly[1]}/${yearOnly[2]}`;
 }
 
 export function EducationSection() {
@@ -24,13 +28,13 @@ export function EducationSection() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 reveal-on-scroll">
         <SectionHeader sectionId="education" />
 
-        <article className="panel max-w-2xl">
+        <article className="panel max-w-2xl" aria-labelledby="education-institution">
           <div className="p-5 sm:p-6 flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-5">
             <div className="icon-well icon-well-md shrink-0 self-start">
               <GraduationCap size={16} className="text-primary" aria-hidden />
             </div>
             <div className="min-w-0 flex-1">
-              <h3 className="text-base font-semibold text-foreground tracking-[-0.01em]">
+              <h3 id="education-institution" className="text-base font-semibold text-foreground tracking-[-0.01em]">
                 {INSTITUTION}
               </h3>
               <p className="text-sm text-text-secondary mt-1">{SITE_EDUCATION_FOCUS}</p>

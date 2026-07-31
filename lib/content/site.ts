@@ -4,7 +4,6 @@ export const SITE_URL = "https://dzhezhelo.dev";
 export const SITE_AUTHOR = "Mykhailo Dzhezhelo";
 export const SITE_EMAIL = "dzezelomihail@gmail.com";
 export const SITE_ROLE = "Mobile Engineer · React Native · Web Developer";
-export const SITE_ROLE_SEO = "Mobile Engineer | React Native | Web Developer";
 export const SITE_LOCATION = "Dublin, Ireland · Remote EU, UK & US";
 
 export const SITE_HERO_INTRO =
@@ -12,9 +11,6 @@ export const SITE_HERO_INTRO =
 
 export const SITE_HERO_AVAILABILITY_LABEL = "Available";
 export const SITE_HERO_AVAILABILITY_TYPES = "Full-time · contract · remote & onsite";
-
-/** @deprecated Use SITE_HERO_AVAILABILITY_LABEL + SITE_HERO_AVAILABILITY_TYPES */
-export const SITE_HERO_AVAILABILITY = `${SITE_HERO_AVAILABILITY_LABEL} · ${SITE_HERO_AVAILABILITY_TYPES}`;
 
 export const SITE_DESCRIPTION =
   "Mobile Engineer and React Native Developer in Dublin, Ireland. 7+ years software development, 5+ years shipping iOS and Android apps to App Store and Google Play. Firebase, REST APIs, GraphQL, WebSockets, offline-first, healthcare, auctions, and workforce apps. Open to roles in Ireland, EU, UK, and US remote.";
