@@ -36,7 +36,6 @@ export function HeroSection() {
             id="hero-heading"
             className="font-sans font-extrabold mb-3 tracking-[-0.045em] leading-[0.98] text-foreground text-hero-name text-balance"
           >
-            <span className="sr-only">{SITE_AUTHOR} — {SITE_ROLE}. </span>
             {SITE_AUTHOR.split(" ")[0]}
             <br />
             <span className="text-primary">{SITE_AUTHOR.split(" ").slice(1).join(" ")}</span>

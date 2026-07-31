@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import { BreadcrumbNav } from "@/components/layout/breadcrumb-nav";
 import { SkipLink } from "@/components/layout/skip-link";
 import { SubpageHeader } from "@/components/layout/subpage-header";
-import { WebPageJsonLdScript, buildWebPageJsonLd } from "@/components/seo/web-page-json-ld";
 import { BreadcrumbJsonLdScript, buildBreadcrumbJsonLd, type BreadcrumbItem } from "@/components/seo/breadcrumb-json-ld";
 import {
   ProfilePageJsonLdScript,
   buildProfilePageJsonLd,
 } from "@/components/seo/profile-page-json-ld";
+import { SITE_RESUME_OG_IMAGE_PATH } from "@/lib/config";
 import { buildRouteMetadata, titledPage } from "@/lib/page-metadata";
 import styles from "@/styles/resume.module.css";
 
@@ -19,13 +19,7 @@ export const metadata: Metadata = buildRouteMetadata({
   title: resumeTitle,
   description: resumeDescription,
   path: "/resume",
-});
-
-const resumeWebPageJsonLd = buildWebPageJsonLd({
-  path: "/resume",
-  name: resumeTitle,
-  description: resumeDescription,
-  aboutPerson: true,
+  ogImagePath: SITE_RESUME_OG_IMAGE_PATH,
 });
 
 const resumeProfilePageJsonLd = buildProfilePageJsonLd({
@@ -47,7 +41,6 @@ export default function ResumeLayout({
 }>) {
   return (
     <div className={styles.root}>
-      <WebPageJsonLdScript data={resumeWebPageJsonLd} />
       <ProfilePageJsonLdScript data={resumeProfilePageJsonLd} />
       <BreadcrumbJsonLdScript data={resumeBreadcrumbJsonLd} />
       <SkipLink />

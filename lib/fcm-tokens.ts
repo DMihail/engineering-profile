@@ -53,11 +53,6 @@ export async function listFcmDeviceRegistrations(
   return [];
 }
 
-export async function listFcmTokensForUser(uid: string, app?: App): Promise<string[]> {
-  const registrations = await listFcmDeviceRegistrations(uid, app);
-  return [...new Set(registrations.map((r) => r.token))];
-}
-
 /** Every registered device for all operators (contact form → inbox push). */
 export async function listAllFcmDeviceRegistrations(app?: App): Promise<FcmDeviceRegistration[]> {
   const db = firestore(app);

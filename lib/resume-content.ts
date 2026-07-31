@@ -111,3 +111,18 @@ export function getResumeHeading() {
     role: RESUME_ROLE,
   };
 }
+
+/**
+ * ISO 8601 interval for periods like `03/2025 – 12/2025` or `09/2015 – Present`.
+ */
+export function resumePeriodDateTime(period: string): string {
+  const match = period.match(
+    /(\d{1,2})\/(\d{4})\s*[–—-]\s*(?:(\d{1,2})\/(\d{4})|(?:Present|present))/,
+  );
+  if (!match) return period.replace(/\s+/g, "");
+
+  const start = `${match[2]}-${match[1].padStart(2, "0")}`;
+  if (!match[3] || !match[4]) return `${start}/..`;
+
+  return `${start}/${match[4]}-${match[3].padStart(2, "0")}`;
+}

@@ -8,6 +8,7 @@ import {
   parseResumeVariant,
   resolveResumeVariant,
   resumePath,
+  resumePeriodDateTime,
 } from "@/lib/resume-content";
 import { PHONE_INTL, PHONE_UA } from "@/lib/contact-region";
 import { SITE_EMAIL } from "@/lib/config";
@@ -65,5 +66,11 @@ describe("resume-content", () => {
   it("includes Temporary Protection only in Ireland summary", () => {
     expect(getResumeVariantContent("ireland").summary).toContain("Temporary Protection");
     expect(getResumeVariantContent("ua").summary).not.toContain("Temporary Protection");
+  });
+
+  it("formats resume periods as ISO 8601 intervals", () => {
+    expect(resumePeriodDateTime("03/2025 – 12/2025")).toBe("2025-03/2025-12");
+    expect(resumePeriodDateTime("09/2015 – 06/2019")).toBe("2015-09/2019-06");
+    expect(resumePeriodDateTime("03/2025 – Present")).toBe("2025-03/..");
   });
 });

@@ -18,4 +18,19 @@ describe("page metadata", () => {
   it("supports em dash resume titles", () => {
     expect(titledPage("Resume", " — ")).toBe(`Resume — ${SITE_AUTHOR}`);
   });
+
+  it("wires route-specific Open Graph and Twitter images", () => {
+    const metadata = buildRouteMetadata({
+      title: titledPage("Resume", " — "),
+      description: "Resume page",
+      path: "/resume",
+      ogImagePath: "/resume/opengraph-image",
+    });
+
+    const ogImages = metadata.openGraph?.images;
+    expect(Array.isArray(ogImages) ? ogImages[0] : ogImages).toMatchObject({
+      url: "/resume/opengraph-image",
+    });
+    expect(metadata.twitter?.images).toEqual(["/resume/opengraph-image"]);
+  });
 });

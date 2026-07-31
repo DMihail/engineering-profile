@@ -216,13 +216,6 @@
   color: var(--resume-fg);
 }
 
-.entryCompany {
-  margin: 0.125rem 0 0;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--resume-muted);
-}
-
 .entryMeta {
   margin: 0;
   font-size: 0.8125rem;
@@ -307,12 +300,6 @@
   margin: 0;
   font-size: 0.875rem;
   font-weight: 600;
-}
-
-.educationSchool {
-  margin: 0.125rem 0 0;
-  font-size: 0.8125rem;
-  color: var(--resume-muted);
 }
 
 .educationPeriod {

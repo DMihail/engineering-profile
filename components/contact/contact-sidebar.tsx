@@ -141,20 +141,24 @@ function CalendlyLink() {
 }
 
 export function ContactSidebar() {
+  const emailLink = SOCIAL_LINKS.find((link) => link.href.startsWith("mailto:"));
+  const socialLinks = SOCIAL_LINKS.filter((link) => !link.href.startsWith("mailto:"));
+
   return (
     <aside className={styles.contactAside} aria-labelledby="contact-links-heading">
-      <address className="not-italic">
-        <h3 id="contact-links-heading" className="mono-label mb-3.5">
-          {UI_LABELS.contact.linksHeading}
-        </h3>
-        <div className="space-y-3">
+      <h3 id="contact-links-heading" className="mono-label mb-3.5">
+        {UI_LABELS.contact.linksHeading}
+      </h3>
+
+      <address className="not-italic space-y-3 mb-3">
         <PhoneCard />
+        {emailLink ? <EmailCard link={emailLink} /> : null}
+      </address>
+
+      <div className="space-y-3">
         <TelegramCard />
         <CalendlyLink />
-        {SOCIAL_LINKS.map((link) => {
-          if (link.href.startsWith("mailto:")) {
-            return <EmailCard key={link.label} link={link} />;
-          }
+        {socialLinks.map((link) => {
           const LinkIcon = link.icon;
           return (
             <a
@@ -175,8 +179,7 @@ export function ContactSidebar() {
             </a>
           );
         })}
-        </div>
-      </address>
+      </div>
 
       <div className="pt-4 border-t border-border mt-4">
         <h3 className="mono-label mb-2.5">{UI_LABELS.contact.resumeHeading}</h3>
