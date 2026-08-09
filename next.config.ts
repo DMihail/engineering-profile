@@ -12,6 +12,9 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
 
+  // Allow LAN devices to load HMR / static chunks in `next dev`
+  allowedDevOrigins: ["192.168.1.144"],
+
   serverExternalPackages: ["firebase-admin", "nodemailer"],
 
   experimental: {

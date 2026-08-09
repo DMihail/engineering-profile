@@ -1,8 +1,7 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useSyncExternalStore, useEffect, useEffectEvent, useState } from "react";
 import { Download, ExternalLink, Send, Phone, Copy, Check } from "lucide-react";
-import { useState } from "react";
 import {
   getContactRegionFromClient,
   getServerContactRegion,
@@ -83,12 +82,21 @@ function EmailCard({ link }: { link: (typeof SOCIAL_LINKS)[number] }) {
   const LinkIcon = link.icon;
   const email = link.hint;
 
+  const resetCopied = useEffectEvent(() => {
+    setCopied(false);
+  });
+
+  useEffect(() => {
+    if (!copied) return;
+    const timer = window.setTimeout(() => resetCopied(), 2000);
+    return () => window.clearTimeout(timer);
+  }, [copied]);
+
   const handleCopy = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     event.stopPropagation();
-    navigator.clipboard.writeText(email).then(() => {
+    void navigator.clipboard.writeText(email).then(() => {
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
     });
   };
 

@@ -22,8 +22,12 @@ describe("site metadata", () => {
 
   it("builds Twitter card metadata with image", () => {
     const twitter = buildTwitter({ title: "Resume" });
-    expect(twitter?.card).toBe("summary_large_image");
-    expect(twitter?.title).toBe("Resume");
-    expect(twitter?.images?.length).toBeGreaterThan(0);
+    expect(twitter).toMatchObject({
+      card: "summary_large_image",
+      title: "Resume",
+    });
+    expect(twitter && "images" in twitter ? twitter.images : undefined).toEqual(
+      expect.arrayContaining([expect.anything()]),
+    );
   });
 });
