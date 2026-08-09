@@ -63,4 +63,10 @@ describe("privacy policy content", () => {
     expect(body).toMatch(/access/i);
     expect(body).toMatch(/dataprotection\.ie/i);
   });
+
+  it("offers an accessibility feedback channel", () => {
+    const contact = PRIVACY_POLICY_SECTIONS.find((section) => section.id === "contact");
+    const body = contact?.paragraphs.join(" ") ?? "";
+    expect(body).toMatch(/accessibility/i);
+  });
 });

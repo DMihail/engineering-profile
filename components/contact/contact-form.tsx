@@ -35,6 +35,7 @@ import {
   getContactFormFailure,
 } from "@/lib/contact-form-rules";
 import { PRIVACY_CONSENT_FIELD } from "@/lib/privacy-consent";
+import { SITE_EMAIL } from "@/lib/config";
 import { UI_LABELS } from "@/lib/content/ui-labels";
 import styles from "@/styles/sections/contact-form.module.css";
 
@@ -55,7 +56,7 @@ function deriveFieldError(
 
 function deriveFormStatus(state: ContactFormState, dismissedStatusTs: number): string {
   if (state.ts === 0 || state.ts === dismissedStatusTs) return "";
-  // Success feedback is toast-only — keep the inline <output> for form-level errors.
+  // Success uses a dedicated SR live region + toast — keep <output> for form-level errors.
   if (state.success) return "";
 
   const message = contactFormFeedbackMessage(state);
@@ -63,6 +64,11 @@ function deriveFormStatus(state: ContactFormState, dismissedStatusTs: number): s
   if (state.field) return "";
 
   return message;
+}
+
+function deriveSuccessAnnouncement(state: ContactFormState): string {
+  if (!state.success) return "";
+  return contactFormFeedbackMessage(state) ?? "";
 }
 
 const emptySubscribe = () => () => {};
@@ -82,13 +88,13 @@ export function ContactForm({ headingId }: ContactFormProps) {
   // Pure derived state — no useMemo (React Compiler + cheap computation).
   const fieldError = deriveFieldError(state, clientFieldError);
   const formStatus = deriveFormStatus(state, dismissedStatusTs);
+  const successAnnouncement = deriveSuccessAnnouncement(state);
   const success = state.success;
 
   const onSubmitResult = useEffectEvent((next: ContactFormState) => {
     const message = contactFormFeedbackMessage(next);
     if (contactFormFeedbackVariant(next) === "success" && message) {
       toast.success(message, { toastId: `contact-success-${next.ts}` });
-      setDismissedStatusTs(next.ts);
     }
 
     if (next.success) {
@@ -181,6 +187,12 @@ export function ContactForm({ headingId }: ContactFormProps) {
         className={`panel ${styles.formPanel} min-w-0`}
         aria-labelledby={headingId}
       >
+      {successAnnouncement ? (
+        <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+          {successAnnouncement}
+        </p>
+      ) : null}
+
       {formStatus ? (
         <output
           htmlFor={`${CONTACT_FIELD_DOM_IDS.name} ${CONTACT_FIELD_DOM_IDS.email} ${CONTACT_FIELD_DOM_IDS.message} ${CONTACT_FIELD_DOM_IDS.consent}`}
@@ -278,6 +290,16 @@ export function ContactForm({ headingId }: ContactFormProps) {
         <div className={styles.formActions}>
           <ContactSubmitButton success={success} />
         </div>
+
+        <p className={styles.formAlt}>
+          {UI_LABELS.contact.emailAlternative}{" "}
+          <a
+            href={`mailto:${SITE_EMAIL}?subject=${encodeURIComponent(UI_LABELS.contact.noScriptMailSubject)}`}
+            className={styles.formAltLink}
+          >
+            {SITE_EMAIL}
+          </a>
+        </p>
       </fieldset>
       </form>
 

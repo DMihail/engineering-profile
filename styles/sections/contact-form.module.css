@@ -32,7 +32,8 @@
   .formFieldCompany,
   .formFieldMessage,
   .formFieldConsent,
-  .formActions {
+  .formActions,
+  .formAlt {
     grid-column: 1 / -1;
   }
 
@@ -171,6 +172,25 @@
 
 .formStatus:empty {
   display: none;
+}
+
+.formAlt {
+  margin: 0;
+  padding-block-start: 0.25rem;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--text-dim);
+}
+
+.formAltLink {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.formAltLink:hover,
+.formAltLink:focus-visible {
+  color: var(--primary-hover);
 }
 
 .inputField:-webkit-autofill,

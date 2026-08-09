@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { SITE_AUTHOR, SITE_LAST_MODIFIED, SITE_ROLE } from "@/lib/config";
+import { SITE_AUTHOR, SITE_EMAIL, SITE_LAST_MODIFIED, SITE_ROLE } from "@/lib/config";
 import { SOCIAL_LINKS } from "@/lib/content/portfolio/social-links";
 import { UI_LABELS } from "@/lib/content/ui-labels";
 import { MDLogo } from "@/components/ui/icons";
 import styles from "@/styles/layout/footer.module.css";
 
 const COPYRIGHT_YEAR = Number.parseInt(SITE_LAST_MODIFIED.slice(0, 4), 10) || 2026;
+const accessibilityMailto = `mailto:${SITE_EMAIL}?subject=${encodeURIComponent(UI_LABELS.contact.accessibilityMailSubject)}`;
 
 export function Footer() {
   return (
@@ -28,6 +29,11 @@ export function Footer() {
                 <Link href="/privacy" className={styles.footerLink}>
                   {UI_LABELS.footer.privacyPolicy}
                 </Link>
+              </li>
+              <li>
+                <a href={accessibilityMailto} className={styles.footerLink}>
+                  {UI_LABELS.footer.accessibility}
+                </a>
               </li>
               {SOCIAL_LINKS.map((link) => {
                 const isMailto = link.href.startsWith("mailto:");

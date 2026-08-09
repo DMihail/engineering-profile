@@ -66,9 +66,10 @@
 @media (prefers-contrast: more) {
   :root {
     --border: color-mix(in oklch, var(--foreground) 12%, transparent);
-    --muted-foreground: oklch(0.78 0.01 255);
-    --text-dim: oklch(0.72 0.012 255);
-    --text-faint: oklch(0.68 0.01 260);
+    --muted-foreground: oklch(0.84 0.01 255);
+    --text-secondary: oklch(0.88 0.008 255);
+    --text-dim: oklch(0.82 0.01 260);
+    --text-faint: oklch(0.78 0.01 255);
     --text-success-muted: color-mix(in oklch, var(--success) 45%, var(--foreground));
     --text-success-dim: color-mix(in oklch, var(--success) 60%, var(--foreground));
   }

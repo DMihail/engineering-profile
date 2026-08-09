@@ -33,6 +33,7 @@ export const UI_LABELS = {
   footer: {
     links: "Footer links",
     privacyPolicy: "Privacy Policy",
+    accessibility: "Accessibility",
     availableForWork: "Available for work",
   },
   impact: {
@@ -87,8 +88,10 @@ export const UI_LABELS = {
     companyPlaceholder: "Company or agency",
     messagePlaceholder: "e.g. Senior RN role, Expo stack, remote EU, start Q3…",
     toastRegion: "Form notifications",
+    emailAlternative: "Prefer email, or if the form is hard to use?",
     noScriptMessage: "JavaScript is required for the contact form. Email directly instead:",
     noScriptMailSubject: "Portfolio inquiry",
+    accessibilityMailSubject: "Accessibility feedback",
   },
   resume: {
     summary: "Summary",

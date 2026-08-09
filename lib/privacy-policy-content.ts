@@ -211,6 +211,7 @@ export const PRIVACY_POLICY_SECTIONS: PrivacySection[] = [
     title: "15. Contact",
     paragraphs: [
       `Questions about this Privacy Policy or your personal data: ${SITE_EMAIL}`,
+      `If you encounter an accessibility barrier on the Site, please email ${SITE_EMAIL} with the subject “Accessibility feedback”.`,
     ],
   },
 ];
