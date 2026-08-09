@@ -1,98 +1,3 @@
-.root {
-  --resume-bg: #ffffff;
-  --resume-fg: #111827;
-  --resume-muted: #4b5563;
-  --resume-border: #d1d5db;
-  --resume-accent: #1d4ed8;
-
-  min-height: 100vh;
-  background: #f3f4f6;
-  color: var(--resume-fg);
-  font-family: var(--font-inter, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
-
-.page {
-  max-width: 52rem;
-  margin-inline: auto;
-  padding: 1.25rem 1rem 3rem;
-}
-
-.toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem 1rem;
-  margin-block-end: 1rem;
-  padding: 0.875rem 1rem;
-  border: 1px solid var(--resume-border);
-  border-radius: 0.625rem;
-  background: var(--resume-bg);
-}
-
-.toolbarGroup {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.toolbarButtonPrimary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.375rem;
-  min-height: 2.25rem;
-  padding-inline: 0.875rem;
-  border-radius: 0.5rem;
-  border: 1px solid var(--resume-accent);
-  background: var(--resume-accent);
-  color: #ffffff;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  line-height: 1.2;
-  cursor: pointer;
-}
-
-.toolbarLink {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 2.25rem;
-  padding-inline: 0.875rem;
-  border-radius: 0.5rem;
-  border: 1px solid var(--resume-border);
-  background: var(--resume-bg);
-  color: var(--resume-fg);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  line-height: 1.2;
-  text-decoration: none;
-}
-
-.toolbarLinkActive {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 2.25rem;
-  padding-inline: 0.875rem;
-  border-radius: 0.5rem;
-  border: 1px solid var(--resume-accent);
-  background: var(--resume-bg);
-  color: var(--resume-accent);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  line-height: 1.2;
-  text-decoration: none;
-}
-
-.toolbarHint {
-  margin: 0;
-  font-size: 0.75rem;
-  color: var(--resume-muted);
-}
-
 .document {
   padding: 2rem 1.75rem;
   border: 1px solid var(--resume-border);
@@ -309,26 +214,14 @@
 }
 
 @media (min-width: 640px) {
-  .page {
-    padding: 1.75rem 1.5rem 3rem;
-  }
-
   .document {
     padding: 2.25rem 2rem;
   }
 }
 
 @media (max-width: 639px) {
-  .page {
-    padding: 1rem 0.875rem 2.5rem;
-  }
-
   .document {
     padding: 1.5rem 1.25rem;
-  }
-
-  .toolbar {
-    padding: 0.75rem;
   }
 
   .entryHeader {
@@ -343,21 +236,6 @@
 }
 
 @media print {
-  .root {
-    min-height: auto;
-    background: #ffffff;
-  }
-
-  .page {
-    max-width: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .toolbar {
-    display: none !important;
-  }
-
   .document {
     border: none;
     border-radius: 0;
@@ -394,9 +272,4 @@
     color: var(--resume-fg);
     text-decoration: none;
   }
-}
-
-@page {
-  size: A4;
-  margin: 12mm 14mm;
 }

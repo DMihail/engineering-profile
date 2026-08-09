@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Printer } from "lucide-react";
 import { resumePath, type ResumeVariant } from "@/lib/resume-content";
-import styles from "@/styles/resume.module.css";
+import styles from "@/styles/resume/resume-toolbar.module.css";
 
 interface ResumeToolbarProps {
   variant: ResumeVariant;

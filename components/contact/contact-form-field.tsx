@@ -1,6 +1,6 @@
 import type { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from "react";
 import { FieldHint } from "@/components/contact/field-hint";
-import styles from "@/styles/sections/contact-section.module.css";
+import styles from "@/styles/sections/contact-form.module.css";
 
 interface FieldShellProps {
   id: string;

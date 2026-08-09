@@ -28,7 +28,7 @@ import {
 } from "@/lib/contact-form-rules";
 import { PRIVACY_CONSENT_FIELD } from "@/lib/privacy-consent";
 import { UI_LABELS } from "@/lib/content/ui-labels";
-import styles from "@/styles/sections/contact-section.module.css";
+import styles from "@/styles/sections/contact-form.module.css";
 
 interface ContactFormProps {
   headingId: string;

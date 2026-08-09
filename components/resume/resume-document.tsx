@@ -11,7 +11,7 @@ import {
   type ResumeVariant,
 } from "@/lib/resume-content";
 import { UI_LABELS } from "@/lib/content/ui-labels";
-import styles from "@/styles/resume.module.css";
+import styles from "@/styles/resume/resume-document.module.css";
 
 interface ResumeDocumentProps {
   variant: ResumeVariant;

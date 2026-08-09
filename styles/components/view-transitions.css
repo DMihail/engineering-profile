@@ -1,0 +1,10 @@
+/* ─── View transitions (low priority, progressive) ─────────────────── */
+
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 200ms;
+}

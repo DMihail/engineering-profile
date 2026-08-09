@@ -1,4 +1,4 @@
-import styles from "@/styles/sections/contact-section.module.css";
+import styles from "@/styles/sections/contact-form.module.css";
 
 interface FieldHintProps {
   id: string;

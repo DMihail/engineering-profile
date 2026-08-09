@@ -1,0 +1,14 @@
+/* ─── Impact table container query ─────────────────────────────────── */
+
+@layer components {
+  .impact-table-wrap {
+    container-type: inline-size;
+    container-name: impact;
+  }
+
+  @container impact (max-width: 40rem) {
+    .impact-table-wrap .cap-kpi-cell {
+      font-size: var(--text-sm);
+    }
+  }
+}
