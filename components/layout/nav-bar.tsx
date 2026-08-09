@@ -61,27 +61,31 @@ export function NavBar() {
               {SECTION_LABELS.hero}
             </a>
           </li>
-          {NAV.map((id) => (
-            <li key={id}>
-              <a
-                href={sectionHref(id)}
-                data-nav-section={id}
-                className={`${styles.navLink} no-underline`}
-              >
-                {SECTION_LABELS[id]}
-              </a>
-            </li>
-          ))}
-          <li>
-            <a
-              href={sectionHref("contact")}
-              data-nav-section="contact"
-              className="btn-primary mt-6 py-3.5 px-10 text-hero-support whitespace-nowrap no-underline"
-            >
-              <span className="status-dot-sm bg-background! shadow-none! animate-pulse" aria-hidden />
-              {UI_LABELS.nav.letsTalk}
-            </a>
-          </li>
+          {NAV.map((id) => {
+            const isContact = id === "contact";
+            return (
+              <li key={id}>
+                <a
+                  href={sectionHref(id)}
+                  data-nav-section={id}
+                  className={
+                    isContact
+                      ? "btn-primary mt-6 py-3.5 px-10 text-hero-support whitespace-nowrap no-underline"
+                      : `${styles.navLink} no-underline`
+                  }
+                >
+                  {isContact ? (
+                    <>
+                      <span className="status-dot-sm bg-background! shadow-none! animate-pulse" aria-hidden />
+                      {UI_LABELS.nav.letsTalk}
+                    </>
+                  ) : (
+                    SECTION_LABELS[id]
+                  )}
+                </a>
+              </li>
+            );
+          })}
         </ul>
       }
     />
