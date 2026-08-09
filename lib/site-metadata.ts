@@ -31,16 +31,18 @@ export function buildOpenGraph(overrides: OpenGraphOverrides = {}): Metadata["op
   };
 }
 
-type TwitterOverrides = NonNullable<Metadata["twitter"]>;
+type TwitterOverrides = Omit<NonNullable<Metadata["twitter"]>, "card">;
 
-export function buildTwitter(overrides: TwitterOverrides = {}): Metadata["twitter"] {
+export function buildTwitter(
+  overrides: TwitterOverrides = {},
+): Extract<NonNullable<Metadata["twitter"]>, { card: "summary_large_image" }> {
   return {
-    card: "summary_large_image",
     title: DEFAULT_SITE_TITLE,
     description: SITE_SHORT_DESCRIPTION,
     creator: "@mykhailo_dev",
     images: [SITE_OG_IMAGE_PATH],
     ...overrides,
+    card: "summary_large_image",
   };
 }
 

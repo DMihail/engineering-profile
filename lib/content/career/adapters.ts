@@ -10,6 +10,10 @@ import type {
   ResumeProjectEntry,
 } from "@/lib/content/resume-types";
 
+/**
+ * Maps the shared career source into portfolio UI shapes and resume shapes.
+ * Keep view-specific types separate — do not collapse them into one model.
+ */
 export function toXpEntries(entries: CareerExperienceEntry[]): XP[] {
   return entries.map((entry) => ({
     company: entry.company,

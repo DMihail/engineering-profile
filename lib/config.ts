@@ -21,4 +21,4 @@ export const SITE_RESUME_OG_IMAGE_PATH = "/resume/opengraph-image";
 /** Square image for Person schema — defaults to apple-touch icon. Set `/profile.jpg` when a photo is in public/. */
 export const SITE_PROFILE_IMAGE_PATH =
   process.env.NEXT_PUBLIC_PROFILE_IMAGE_PATH ?? "/apple-icon";
-export const SITE_LAST_MODIFIED = process.env.SITE_LAST_MODIFIED ?? "2026-07-31";
+export const SITE_LAST_MODIFIED = process.env.SITE_LAST_MODIFIED ?? "2026-08-09";

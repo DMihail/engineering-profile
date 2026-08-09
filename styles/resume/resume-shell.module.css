@@ -1,0 +1,49 @@
+.root {
+  --resume-bg: #ffffff;
+  --resume-fg: #111827;
+  --resume-muted: #4b5563;
+  --resume-border: #d1d5db;
+  --resume-accent: #1d4ed8;
+
+  min-height: 100vh;
+  background: #f3f4f6;
+  color: var(--resume-fg);
+  font-family: var(--font-inter, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  max-width: 52rem;
+  margin-inline: auto;
+  padding: 1.25rem 1rem 3rem;
+}
+
+@media (min-width: 640px) {
+  .page {
+    padding: 1.75rem 1.5rem 3rem;
+  }
+}
+
+@media (max-width: 639px) {
+  .page {
+    padding: 1rem 0.875rem 2.5rem;
+  }
+}
+
+@media print {
+  .root {
+    min-height: auto;
+    background: #ffffff;
+  }
+
+  .page {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@page {
+  size: A4;
+  margin: 12mm 14mm;
+}

@@ -1,0 +1,307 @@
+/* ───────────────────── Shared Component Styles ──────────────────────── */
+
+@layer components {
+
+  .skip-link {
+    position: absolute;
+    inset-inline-start: 1rem;
+    top: 1rem;
+    z-index: 100;
+    padding-block: var(--space-2);
+    padding-inline: var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--color-card);
+    border: 1px solid var(--color-border-hover);
+    color: var(--color-primary);
+    font-family: var(--font-mono), serif;
+    font-size: var(--text-xs);
+    text-decoration: none;
+    transform: translateY(-200%);
+    transition: transform 150ms ease;
+  }
+
+  .skip-link:focus-visible {
+    transform: translateY(0);
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+
+  @media print {
+    .skip-link {
+      display: none !important;
+    }
+  }
+
+  /* Scroll reveal — visible by default; animated where view() is supported */
+  @supports (animation-timeline: view()) {
+    @keyframes revealOnScroll {
+      from {
+        opacity: 0;
+        transform: translateY(1rem);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .reveal-on-scroll {
+      animation: revealOnScroll 560ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      animation-timeline: view();
+    }
+  }
+
+  /* ── Typography ────────────────────────────────────────────────────── */
+
+  .mono-2xs,
+  .mono-xs,
+  .mono-sm,
+  .mono-md,
+  .mono-base,
+  .mono-label,
+  .section-comment {
+    font-family: var(--font-mono), serif;
+  }
+
+  .mono-2xs  { font-size: var(--text-2xs); line-height: var(--leading-normal); }
+  .mono-xs   { font-size: var(--text-2xs); line-height: var(--leading-normal); }
+  .mono-sm   { font-size: var(--text-mono-sm); line-height: var(--leading-normal); }
+  .mono-md   { font-size: var(--text-xs); line-height: var(--leading-normal); }
+  .mono-base { font-size: var(--text-mono-base); line-height: var(--leading-normal); }
+
+  .mono-label {
+    font-size: var(--text-2xs);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-dim);
+  }
+
+  .text-hero-name    { font-size: var(--text-hero-name); font-weight: 800; }
+  .text-hero-lead    { font-size: var(--text-hero-lead); font-weight: 500; }
+  .text-hero-support { font-size: var(--text-md); font-weight: 400; }
+  .text-hero-stat    { font-size: var(--text-hero-stat); font-weight: 700; }
+  .text-case-title   { font-size: var(--text-case-title); font-weight: 700; }
+  .text-404-title    { font-size: var(--text-404-title); font-weight: 700; }
+
+  .leading-relaxed { line-height: var(--leading-relaxed); }
+  .leading-loose   { line-height: var(--leading-loose); }
+  .leading-looser  { line-height: var(--leading-looser); }
+  .leading-body    { line-height: var(--leading-body); }
+  .leading-copy    { line-height: var(--leading-copy); }
+
+  .section-heading {
+    font-family: var(--font-sans), serif;
+    font-size: var(--text-section-heading);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--color-foreground);
+    margin-block-end: 0.625rem;
+    text-wrap: balance;
+  }
+
+  .section-comment {
+    font-size: var(--text-xs);
+    line-height: var(--leading-relaxed);
+    color: var(--color-muted-foreground);
+  }
+
+  .max-w-copy {
+    max-width: var(--max-width-copy);
+  }
+
+  /* ── Section Layouts ───────────────────────────────────────────────── */
+
+  .section-dark,
+  .section-surface {
+    padding-block: var(--section-pad-y);
+  }
+
+  .section-dark    { background: var(--color-background); }
+  .section-surface { background: var(--color-secondary); }
+
+  /** Below-fold paint skipping — keeps full DOM for SEO/crawlers */
+  .section-cv-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 50rem;
+  }
+
+  .min-h-hero {
+    min-height: var(--hero-min-h);
+  }
+
+  /* ── Background FX ─────────────────────────────────────────────────── */
+
+  .bg-grid {
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 3rem 3rem;
+  }
+
+  .bg-vignette {
+    background: radial-gradient(ellipse 100% 90% at 50% 50%, transparent 10%, var(--background) 100%);
+  }
+
+  /* ── Cards / Panels ────────────────────────────────────────────────── */
+
+  .panel {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-panel);
+    overflow: hidden;
+  }
+
+  .panel-hover {
+    transition: border-color 200ms, box-shadow 200ms;
+    cursor: default;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .panel-hover:hover {
+      border-color: var(--color-border-hover);
+      box-shadow: 0 0 1.75rem var(--shadow-primary);
+    }
+  }
+
+  /* ── Buttons ───────────────────────────────────────────────────────── */
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding-block: 0.8125rem;
+    padding-inline: 1.625rem;
+    border-radius: var(--radius-button);
+    background: var(--color-primary);
+    color: var(--color-background);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background 200ms, transform 150ms;
+  }
+
+  .btn-primary:disabled {
+    cursor: not-allowed;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .btn-primary:hover {
+      background: var(--color-primary-hover);
+      transform: translateY(-1px);
+    }
+  }
+
+  .btn-primary:focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding-block: 0.8125rem;
+    padding-inline: 1.625rem;
+    border-radius: var(--radius-button);
+    color: var(--color-foreground);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    border: 1px solid var(--surface-raised);
+    background: transparent;
+    cursor: pointer;
+    transition: border-color 200ms, background 200ms;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .btn-outline:hover {
+      border-color: var(--border-primary-intense);
+      background: var(--surface-primary-subtle);
+    }
+  }
+
+  .btn-outline:focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+
+  /* ── Chips ─────────────────────────────────────────────────────────── */
+
+  .chip {
+    font-family: var(--font-mono), serif;
+    font-size: var(--text-mono-sm);
+    padding-block: var(--space-0_5);
+    padding-inline: var(--space-2);
+    border-radius: var(--space-1);
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .chip-default {
+    color: var(--color-text-dim);
+    background: var(--surface-muted);
+    border: 1px solid var(--color-border);
+  }
+
+  .chip-blue {
+    color: var(--color-primary);
+    background: var(--surface-primary-muted);
+    border: 1px solid var(--border-primary-muted);
+  }
+
+  /* ── Status Dots ───────────────────────────────────────────────────── */
+
+  .status-dot {
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 9999px;
+    background: var(--color-success);
+    box-shadow: 0 0 0.375rem color-mix(in srgb, var(--success) 90%, transparent);
+  }
+
+  .status-dot-sm {
+    width: 0.25rem;
+    height: 0.25rem;
+    border-radius: 9999px;
+    background: var(--color-success);
+    box-shadow: 0 0 0.25rem color-mix(in srgb, var(--success) 70%, transparent);
+  }
+
+  /* ── Form success state ────────────────────────────────────────────── */
+
+  .form-success-banner {
+    padding-block: var(--space-3);
+    padding-inline: var(--space-6);
+    border-radius: var(--radius-button);
+    background: var(--surface-success-muted);
+    color: var(--color-success);
+    border: 1px solid var(--border-success-strong);
+    font-size: var(--text-sm);
+    cursor: default;
+  }
+
+  /* ── Icon wells ────────────────────────────────────────────────────── */
+
+  .icon-well {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-button);
+    flex-shrink: 0;
+    background: var(--surface-primary-icon);
+  }
+
+  .icon-well-md {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .shadow-primary-glow {
+    box-shadow: 0 0 0.625rem color-mix(in srgb, var(--primary) 50%, transparent);
+  }
+}

@@ -6,30 +6,24 @@ const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
 
+const allowedDevOrigins = (process.env.ALLOWED_DEV_ORIGINS ?? "192.168.1.144")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   reactCompiler: true,
   poweredByHeader: false,
   compress: true,
 
+  // LAN / alternate hostnames for `next dev` HMR + static chunks
+  allowedDevOrigins,
+
   serverExternalPackages: ["firebase-admin", "nodemailer"],
 
-  experimental: {
-    optimizePackageImports: ["lucide-react"],
-  },
-
-  async redirects() {
-    return [
-      { source: "/index.html", destination: "/", permanent: true },
-      { source: "/index.htm", destination: "/", permanent: true },
-      { source: "/index.php", destination: "/", permanent: true },
-      { source: "/index.asp", destination: "/", permanent: true },
-      { source: "/default.html", destination: "/", permanent: true },
-      { source: "/default.htm", destination: "/", permanent: true },
-      { source: "/home.html", destination: "/", permanent: true },
-      { source: "/home.htm", destination: "/", permanent: true },
-    ];
-  },
+  // lucide-react is already on Next's default optimizePackageImports list — no experimental flag needed.
+  // Legacy index redirects: proxy.ts (local/runtime) + vercel.json (CDN).
 
   async headers() {
     return [
@@ -44,6 +38,11 @@ const nextConfig: NextConfig = {
       {
         source: "/favicon.ico",
         headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
+      {
+        // PDF CVs are application downloads — keep them out of the search index.
+        source: "/:file(.*)\\.pdf",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, follow" }],
       },
     ];
   },

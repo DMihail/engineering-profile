@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useActionState, useState } from "react";
+import { useEffect, useEffectEvent, useRef, useActionState, useState } from "react";
 import { ToastContainer, toast } from "react-toastify/unstyled";
 import { ensureRecaptchaLoaded } from "@/lib/recaptcha-client";
 import {
@@ -8,6 +8,7 @@ import {
   contactFormFeedbackMessage,
   contactFormFeedbackVariant,
   submitContactForm,
+  type ContactFormState,
 } from "@/lib/contact-form";
 import { ContactSubmitButton } from "@/components/contact/contact-submit-button";
 import { ContactTextAreaField, ContactTextField } from "@/components/contact/contact-form-field";
@@ -27,10 +28,31 @@ import {
 } from "@/lib/contact-form-rules";
 import { PRIVACY_CONSENT_FIELD } from "@/lib/privacy-consent";
 import { UI_LABELS } from "@/lib/content/ui-labels";
-import styles from "@/styles/sections/contact-section.module.css";
+import styles from "@/styles/sections/contact-form.module.css";
 
 interface ContactFormProps {
   headingId: string;
+}
+
+function deriveFieldError(
+  state: ContactFormState,
+  clientFieldError: ContactFieldValidationFailure | null,
+): ContactFieldValidationFailure | null {
+  if (state.success) return null;
+  return (
+    clientFieldError
+    ?? (state.field && state.error ? { field: state.field, error: state.error } : null)
+  );
+}
+
+function deriveFormStatus(state: ContactFormState, dismissedStatusTs: number): string {
+  if (state.ts === 0 || state.ts === dismissedStatusTs) return "";
+
+  const message = contactFormFeedbackMessage(state);
+  if (!message) return "";
+  if (!state.success && state.field) return "";
+
+  return message;
 }
 
 export function ContactForm({ headingId }: ContactFormProps) {
@@ -42,90 +64,70 @@ export function ContactForm({ headingId }: ContactFormProps) {
   const recaptchaPrimed = useRef(false);
   const lastHandledTs = useRef(0);
 
-  const fieldError = useMemo(() => {
-    if (state.success) return null;
-
-    return (
-      clientFieldError
-      ?? (state.field && state.error ? { field: state.field, error: state.error } : null)
-    );
-  }, [clientFieldError, state.success, state.field, state.error]);
-
-  const formStatus = useMemo(() => {
-    if (state.ts === 0 || state.ts === dismissedStatusTs) return "";
-
-    const message = contactFormFeedbackMessage(state);
-    if (!message) return "";
-    if (!state.success && state.field) return "";
-
-    return message;
-  }, [state, dismissedStatusTs]);
-
+  // Pure derived state — no useMemo (React Compiler + cheap computation).
+  const fieldError = deriveFieldError(state, clientFieldError);
+  const formStatus = deriveFormStatus(state, dismissedStatusTs);
   const success = state.success;
 
-  const fieldMessage = useCallback(
-    (field: ContactFormField) => (fieldError?.field === field ? fieldError.error : undefined),
-    [fieldError],
-  );
-
-  const clearFieldError = useCallback((field: ContactFormField) => {
-    setClientFieldError((current) => (current?.field === field ? null : current));
-  }, []);
-
-  const dismissFormStatus = useCallback(() => {
-    setDismissedStatusTs(state.ts);
-  }, [state.ts]);
-
-  const handleFieldInput = useCallback(
-    (field: ContactFormField) =>
-      (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        clearContactFieldValidity(event);
-        clearFieldError(field);
-        dismissFormStatus();
-      },
-    [clearFieldError, dismissFormStatus],
-  );
-
-  const restoreDraftFields = useCallback(() => {
-    const form = formRef.current;
-    const draft = draftRef.current;
-    if (!form || !draft) return;
-
-    for (const name of ["name", "email", "company", "message"]) {
-      const field = form.elements.namedItem(name);
-      if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) {
-        field.value = String(draft.get(name) ?? "");
-      }
-    }
-
-    const consent = form.elements.namedItem(PRIVACY_CONSENT_FIELD);
-    if (consent instanceof HTMLInputElement && consent.type === "checkbox") {
-      consent.checked = draft.get(PRIVACY_CONSENT_FIELD) === "yes";
-    }
-  }, []);
-
-  useEffect(() => {
-    if (state.ts === 0 || state.ts === lastHandledTs.current) return;
-    lastHandledTs.current = state.ts;
-
-    const message = contactFormFeedbackMessage(state);
-    if (contactFormFeedbackVariant(state) === "success" && message) {
+  const onSubmitResult = useEffectEvent((next: ContactFormState) => {
+    const message = contactFormFeedbackMessage(next);
+    if (contactFormFeedbackVariant(next) === "success" && message) {
       toast.success(message);
     }
 
-    if (state.success) {
+    if (next.success) {
       formRef.current?.reset();
       draftRef.current = null;
       return;
     }
 
-    if (state.error) {
-      restoreDraftFields();
-      if (state.field) {
-        focusContactField(state.field);
+    if (!next.error) return;
+
+    const form = formRef.current;
+    const draft = draftRef.current;
+    if (form && draft) {
+      for (const name of ["name", "email", "company", "message"]) {
+        const field = form.elements.namedItem(name);
+        if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) {
+          field.value = String(draft.get(name) ?? "");
+        }
+      }
+
+      const consent = form.elements.namedItem(PRIVACY_CONSENT_FIELD);
+      if (consent instanceof HTMLInputElement && consent.type === "checkbox") {
+        consent.checked = draft.get(PRIVACY_CONSENT_FIELD) === "yes";
       }
     }
-  }, [state, restoreDraftFields]);
+
+    if (next.field) {
+      focusContactField(next.field);
+    }
+  });
+
+  useEffect(() => {
+    if (state.ts === 0 || state.ts === lastHandledTs.current) return;
+    lastHandledTs.current = state.ts;
+    onSubmitResult(state);
+  }, [state]);
+
+  const fieldMessage = (field: ContactFormField) =>
+    fieldError?.field === field ? fieldError.error : undefined;
+
+  const clearFieldError = (field: ContactFormField) => {
+    setClientFieldError((current) => (current?.field === field ? null : current));
+  };
+
+  const dismissFormStatus = () => {
+    setDismissedStatusTs(state.ts);
+  };
+
+  const handleFieldInput =
+    (field: ContactFormField) =>
+    (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      clearContactFieldValidity(event);
+      clearFieldError(field);
+      dismissFormStatus();
+    };
 
   const primeRecaptcha = () => {
     if (recaptchaPrimed.current) return;

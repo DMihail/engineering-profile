@@ -1,0 +1,45 @@
+/* ────────────────────── Tailwind Theme Extension ─────────────────────── */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-success: var(--success);
+  --color-error: var(--error);
+  --color-border: var(--border);
+  --color-border-hover: var(--border-hover);
+  --color-ring: var(--ring);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-dim: var(--text-dim);
+  --color-text-faint: var(--text-faint);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-primary-subtle: var(--surface-primary-subtle);
+  --color-surface-primary-muted: var(--surface-primary-muted);
+  --color-surface-primary-soft: var(--surface-primary-soft);
+  --color-surface-primary-icon: var(--surface-primary-icon);
+  --color-surface-success-subtle: var(--surface-success-subtle);
+  --color-surface-success-muted: var(--surface-success-muted);
+  --color-border-primary-soft: var(--border-primary-soft);
+  --color-border-primary-muted: var(--border-primary-muted);
+  --color-border-primary-strong: var(--border-primary-strong);
+  --color-border-primary-emphasis: var(--border-primary-emphasis);
+  --color-border-primary-intense: var(--border-primary-intense);
+  --color-border-success-muted: var(--border-success-muted);
+  --color-border-success-strong: var(--border-success-strong);
+  --color-text-success-muted: var(--text-success-muted);
+  --color-text-success-dim: var(--text-success-dim);
+  --color-success-muted: var(--text-success-muted);
+  --color-success-dim: var(--text-success-dim);
+  --max-width-copy: 43.75rem;
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: var(--font-inter, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains, ui-monospace), ui-monospace, "SF Mono", Menlo, monospace;
+}

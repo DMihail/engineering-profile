@@ -17,7 +17,7 @@ function firestore(app?: App): Firestore {
   return app ? getFirestore(app) : getFirestore();
 }
 
-/** All device tokens for one operator (`fcmTokens/{uid}/devices/*`), with legacy doc fallback. */
+/** Device tokens for one operator (`fcmTokens/{uid}/devices/*`). */
 export async function listFcmDeviceRegistrations(
   uid: string,
   app?: App,
@@ -39,25 +39,13 @@ export async function listFcmDeviceRegistrations(
     }
   });
 
-  if (registrations.length > 0) {
-    return registrations;
-  }
-
-  const legacySnap = await db.collection("fcmTokens").doc(uid).get();
-  const legacyToken =
-    typeof legacySnap.data()?.token === "string" ? legacySnap.data()!.token : "";
-  if (legacyToken) {
-    return [{ uid, deviceId: "__legacy__", token: legacyToken }];
-  }
-
-  return [];
+  return registrations;
 }
 
 /** Every registered device for all operators (contact form → inbox push). */
 export async function listAllFcmDeviceRegistrations(app?: App): Promise<FcmDeviceRegistration[]> {
   const db = firestore(app);
   const all: FcmDeviceRegistration[] = [];
-  const uidsFromDevices = new Set<string>();
 
   // Subcollection docs do not create `fcmTokens/{uid}` parent docs — use collection group.
   const deviceSnap = await db.collectionGroup("devices").get();
@@ -68,7 +56,6 @@ export async function listAllFcmDeviceRegistrations(app?: App): Promise<FcmDevic
     const token = typeof deviceDoc.data().token === "string" ? deviceDoc.data().token : "";
     if (!token) return;
 
-    uidsFromDevices.add(uid);
     const data = deviceDoc.data();
     all.push({
       uid,
@@ -77,17 +64,6 @@ export async function listAllFcmDeviceRegistrations(app?: App): Promise<FcmDevic
       platform: typeof data.platform === "string" ? data.platform : undefined,
     });
   });
-
-  const userSnaps = await db.collection("fcmTokens").get();
-  for (const userDoc of userSnaps.docs) {
-    if (uidsFromDevices.has(userDoc.id)) continue;
-
-    const legacyToken =
-      typeof userDoc.data().token === "string" ? userDoc.data().token : "";
-    if (legacyToken) {
-      all.push({ uid: userDoc.id, deviceId: "__legacy__", token: legacyToken });
-    }
-  }
 
   return all;
 }
@@ -120,11 +96,6 @@ export async function pruneStaleFcmDeviceRegistrations(
 
       const reg = registrations[index];
       if (!reg) return;
-
-      if (reg.deviceId === "__legacy__") {
-        await db.collection("fcmTokens").doc(reg.uid).delete().catch(() => undefined);
-        return;
-      }
 
       await db
         .collection("fcmTokens")

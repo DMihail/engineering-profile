@@ -1,23 +1,18 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
+import { type MouseEvent } from "react";
 import { isModifiedNavigation } from "@/lib/focus-main-content";
 import { Menu, X } from "lucide-react";
 import { NAV, type NavId } from "@/lib/content/nav";
-import { HERO_ID, sectionHref, PAGE_SECTION_IDS, isPageSectionId, SECTION_LABELS } from "@/lib/section-ids";
+import { HERO_ID, sectionHref, isPageSectionId, SECTION_LABELS } from "@/lib/section-ids";
 import { UI_LABELS } from "@/lib/content/ui-labels";
-import {
-  getActiveSectionFromScroll,
-  getSectionIdFromHash,
-  navigateToSection,
-  unlockPageScroll,
-} from "@/lib/section-navigation";
+import { navigateToSection, unlockPageScroll } from "@/lib/section-navigation";
+import { useActiveSection } from "@/hooks/use-active-section";
+import { useMobileMenu } from "@/hooks/use-mobile-menu";
 import { MDLogo } from "@/components/ui/icons";
 import styles from "@/styles/layout/nav-bar.module.css";
-const SCROLL_LOCK_MS = 2000;
-const HASH_SCROLL_LOCK_MS = 3500;
+
 const MOBILE_NAV_ID = "mobile-nav-menu";
-const DEFAULT_ACTIVE = HERO_ID;
 
 function handleSectionNavClick(
   event: MouseEvent<HTMLAnchorElement>,
@@ -71,140 +66,15 @@ function NavItem({
 }
 
 export function NavBar() {
-  const lockUntilRef = useRef(0);
-  const menuToggleRef = useRef<HTMLButtonElement>(null);
-  const mobileNavRef = useRef<HTMLElement>(null);
-  const [active, setActive] = useState(DEFAULT_ACTIVE);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const { active, lockActiveSection } = useActiveSection();
+  const { menuOpen, menuToggleRef, mobileNavRef, closeMenu, toggleMenu } = useMobileMenu();
 
-  const closeMenu = useCallback((returnFocus = true) => {
-    setMenuOpen((open) => {
-      if (open && returnFocus) {
-        requestAnimationFrame(() => menuToggleRef.current?.focus());
-      }
-      return false;
-    });
-  }, []);
-
-  const toggleMenu = useCallback(() => {
-    setMenuOpen((open) => !open);
-  }, []);
-
-  const lockActiveSection = useCallback((id: string, duration = SCROLL_LOCK_MS) => {
-    setActive(id);
-    lockUntilRef.current = Date.now() + duration;
-  }, []);
-
-  const onNavigate = useCallback(
-    (id: string) => {
-      lockActiveSection(id);
-      closeMenu(false);
-      unlockPageScroll();
-      void navigateToSection(id);
-    },
-    [closeMenu, lockActiveSection],
-  );
-
-  useEffect(() => {
-    let ticking = false;
-
-    const updateActiveFromScroll = () => {
-      if (Date.now() < lockUntilRef.current) return;
-      setActive(getActiveSectionFromScroll(PAGE_SECTION_IDS));
-    };
-
-    const onScrollOrResize = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        updateActiveFromScroll();
-        ticking = false;
-      });
-    };
-
-    updateActiveFromScroll();
-    window.addEventListener("scroll", onScrollOrResize, { passive: true });
-    window.addEventListener("resize", onScrollOrResize, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", onScrollOrResize);
-      window.removeEventListener("resize", onScrollOrResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    const syncHash = () => {
-      const hashId = getSectionIdFromHash();
-      if (!hashId || !isPageSectionId(hashId)) return;
-      lockActiveSection(hashId, HASH_SCROLL_LOCK_MS);
-      closeMenu(false);
-    };
-
-    syncHash();
-    window.addEventListener("hashchange", syncHash);
-    window.addEventListener("pageshow", syncHash);
-
-    return () => {
-      window.removeEventListener("hashchange", syncHash);
-      window.removeEventListener("pageshow", syncHash);
-    };
-  }, [closeMenu, lockActiveSection]);
-
-  useEffect(() => {
-    if (!menuOpen) return;
-
-    document.documentElement.style.overflow = "hidden";
-    document.body.style.overflow = "hidden";
-    document.body.style.touchAction = "none";
-
-    const nav = mobileNavRef.current;
-    const focusable = nav
-      ? Array.from(
-          nav.querySelectorAll<HTMLElement>(
-            'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
-          ),
-        )
-      : [];
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-
-    requestAnimationFrame(() => first?.focus());
-
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        closeMenu();
-        return;
-      }
-
-      if (e.key !== "Tab" || focusable.length === 0) return;
-
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last?.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first?.focus();
-      }
-    };
-
-    document.addEventListener("keydown", onKeyDown);
-
-    return () => {
-      document.removeEventListener("keydown", onKeyDown);
-      document.documentElement.style.overflow = "";
-      document.body.style.overflow = "";
-      document.body.style.touchAction = "";
-    };
-  }, [menuOpen, closeMenu]);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1024px)");
-    const onChange = () => {
-      if (mq.matches) closeMenu(false);
-    };
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, [closeMenu]);
+  const onNavigate = (id: string) => {
+    lockActiveSection(id);
+    closeMenu(false);
+    unlockPageScroll();
+    void navigateToSection(id);
+  };
 
   const activeLabel = isPageSectionId(active) ? SECTION_LABELS[active] : active;
 

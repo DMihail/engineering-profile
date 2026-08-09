@@ -134,6 +134,9 @@ export async function submitContactForm(
       } catch {
         /* non-JSON response */
       }
+      if (res.status === 429) {
+        return fail(serverError || "Please wait before sending again", Date.now());
+      }
       return fail(serverError, Date.now());
     }
 

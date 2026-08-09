@@ -1,0 +1,23 @@
+/* ─── Case study details (@starting-style) ───────────────────────────── */
+
+@layer components {
+  .case-details .case-details-content {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+    transition:
+      opacity 250ms ease,
+      transform 250ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  @starting-style {
+    .case-details[open] .case-details-content {
+      opacity: 0;
+      transform: translateY(-0.5rem);
+    }
+  }
+
+  .case-details[open] .case-details-content {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,7 +1,7 @@
 import { NAV } from "@/lib/content/nav";
 import { HERO_ID, sectionHref, SECTION_LABELS } from "@/lib/section-ids";
 import { UI_LABELS } from "@/lib/content/ui-labels";
-import styles from "@/styles/layout/nav-bar.module.css";
+import styles from "@/styles/layout/nav-bar-noscript.module.css";
 
 /** Section links when JavaScript is disabled (mobile drawer requires JS). */
 export function NavBarNoScript() {

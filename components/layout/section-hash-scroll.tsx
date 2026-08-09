@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useEffectEvent } from "react";
 import { isHomeScrollTargetId } from "@/lib/section-ids";
 import {
   getSectionIdFromHash,
@@ -9,19 +9,19 @@ import {
 
 /** Scrolls to the current hash once layout is stable (e.g. after /privacy → /#contact). */
 export function SectionHashScroll() {
+  const sync = useEffectEvent(() => {
+    const hashId = getSectionIdFromHash();
+    if (!hashId || !isHomeScrollTargetId(hashId)) return;
+    void scrollToSectionWhenReady(hashId, { behavior: "auto" });
+  });
+
   useLayoutEffect(() => {
     let resizeTimer = 0;
-
-    const sync = () => {
-      const hashId = getSectionIdFromHash();
-      if (!hashId || !isHomeScrollTargetId(hashId)) return;
-      void scrollToSectionWhenReady(hashId, { behavior: "auto" });
-    };
 
     const onResize = () => {
       if (!getSectionIdFromHash()) return;
       window.clearTimeout(resizeTimer);
-      resizeTimer = window.setTimeout(sync, 150);
+      resizeTimer = window.setTimeout(() => sync(), 150);
     };
 
     sync();

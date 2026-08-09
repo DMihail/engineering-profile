@@ -1,0 +1,75 @@
+/* ────────────────────────────── Base Styles ──────────────────────────── */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-color: var(--color-border);
+    outline-color: color-mix(in srgb, var(--color-ring) 50%, transparent);
+  }
+
+  html {
+    height: 100%;
+    font-size: var(--font-size);
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--nav-h) + env(safe-area-inset-top, 0px));
+    overflow-x: clip;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    color-scheme: dark;
+    tab-size: 4;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  section[id] {
+    scroll-margin-top: calc(var(--nav-h) + env(safe-area-inset-top, 0px));
+  }
+
+  body {
+    margin: 0;
+    min-height: var(--viewport-min-h);
+    line-height: var(--leading-normal);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-size: var(--text-base);
+    font-synthesis: none;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+    text-rendering: optimizelegibility;
+    overflow-wrap: break-word;
+    overflow-x: clip;
+  }
+
+  code, kbd, samp, pre {
+    font-family: var(--font-mono), serif;
+  }
+
+  b, strong {
+    font-weight: 600;
+  }
+
+  h1, h2, h3, .text-balance {
+    text-wrap: balance;
+  }
+
+  p, .text-pretty {
+    text-wrap: pretty;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --border: color-mix(in srgb, var(--foreground) 12%, transparent);
+    --muted-foreground: #B4BBC6;
+    --text-dim: #A8B2C0;
+    --text-faint: #9CA3AF;
+    --text-success-muted: color-mix(in srgb, var(--success) 45%, var(--foreground));
+    --text-success-dim: color-mix(in srgb, var(--success) 60%, var(--foreground));
+  }
+}

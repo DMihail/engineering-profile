@@ -4,7 +4,7 @@ import { ResumeToolbar } from "@/components/resume/resume-toolbar";
 import { getContactRegionFromCookies } from "@/lib/contact-region-server";
 import { resolveResumeVariant } from "@/lib/resume-content";
 import { MAIN_CONTENT_ID } from "@/lib/section-ids";
-import styles from "@/styles/resume.module.css";
+import styles from "@/styles/resume/resume-shell.module.css";
 
 interface ResumePageProps {
   searchParams: Promise<{ variant?: string }>;

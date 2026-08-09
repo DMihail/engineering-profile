@@ -7,8 +7,6 @@ import {
 } from "@/lib/fcm-tokens";
 
 const mockDevicesGet = jest.fn();
-const mockLegacyGet = jest.fn();
-const mockUserDocs = jest.fn();
 const mockCollectionGroupGet = jest.fn();
 
 jest.mock("firebase-admin/firestore", () => ({
@@ -18,13 +16,11 @@ jest.mock("firebase-admin/firestore", () => ({
 
       return {
         doc: () => ({
-          get: mockLegacyGet,
           collection: (sub: string) => {
             if (sub !== "devices") throw new Error(`unexpected sub ${sub}`);
             return { get: mockDevicesGet };
           },
         }),
-        get: mockUserDocs,
       };
     },
     collectionGroup: (name: string) => {
@@ -36,7 +32,6 @@ jest.mock("firebase-admin/firestore", () => ({
 
 beforeEach(() => {
   jest.clearAllMocks();
-  mockUserDocs.mockResolvedValue({ docs: [] });
   mockCollectionGroupGet.mockResolvedValue({ forEach: () => undefined });
 });
 
@@ -54,52 +49,33 @@ describe("listFcmDeviceRegistrations", () => {
       { uid: "user-1", deviceId: "device-a", token: "token-a" },
       { uid: "user-1", deviceId: "device-b", token: "token-b" },
     ]);
-    expect(mockLegacyGet).not.toHaveBeenCalled();
   });
 
-  it("falls back to legacy parent token doc", async () => {
+  it("returns empty when the operator has no device docs", async () => {
     mockDevicesGet.mockResolvedValue({ forEach: () => undefined });
-    mockLegacyGet.mockResolvedValue({
-      data: () => ({ token: "legacy-token" }),
-    });
-
-    const regs = await listFcmDeviceRegistrations("user-1");
-    expect(regs).toEqual([
-      { uid: "user-1", deviceId: "__legacy__", token: "legacy-token" },
-    ]);
+    await expect(listFcmDeviceRegistrations("user-1")).resolves.toEqual([]);
   });
 });
 
 describe("listAllFcmDeviceRegistrations", () => {
-  it("aggregates devices via collection group (no parent fcmTokens doc required)", async () => {
+  it("aggregates devices via collection group", async () => {
     mockCollectionGroupGet.mockResolvedValue({
-      forEach: (fn: (doc: { id: string; data: () => object; ref: { parent: { parent: { id: string } } } }) => void) => {
+      forEach: (fn: (doc: {
+        id: string;
+        data: () => object;
+        ref: { parent: { parent: { id: string } } };
+      }) => void) => {
         fn({
           id: "iphone",
-          data: () => ({ token: "t1" }),
+          data: () => ({ token: "t1", platform: "ios" }),
           ref: { parent: { parent: { id: "user-1" } } },
         });
       },
     });
 
     const regs = await listAllFcmDeviceRegistrations();
-    expect(regs).toEqual([{ uid: "user-1", deviceId: "iphone", token: "t1" }]);
-    expect(mockUserDocs).toHaveBeenCalled();
-  });
-
-  it("includes legacy parent token when collection group is empty", async () => {
-    mockUserDocs.mockResolvedValue({
-      docs: [
-        {
-          id: "user-legacy",
-          data: () => ({ token: "legacy-only" }),
-        },
-      ],
-    });
-
-    const regs = await listAllFcmDeviceRegistrations();
     expect(regs).toEqual([
-      { uid: "user-legacy", deviceId: "__legacy__", token: "legacy-only" },
+      { uid: "user-1", deviceId: "iphone", token: "t1", platform: "ios" },
     ]);
   });
 });

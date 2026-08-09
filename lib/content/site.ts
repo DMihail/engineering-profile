@@ -20,10 +20,7 @@ export const SITE_SHORT_DESCRIPTION =
 
 export const SITE_EDUCATION_FOCUS = "Systems Analysis";
 
-export const CV_FILES = [
-  "/Mykhailo_Dzhezhelo_CV_Ireland.pdf",
-  "/Mykhailo_Dzhezhelo_CV_UK.pdf",
-] as const;
+export { CV_FILES } from "@/lib/content/cv";
 
 export const SITE_OG = {
   statusBadge: "Open to contracts",

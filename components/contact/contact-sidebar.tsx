@@ -1,8 +1,7 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useSyncExternalStore, useEffect, useEffectEvent, useState } from "react";
 import { Download, ExternalLink, Send, Phone, Copy, Check } from "lucide-react";
-import { useState } from "react";
 import {
   getContactRegionFromClient,
   getServerContactRegion,
@@ -13,7 +12,7 @@ import { getClientCvLink, getServerCvLink } from "@/lib/contact-cv";
 import { SOCIAL_LINKS } from "@/lib/content/portfolio/social-links";
 import { SITE_CALENDLY_URL } from "@/lib/config";
 import { UI_LABELS } from "@/lib/content/ui-labels";
-import styles from "@/styles/sections/contact-section.module.css";
+import styles from "@/styles/sections/contact-aside.module.css";
 
 const NOOP_SUBSCRIBE = () => () => {};
 
@@ -83,12 +82,21 @@ function EmailCard({ link }: { link: (typeof SOCIAL_LINKS)[number] }) {
   const LinkIcon = link.icon;
   const email = link.hint;
 
+  const resetCopied = useEffectEvent(() => {
+    setCopied(false);
+  });
+
+  useEffect(() => {
+    if (!copied) return;
+    const timer = window.setTimeout(() => resetCopied(), 2000);
+    return () => window.clearTimeout(timer);
+  }, [copied]);
+
   const handleCopy = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     event.stopPropagation();
-    navigator.clipboard.writeText(email).then(() => {
+    void navigator.clipboard.writeText(email).then(() => {
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
     });
   };
 

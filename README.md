@@ -51,7 +51,7 @@ public/                 CV PDFs, static assets
 
 ## Local development
 
-**Requirements:** Node.js 20+, npm
+**Requirements:** Node.js 22+, npm
 
 ```bash
 git clone https://github.com/DMihail/engineering-profile.git
@@ -85,9 +85,9 @@ Create `.env.local` from the template (`.env.local.example`) and fill in values.
 |----------|-------|-------------|
 | `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | Public | reCAPTCHA v3 site key |
 | `RECAPTCHA_SECRET_KEY` | Server | reCAPTCHA v3 secret |
-| `FIREBASE_SERVICE_ACCOUNT_JSON` | Server | Firebase Admin JSON (single line), **or** `FIREBASE_CLIENT_EMAIL` + `FIREBASE_PRIVATE_KEY` / `FIREBASE_PRIVATE_KEY_BASE64` |
+| `FIREBASE_SERVICE_ACCOUNT_JSON` | Server | Firebase Admin JSON (single line), **or** `FIREBASE_PROJECT_ID` / `NEXT_PUBLIC_FIREBASE_PROJECT_ID` + `FIREBASE_CLIENT_EMAIL` + `FIREBASE_PRIVATE_KEY` / `FIREBASE_PRIVATE_KEY_BASE64` |
 
-Client Firebase config (`NEXT_PUBLIC_FIREBASE_*`) is optional for the portfolio UI; Admin credentials are required to write messages to Firestore.
+Admin credentials are required to write messages to Firestore. Client Firebase web SDK keys are not used by this portfolio UI.
 
 ### Optional — push notifications & inbox reply API
 
@@ -96,7 +96,7 @@ Used with the separate **personal-site-inbox** PWA (same Firebase project):
 | Variable | Description |
 |----------|-------------|
 | `INBOX_APP_URL` | Inbox app origin (CORS + notification click URL) |
-| `INBOX_ALLOWED_UIDS` | Comma-separated Firebase Auth UIDs allowed on inbox API routes |
+| `INBOX_ALLOWED_UIDS` | Comma-separated Firebase Auth UIDs allowed on inbox API routes (**required in production**) |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` | Outbound mail for inbox replies |
 | `MAIL_FROM`, `MAIL_FROM_NAME`, `MAIL_REPLY_TO` | From / Reply-To headers |
 
@@ -109,6 +109,13 @@ Without Admin credentials the contact UI still works locally; submissions fail s
 | `/api/contact` | `POST` | Contact form → Firestore + optional FCM |
 | `/api/inbox/reply` | `POST` | Authenticated reply from inbox PWA → email via SMTP |
 | `/api/inbox/test-push` | `POST` | Authenticated FCM test push to the signed-in user's device token |
+
+### Resume assets
+
+| Surface | Role |
+|---------|------|
+| `/resume` | Canonical HTML resume (indexed, print → PDF) |
+| `public/*_CV_Ireland.pdf` / `*_CV_UK.pdf` | ATS downloadables (`noindex`); UA region still uses the historical `*_CV_UK.pdf` filename |
 
 ## Deployment
 

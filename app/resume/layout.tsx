@@ -9,7 +9,7 @@ import {
 } from "@/components/seo/profile-page-json-ld";
 import { SITE_RESUME_OG_IMAGE_PATH } from "@/lib/config";
 import { buildRouteMetadata, titledPage } from "@/lib/page-metadata";
-import styles from "@/styles/resume.module.css";
+import styles from "@/styles/resume/resume-shell.module.css";
 
 const resumeTitle = titledPage("Resume", " — ");
 const resumeDescription =

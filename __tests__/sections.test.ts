@@ -1,16 +1,21 @@
-import { getVisibleSections } from "@/lib/content/sections";
-import { TESTIMONIALS } from "@/lib/content/portfolio/testimonials";
+import { getVisibleSections, getSectionMeta, SECTIONS } from "@/lib/content/sections";
+import { NAV } from "@/lib/content/nav";
 
-describe("getVisibleSections", () => {
-  it("omits testimonials and renumbers contact when testimonials are empty", () => {
-    expect(TESTIMONIALS).toHaveLength(0);
+describe("sections", () => {
+  it("exposes a stable ordered section list without testimonials", () => {
+    const ids = getVisibleSections().map((section) => section.id);
 
-    const sections = getVisibleSections();
-    const ids = sections.map((section) => section.id);
-
+    expect(ids).toEqual([
+      "impact",
+      "projects",
+      "skills",
+      "experience",
+      "education",
+      "contact",
+    ]);
     expect(ids).not.toContain("testimonials");
-    expect(ids.at(-1)).toBe("contact");
-    expect(sections.find((section) => section.id === "contact")?.n).toBe("06");
-    expect(sections.find((section) => section.id === "education")?.n).toBe("05");
+    expect(getSectionMeta("contact").n).toBe("06");
+    expect(NAV).toEqual(ids);
+    expect(SECTIONS).toHaveLength(6);
   });
 });
