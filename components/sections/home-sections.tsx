@@ -4,9 +4,7 @@ import { CaseStudiesSection } from "./case-studies-section";
 import { SkillsSection } from "./skills-section";
 import { ExperienceSection } from "./experience-section";
 import { EducationSection } from "./education-section";
-import { TestimonialsSection } from "./testimonials-section";
 import { ContactSection } from "./contact-section";
-import { TESTIMONIALS } from "@/lib/content/portfolio/testimonials";
 
 export function HomeSections() {
   return (
@@ -30,12 +28,6 @@ export function HomeSections() {
       <SectionErrorBoundary>
         <EducationSection />
       </SectionErrorBoundary>
-
-      {TESTIMONIALS.length > 0 && (
-        <SectionErrorBoundary>
-          <TestimonialsSection />
-        </SectionErrorBoundary>
-      )}
 
       <SectionErrorBoundary>
         <ContactSection />

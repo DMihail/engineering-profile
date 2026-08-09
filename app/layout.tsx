@@ -40,8 +40,7 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
       "max-snippet": -1,
     },
-    yandex: "index, follow",
-  } as Metadata["robots"],
+  },
 };
 
 export const viewport: Viewport = {

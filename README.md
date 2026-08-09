@@ -51,7 +51,7 @@ public/                 CV PDFs, static assets
 
 ## Local development
 
-**Requirements:** Node.js 20+, npm
+**Requirements:** Node.js 22+, npm
 
 ```bash
 git clone https://github.com/DMihail/engineering-profile.git

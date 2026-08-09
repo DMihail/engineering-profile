@@ -1,5 +1,3 @@
-import { TESTIMONIALS } from "@/lib/content/portfolio/testimonials";
-
 export interface SectionMeta {
   id: ContentSectionId;
   n: string;
@@ -14,7 +12,6 @@ export type ContentSectionId =
   | "skills"
   | "experience"
   | "education"
-  | "testimonials"
   | "contact";
 
 /** Content sections in page order — single source for labels and numbering. */
@@ -57,15 +54,8 @@ export const SECTIONS: SectionMeta[] = [
     comment: "Systems Analysis — Bachelor's and Master's degrees from Dnipro National University.",
   },
   {
-    id: "testimonials",
-    n: "06",
-    label: "Endorsements",
-    heading: "What collaborators say",
-    comment: "Recommendations from clients and teammates on shipped products.",
-  },
-  {
     id: "contact",
-    n: "07",
+    n: "06",
     label: "Contact",
     heading: "Contact",
     comment:
@@ -73,23 +63,12 @@ export const SECTIONS: SectionMeta[] = [
   },
 ];
 
-function visibleSections(): SectionMeta[] {
-  return SECTIONS.filter(
-    (section) => section.id !== "testimonials" || TESTIMONIALS.length > 0,
-  );
-}
-
-/** Sections with sequential numbering for the current page (testimonials omitted when empty). */
 export function getVisibleSections(): SectionMeta[] {
-  return visibleSections().map((section, index) => ({
-    ...section,
-    n: String(index + 1).padStart(2, "0"),
-  }));
+  return SECTIONS;
 }
 
 export function getSectionMeta(id: ContentSectionId): SectionMeta {
-  const sections = getVisibleSections();
-  const match = sections.find((section) => section.id === id);
+  const match = SECTIONS.find((section) => section.id === id);
   if (!match) {
     throw new Error(`Unknown section id: ${id}`);
   }

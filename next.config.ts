@@ -22,11 +22,8 @@ const nextConfig: NextConfig = {
 
   serverExternalPackages: ["firebase-admin", "nodemailer"],
 
-  experimental: {
-    optimizePackageImports: ["lucide-react"],
-  },
-
-  // Legacy index redirects: proxy.ts (local/runtime) + vercel.json (CDN). Avoid a third copy here.
+  // lucide-react is already on Next's default optimizePackageImports list — no experimental flag needed.
+  // Legacy index redirects: proxy.ts (local/runtime) + vercel.json (CDN).
 
   async headers() {
     return [
