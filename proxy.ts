@@ -13,15 +13,30 @@ function contactRegionFromRequest(request: NextRequest): ContactRegion {
   return country.toUpperCase() === "UA" ? "ua" : "intl";
 }
 
-function finalizeResponse(request: NextRequest, response: NextResponse, nonce: string): NextResponse {
+/**
+ * Preferential phone/CV cookie is only needed on the homepage (contact aside).
+ * Resume variant is query-only — do not Set-Cookie on /resume, /privacy, APIs, or assets.
+ */
+function shouldSetContactRegionCookie(pathname: string): boolean {
+  return pathname === "/";
+}
+
+function finalizeResponse(
+  request: NextRequest,
+  response: NextResponse,
+  nonce: string,
+  opts?: { setContactRegion?: boolean },
+): NextResponse {
   applySecurityHeaders(response, nonce);
-  const region = contactRegionFromRequest(request);
-  response.cookies.set(CONTACT_REGION_COOKIE, region, {
-    path: "/",
-    maxAge: 60 * 60 * 24 * 30,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-  });
+  if (opts?.setContactRegion) {
+    const region = contactRegionFromRequest(request);
+    response.cookies.set(CONTACT_REGION_COOKIE, region, {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 30,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+    });
+  }
   return response;
 }
 
@@ -34,6 +49,7 @@ function forward(request: NextRequest, pathname: string): NextResponse {
     request,
     NextResponse.next({ request: { headers: requestHeaders } }),
     nonce,
+    { setContactRegion: shouldSetContactRegionCookie(pathname) },
   );
 }
 
@@ -68,6 +84,7 @@ function redirectHome(request: NextRequest): NextResponse {
     request,
     NextResponse.redirect(new URL(HOME, request.url), 308),
     nonce,
+    { setContactRegion: true },
   );
 }
 
@@ -88,7 +105,12 @@ export function proxy(request: NextRequest) {
   if (isSingleSegment && segment && SECTION_IDS.has(segment)) {
     const redirectUrl = new URL(HOME, request.url);
     redirectUrl.hash = segment;
-    return finalizeResponse(request, NextResponse.redirect(redirectUrl, 308), createCspNonce());
+    return finalizeResponse(
+      request,
+      NextResponse.redirect(redirectUrl, 308),
+      createCspNonce(),
+      { setContactRegion: true },
+    );
   }
 
   return forward(request, pathname);

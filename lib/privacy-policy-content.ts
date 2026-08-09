@@ -52,7 +52,7 @@ export const PRIVACY_POLICY_SECTIONS: PrivacySection[] = [
       {
         term: "Preference cookie",
         detail:
-          "We set a first-party cookie named contact-region with a value of ua or intl so the Site can show the appropriate phone number and CV variant. It is based on your approximate country (from hosting headers) and expires after 30 days.",
+          "When you visit the homepage, we set a first-party cookie named contact-region with a value of ua or intl so the Site can show the appropriate phone number and CV download. It is based on your approximate country (from hosting headers) and expires after 30 days. Resume language/content variants are chosen only via an explicit URL query (?variant=ua), not by this cookie.",
       },
       {
         term: "Technical and security data",
@@ -71,7 +71,7 @@ export const PRIVACY_POLICY_SECTIONS: PrivacySection[] = [
     title: "4. Where the data comes from",
     paragraphs: [
       "Most data is provided directly by you (for example when you complete the contact form).",
-      "The contact-region cookie is set automatically by the Site using country information supplied by the hosting platform (for example x-vercel-ip-country). On the client, timezone and browser language may be used only as a fallback to choose contact details before or without a cookie.",
+      "The contact-region cookie is set on homepage responses using country information supplied by the hosting platform (for example x-vercel-ip-country). On the client, timezone and browser language may be used only as a fallback to choose contact details before or without a cookie.",
       "We do not use advertising trackers, social-media pixels, or third-party analytics scripts on the Site.",
     ],
   },
@@ -186,8 +186,8 @@ export const PRIVACY_POLICY_SECTIONS: PrivacySection[] = [
     id: "cookies",
     title: "12. Cookies and similar technologies",
     paragraphs: [
-      "The Site uses one functional first-party cookie (contact-region). It is not used for advertising or cross-site tracking.",
-      "You can block or delete cookies in your browser settings. Blocking this cookie may affect which phone number or CV variant is shown.",
+      "The Site uses one functional first-party cookie (contact-region), set on homepage responses. It is not used for advertising or cross-site tracking, and it does not choose the resume variant.",
+      "You can block or delete cookies in your browser settings. Blocking this cookie may affect which phone number or CV download is shown on the contact section.",
       "The contact form loads Google reCAPTCHA only when needed; reCAPTCHA may set its own cookies or use similar storage as described in Google’s privacy policy.",
     ],
   },

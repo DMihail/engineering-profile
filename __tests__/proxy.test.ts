@@ -3,16 +3,40 @@
  */
 import { NextRequest } from "next/server";
 import { proxy } from "@/proxy";
+import { CONTACT_REGION_COOKIE } from "@/lib/contact-region";
 import { withNodeEnv } from "./helpers/with-node-env";
 
-function requestFor(path: string) {
-  return new NextRequest(`https://dzhezhelo.dev${path}`);
+function requestFor(path: string, headers?: HeadersInit) {
+  return new NextRequest(`https://dzhezhelo.dev${path}`, { headers });
 }
 
 describe("proxy", () => {
   it("allows canonical home", () => {
     const res = proxy(requestFor("/"));
     expect(res.status).toBe(200);
+  });
+
+  it("sets contact-region on the homepage", () => {
+    const res = proxy(requestFor("/", { "x-vercel-ip-country": "UA" }));
+    expect(res.cookies.get(CONTACT_REGION_COOKIE)?.value).toBe("ua");
+  });
+
+  it("sets contact-region on redirects to home", () => {
+    const res = proxy(requestFor("/projects", { "x-vercel-ip-country": "IE" }));
+    expect(res.status).toBe(308);
+    expect(res.cookies.get(CONTACT_REGION_COOKIE)?.value).toBe("intl");
+  });
+
+  it("does not set contact-region on resume or privacy", () => {
+    expect(proxy(requestFor("/resume")).cookies.get(CONTACT_REGION_COOKIE)).toBeUndefined();
+    expect(proxy(requestFor("/privacy")).cookies.get(CONTACT_REGION_COOKIE)).toBeUndefined();
+  });
+
+  it("does not set contact-region on API or static assets", () => {
+    expect(proxy(requestFor("/api/contact")).cookies.get(CONTACT_REGION_COOKIE)).toBeUndefined();
+    expect(
+      proxy(requestFor("/Mykhailo_Dzhezhelo_CV_Ireland.pdf")).cookies.get(CONTACT_REGION_COOKIE),
+    ).toBeUndefined();
   });
 
   it("sets a per-request CSP with nonce on allowed routes in production", () => {

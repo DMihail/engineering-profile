@@ -38,6 +38,12 @@ describe("privacy policy content", () => {
     expect(text).toMatch(/name, email/i);
   });
 
+  it("scopes contact-region cookie to the homepage, not resume variant", () => {
+    const text = policyText();
+    expect(text).toMatch(/homepage/i);
+    expect(text).toMatch(/\?variant=ua/i);
+  });
+
   it("treats the form checkbox as acknowledgement, not GDPR consent", () => {
     const legal = PRIVACY_POLICY_SECTIONS.find((section) => section.id === "legal-basis");
     const body = [

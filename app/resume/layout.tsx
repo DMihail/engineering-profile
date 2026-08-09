@@ -15,6 +15,7 @@ const resumeTitle = titledPage("Resume", " — ");
 const resumeDescription =
   "ATS-friendly resume for Mykhailo Dzhezhelo — Mobile Engineer, React Native and Web Developer. Print or save as PDF.";
 
+/** Ireland resume is the sole indexable / canonical URL; UA is `/resume?variant=ua` (noindex). */
 export const metadata: Metadata = buildRouteMetadata({
   title: resumeTitle,
   description: resumeDescription,
