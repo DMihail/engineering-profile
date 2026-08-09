@@ -151,9 +151,11 @@ describe("ContactSection form", () => {
 
     await waitFor(() => {
       expect(screen.getByRole("button", { name: /^message sent$/i })).toBeInTheDocument();
-      expect(screen.getByRole("status")).toHaveTextContent(/get back to you within 24 hours/i);
+      expect(screen.getByText(/get back to you within 24 hours/i)).toBeInTheDocument();
     });
 
+    // Success copy lives in the toast, not the form <output>.
+    expect(document.querySelector("form output")).toBeNull();
     expect(mockExecute).toHaveBeenCalledWith(
       "test-site-key",
       { action: "contact_submit" }

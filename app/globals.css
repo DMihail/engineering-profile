@@ -8,6 +8,7 @@
 @import "../styles/tokens/design-tokens.css";
 @import "../styles/tokens/tailwind-theme.css";
 @import "../styles/base/document.css";
+@import "../styles/components/utilities.css";
 @import "../styles/components/shared-ui.css";
 @import "../styles/components/case-details.css";
 @import "../styles/components/impact-table.css";

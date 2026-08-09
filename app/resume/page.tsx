@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { ResumeDocument } from "@/components/resume/resume-document";
 import { ResumeToolbar } from "@/components/resume/resume-toolbar";
 import { getContactRegionFromCookies } from "@/lib/contact-region-server";
-import { resolveResumeVariant } from "@/lib/resume-content";
+import { resolveResumeVariant, type ResumeVariant } from "@/lib/resume-content";
 import { MAIN_CONTENT_ID } from "@/lib/section-ids";
 import styles from "@/styles/resume/resume-shell.module.css";
 
@@ -25,15 +26,26 @@ export async function generateMetadata({ searchParams }: ResumePageProps): Promi
   return {};
 }
 
-export default async function ResumePage({ searchParams }: ResumePageProps) {
-  const { variant: variantParam } = await searchParams;
-  const region = await getContactRegionFromCookies();
-  const variant = resolveResumeVariant(variantParam, region);
-
+function ResumeMain({ variant }: { variant: ResumeVariant }) {
   return (
     <main id={MAIN_CONTENT_ID} tabIndex={-1} className={styles.page}>
       <ResumeToolbar variant={variant} />
       <ResumeDocument variant={variant} />
     </main>
+  );
+}
+
+async function ResumeFromRequest({ searchParams }: ResumePageProps) {
+  const { variant: variantParam } = await searchParams;
+  const region = await getContactRegionFromCookies();
+  const variant = resolveResumeVariant(variantParam, region);
+  return <ResumeMain variant={variant} />;
+}
+
+export default function ResumePage({ searchParams }: ResumePageProps) {
+  return (
+    <Suspense fallback={<ResumeMain variant="ireland" />}>
+      <ResumeFromRequest searchParams={searchParams} />
+    </Suspense>
   );
 }

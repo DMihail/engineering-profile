@@ -1,9 +1,14 @@
+import { cacheLife, cacheTag } from "next/cache";
 import { buildSiteJsonLd } from "@/lib/json-ld";
 
-const jsonLd = buildSiteJsonLd();
+/** Structured data for crawlers — cached; valid in document body per schema.org / Google. */
+export async function SiteJsonLd() {
+  "use cache";
+  cacheLife("max");
+  cacheTag("site-json-ld");
 
-/** Structured data for crawlers — valid in document body per schema.org / Google. */
-export function SiteJsonLd() {
+  const jsonLd = buildSiteJsonLd();
+
   return (
     <script
       type="application/ld+json"

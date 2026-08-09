@@ -65,11 +65,11 @@
 
 @media (prefers-contrast: more) {
   :root {
-    --border: color-mix(in srgb, var(--foreground) 12%, transparent);
-    --muted-foreground: #B4BBC6;
-    --text-dim: #A8B2C0;
-    --text-faint: #9CA3AF;
-    --text-success-muted: color-mix(in srgb, var(--success) 45%, var(--foreground));
-    --text-success-dim: color-mix(in srgb, var(--success) 60%, var(--foreground));
+    --border: color-mix(in oklch, var(--foreground) 12%, transparent);
+    --muted-foreground: oklch(0.78 0.01 255);
+    --text-dim: oklch(0.72 0.012 255);
+    --text-faint: oklch(0.68 0.01 260);
+    --text-success-muted: color-mix(in oklch, var(--success) 45%, var(--foreground));
+    --text-success-dim: color-mix(in oklch, var(--success) 60%, var(--foreground));
   }
 }

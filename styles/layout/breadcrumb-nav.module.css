@@ -55,7 +55,7 @@
   font-weight: 500;
 }
 
-@media (min-width: 640px) {
+@media (width >= 40rem) {
   .nav {
     padding-inline: 1.5rem;
     padding-block-end: 0.75rem;

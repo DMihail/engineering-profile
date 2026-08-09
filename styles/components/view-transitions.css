@@ -1,4 +1,4 @@
-/* ─── View transitions (low priority, progressive) ─────────────────── */
+/* ─── View transitions (progressive) ─────────────────── */
 
 @view-transition {
   navigation: auto;
@@ -7,4 +7,23 @@
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation-duration: 200ms;
+}
+
+/* Named VT: active nav chip + open case study */
+::view-transition-group(nav-active),
+::view-transition-group(case-open) {
+  animation-duration: 280ms;
+}
+
+::view-transition-old(nav-active),
+::view-transition-new(nav-active) {
+  animation-duration: 220ms;
+  mix-blend-mode: normal;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(nav-active),
+  ::view-transition-group(case-open) {
+    animation: none !important;
+  }
 }

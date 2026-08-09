@@ -18,13 +18,13 @@
   padding: 1.25rem 1rem 3rem;
 }
 
-@media (min-width: 640px) {
+@media (width >= 40rem) {
   .page {
     padding: 1.75rem 1.5rem 3rem;
   }
 }
 
-@media (max-width: 639px) {
+@media (width < 40rem) {
   .page {
     padding: 1rem 0.875rem 2.5rem;
   }

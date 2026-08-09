@@ -1,6 +1,8 @@
 /* ────────────────────── Tailwind Theme Extension ─────────────────────── */
 
 @theme inline {
+  --breakpoint-sm: 40rem;
+  --breakpoint-lg: 64rem;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

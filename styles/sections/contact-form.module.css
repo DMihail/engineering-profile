@@ -19,7 +19,7 @@
   flex-direction: column;
 }
 
-@media (min-width: 640px) {
+@media (width >= 40rem) {
   .formPanel {
     padding: 1.5rem;
   }
@@ -44,9 +44,12 @@
 .messageField {
   resize: none;
   line-height: var(--leading-relaxed);
+  field-sizing: content;
+  min-block-size: 7.5rem;
+  max-block-size: 16rem;
 }
 
-@media (min-width: 1024px) {
+@media (width >= 64rem) {
   .formPanel {
     gap: 1.5rem;
     padding-block: 1.75rem;
@@ -170,15 +173,6 @@
   display: none;
 }
 
-.formStatusSuccess {
-  padding-block: var(--space-3);
-  padding-inline: var(--space-4);
-  border-radius: var(--radius-button);
-  background: var(--surface-success-muted);
-  color: var(--success);
-  border: 1px solid var(--border-success-strong);
-}
-
 .inputField:-webkit-autofill,
 .inputField:-webkit-autofill:hover,
 .inputField:-webkit-autofill:focus {
@@ -228,7 +222,7 @@
   text-underline-offset: 0.15em;
 }
 
-@media (max-width: 639px) {
+@media (width < 40rem) {
   .formPanel {
     padding: 1rem;
   }

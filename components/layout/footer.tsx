@@ -1,9 +1,11 @@
 import Link from "next/link";
-import { SITE_AUTHOR, SITE_ROLE } from "@/lib/config";
+import { SITE_AUTHOR, SITE_LAST_MODIFIED, SITE_ROLE } from "@/lib/config";
 import { SOCIAL_LINKS } from "@/lib/content/portfolio/social-links";
 import { UI_LABELS } from "@/lib/content/ui-labels";
 import { MDLogo } from "@/components/ui/icons";
 import styles from "@/styles/layout/footer.module.css";
+
+const COPYRIGHT_YEAR = Number.parseInt(SITE_LAST_MODIFIED.slice(0, 4), 10) || 2026;
 
 export function Footer() {
   return (
@@ -13,7 +15,7 @@ export function Footer() {
           <div className={styles.brandRow}>
             <MDLogo size={16} aria-hidden />
             <small className={`mono-md ${styles.copyright}`}>
-              © {new Date().getFullYear()} {SITE_AUTHOR}
+              © {COPYRIGHT_YEAR} {SITE_AUTHOR}
             </small>
           </div>
           <p className={styles.role}>{SITE_ROLE}</p>
