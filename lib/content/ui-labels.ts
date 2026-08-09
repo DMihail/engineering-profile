@@ -105,7 +105,7 @@ export const UI_LABELS = {
     sending: "Sending…",
     sent: "Message sent",
   },
-  privacyConsent: "I agree to the privacy policy",
+  privacyConsent: "I have read the privacy policy and understand how this enquiry will be handled",
   errorBoundary: {
     unavailable: "Section unavailable",
     retry: "Retry",

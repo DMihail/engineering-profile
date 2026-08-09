@@ -36,10 +36,11 @@ export function PrivacyConsentField({
         className={styles.checkbox}
       />
       <label htmlFor={id} className={styles.label}>
-        I agree to the{" "}
+        I have read the{" "}
         <Link href="/privacy" className={styles.link}>
           privacy policy
-        </Link>
+        </Link>{" "}
+        and understand how this enquiry will be handled
       </label>
     </div>
   );

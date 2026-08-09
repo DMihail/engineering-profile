@@ -1,7 +1,7 @@
 export const PRIVACY_CONSENT_FIELD = "privacyConsent";
 export const PRIVACY_CONSENT_VALUE = "yes";
 
-export const PRIVACY_CONSENT_ERROR = "Please accept the privacy terms to continue";
+export const PRIVACY_CONSENT_ERROR = "Please confirm you have read the privacy policy to continue";
 
 export function isPrivacyConsentGiven(value: FormDataEntryValue | null | undefined): boolean {
   return value === PRIVACY_CONSENT_VALUE;
