@@ -1,7 +1,5 @@
 @import "tailwindcss";
 @import "../styles/reset.css" layer(base);
-@import "react-toastify/dist/ReactToastify.css";
-@import "../styles/ui/react-toastify.css";
 @import "../styles/reduced-motion.css";
 
 @import "../styles/tokens/design-tokens.css";

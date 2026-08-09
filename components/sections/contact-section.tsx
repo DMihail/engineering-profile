@@ -1,6 +1,7 @@
 import { ContactForm } from "@/components/contact/contact-form";
 import { ContactNoScriptFallback } from "@/components/contact/contact-noscript-fallback";
 import { ContactSidebar } from "@/components/contact/contact-sidebar";
+import { AppToaster } from "@/components/ui/app-toaster";
 import { SectionHeader, sectionHeadingId } from "@/components/ui/primitives";
 import { UI_LABELS } from "@/lib/content/ui-labels";
 import styles from "@/styles/sections/contact-section.module.css";
@@ -26,6 +27,7 @@ export function ContactSection() {
             <ContactNoScriptFallback />
             <div className={styles.contactJsOnly}>
               <ContactForm headingId={headingId} />
+              <AppToaster />
             </div>
           </div>
           <ContactSidebar />

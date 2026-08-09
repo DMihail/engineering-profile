@@ -6,10 +6,8 @@ import {
   useRef,
   useActionState,
   useState,
-  useSyncExternalStore,
 } from "react";
-import { createPortal } from "react-dom";
-import { ToastContainer, toast } from "react-toastify/unstyled";
+import { toast } from "react-toastify/unstyled";
 import { ensureRecaptchaLoaded } from "@/lib/recaptcha-client";
 import {
   CONTACT_FORM_INITIAL_STATE,
@@ -69,11 +67,6 @@ function deriveFormStatus(state: ContactFormState, dismissedStatusTs: number): s
 function deriveSuccessAnnouncement(state: ContactFormState): string {
   if (!state.success) return "";
   return contactFormFeedbackMessage(state) ?? "";
-}
-
-const emptySubscribe = () => () => {};
-function useIsClient() {
-  return useSyncExternalStore(emptySubscribe, () => true, () => false);
 }
 
 export function ContactForm({ headingId }: ContactFormProps) {
@@ -172,21 +165,19 @@ export function ContactForm({ headingId }: ContactFormProps) {
     setClientFieldError(null);
   };
 
-  const isClient = useIsClient();
   const formStatusClassName = styles.formStatus;
   const formStatusRole = formStatus ? "alert" : undefined;
 
   return (
-    <>
-      <form
-        ref={formRef}
-        action={formAction}
-        noValidate
-        onSubmit={handleSubmit}
-        onFocusCapture={primeRecaptcha}
-        className={`panel ${styles.formPanel} min-w-0`}
-        aria-labelledby={headingId}
-      >
+    <form
+      ref={formRef}
+      action={formAction}
+      noValidate
+      onSubmit={handleSubmit}
+      onFocusCapture={primeRecaptcha}
+      className={`panel ${styles.formPanel} min-w-0`}
+      aria-labelledby={headingId}
+    >
       {successAnnouncement ? (
         <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
           {successAnnouncement}
@@ -301,23 +292,6 @@ export function ContactForm({ headingId }: ContactFormProps) {
           </a>
         </p>
       </fieldset>
-      </form>
-
-      {isClient
-        ? createPortal(
-            <ToastContainer
-              theme="dark"
-              position="bottom-right"
-              autoClose={5000}
-              newestOnTop
-              closeOnClick
-              pauseOnHover
-              limit={3}
-              aria-label={UI_LABELS.contact.toastRegion}
-            />,
-            document.body,
-          )
-        : null}
-    </>
+    </form>
   );
 }
