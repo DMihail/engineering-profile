@@ -88,7 +88,6 @@
   .leading-loose   { line-height: var(--leading-loose); }
   .leading-looser  { line-height: var(--leading-looser); }
   .leading-body    { line-height: var(--leading-body); }
-  .leading-copy    { line-height: var(--leading-copy); }
 
   .section-heading {
     font-family: var(--font-sans), serif;
