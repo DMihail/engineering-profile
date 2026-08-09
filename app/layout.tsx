@@ -9,9 +9,9 @@ import {
   DEFAULT_SITE_TITLE,
   ROOT_SITE_METADATA,
 } from "@/lib/site-metadata";
+import { ScrollHashBootstrap } from "@/components/layout/scroll-hash-bootstrap";
 import { SiteJsonLd } from "@/components/seo/site-json-ld";
 import { fontBodyClassName, fontVariableClassName } from "@/lib/fonts";
-import { SCROLL_HASH_BOOTSTRAP_SCRIPT } from "@/lib/scroll-hash-bootstrap";
 import { CSP_NONCE_HEADER } from "@/lib/security-headers";
 import "./globals.css";
 
@@ -67,11 +67,7 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className={`${fontBodyClassName} min-h-full`}>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: SCROLL_HASH_BOOTSTRAP_SCRIPT,
-          }}
-        />
+        <ScrollHashBootstrap />
         <SiteJsonLd />
         {children}
       </body>
