@@ -3,6 +3,7 @@
  */
 import { POST } from "@/app/api/contact/route";
 import { NextRequest } from "next/server";
+import { resetRateLimitStore } from "@/lib/rate-limit";
 
 const mockAdd = jest.fn().mockResolvedValue({ id: "test-doc-id" });
 const mockSendContactPush = jest.fn().mockResolvedValue({ sent: 1, failed: 0 });
@@ -66,6 +67,7 @@ const validBody = {
 
 beforeEach(() => {
   jest.clearAllMocks();
+  resetRateLimitStore();
   mockGetFirebaseAdminApp.mockReturnValue({});
   process.env.RECAPTCHA_SECRET_KEY = "test-secret";
 });
@@ -230,5 +232,20 @@ describe("POST /api/contact", () => {
     const res = await POST(makeRequest(validBody));
     expect(res.status).toBe(500);
     spy.mockRestore();
+  });
+
+  it("returns 429 after the per-IP rate limit is exceeded", async () => {
+    for (let i = 0; i < 5; i++) {
+      mockRecaptchaSuccess();
+      const res = await POST(makeRequest(validBody));
+      expect(res.status).toBe(200);
+    }
+
+    const limited = await POST(makeRequest(validBody));
+    expect(limited.status).toBe(429);
+    expect(limited.headers.get("Retry-After")).toBeTruthy();
+    const json = await limited.json();
+    expect(json.error).toMatch(/too many requests/i);
+    expect(mockFetch).toHaveBeenCalledTimes(5);
   });
 });

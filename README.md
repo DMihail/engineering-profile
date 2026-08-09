@@ -96,7 +96,7 @@ Used with the separate **personal-site-inbox** PWA (same Firebase project):
 | Variable | Description |
 |----------|-------------|
 | `INBOX_APP_URL` | Inbox app origin (CORS + notification click URL) |
-| `INBOX_ALLOWED_UIDS` | Comma-separated Firebase Auth UIDs allowed on inbox API routes |
+| `INBOX_ALLOWED_UIDS` | Comma-separated Firebase Auth UIDs allowed on inbox API routes (**required in production**) |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` | Outbound mail for inbox replies |
 | `MAIL_FROM`, `MAIL_FROM_NAME`, `MAIL_REPLY_TO` | From / Reply-To headers |
 

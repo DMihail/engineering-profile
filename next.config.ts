@@ -6,14 +6,19 @@ const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
 
+const allowedDevOrigins = (process.env.ALLOWED_DEV_ORIGINS ?? "192.168.1.144")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   reactCompiler: true,
   poweredByHeader: false,
   compress: true,
 
-  // Allow LAN devices to load HMR / static chunks in `next dev`
-  allowedDevOrigins: ["192.168.1.144"],
+  // LAN / alternate hostnames for `next dev` HMR + static chunks
+  allowedDevOrigins,
 
   serverExternalPackages: ["firebase-admin", "nodemailer"],
 
@@ -21,18 +26,7 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["lucide-react"],
   },
 
-  async redirects() {
-    return [
-      { source: "/index.html", destination: "/", permanent: true },
-      { source: "/index.htm", destination: "/", permanent: true },
-      { source: "/index.php", destination: "/", permanent: true },
-      { source: "/index.asp", destination: "/", permanent: true },
-      { source: "/default.html", destination: "/", permanent: true },
-      { source: "/default.htm", destination: "/", permanent: true },
-      { source: "/home.html", destination: "/", permanent: true },
-      { source: "/home.htm", destination: "/", permanent: true },
-    ];
-  },
+  // Legacy index redirects: proxy.ts (local/runtime) + vercel.json (CDN). Avoid a third copy here.
 
   async headers() {
     return [

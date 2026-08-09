@@ -5,6 +5,7 @@ import { sendContactPushNotification } from "@/lib/send-contact-push-notificatio
 import { sendContactTelegramNotification } from "@/lib/send-contact-telegram-notification";
 import { hasPrivacyConsentInBody } from "@/lib/privacy-consent";
 import { validateContactFields } from "@/lib/contact-form-rules";
+import { checkRateLimit, clientIpFromHeaders } from "@/lib/rate-limit";
 
 const SCORE_THRESHOLD = 0.5;
 
@@ -12,6 +13,10 @@ const MAX_NAME = 100;
 const MAX_EMAIL = 254;
 const MAX_COMPANY = 120;
 const MAX_MESSAGE = 2000;
+
+/** 5 submissions per IP per 10 minutes (server-side; client has its own throttle). */
+const CONTACT_RATE_LIMIT = 5;
+const CONTACT_RATE_WINDOW_MS = 10 * 60 * 1000;
 
 interface RecaptchaResponse {
   success: boolean;
@@ -40,6 +45,23 @@ async function verifyRecaptcha(token: string): Promise<RecaptchaResponse> {
 }
 
 export async function POST(req: NextRequest) {
+  const ip = clientIpFromHeaders(req.headers);
+  const rate = checkRateLimit(`contact:${ip}`, {
+    limit: CONTACT_RATE_LIMIT,
+    windowMs: CONTACT_RATE_WINDOW_MS,
+  });
+  if (!rate.ok) {
+    return NextResponse.json(
+      { error: "Too many requests — please wait before sending again" },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(rate.retryAfterSec),
+        },
+      },
+    );
+  }
+
   let body: Record<string, unknown>;
 
   try {

@@ -7,6 +7,13 @@ export type InboxAuthResult =
   | { ok: true; uid: string; email?: string }
   | { ok: false; response: NextResponse };
 
+function parseAllowedUids(raw: string | undefined): string[] {
+  return (raw ?? "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
 export async function verifyInboxAuth(request: NextRequest): Promise<InboxAuthResult> {
   const unauthorized = (message: string, status = 401) =>
     ({
@@ -34,11 +41,15 @@ export async function verifyInboxAuth(request: NextRequest): Promise<InboxAuthRe
 
   try {
     const decoded = await getAuth(app).verifyIdToken(idToken);
-    const allowed = process.env.INBOX_ALLOWED_UIDS?.split(",")
-      .map((s) => s.trim())
-      .filter(Boolean);
+    const allowed = parseAllowedUids(process.env.INBOX_ALLOWED_UIDS);
 
-    if (allowed?.length && !allowed.includes(decoded.uid)) {
+    // Production must pin an explicit allowlist — never open to every Firebase user.
+    if (allowed.length === 0) {
+      if (process.env.NODE_ENV === "production") {
+        console.error("[inbox-auth] INBOX_ALLOWED_UIDS is required in production");
+        return unauthorized("Inbox allowlist is not configured", 503);
+      }
+    } else if (!allowed.includes(decoded.uid)) {
       return unauthorized("Forbidden", 403);
     }
 
