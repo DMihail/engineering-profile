@@ -42,6 +42,11 @@ const nextConfig: NextConfig = {
         source: "/favicon.ico",
         headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
       },
+      {
+        // PDF CVs are application downloads — keep them out of the search index.
+        source: "/:file(.*)\\.pdf",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, follow" }],
+      },
     ];
   },
 };

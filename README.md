@@ -85,9 +85,9 @@ Create `.env.local` from the template (`.env.local.example`) and fill in values.
 |----------|-------|-------------|
 | `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | Public | reCAPTCHA v3 site key |
 | `RECAPTCHA_SECRET_KEY` | Server | reCAPTCHA v3 secret |
-| `FIREBASE_SERVICE_ACCOUNT_JSON` | Server | Firebase Admin JSON (single line), **or** `FIREBASE_CLIENT_EMAIL` + `FIREBASE_PRIVATE_KEY` / `FIREBASE_PRIVATE_KEY_BASE64` |
+| `FIREBASE_SERVICE_ACCOUNT_JSON` | Server | Firebase Admin JSON (single line), **or** `FIREBASE_PROJECT_ID` / `NEXT_PUBLIC_FIREBASE_PROJECT_ID` + `FIREBASE_CLIENT_EMAIL` + `FIREBASE_PRIVATE_KEY` / `FIREBASE_PRIVATE_KEY_BASE64` |
 
-Client Firebase config (`NEXT_PUBLIC_FIREBASE_*`) is optional for the portfolio UI; Admin credentials are required to write messages to Firestore.
+Admin credentials are required to write messages to Firestore. Client Firebase web SDK keys are not used by this portfolio UI.
 
 ### Optional — push notifications & inbox reply API
 
@@ -109,6 +109,13 @@ Without Admin credentials the contact UI still works locally; submissions fail s
 | `/api/contact` | `POST` | Contact form → Firestore + optional FCM |
 | `/api/inbox/reply` | `POST` | Authenticated reply from inbox PWA → email via SMTP |
 | `/api/inbox/test-push` | `POST` | Authenticated FCM test push to the signed-in user's device token |
+
+### Resume assets
+
+| Surface | Role |
+|---------|------|
+| `/resume` | Canonical HTML resume (indexed, print → PDF) |
+| `public/*_CV_Ireland.pdf` / `*_CV_UK.pdf` | ATS downloadables (`noindex`); UA region still uses the historical `*_CV_UK.pdf` filename |
 
 ## Deployment
 
