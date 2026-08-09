@@ -114,7 +114,7 @@
   --grid-line: color-mix(in oklch, var(--primary) 3%, transparent);
   --study-num: color-mix(in oklch, var(--primary) 58%, transparent);
   --study-num-open: color-mix(in oklch, var(--primary) 88%, transparent);
-  --content-deep: color-mix(in oklch, oklch(0.12 0.02 260) 80%, transparent);
+  --content-deep: color-mix(in oklch, var(--background) 80%, transparent);
   --nav-shadow: color-mix(in oklch, black 40%, transparent);
   --radius: 0.625rem;
 }

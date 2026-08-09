@@ -1,4 +1,3 @@
-import { Smartphone, Monitor, Server, Network, Terminal, Gauge } from "lucide-react";
 import type { Capability } from "@/lib/types";
 
 export const CAPABILITIES: Capability[] = [
@@ -6,7 +5,7 @@ export const CAPABILITIES: Capability[] = [
     id: "mobile",
     kpi: "App Store",
     kpiSub: "Google Play",
-    icon: Smartphone,
+    icon: "smartphone",
     title: "React Native mobile apps",
     desc: "Build, release, and maintain production iOS and Android apps — Firebase, push notifications, deep linking, offline storage, and App Store / Google Play releases.",
     tags: ["react-native", "expo", "typescript", "firebase", "sqlite"],
@@ -16,7 +15,7 @@ export const CAPABILITIES: Capability[] = [
     id: "web",
     kpi: "React",
     kpiSub: "dashboards",
-    icon: Monitor,
+    icon: "monitor",
     title: "React web products",
     desc: "Analytics dashboards, admin panels, and customer-facing web UIs with React and TypeScript — integrated with REST and GraphQL APIs.",
     tags: ["react", "typescript", "redux", "graphql"],
@@ -26,7 +25,7 @@ export const CAPABILITIES: Capability[] = [
     id: "backend",
     kpi: "Node.js",
     kpiSub: "APIs",
-    icon: Server,
+    icon: "server",
     title: "Backend & APIs",
     desc: "Node.js with Express, REST, GraphQL, and GraphQL Subscriptions — MySQL and Firebase backends connected to mobile and web clients.",
     tags: ["node.js", "express", "graphql", "mysql"],
@@ -36,7 +35,7 @@ export const CAPABILITIES: Capability[] = [
     id: "rt",
     kpi: "Real-time",
     kpiSub: "offline-first",
-    icon: Network,
+    icon: "network",
     title: "Live & offline features",
     desc: "WebSockets and GraphQL Subscriptions for real-time sync, offline-first field workflows, and Firebase Auth, Analytics, and Crashlytics in production.",
     tags: ["websockets", "graphql", "firebase", "offline"],
@@ -46,7 +45,7 @@ export const CAPABILITIES: Capability[] = [
     id: "native",
     kpi: "SDKs",
     kpiSub: "Turbo Modules",
-    icon: Terminal,
+    icon: "terminal",
     title: "Native integration",
     desc: "Turbo Modules and native host projects when React Native needs camera pipelines, UsageStats, Screen Time APIs, third-party SDKs, or platform-specific behaviour.",
     tags: ["turbo-modules", "kotlin", "swift", "ios", "android"],
@@ -56,7 +55,7 @@ export const CAPABILITIES: Capability[] = [
     id: "perf",
     kpi: "Production",
     kpiSub: "support",
-    icon: Gauge,
+    icon: "gauge",
     title: "Delivery & collaboration",
     desc: "Crashlytics-driven debugging, Jest, code reviews, sprint planning, task estimation, mentoring, and stakeholder communication on team projects.",
     tags: ["crashlytics", "jest", "releases", "mentoring"],

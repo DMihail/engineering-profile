@@ -3,6 +3,7 @@ import { TELEGRAM } from "@/lib/contact-region";
 import { SOCIAL_LINKS } from "@/lib/content/portfolio/social-links";
 import { SITE_CALENDLY_URL } from "@/lib/config";
 import { UI_LABELS } from "@/lib/content/ui-labels";
+import { ContentIcon } from "@/components/ui/content-icons";
 import { ContactCopyEmailButton } from "@/components/contact/contact-copy-email-button";
 import {
   ContactPhoneCard,
@@ -55,7 +56,6 @@ function CalendlyLink() {
 export function ContactSidebar() {
   const emailLink = SOCIAL_LINKS.find((link) => link.href.startsWith("mailto:"));
   const socialLinks = SOCIAL_LINKS.filter((link) => !link.href.startsWith("mailto:"));
-  const EmailIcon = emailLink?.icon;
 
   return (
     <aside className={styles.contactAside} aria-labelledby="contact-links-heading">
@@ -65,11 +65,11 @@ export function ContactSidebar() {
 
       <address className="not-italic space-y-3 mb-3">
         <ContactPhoneCard />
-        {emailLink && EmailIcon ? (
+        {emailLink ? (
           <div className={styles.emailRow}>
             <a href={emailLink.href} className={`${styles.linkCard} ${styles.emailLink} no-underline`}>
               <div className="icon-well icon-well-md">
-                <EmailIcon size={14} className="text-primary" aria-hidden />
+                <ContentIcon id={emailLink.icon} size={14} className="text-primary" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="text-xs font-semibold text-foreground">{emailLink.label}</div>
@@ -84,27 +84,24 @@ export function ContactSidebar() {
       <div className="space-y-3">
         <TelegramCard />
         <CalendlyLink />
-        {socialLinks.map((link) => {
-          const LinkIcon = link.icon;
-          return (
-            <a
-              key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${styles.linkCard} group no-underline`}
-            >
-              <div className="icon-well icon-well-md">
-                <LinkIcon size={14} className="text-primary" aria-hidden />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="text-xs font-semibold text-foreground">{link.label}</div>
-                <div className="mono-sm text-text-dim truncate">{link.hint}</div>
-              </div>
-              <ExternalLink size={11} className="text-text-dim shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden />
-            </a>
-          );
-        })}
+        {socialLinks.map((link) => (
+          <a
+            key={link.label}
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${styles.linkCard} group no-underline`}
+          >
+            <div className="icon-well icon-well-md">
+              <ContentIcon id={link.icon} size={14} className="text-primary" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-xs font-semibold text-foreground">{link.label}</div>
+              <div className="mono-sm text-text-dim truncate">{link.hint}</div>
+            </div>
+            <ExternalLink size={11} className="text-text-dim shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden />
+          </a>
+        ))}
       </div>
 
       <div className="pt-4 border-t border-border mt-4">

@@ -1,3 +1,5 @@
+import type { ContentIconId } from "@/lib/content/icon-ids";
+
 declare global {
   interface Window {
     grecaptcha: {
@@ -7,11 +9,31 @@ declare global {
   }
 }
 
-type Icon = React.ComponentType<{ size?: number; className?: string; style?: React.CSSProperties }>;
+interface SkillItem {
+  name: string;
+  primary: boolean;
+  icon: ContentIconId;
+}
 
-interface SkillItem  { name: string; primary: boolean; icon: Icon }
-export interface SkillLayer { id: string; layer: string; desc: string; projectRefs: string; skills: SkillItem[] }
-export interface Capability { id: string; title: string; desc: string; kpi: string; kpiSub: string; tags: string[]; appliedIn: string; icon: Icon }
+export interface SkillLayer {
+  id: string;
+  layer: string;
+  desc: string;
+  projectRefs: string;
+  skills: SkillItem[];
+}
+
+export interface Capability {
+  id: string;
+  title: string;
+  desc: string;
+  kpi: string;
+  kpiSub: string;
+  tags: string[];
+  appliedIn: string;
+  icon: ContentIconId;
+}
+
 interface ArchDecision { decision: string; rationale: string }
 interface TradeOff     { chosen: string; rationale: string }
 interface Result       { metric: string; label: string }
@@ -42,4 +64,9 @@ export interface XP {
   relatedCaseId?: string;
   relatedCaseTitle?: string;
 }
-export interface SocialLink { label: string; hint: string; icon: Icon; href: string }
+export interface SocialLink {
+  label: string;
+  hint: string;
+  icon: ContentIconId;
+  href: string;
+}

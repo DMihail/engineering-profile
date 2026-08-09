@@ -5,15 +5,19 @@ import { CaseStudiesSection } from "@/components/sections/case-studies-section";
 import { SkillsSection } from "@/components/sections/skills-section";
 import { ExperienceSection } from "@/components/sections/experience-section";
 import { EducationSection } from "@/components/sections/education-section";
+import { CACHE_TAGS } from "@/lib/cache-tags";
 
 /**
  * Static portfolio body — Cache Components (`use cache`) so the RSC payload
  * is reusable across requests. Contact stays outside (client region / form).
+ *
+ * `weeks` keeps a deploy-friendly TTL; on-demand refresh via
+ * `POST /api/revalidate` with tag `portfolio`.
  */
 export async function CachedPortfolioSections() {
   "use cache";
-  cacheLife("max");
-  cacheTag("portfolio");
+  cacheLife("weeks");
+  cacheTag(CACHE_TAGS.portfolio);
 
   return (
     <>

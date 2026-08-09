@@ -1,7 +1,7 @@
 import {
   contactFormFeedbackMessage,
   contactFormFeedbackVariant,
-} from "@/lib/contact-form";
+} from "@/components/contact/submit-contact-form";
 
 describe("contact form feedback", () => {
   it("maps success state to success toast copy", () => {

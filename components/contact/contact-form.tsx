@@ -15,7 +15,7 @@ import {
   contactFormFeedbackVariant,
   submitContactForm,
   type ContactFormState,
-} from "@/lib/contact-form";
+} from "@/components/contact/submit-contact-form";
 import { ContactSubmitButton } from "@/components/contact/contact-submit-button";
 import { ContactTextAreaField, ContactTextField } from "@/components/contact/contact-form-field";
 import { FieldHint } from "@/components/contact/field-hint";
