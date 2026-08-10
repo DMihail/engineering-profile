@@ -13,7 +13,16 @@ export function createCspNonce(): string {
   return randomBytes(16).toString("base64");
 }
 
-/** CSP tuned for Next.js, self-hosted fonts, and lazy-loaded reCAPTCHA v3. */
+/**
+ * CSP tuned for Next.js Cache Components, self-hosted fonts, and lazy reCAPTCHA v3.
+ *
+ * Production uses a per-request nonce + `strict-dynamic` (host allowlists are ignored
+ * by supporting browsers). Next.js must also see this policy on the *request* (see
+ * `proxy.ts`) so it can stamp framework scripts with the same nonce — otherwise
+ * hydration and dynamically injected reCAPTCHA scripts are blocked.
+ *
+ * Google hosts remain listed for older browsers that ignore `strict-dynamic`.
+ */
 export function buildContentSecurityPolicy(nonce?: string): string {
   const isProd = isProductionEnv();
 

@@ -50,7 +50,8 @@ export const viewport: Viewport = {
 
 /**
  * Root layout stays sync so Cache Components can prerender a static shell.
- * CSP nonces are applied at the edge (`proxy.ts`); bootstrap script uses a CSP hash.
+ * CSP nonce is set on the request + response in `proxy.ts` (Next stamps scripts);
+ * the scroll-hash bootstrap is allowlisted via a static CSP hash.
  */
 export default function RootLayout({
   children,

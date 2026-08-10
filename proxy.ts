@@ -3,7 +3,12 @@ import type { NextRequest } from "next/server";
 import { CONTACT_REGION_COOKIE, type ContactRegion } from "@/lib/contact-region";
 import { isLegacyIndexPage } from "@/lib/legacy-index-page";
 import { PAGE_SECTION_IDS } from "@/lib/section-ids";
-import { applySecurityHeaders, createCspNonce, CSP_NONCE_HEADER } from "@/lib/security-headers";
+import {
+  applySecurityHeaders,
+  buildContentSecurityPolicy,
+  createCspNonce,
+  CSP_NONCE_HEADER,
+} from "@/lib/security-headers";
 
 function contactRegionFromRequest(request: NextRequest): ContactRegion {
   const country =
@@ -42,9 +47,13 @@ function finalizeResponse(
 
 function forward(request: NextRequest, pathname: string): NextResponse {
   const nonce = createCspNonce();
+  const csp = buildContentSecurityPolicy(nonce);
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-pathname", pathname);
   requestHeaders.set(CSP_NONCE_HEADER, nonce);
+  // Next.js reads `nonce-…` from the *request* CSP and stamps framework <script>s.
+  // Response CSP alone is not enough — without this, strict-dynamic blocks Next + reCAPTCHA.
+  requestHeaders.set("Content-Security-Policy", csp);
   return finalizeResponse(
     request,
     NextResponse.next({ request: { headers: requestHeaders } }),
