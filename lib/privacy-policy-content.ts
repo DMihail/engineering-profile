@@ -1,6 +1,6 @@
 import { SITE_AUTHOR, SITE_EMAIL, SITE_URL } from "@/lib/config";
 
-export const PRIVACY_POLICY_LAST_UPDATED = "27 May 2026";
+export const PRIVACY_POLICY_LAST_UPDATED = "9 August 2026";
 
 export type PrivacyListItem = string | { term: string; detail: string };
 
@@ -35,7 +35,8 @@ export const PRIVACY_POLICY_SECTIONS: PrivacySection[] = [
     id: "scope",
     title: "2. Scope",
     paragraphs: [
-      "This Privacy Policy applies to your use of the Site. It does not apply to third-party websites or services that you reach through links on the Site (for example GitHub, LinkedIn, Telegram, or Calendly). Those services have their own privacy policies.",
+      "This Privacy Policy applies to your use of the Site, including the contact form and related owner notifications.",
+      "It does not apply to third-party websites or services that you reach through outbound links on the Site (for example GitHub, LinkedIn, a public Telegram profile, or Calendly). Those services have their own privacy policies. Telegram is also used as a notification channel for new contact messages — that use is described below.",
     ],
   },
   {
@@ -46,17 +47,17 @@ export const PRIVACY_POLICY_SECTIONS: PrivacySection[] = [
       {
         term: "Contact form submissions",
         detail:
-          "If you send a message through the contact form, we collect your name, email address, optional company name, and message content.",
+          "If you send a message through the contact form, we collect your name, email address, optional company name, and message content. We also record that you confirmed you have read this Privacy Policy (timestamped acknowledgement).",
       },
       {
         term: "Preference cookie",
         detail:
-          "We set a first-party cookie named contact-region with a value of ua or intl so the Site can show the appropriate phone number and CV variant. It is based on your approximate country (from hosting headers) and expires after 30 days.",
+          "When you visit the homepage, we set a first-party cookie named contact-region with a value of ua or intl so the Site can show the appropriate phone number and CV download. It is based on your approximate country (from hosting headers) and expires after 30 days. Resume language/content variants are chosen only via an explicit URL query (?variant=ua), not by this cookie.",
       },
       {
         term: "Technical and security data",
         detail:
-          "Our hosting provider (Vercel) and security tools may process IP address, browser type, request timestamps, and similar server log data when you load pages or submit the contact form.",
+          "Our hosting provider (Vercel) and security tools may process IP address, browser type, request timestamps, and similar server log data when you load pages or submit the contact form (including for rate limiting).",
       },
       {
         term: "reCAPTCHA data",
@@ -70,7 +71,7 @@ export const PRIVACY_POLICY_SECTIONS: PrivacySection[] = [
     title: "4. Where the data comes from",
     paragraphs: [
       "Most data is provided directly by you (for example when you complete the contact form).",
-      "The contact-region cookie is set automatically by the Site using country information supplied by the hosting platform (for example x-vercel-ip-country). On the client, timezone and browser language may be used only as a fallback to choose contact details before or without a cookie.",
+      "The contact-region cookie is set on homepage responses using country information supplied by the hosting platform (for example x-vercel-ip-country). On the client, timezone and browser language may be used only as a fallback to choose contact details before or without a cookie.",
       "We do not use advertising trackers, social-media pixels, or third-party analytics scripts on the Site.",
     ],
   },
@@ -81,8 +82,10 @@ export const PRIVACY_POLICY_SECTIONS: PrivacySection[] = [
     list: [
       "To receive and respond to enquiries submitted through the contact form.",
       "To store contact messages securely in our backend database (Google Firebase Firestore).",
-      "To notify the site owner of new messages through a private inbox application (Firebase Cloud Messaging).",
-      "To protect the Site and contact form against spam and abuse (Google reCAPTCHA v3).",
+      "To notify the site owner of new messages through a private inbox application (Firebase Cloud Messaging), including a short preview of the enquiry.",
+      "To notify the site owner of new messages via Telegram Bot API (name, email, optional company, and message content).",
+      "To reply to your enquiry by email when the site owner responds (SMTP email delivery).",
+      "To protect the Site and contact form against spam and abuse (Google reCAPTCHA v3 and rate limiting).",
       "To remember your regional contact preference (contact-region cookie).",
       "To operate, secure, and maintain the Site (hosting logs and error diagnostics).",
     ],
@@ -90,28 +93,28 @@ export const PRIVACY_POLICY_SECTIONS: PrivacySection[] = [
   {
     id: "legal-basis",
     title: "6. Legal basis (GDPR)",
-    paragraphs: ["Where GDPR applies, we rely on the following legal bases:"],
+    paragraphs: [
+      "Where GDPR applies, we rely on the following legal bases:",
+      "The contact-form checkbox is an acknowledgement that you have read this policy. It is not the GDPR legal basis for processing your enquiry — that processing relies on the bases below.",
+    ],
     list: [
       {
         term: "Legitimate interests",
         detail:
-          "Operating a professional portfolio, responding to business enquiries, securing the Site, and remembering a functional regional preference. We balance these interests against your rights and keep processing proportionate.",
+          "Operating a professional portfolio, responding to business enquiries, securing the Site (including spam protection), notifying the owner of new messages, and remembering a functional regional preference. We balance these interests against your rights and keep processing proportionate.",
       },
       {
         term: "Steps at your request before a contract",
         detail: "Processing contact-form data when you ask about work, contracts, or collaboration.",
-      },
-      {
-        term: "Consent",
-        detail:
-          "Where required for optional browser features (for example desktop notifications after form submission, if you grant permission in your browser).",
       },
     ],
   },
   {
     id: "processors",
     title: "7. Service providers and recipients",
-    paragraphs: ["We use trusted providers to run the Site. They process data on our instructions:"],
+    paragraphs: [
+      "We use trusted providers to run the Site. They process data on our instructions or as independent services where noted:",
+    ],
     list: [
       {
         term: "Vercel",
@@ -120,6 +123,16 @@ export const PRIVACY_POLICY_SECTIONS: PrivacySection[] = [
       {
         term: "Google Firebase (Firestore & Cloud Messaging)",
         detail: "Storage of contact messages and delivery of owner notifications for the private inbox app.",
+      },
+      {
+        term: "Telegram Bot API",
+        detail:
+          "Delivery of new-contact notifications to the site owner. Message content may include your name, email address, optional company name, and the message you submitted.",
+      },
+      {
+        term: "Email delivery (SMTP)",
+        detail:
+          "When the site owner replies to your enquiry, your email address and the reply content are sent through a configured SMTP provider so the message can reach your inbox.",
       },
       {
         term: "Google reCAPTCHA",
@@ -136,7 +149,7 @@ export const PRIVACY_POLICY_SECTIONS: PrivacySection[] = [
     id: "transfers",
     title: "8. International transfers",
     paragraphs: [
-      "Some providers listed above may process data outside the European Economic Area (EEA), including in the United States.",
+      "Some providers listed above may process data outside the European Economic Area (EEA), including in the United States or other countries where those services operate.",
       "Where required, we rely on appropriate safeguards such as the EU Standard Contractual Clauses or equivalent mechanisms offered by those providers.",
     ],
   },
@@ -144,7 +157,9 @@ export const PRIVACY_POLICY_SECTIONS: PrivacySection[] = [
     id: "retention",
     title: "9. How long we keep data",
     paragraphs: [
-      "Contact-form messages are kept for as long as needed to handle your enquiry and maintain a reasonable business record, unless you ask us to delete them sooner.",
+      "Contact-form messages in Firestore are kept for as long as needed to handle your enquiry and maintain a reasonable business record, unless you ask us to delete them sooner.",
+      "Owner notification copies delivered through Firebase Cloud Messaging or Telegram are retained according to those services’ practices and the owner’s device or chat history until deleted.",
+      "Email replies and related SMTP logs are retained according to the mail provider’s practices and ordinary mailbox retention.",
       "The contact-region cookie expires automatically after 30 days.",
       "Server logs are retained according to our hosting provider’s default periods and operational needs.",
       "reCAPTCHA-related data is handled according to Google’s retention practices.",
@@ -154,7 +169,7 @@ export const PRIVACY_POLICY_SECTIONS: PrivacySection[] = [
     id: "security",
     title: "10. Security",
     paragraphs: [
-      "We use HTTPS, security headers (including Content Security Policy), input validation, and reCAPTCHA scoring to protect the Site and submitted data.",
+      "We use HTTPS, security headers (including Content Security Policy), input validation, rate limiting, and reCAPTCHA scoring to protect the Site and submitted data.",
       "No method of transmission or storage is completely secure; we work to apply reasonable technical and organisational measures appropriate to a personal portfolio site.",
     ],
   },
@@ -163,7 +178,6 @@ export const PRIVACY_POLICY_SECTIONS: PrivacySection[] = [
     title: "11. Your rights",
     paragraphs: [
       "If GDPR applies to you, you may have the right to access, rectify, erase, restrict, or object to processing of your personal data, and to data portability where applicable.",
-      "You may also withdraw consent at any time where processing is based on consent, without affecting the lawfulness of earlier processing.",
       "You can lodge a complaint with the Data Protection Commission (DPC) in Ireland: https://www.dataprotection.ie",
       `To exercise your rights, contact ${SITE_EMAIL}. We may need to verify your identity before responding.`,
     ],
@@ -172,8 +186,8 @@ export const PRIVACY_POLICY_SECTIONS: PrivacySection[] = [
     id: "cookies",
     title: "12. Cookies and similar technologies",
     paragraphs: [
-      "The Site uses one functional first-party cookie (contact-region). It is not used for advertising or cross-site tracking.",
-      "You can block or delete cookies in your browser settings. Blocking this cookie may affect which phone number or CV variant is shown.",
+      "The Site uses one functional first-party cookie (contact-region), set on homepage responses. It is not used for advertising or cross-site tracking, and it does not choose the resume variant.",
+      "You can block or delete cookies in your browser settings. Blocking this cookie may affect which phone number or CV download is shown on the contact section.",
       "The contact form loads Google reCAPTCHA only when needed; reCAPTCHA may set its own cookies or use similar storage as described in Google’s privacy policy.",
     ],
   },
@@ -197,6 +211,7 @@ export const PRIVACY_POLICY_SECTIONS: PrivacySection[] = [
     title: "15. Contact",
     paragraphs: [
       `Questions about this Privacy Policy or your personal data: ${SITE_EMAIL}`,
+      `If you encounter an accessibility barrier on the Site, please email ${SITE_EMAIL} with the subject “Accessibility feedback”.`,
     ],
   },
 ];

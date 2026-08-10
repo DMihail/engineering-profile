@@ -14,90 +14,86 @@
 
   --toastify-toast-width: min(22rem, calc(100vw - 2rem));
   --toastify-toast-offset: 1rem;
-  --toastify-toast-bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem);
-  --toastify-toast-right: 1rem;
   --toastify-toast-bd-radius: var(--radius-button);
   --toastify-toast-padding: 0.875rem 1rem;
   --toastify-toast-min-height: 3.25rem;
-  --toastify-toast-shadow: 0 12px 32px color-mix(in srgb, #000 32%, transparent);
+  --toastify-toast-shadow: 0 12px 32px rgb(0 0 0 / 0.35);
   --toastify-font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --toastify-z-index: 100;
+  --toastify-z-index: 9999;
 
   --toastify-color-progress-success: var(--success);
   --toastify-color-progress-error: var(--error);
   --toastify-color-progress-warning: #f59e0b;
   --toastify-color-progress-info: var(--primary);
-  --toastify-color-progress-dark: color-mix(in srgb, var(--primary) 55%, transparent);
+  --toastify-color-progress-dark: var(--primary);
 }
 
-@media (min-width: 640px) {
-  :root {
-    --toastify-toast-offset: 1.25rem;
-    --toastify-toast-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem);
-    --toastify-toast-right: 1.25rem;
-  }
-}
-
-.Toastify .Toastify__toast-theme--dark {
-  background: color-mix(in srgb, var(--card) 92%, transparent);
+.Toastify__toast-theme--dark {
+  background: var(--card);
   border: 1px solid var(--border);
   color: var(--foreground);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
-  box-shadow:
-    0 12px 32px color-mix(in srgb, #000 32%, transparent),
-    inset 0 1px 0 color-mix(in srgb, var(--foreground) 8%, transparent);
+  box-shadow: var(--toastify-toast-shadow);
 }
 
-.Toastify .Toastify__toast-theme--dark.Toastify__toast--success {
+.Toastify__toast-theme--dark.Toastify__toast--success {
   border-left: 3px solid var(--success);
 }
 
-.Toastify .Toastify__toast-theme--dark.Toastify__toast--error {
+.Toastify__toast-theme--dark.Toastify__toast--error {
   border-left: 3px solid var(--error);
 }
 
-.Toastify .Toastify__toast-theme--dark.Toastify__toast--warning {
+.Toastify__toast-theme--dark.Toastify__toast--warning {
   border-left: 3px solid #f59e0b;
 }
 
-.Toastify .Toastify__toast-theme--dark.Toastify__toast--default,
-.Toastify .Toastify__toast-theme--dark.Toastify__toast--info {
+.Toastify__toast-theme--dark.Toastify__toast--default,
+.Toastify__toast-theme--dark.Toastify__toast--info {
   border-left: 3px solid var(--primary);
 }
 
-.Toastify .Toastify__toast-body {
+.Toastify__toast-body {
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
-  color: var(--text-secondary);
+  color: var(--foreground);
+  padding: 0;
+  margin: 0;
 }
 
-.Toastify .Toastify__close-button--dark {
+.Toastify__toast-icon {
+  width: 1.25rem;
+  margin-inline-end: 0.625rem;
+}
+
+.Toastify__close-button--dark {
   color: var(--text-dim);
   opacity: 1;
 }
 
-.Toastify .Toastify__close-button--dark:hover,
-.Toastify .Toastify__close-button--dark:focus-visible {
+.Toastify__close-button--dark:hover,
+.Toastify__close-button--dark:focus-visible {
   color: var(--foreground);
 }
 
-.Toastify .Toastify__progress-bar-theme--dark {
-  opacity: 0.55;
+.Toastify__progress-bar-theme--dark {
+  opacity: 0.7;
 }
 
+/* Keep bottom-right toast inset on narrow screens (library defaults to full-bleed). */
 @media only screen and (max-width: 480px) {
-  .Toastify .Toastify__toast-container {
+  .Toastify__toast-container {
     width: var(--toastify-toast-width);
     left: auto;
+    right: max(var(--toastify-toast-offset), env(safe-area-inset-right, 0px));
     padding: 0;
+    margin: 0;
   }
 
-  .Toastify .Toastify__toast-container--bottom-right {
-    right: max(var(--toastify-toast-offset), env(safe-area-inset-right));
+  .Toastify__toast-container--bottom-right {
+    bottom: max(var(--toastify-toast-offset), env(safe-area-inset-bottom, 0px));
   }
 
-  .Toastify .Toastify__toast {
+  .Toastify__toast {
     --toastify-toast-width: 100%;
     margin-bottom: 0;
     border-radius: var(--radius-button);
@@ -105,8 +101,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .Toastify .Toastify--animate,
-  .Toastify .Toastify--animate-icon {
+  .Toastify--animate,
+  .Toastify--animate-icon {
     animation: none !important;
   }
 }

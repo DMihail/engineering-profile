@@ -15,7 +15,7 @@ import type {
   ResumeSkillGroup,
 } from "@/lib/content/resume-types";
 import { SITE_AUTHOR, SITE_EMAIL } from "@/lib/config";
-import { phoneForRegion, type ContactRegion } from "@/lib/contact-region";
+import { phoneForRegion } from "@/lib/contact-region";
 
 export type ResumeVariant = "ireland" | "ua";
 
@@ -49,19 +49,10 @@ const VARIANT_CONTENT: Record<ResumeVariant, ResumeVariantContent> = {
   },
 };
 
+/** Query-only: canonical `/resume` is Ireland; UA requires `?variant=ua` (or legacy `uk`). */
 export function parseResumeVariant(value: string | undefined): ResumeVariant {
   if (value === "ua" || value === "uk") return "ua";
   return "ireland";
-}
-
-export function resolveResumeVariant(
-  queryVariant: string | undefined,
-  region: ContactRegion,
-): ResumeVariant {
-  if (queryVariant !== undefined) {
-    return parseResumeVariant(queryVariant);
-  }
-  return region === "ua" ? "ua" : "ireland";
 }
 
 export function resumePath(variant: ResumeVariant): string {

@@ -1,7 +1,13 @@
 "use client";
 
-import { useEffect, useEffectEvent, useRef, useActionState, useState } from "react";
-import { ToastContainer, toast } from "react-toastify/unstyled";
+import {
+  useEffect,
+  useEffectEvent,
+  useRef,
+  useActionState,
+  useState,
+} from "react";
+import { toast } from "react-toastify/unstyled";
 import { ensureRecaptchaLoaded } from "@/lib/recaptcha-client";
 import {
   CONTACT_FORM_INITIAL_STATE,
@@ -9,7 +15,7 @@ import {
   contactFormFeedbackVariant,
   submitContactForm,
   type ContactFormState,
-} from "@/lib/contact-form";
+} from "@/components/contact/submit-contact-form";
 import { ContactSubmitButton } from "@/components/contact/contact-submit-button";
 import { ContactTextAreaField, ContactTextField } from "@/components/contact/contact-form-field";
 import { FieldHint } from "@/components/contact/field-hint";
@@ -27,6 +33,7 @@ import {
   getContactFormFailure,
 } from "@/lib/contact-form-rules";
 import { PRIVACY_CONSENT_FIELD } from "@/lib/privacy-consent";
+import { SITE_EMAIL } from "@/lib/config";
 import { UI_LABELS } from "@/lib/content/ui-labels";
 import styles from "@/styles/sections/contact-form.module.css";
 
@@ -47,12 +54,19 @@ function deriveFieldError(
 
 function deriveFormStatus(state: ContactFormState, dismissedStatusTs: number): string {
   if (state.ts === 0 || state.ts === dismissedStatusTs) return "";
+  // Success uses a dedicated SR live region + toast — keep <output> for form-level errors.
+  if (state.success) return "";
 
   const message = contactFormFeedbackMessage(state);
   if (!message) return "";
-  if (!state.success && state.field) return "";
+  if (state.field) return "";
 
   return message;
+}
+
+function deriveSuccessAnnouncement(state: ContactFormState): string {
+  if (!state.success) return "";
+  return contactFormFeedbackMessage(state) ?? "";
 }
 
 export function ContactForm({ headingId }: ContactFormProps) {
@@ -67,12 +81,13 @@ export function ContactForm({ headingId }: ContactFormProps) {
   // Pure derived state — no useMemo (React Compiler + cheap computation).
   const fieldError = deriveFieldError(state, clientFieldError);
   const formStatus = deriveFormStatus(state, dismissedStatusTs);
+  const successAnnouncement = deriveSuccessAnnouncement(state);
   const success = state.success;
 
   const onSubmitResult = useEffectEvent((next: ContactFormState) => {
     const message = contactFormFeedbackMessage(next);
     if (contactFormFeedbackVariant(next) === "success" && message) {
-      toast.success(message);
+      toast.success(message, { toastId: `contact-success-${next.ts}` });
     }
 
     if (next.success) {
@@ -135,36 +150,41 @@ export function ContactForm({ headingId }: ContactFormProps) {
     void ensureRecaptchaLoaded().catch(() => {});
   };
 
-  const formStatusClassName = success
-    ? `${styles.formStatus} ${styles.formStatusSuccess}`
-    : styles.formStatus;
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    draftRef.current = new FormData(event.currentTarget);
 
-  const formStatusRole = formStatus ? (success ? "status" : "alert") : undefined;
+    const failure = getContactFormFailure(event.currentTarget);
+    if (failure) {
+      event.preventDefault();
+      applyContactFieldFailure(event.currentTarget, failure);
+      setClientFieldError(failure);
+      dismissFormStatus();
+      return;
+    }
+
+    setClientFieldError(null);
+  };
+
+  const formStatusClassName = styles.formStatus;
+  const formStatusRole = formStatus ? "alert" : undefined;
 
   return (
-    <>
-      <form
-        ref={formRef}
-        action={formAction}
-        noValidate
-        onSubmit={(event) => {
-          draftRef.current = new FormData(event.currentTarget);
+    <form
+      ref={formRef}
+      action={formAction}
+      noValidate
+      onSubmit={handleSubmit}
+      onFocusCapture={primeRecaptcha}
+      className={`panel ${styles.formPanel} min-w-0`}
+      aria-labelledby={headingId}
+    >
+      {successAnnouncement ? (
+        <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+          {successAnnouncement}
+        </p>
+      ) : null}
 
-          const failure = getContactFormFailure(event.currentTarget);
-          if (failure) {
-            event.preventDefault();
-            applyContactFieldFailure(event.currentTarget, failure);
-            setClientFieldError(failure);
-            dismissFormStatus();
-            return;
-          }
-
-          setClientFieldError(null);
-        }}
-        onFocusCapture={primeRecaptcha}
-        className={`panel ${styles.formPanel} min-w-0`}
-        aria-labelledby={headingId}
-      >
+      {formStatus ? (
         <output
           htmlFor={`${CONTACT_FIELD_DOM_IDS.name} ${CONTACT_FIELD_DOM_IDS.email} ${CONTACT_FIELD_DOM_IDS.message} ${CONTACT_FIELD_DOM_IDS.consent}`}
           role={formStatusRole}
@@ -174,96 +194,104 @@ export function ContactForm({ headingId }: ContactFormProps) {
         >
           {formStatus}
         </output>
+      ) : null}
 
-        <fieldset className={`${styles.formGrid} border-0 p-0 m-0 min-w-0`} disabled={success}>
-          <legend className="sr-only">{UI_LABELS.contact.formLegend}</legend>
+      <fieldset className={`${styles.formGrid} border-0 p-0 m-0 min-w-0`} disabled={success}>
+        <legend className="sr-only">{UI_LABELS.contact.formLegend}</legend>
 
-          <ContactTextField
-            id={CONTACT_FIELD_DOM_IDS.name}
-            name="name"
-            label={UI_LABELS.contact.name}
-            errorId={CONTACT_FIELD_ERROR_IDS.name}
-            errorMessage={fieldMessage("name")}
-            type="text"
-            required
-            minLength={CONTACT_NAME_MIN_LENGTH}
-            maxLength={100}
-            autoComplete="name"
-            enterKeyHint="next"
-            placeholder={UI_LABELS.contact.namePlaceholder}
-            onInput={handleFieldInput("name")}
+        <ContactTextField
+          id={CONTACT_FIELD_DOM_IDS.name}
+          name="name"
+          label={UI_LABELS.contact.name}
+          errorId={CONTACT_FIELD_ERROR_IDS.name}
+          errorMessage={fieldMessage("name")}
+          type="text"
+          required
+          minLength={CONTACT_NAME_MIN_LENGTH}
+          maxLength={100}
+          autoComplete="name"
+          enterKeyHint="next"
+          placeholder={UI_LABELS.contact.namePlaceholder}
+          onInput={handleFieldInput("name")}
+        />
+
+        <ContactTextField
+          id={CONTACT_FIELD_DOM_IDS.email}
+          name="email"
+          label={UI_LABELS.contact.email}
+          errorId={CONTACT_FIELD_ERROR_IDS.email}
+          errorMessage={fieldMessage("email")}
+          type="email"
+          required
+          maxLength={254}
+          autoComplete="email"
+          enterKeyHint="next"
+          inputMode="email"
+          spellCheck={false}
+          placeholder={UI_LABELS.contact.emailPlaceholder}
+          onInput={handleFieldInput("email")}
+        />
+
+        <ContactTextField
+          id="contact-company"
+          name="company"
+          className={styles.formFieldCompany}
+          label={
+            <>
+              {UI_LABELS.contact.company}{" "}
+              <span className={styles.formLabelOptional}>{UI_LABELS.contact.companyOptional}</span>
+            </>
+          }
+          errorId="contact-company-hint"
+          type="text"
+          maxLength={120}
+          autoComplete="organization"
+          enterKeyHint="next"
+          placeholder={UI_LABELS.contact.companyPlaceholder}
+        />
+
+        <ContactTextAreaField
+          id={CONTACT_FIELD_DOM_IDS.message}
+          name="message"
+          className={styles.formFieldMessage}
+          label={UI_LABELS.contact.message}
+          errorId={CONTACT_FIELD_ERROR_IDS.message}
+          errorMessage={fieldMessage("message")}
+          required
+          minLength={CONTACT_MESSAGE_MIN_LENGTH}
+          maxLength={2000}
+          rows={5}
+          spellCheck
+          autoComplete="off"
+          enterKeyHint="send"
+          placeholder={UI_LABELS.contact.messagePlaceholder}
+          onInput={handleFieldInput("message")}
+        />
+
+        <div className={`${styles.formField} ${styles.formFieldConsent}`}>
+          <PrivacyConsentField
+            id={CONTACT_FIELD_DOM_IDS.consent}
+            errorMessage={fieldMessage("consent")}
+            errorId={CONTACT_FIELD_ERROR_IDS.consent}
+            onClearError={() => clearFieldError("consent")}
           />
+          <FieldHint id={CONTACT_FIELD_ERROR_IDS.consent} message={fieldMessage("consent")} />
+        </div>
 
-          <ContactTextField
-            id={CONTACT_FIELD_DOM_IDS.email}
-            name="email"
-            label={UI_LABELS.contact.email}
-            errorId={CONTACT_FIELD_ERROR_IDS.email}
-            errorMessage={fieldMessage("email")}
-            type="email"
-            required
-            maxLength={254}
-            autoComplete="email"
-            enterKeyHint="next"
-            inputMode="email"
-            spellCheck={false}
-            placeholder={UI_LABELS.contact.emailPlaceholder}
-            onInput={handleFieldInput("email")}
-          />
+        <div className={styles.formActions}>
+          <ContactSubmitButton success={success} />
+        </div>
 
-          <ContactTextField
-            id="contact-company"
-            name="company"
-            className={styles.formFieldCompany}
-            label={
-              <>
-                {UI_LABELS.contact.company}{" "}
-                <span className={styles.formLabelOptional}>{UI_LABELS.contact.companyOptional}</span>
-              </>
-            }
-            errorId="contact-company-hint"
-            type="text"
-            maxLength={120}
-            autoComplete="organization"
-            enterKeyHint="next"
-            placeholder={UI_LABELS.contact.companyPlaceholder}
-          />
-
-          <ContactTextAreaField
-            id={CONTACT_FIELD_DOM_IDS.message}
-            name="message"
-            className={styles.formFieldMessage}
-            label={UI_LABELS.contact.message}
-            errorId={CONTACT_FIELD_ERROR_IDS.message}
-            errorMessage={fieldMessage("message")}
-            required
-            minLength={CONTACT_MESSAGE_MIN_LENGTH}
-            maxLength={2000}
-            rows={5}
-            spellCheck
-            autoComplete="off"
-            enterKeyHint="send"
-            placeholder={UI_LABELS.contact.messagePlaceholder}
-            onInput={handleFieldInput("message")}
-          />
-
-          <div className={`${styles.formField} ${styles.formFieldConsent}`}>
-            <PrivacyConsentField
-              id={CONTACT_FIELD_DOM_IDS.consent}
-              errorMessage={fieldMessage("consent")}
-              errorId={CONTACT_FIELD_ERROR_IDS.consent}
-              onClearError={() => clearFieldError("consent")}
-            />
-            <FieldHint id={CONTACT_FIELD_ERROR_IDS.consent} message={fieldMessage("consent")} />
-          </div>
-
-          <div className={styles.formActions}>
-            <ContactSubmitButton success={success} />
-          </div>
-        </fieldset>
-      </form>
-
-      <ToastContainer theme="dark" position="bottom-right" aria-label={UI_LABELS.contact.toastRegion} />
-    </>
+        <p className={styles.formAlt}>
+          {UI_LABELS.contact.emailAlternative}{" "}
+          <a
+            href={`mailto:${SITE_EMAIL}?subject=${encodeURIComponent(UI_LABELS.contact.noScriptMailSubject)}`}
+            className={styles.formAltLink}
+          >
+            {SITE_EMAIL}
+          </a>
+        </p>
+      </fieldset>
+    </form>
   );
 }

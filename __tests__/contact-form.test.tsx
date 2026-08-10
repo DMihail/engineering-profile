@@ -79,7 +79,7 @@ describe("ContactSection form", () => {
     await user.type(screen.getByLabelText(/message/i), "Hello, I have a project for you. Let's talk about it!");
     await user.click(screen.getByRole("button", { name: /send message/i }));
 
-    await expectFormError(/accept the privacy terms/i);
+    await expectFormError(/confirm you have read the privacy policy/i);
     expect(mockFetch).not.toHaveBeenCalled();
   });
 
@@ -154,6 +154,8 @@ describe("ContactSection form", () => {
       expect(screen.getByRole("status")).toHaveTextContent(/get back to you within 24 hours/i);
     });
 
+    // Visible success stays in toast; form <output> is for errors only.
+    expect(document.querySelector("form output")).toBeNull();
     expect(mockExecute).toHaveBeenCalledWith(
       "test-site-key",
       { action: "contact_submit" }

@@ -14,7 +14,7 @@ import styles from "@/styles/legal-page.module.css";
 
 const privacyTitle = titledPage("Privacy Policy");
 const privacyDescription =
-  "Privacy Policy for dzhezhelo.dev — how contact form data, cookies, reCAPTCHA, and hosting logs are handled.";
+  "Privacy Policy for dzhezhelo.dev — contact form data, cookies, reCAPTCHA, Telegram notifications, email replies, and hosting logs.";
 
 export const metadata: Metadata = buildRouteMetadata({
   title: privacyTitle,

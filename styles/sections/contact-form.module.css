@@ -19,7 +19,7 @@
   flex-direction: column;
 }
 
-@media (min-width: 640px) {
+@media (width >= 40rem) {
   .formPanel {
     padding: 1.5rem;
   }
@@ -32,7 +32,8 @@
   .formFieldCompany,
   .formFieldMessage,
   .formFieldConsent,
-  .formActions {
+  .formActions,
+  .formAlt {
     grid-column: 1 / -1;
   }
 
@@ -44,9 +45,12 @@
 .messageField {
   resize: none;
   line-height: var(--leading-relaxed);
+  field-sizing: content;
+  min-block-size: 7.5rem;
+  max-block-size: 16rem;
 }
 
-@media (min-width: 1024px) {
+@media (width >= 64rem) {
   .formPanel {
     gap: 1.5rem;
     padding-block: 1.75rem;
@@ -170,13 +174,23 @@
   display: none;
 }
 
-.formStatusSuccess {
-  padding-block: var(--space-3);
-  padding-inline: var(--space-4);
-  border-radius: var(--radius-button);
-  background: var(--surface-success-muted);
-  color: var(--success);
-  border: 1px solid var(--border-success-strong);
+.formAlt {
+  margin: 0;
+  padding-block-start: 0.25rem;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--text-dim);
+}
+
+.formAltLink {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.formAltLink:hover,
+.formAltLink:focus-visible {
+  color: var(--primary-hover);
 }
 
 .inputField:-webkit-autofill,
@@ -228,7 +242,7 @@
   text-underline-offset: 0.15em;
 }
 
-@media (max-width: 639px) {
+@media (width < 40rem) {
   .formPanel {
     padding: 1rem;
   }

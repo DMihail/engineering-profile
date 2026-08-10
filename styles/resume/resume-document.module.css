@@ -213,13 +213,13 @@
   color: var(--resume-muted);
 }
 
-@media (min-width: 640px) {
+@media (width >= 40rem) {
   .document {
     padding: 2.25rem 2rem;
   }
 }
 
-@media (max-width: 639px) {
+@media (width < 40rem) {
   .document {
     padding: 1.5rem 1.25rem;
   }

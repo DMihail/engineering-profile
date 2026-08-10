@@ -14,6 +14,7 @@ const allowedDevOrigins = (process.env.ALLOWED_DEV_ORIGINS ?? "192.168.1.144")
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   reactCompiler: true,
+  cacheComponents: true,
   poweredByHeader: false,
   compress: true,
 

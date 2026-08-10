@@ -1,13 +1,11 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 @import "../styles/reset.css" layer(base);
-@import "react-toastify/dist/ReactToastify.css";
-@import "../styles/ui/react-toastify.css";
 @import "../styles/reduced-motion.css";
 
 @import "../styles/tokens/design-tokens.css";
 @import "../styles/tokens/tailwind-theme.css";
 @import "../styles/base/document.css";
+@import "../styles/components/utilities.css";
 @import "../styles/components/shared-ui.css";
 @import "../styles/components/case-details.css";
 @import "../styles/components/impact-table.css";

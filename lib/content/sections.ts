@@ -63,10 +63,6 @@ export const SECTIONS: SectionMeta[] = [
   },
 ];
 
-export function getVisibleSections(): SectionMeta[] {
-  return SECTIONS;
-}
-
 export function getSectionMeta(id: ContentSectionId): SectionMeta {
   const match = SECTIONS.find((section) => section.id === id);
   if (!match) {

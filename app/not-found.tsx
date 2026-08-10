@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import Link from "next/link";
 import { headers } from "next/headers";
 import { absoluteTitle, titledPage } from "@/lib/page-metadata";
@@ -25,9 +26,7 @@ export const metadata: Metadata = {
   }),
 };
 
-export default async function NotFound() {
-  const pathname = (await headers()).get("x-pathname");
-
+function NotFoundShell({ pathname }: { pathname: string | null }) {
   return (
     <>
       <SkipLink />
@@ -57,5 +56,18 @@ export default async function NotFound() {
         </div>
       </main>
     </>
+  );
+}
+
+async function NotFoundWithPath() {
+  const pathname = (await headers()).get("x-pathname");
+  return <NotFoundShell pathname={pathname} />;
+}
+
+export default function NotFound() {
+  return (
+    <Suspense fallback={<NotFoundShell pathname={null} />}>
+      <NotFoundWithPath />
+    </Suspense>
   );
 }

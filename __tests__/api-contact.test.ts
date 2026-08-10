@@ -88,7 +88,7 @@ describe("POST /api/contact", () => {
     const res = await POST(makeRequest(body));
     expect(res.status).toBe(400);
     const json = await res.json();
-    expect(json.error).toMatch(/accept the privacy terms/i);
+    expect(json.error).toMatch(/confirm you have read the privacy policy/i);
     expect(mockFetch).not.toHaveBeenCalled();
   });
 

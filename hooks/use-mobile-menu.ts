@@ -1,11 +1,10 @@
 "use client";
 
 import { useEffect, useEffectEvent, useRef, useState } from "react";
+import { MQ_LG_UP } from "@/lib/breakpoints";
 
 /**
  * Mobile drawer open state, body scroll lock, focus trap, Escape, and desktop mq reset.
- * Keydown / media-query handlers are Effect Events — subscribe once per open cycle
- * without putting closeMenu in the dependency array.
  */
 export function useMobileMenu() {
   const menuToggleRef = useRef<HTMLButtonElement>(null);
@@ -83,7 +82,7 @@ export function useMobileMenu() {
   }, [menuOpen]);
 
   useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1024px)");
+    const mq = window.matchMedia(MQ_LG_UP);
     const onChange = () => onDesktopMqChange(mq.matches);
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);

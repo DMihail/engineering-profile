@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { headers } from "next/headers";
 import {
   SITE_URL,
   SITE_AUTHOR,
@@ -12,7 +11,6 @@ import {
 import { ScrollHashBootstrap } from "@/components/layout/scroll-hash-bootstrap";
 import { SiteJsonLd } from "@/components/seo/site-json-ld";
 import { fontBodyClassName, fontVariableClassName } from "@/lib/fonts";
-import { CSP_NONCE_HEADER } from "@/lib/security-headers";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -50,20 +48,20 @@ export const viewport: Viewport = {
   themeColor: "#0B0F17",
 };
 
-export default async function RootLayout({
+/**
+ * Root layout stays sync so Cache Components can prerender a static shell.
+ * CSP nonces are applied at the edge (`proxy.ts`); bootstrap script uses a CSP hash.
+ */
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headerStore = await headers();
-  const nonce = headerStore.get(CSP_NONCE_HEADER) ?? undefined;
-
   return (
     <html
       lang="en-IE"
       data-scroll-behavior="smooth"
       className={`${fontVariableClassName} h-full`}
-      {...(nonce ? { nonce } : {})}
       suppressHydrationWarning
     >
       <body className={`${fontBodyClassName} min-h-full`}>

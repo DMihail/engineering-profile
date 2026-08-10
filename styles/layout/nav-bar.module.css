@@ -1,5 +1,5 @@
 .navGlass {
-  background: rgba(11, 15, 23, 0.93);
+  background: var(--nav-glass-bg);
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
@@ -19,7 +19,7 @@
   gap: 0.5rem;
 }
 
-@media (min-width: 1024px) {
+@media (width >= 64rem) {
   .navBarInner {
     display: flex;
     justify-content: space-between;
@@ -33,7 +33,7 @@
   min-width: 0;
 }
 
-@media (min-width: 1024px) {
+@media (width >= 64rem) {
   .navLogo {
     grid-column: auto;
     justify-self: auto;
@@ -46,14 +46,14 @@
   flex-shrink: 0;
 }
 
-@media (min-width: 1024px) {
+@media (width >= 64rem) {
   .navActions {
     grid-column: auto;
     justify-self: auto;
   }
 }
 
-@media (max-width: 1023px) {
+@media (width < 64rem) {
   .headerOpen .navLogo,
   .headerOpen .navActions {
     position: relative;
@@ -148,7 +148,7 @@
 }
 
 /* Tablet (640px–1023px): right-side drawer */
-@media (min-width: 640px) {
+@media (width >= 40rem) {
   .navList {
     left: auto;
     right: 0;
@@ -162,11 +162,12 @@
     padding-top: 2rem;
     padding-left: calc(2rem + env(safe-area-inset-left));
     padding-right: calc(2rem + env(safe-area-inset-right));
-    background: rgba(11, 15, 23, 0.97);
+    padding-bottom: calc(3rem + env(safe-area-inset-bottom));
+    background: var(--nav-drawer-bg);
     -webkit-backdrop-filter: blur(24px);
     backdrop-filter: blur(24px);
     border-left: 1px solid var(--border);
-    box-shadow: -16px 0 48px rgba(0, 0, 0, 0.4);
+    box-shadow: -16px 0 48px var(--nav-shadow);
     -webkit-transform: translateX(100%);
     transform: translateX(100%);
     transition: opacity 250ms ease, transform 300ms cubic-bezier(0.4, 0, 0.2, 1), visibility 0ms 300ms;
@@ -191,7 +192,7 @@
   display: none;
 }
 
-@media (min-width: 640px) and (max-width: 1023px) {
+@media (width >= 40rem) and (width < 64rem) {
   .navBackdrop {
     display: block;
     position: fixed;
@@ -200,7 +201,7 @@
     padding: 0;
     margin: 0;
     cursor: pointer;
-    background: rgba(0, 0, 0, 0.55);
+    background: var(--overlay-backdrop);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -232,18 +233,19 @@
 
 .navLink:hover {
   color: var(--foreground);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--surface-subtle);
 }
 
 .navLinkActive,
 .navLinkActive:hover {
   color: var(--primary);
-  background: rgba(56, 189, 248, 0.15);
+  background: var(--surface-primary-muted);
   border-left: 3px solid var(--primary);
   padding-left: 17px;
+  view-transition-name: nav-active;
 }
 
-@media (max-width: 1023px) {
+@media (width < 64rem) {
   .navLinkActive,
   .navLinkActive:hover {
     border-left: none;
@@ -252,7 +254,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (width >= 64rem) {
   .navLink {
     font-size: var(--text-mono-sm);
     letter-spacing: 0.08em;
@@ -268,9 +270,10 @@
   .navLinkActive,
   .navLinkActive:hover {
     color: var(--primary);
-    background: rgba(56, 189, 248, 0.08);
+    background: var(--surface-primary-subtle);
     border-left: none;
     padding-left: 12px;
+    view-transition-name: nav-active;
   }
 }
 
@@ -292,7 +295,7 @@
   text-transform: uppercase;
 }
 
-@media (min-width: 1024px) {
+@media (width >= 64rem) {
   .sectionLabel {
     display: none;
   }

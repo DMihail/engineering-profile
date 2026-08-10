@@ -6,7 +6,6 @@ import {
   getResumeSkillGroups,
   getResumeVariantContent,
   parseResumeVariant,
-  resolveResumeVariant,
   resumePath,
   resumePeriodDateTime,
 } from "@/lib/resume-content";
@@ -25,14 +24,9 @@ describe("resume-content", () => {
     expect(parseResumeVariant("uk")).toBe("ua");
   });
 
-  it("resolves default variant from contact region", () => {
-    expect(resolveResumeVariant(undefined, "intl")).toBe("ireland");
-    expect(resolveResumeVariant(undefined, "ua")).toBe("ua");
-  });
-
-  it("prefers explicit query variant over region", () => {
-    expect(resolveResumeVariant("ireland", "ua")).toBe("ireland");
-    expect(resolveResumeVariant("ua", "intl")).toBe("ua");
+  it("does not use geo/cookie — missing query is always Ireland", () => {
+    // Canonical /resume must stay indexable and identical for all visitors.
+    expect(parseResumeVariant(undefined)).toBe("ireland");
   });
 
   it("builds resume paths", () => {
