@@ -48,6 +48,7 @@ describe("proxy", () => {
       expect(nonce).toBeTruthy();
       const scriptSrc = csp?.split(";").find((part) => part.trim().startsWith("script-src")) ?? "";
       expect(scriptSrc).toContain(`'nonce-${nonce}'`);
+      expect(scriptSrc).toContain("'strict-dynamic'");
       expect(scriptSrc).not.toContain("'unsafe-inline'");
     });
   });
