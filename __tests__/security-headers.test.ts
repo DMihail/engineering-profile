@@ -4,7 +4,6 @@ import {
   getSecurityHeaders,
   HSTS_HEADER_VALUE,
 } from "@/lib/security-headers";
-import { SCROLL_HASH_BOOTSTRAP_CSP_HASH } from "@/lib/scroll-hash-bootstrap";
 import { withNodeEnv } from "./helpers/with-node-env";
 
 describe("security headers", () => {
@@ -22,31 +21,26 @@ describe("security headers", () => {
     expect(csp).toContain("https://www.recaptcha.google.com");
   });
 
-  it("uses nonce and strict-dynamic in production script-src instead of unsafe-inline", () => {
+  it("uses self + unsafe-inline (no nonce/strict-dynamic) for Cache Components", () => {
     withNodeEnv("production", () => {
-      const nonce = createCspNonce();
-      const csp = buildContentSecurityPolicy(nonce);
+      const csp = buildContentSecurityPolicy(createCspNonce());
       const scriptSrc = csp.split(";").find((part) => part.trim().startsWith("script-src")) ?? "";
-      expect(scriptSrc).toContain(`'nonce-${nonce}'`);
-      expect(scriptSrc).toContain(`'${SCROLL_HASH_BOOTSTRAP_CSP_HASH}'`);
-      expect(scriptSrc).toContain("'strict-dynamic'");
-      expect(scriptSrc).not.toContain("'unsafe-inline'");
+      expect(scriptSrc).toContain("'self'");
+      expect(scriptSrc).toContain("'unsafe-inline'");
+      expect(scriptSrc).toContain("https://www.google.com");
+      expect(scriptSrc).not.toContain("'strict-dynamic'");
+      expect(scriptSrc).not.toMatch(/'nonce-/);
       expect(csp).toContain("style-src 'self' 'unsafe-inline'");
     });
   });
 
-  it("omits CSP from static headers in production without a nonce", () => {
+  it("includes CSP in production headers without requiring a nonce", () => {
     withNodeEnv("production", () => {
       const keys = getSecurityHeaders().map((header) => header.key);
-      expect(keys).not.toContain("Content-Security-Policy");
-    });
-  });
-
-  it("includes CSP in production when nonce is provided", () => {
-    withNodeEnv("production", () => {
-      const nonce = createCspNonce();
-      const cspHeader = getSecurityHeaders({ nonce }).find((header) => header.key === "Content-Security-Policy");
-      expect(cspHeader?.value).toContain(`'nonce-${nonce}'`);
+      expect(keys).toContain("Content-Security-Policy");
+      const csp = getSecurityHeaders().find((header) => header.key === "Content-Security-Policy");
+      expect(csp?.value).toContain("'unsafe-inline'");
+      expect(csp?.value).not.toMatch(/'nonce-/);
     });
   });
 
@@ -73,13 +67,13 @@ describe("security headers", () => {
 
   it("omits unsafe-eval in production CSP", () => {
     withNodeEnv("production", () => {
-      expect(buildContentSecurityPolicy(createCspNonce())).not.toContain("'unsafe-eval'");
+      expect(buildContentSecurityPolicy()).not.toContain("'unsafe-eval'");
     });
   });
 
   it("omits Trusted Types in production CSP for Next.js chunk loading", () => {
     withNodeEnv("production", () => {
-      const csp = buildContentSecurityPolicy(createCspNonce());
+      const csp = buildContentSecurityPolicy();
       expect(csp).not.toContain("trusted-types");
       expect(csp).not.toContain("require-trusted-types-for");
     });
