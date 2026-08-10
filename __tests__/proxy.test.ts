@@ -39,17 +39,17 @@ describe("proxy", () => {
     ).toBeUndefined();
   });
 
-  it("sets a per-request CSP with nonce on allowed routes in production", () => {
+  it("sets a Cache Components–compatible CSP on allowed routes in production", () => {
     withNodeEnv("production", () => {
       const res = proxy(requestFor("/"));
       const csp = res.headers.get("Content-Security-Policy");
       expect(csp).toBeTruthy();
-      const nonce = csp?.match(/'nonce-([^']+)'/)?.[1];
-      expect(nonce).toBeTruthy();
       const scriptSrc = csp?.split(";").find((part) => part.trim().startsWith("script-src")) ?? "";
-      expect(scriptSrc).toContain(`'nonce-${nonce}'`);
-      expect(scriptSrc).toContain("'strict-dynamic'");
-      expect(scriptSrc).not.toContain("'unsafe-inline'");
+      expect(scriptSrc).toContain("'self'");
+      expect(scriptSrc).toContain("'unsafe-inline'");
+      expect(scriptSrc).toContain("https://www.google.com");
+      expect(scriptSrc).not.toContain("'strict-dynamic'");
+      expect(scriptSrc).not.toMatch(/'nonce-/);
     });
   });
 
