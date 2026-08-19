@@ -1,17 +1,7 @@
-import { randomBytes } from "node:crypto";
-
 type Header = { key: string; value: string };
-
-/** @deprecated Unused with Cache Components — prerendered HTML cannot match per-request nonces. */
-export const CSP_NONCE_HEADER = "x-nonce";
 
 function isProductionEnv(): boolean {
   return process.env.NODE_ENV === "production";
-}
-
-/** @deprecated Prefer hash/'self' policies; kept for tests and any legacy callers. */
-export function createCspNonce(): string {
-  return randomBytes(16).toString("base64");
 }
 
 /**
@@ -19,15 +9,13 @@ export function createCspNonce(): string {
  *
  * Per-request nonces + `strict-dynamic` are incompatible here: Vercel serves cached
  * HTML (`x-nextjs-prerender`) whose script `nonce` attributes were fixed at render
- * time, while proxy would mint a new nonce each request. Browsers then block
- * `/_next` chunks, Next's inline flight/form scripts, and reCAPTCHA.
+ * time, while a fresh response nonce would not match. Browsers then block `/_next`
+ * chunks, Next inline flight/form scripts, and reCAPTCHA.
  *
  * With no nonce/hash in `script-src`, `'unsafe-inline'` stays effective for Next
  * inline scripts; `'self'` covers framework chunks; Google hosts cover reCAPTCHA.
- *
- * `@param _nonce` ignored (API compat).
  */
-export function buildContentSecurityPolicy(_nonce?: string): string {
+export function buildContentSecurityPolicy(): string {
   const isProd = isProductionEnv();
 
   const scriptSrc = [
@@ -62,7 +50,11 @@ export function buildContentSecurityPolicy(_nonce?: string): string {
 
 export const HSTS_HEADER_VALUE = "max-age=63072000; includeSubDomains; preload";
 
-export function getSecurityHeaders(_options?: { nonce?: string }): Header[] {
+/**
+ * Shared hardening headers for `next.config` (static) and `proxy.ts` (HTML/API).
+ * Same source keeps CSP/COOP/CORP in sync across both application points.
+ */
+export function getSecurityHeaders(): Header[] {
   const headers: Header[] = [
     {
       key: "Content-Security-Policy",
@@ -89,7 +81,7 @@ export function getSecurityHeaders(_options?: { nonce?: string }): Header[] {
   return headers;
 }
 
-export function applySecurityHeaders(response: Response, _nonce?: string): void {
+export function applySecurityHeaders(response: Response): void {
   for (const { key, value } of getSecurityHeaders()) {
     response.headers.set(key, value);
   }

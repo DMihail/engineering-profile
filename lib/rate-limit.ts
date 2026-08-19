@@ -1,7 +1,8 @@
 /**
  * Lightweight in-memory sliding-window rate limiter for Node route handlers.
  * On Vercel Fluid Compute instances are reused, so this catches burst abuse.
- * Not a substitute for edge/WAF limits on high-traffic APIs.
+ * Not a substitute for edge/WAF limits (multi-instance bypass) — document
+ * Vercel Firewall rules for production contact spam control.
  */
 
 export type RateLimitResult =

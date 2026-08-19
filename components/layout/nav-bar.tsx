@@ -31,7 +31,7 @@ export function NavBar() {
       }
       desktopLinks={
         <ul className="hidden lg:flex items-center list-none m-0 p-0">
-          {NAV.map((id) => (
+          {NAV.filter((id) => id !== "contact").map((id) => (
             <li key={id}>
               <a
                 href={sectionHref(id)}
