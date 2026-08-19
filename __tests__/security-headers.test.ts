@@ -1,6 +1,5 @@
 import {
   buildContentSecurityPolicy,
-  createCspNonce,
   getSecurityHeaders,
   HSTS_HEADER_VALUE,
 } from "@/lib/security-headers";
@@ -23,7 +22,7 @@ describe("security headers", () => {
 
   it("uses self + unsafe-inline (no nonce/strict-dynamic) for Cache Components", () => {
     withNodeEnv("production", () => {
-      const csp = buildContentSecurityPolicy(createCspNonce());
+      const csp = buildContentSecurityPolicy();
       const scriptSrc = csp.split(";").find((part) => part.trim().startsWith("script-src")) ?? "";
       expect(scriptSrc).toContain("'self'");
       expect(scriptSrc).toContain("'unsafe-inline'");
@@ -34,7 +33,7 @@ describe("security headers", () => {
     });
   });
 
-  it("includes CSP in production headers without requiring a nonce", () => {
+  it("includes CSP in production headers", () => {
     withNodeEnv("production", () => {
       const keys = getSecurityHeaders().map((header) => header.key);
       expect(keys).toContain("Content-Security-Policy");

@@ -50,8 +50,7 @@ export const viewport: Viewport = {
 
 /**
  * Root layout stays sync so Cache Components can prerender a static shell.
- * CSP is applied in `proxy.ts` / `next.config` without per-request script nonces
- * (prerendered HTML cannot match a fresh nonce — see `buildContentSecurityPolicy`).
+ * CSP comes from `getSecurityHeaders()` via `proxy.ts` and `next.config` (no nonces).
  */
 export default function RootLayout({
   children,
