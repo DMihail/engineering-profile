@@ -9,6 +9,8 @@ export interface CareerExperienceEntry {
   company: string;
   period: string;
   location: string;
+  /** One-line outcome for recruiter scan — portfolio timeline header. */
+  impact?: string;
   bullets?: string[];
   projects?: CareerProject[];
   applications?: string[];

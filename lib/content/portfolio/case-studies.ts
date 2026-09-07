@@ -50,9 +50,9 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Kept UI responsive during capture and processing steps",
     ],
     results: [
-      { metric: "iOS & Android", label: "production mobile app" },
-      { metric: "Stores", label: "App Store & Google Play releases" },
-      { metric: "Firebase", label: "auth & push notifications" },
+      { metric: "2 stores", label: "App Store & Google Play" },
+      { metric: "On-device", label: "camera + OpenCV analysis" },
+      { metric: "Native", label: "Turbo Modules for SDKs" },
     ],
   },
   {
@@ -97,9 +97,9 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Maintained production quality through ongoing feature work",
     ],
     results: [
-      { metric: "2+ years", label: "production maintenance" },
-      { metric: "Web → mobile", label: "auction migration" },
-      { metric: "Production", label: "iOS & Android app" },
+      { metric: "2+ years", label: "production ownership" },
+      { metric: "Live bidding", label: "catalog + absentee bids" },
+      { metric: "Web → mobile", label: "auction platform migration" },
     ],
   },
   {
@@ -143,9 +143,9 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Maintained sync reliability across network interruptions",
     ],
     results: [
-      { metric: "Offline-first", label: "field workflows" },
-      { metric: "WebSockets", label: "real-time sync" },
-      { metric: "RN upgrade", label: "modern release" },
+      { metric: "Offline-first", label: "field engineer workflows" },
+      { metric: "Real-time", label: "WebSocket sync when online" },
+      { metric: "RN upgrade", label: "modernized production app" },
     ],
   },
   {
@@ -188,9 +188,9 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Configuration flows kept consistent across player types",
     ],
     results: [
-      { metric: "Dashboards", label: "video analytics" },
-      { metric: "Player config", label: "management features" },
-      { metric: "Agile", label: "cross-functional delivery" },
+      { metric: "Dashboards", label: "video analytics for ops" },
+      { metric: "Player config", label: "production management UI" },
+      { metric: "Cross-team", label: "PM · design · engineering" },
     ],
   },
   {
@@ -233,9 +233,9 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Offline storage kept library access reliable without network",
     ],
     results: [
-      { metric: "SQLite", label: "offline storage" },
-      { metric: "REST", label: "content sync" },
-      { metric: "Playback", label: "audio features" },
+      { metric: "Offline", label: "SQLite audiobook library" },
+      { metric: "Playback", label: "stable audio on device" },
+      { metric: "Sync", label: "REST content + accounts" },
     ],
   },
   {
@@ -292,9 +292,9 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Reanimated theme transitions with reduced-motion support",
     ],
     results: [
-      { metric: "119", label: "Jest tests" },
-      { metric: "RN 0.86", label: "New Architecture" },
-      { metric: "On-device", label: "no cloud sync" },
+      { metric: "119", label: "Jest tests (on-device product)" },
+      { metric: "RN 0.86", label: "New Architecture + Turbo Modules" },
+      { metric: "Privacy", label: "no cloud sync — data stays local" },
     ],
   },
 ];

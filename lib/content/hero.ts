@@ -9,7 +9,7 @@ export const HERO_CTA = {
 } as const;
 
 export const HERO_STATS = [
-  { value: "7+", label: "Years software development" },
+  { value: "7+", label: "Years shipping software" },
   { value: "5+", label: "Years React Native" },
-  { value: "Stores", label: "App Store & Google Play" },
+  { value: "2 stores", label: "App Store & Google Play" },
 ];

@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import {
   SITE_URL,
   SITE_AUTHOR,
@@ -11,6 +12,7 @@ import {
 import { ScrollHashBootstrap } from "@/components/layout/scroll-hash-bootstrap";
 import { SiteJsonLd } from "@/components/seo/site-json-ld";
 import { fontBodyClassName, fontVariableClassName } from "@/lib/fonts";
+import { THEME_BOOTSTRAP_SCRIPT } from "@/lib/theme";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -45,7 +47,10 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#0B0F17",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F5F9FC" },
+    { media: "(prefers-color-scheme: dark)", color: "#0B0F17" },
+  ],
 };
 
 /**
@@ -65,6 +70,11 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className={`${fontBodyClassName} min-h-full`}>
+        <Script
+          id="theme-bootstrap"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }}
+        />
         <ScrollHashBootstrap />
         <SiteJsonLd />
         {children}

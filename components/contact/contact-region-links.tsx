@@ -28,7 +28,7 @@ export function ContactPhoneCard() {
   return (
     <a href={`tel:${phone.e164}`} className={`${styles.linkCard} no-underline`}>
       <div className="icon-well icon-well-md">
-        <Phone size={14} className="text-primary" aria-hidden />
+        <Phone size={14} className="text-icon" aria-hidden />
       </div>
       <div className="flex-1 min-w-0">
         <div className="text-xs font-semibold text-foreground">{UI_LABELS.contact.phone}</div>
@@ -44,7 +44,7 @@ export function ContactResumeButton() {
   return (
     <a href={cv.file} download className={`${styles.linkCard} w-full no-underline`}>
       <div className="icon-well icon-well-md">
-        <Download size={14} className="text-primary" aria-hidden />
+        <Download size={14} className="text-icon" aria-hidden />
       </div>
       <div className="flex-1 min-w-0">
         <div className="text-xs font-semibold text-foreground">{cv.label}</div>

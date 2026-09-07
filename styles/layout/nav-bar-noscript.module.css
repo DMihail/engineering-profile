@@ -35,7 +35,7 @@
 }
 
 .noScriptNavLink:hover {
-  color: var(--primary);
+  color: var(--primary-text);
   border-color: var(--border-primary-muted);
 }
 

@@ -46,7 +46,7 @@ export function NavBar() {
       }
       contactCta={
         <a href={sectionHref("contact")} data-nav-section="contact" className={contactCtaClassName}>
-          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" aria-hidden />
+          <span className="w-1.5 h-1.5 rounded-full bg-primary-fill animate-pulse" aria-hidden />
           {UI_LABELS.nav.letsTalk}
         </a>
       }
@@ -76,7 +76,7 @@ export function NavBar() {
                 >
                   {isContact ? (
                     <>
-                      <span className="status-dot-sm bg-background! shadow-none! animate-pulse" aria-hidden />
+                      <span className="status-dot-sm bg-on-primary! shadow-none! animate-pulse" aria-hidden />
                       {UI_LABELS.nav.letsTalk}
                     </>
                   ) : (

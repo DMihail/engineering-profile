@@ -9,8 +9,8 @@ interface MDLogoProps extends SVGProps<SVGSVGElement> {
 
 export function MDLogo({
   size = 32,
-  color = "#38BDF8",
-  bg = "#0B0F17",
+  color = "currentColor",
+  bg = "var(--background)",
   tile = false,
   className,
   "aria-hidden": ariaHidden,

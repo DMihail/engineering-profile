@@ -6,11 +6,17 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
-  --color-primary: var(--primary);
+  /* Labels/links — primary-text (AA on paper). Icons use --color-icon. */
+  --color-primary: var(--primary-text);
   --color-primary-hover: var(--primary-hover);
+  --color-primary-text: var(--primary-text);
+  --color-icon: var(--icon);
+  /* Bright brand fills (buttons, status pulses) — keep #38BDF8 on both themes */
+  --color-primary-fill: var(--primary);
+  --color-on-primary: var(--on-primary);
   --color-secondary: var(--secondary);
   --color-muted-foreground: var(--muted-foreground);
-  --color-success: var(--success);
+  --color-success: var(--success-text);
   --color-error: var(--error);
   --color-border: var(--border);
   --color-border-hover: var(--border-hover);

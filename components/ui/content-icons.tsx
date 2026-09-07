@@ -1,4 +1,4 @@
-import type { CSSProperties, ComponentType } from "react";
+import type { CSSProperties } from "react";
 import {
   Boxes,
   CircleCheck,
@@ -10,7 +10,6 @@ import {
   GitBranch,
   Globe,
   Layers,
-  Mail,
   Monitor,
   Network,
   Package,
@@ -23,17 +22,13 @@ import {
   Workflow,
   Wrench,
 } from "lucide-react";
-import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
 import type { ContentIconId } from "@/lib/content/icon-ids";
+import type { ContentIconComponent } from "@/components/ui/content-icon-types";
+import { SocialContentIcon, type SocialContentIconId } from "@/components/ui/social-icons";
 
-export type ContentIconComponent = ComponentType<{
-  size?: number;
-  className?: string;
-  style?: CSSProperties;
-  "aria-hidden"?: boolean | "true" | "false";
-}>;
+export type { ContentIconComponent } from "@/components/ui/content-icon-types";
 
-const CONTENT_ICONS: Record<ContentIconId, ContentIconComponent> = {
+const CONTENT_ICONS: Partial<Record<ContentIconId, ContentIconComponent>> = {
   smartphone: Smartphone,
   layers: Layers,
   eye: Eye,
@@ -55,10 +50,11 @@ const CONTENT_ICONS: Record<ContentIconId, ContentIconComponent> = {
   network: Network,
   terminal: Terminal,
   gauge: Gauge,
-  github: GithubIcon,
-  linkedin: LinkedinIcon,
-  mail: Mail,
 };
+
+function isSocialIconId(id: ContentIconId): id is SocialContentIconId {
+  return id === "github" || id === "linkedin" || id === "mail";
+}
 
 export function ContentIcon({
   id,
@@ -73,6 +69,13 @@ export function ContentIcon({
   style?: CSSProperties;
   "aria-hidden"?: boolean | "true" | "false";
 }) {
+  if (isSocialIconId(id)) {
+    return (
+      <SocialContentIcon id={id} size={size} className={className} style={style} aria-hidden={ariaHidden} />
+    );
+  }
+
   const Icon = CONTENT_ICONS[id];
+  if (!Icon) return null;
   return <Icon size={size} className={className} style={style} aria-hidden={ariaHidden} />;
 }

@@ -7,6 +7,9 @@ export {
   SITE_HERO_INTRO,
   SITE_HERO_AVAILABILITY_LABEL,
   SITE_HERO_AVAILABILITY_TYPES,
+  SITE_ENGLISH_LEVEL,
+  SITE_ENGLISH_NOTE,
+  SITE_ENGLISH_CERTIFICATE_HREF,
   SITE_DESCRIPTION,
   SITE_SHORT_DESCRIPTION,
   SITE_EDUCATION_FOCUS,
@@ -21,4 +24,5 @@ export const SITE_RESUME_OG_IMAGE_PATH = "/resume/opengraph-image";
 /** Square image for Person schema — defaults to apple-touch icon. Set `/profile.jpg` when a photo is in public/. */
 export const SITE_PROFILE_IMAGE_PATH =
   process.env.NEXT_PUBLIC_PROFILE_IMAGE_PATH ?? "/apple-icon";
-export const SITE_LAST_MODIFIED = process.env.SITE_LAST_MODIFIED ?? "2026-08-09";
+/** ISO date for sitemap/footer — bump on meaningful content publishes. */
+export const SITE_LAST_MODIFIED = process.env.SITE_LAST_MODIFIED ?? "2026-09-07";
