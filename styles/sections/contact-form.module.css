@@ -6,16 +6,7 @@
   overflow: visible;
 }
 
-@media (prefers-color-scheme: light) {
-  :global(html:not([data-theme="dark"])) .formPanel {
-    border-color: color-mix(in oklch, var(--foreground) 14%, transparent);
-    box-shadow:
-      0 1px 2px var(--nav-shadow),
-      0 10px 28px var(--shadow-primary);
-  }
-}
-
-:global(html[data-theme="light"]) .formPanel {
+:global(html[data-color-scheme="light"]) .formPanel {
   border-color: color-mix(in oklch, var(--foreground) 14%, transparent);
   box-shadow:
     0 1px 2px var(--nav-shadow),
@@ -122,40 +113,7 @@
 }
 
 /* Light: fields sit on white panel — use soft-sky well + stronger ink border */
-@media (prefers-color-scheme: light) {
-  :global(html:not([data-theme="dark"])) .inputField {
-    background: var(--background);
-    border-color: color-mix(in oklch, var(--foreground) 18%, transparent);
-    box-shadow:
-      inset 0 1px 2px color-mix(in oklch, var(--foreground) 6%, transparent),
-      0 1px 2px var(--nav-shadow);
-  }
-
-  :global(html:not([data-theme="dark"])) .inputField::placeholder {
-    color: var(--text-faint);
-  }
-
-  :global(html:not([data-theme="dark"])) .inputField:hover:not(:focus-visible):not(:disabled) {
-    border-color: color-mix(in oklch, var(--primary-text) 45%, transparent);
-    background: color-mix(in oklch, var(--background) 92%, var(--icon) 8%);
-  }
-
-  :global(html:not([data-theme="dark"])) .inputField:focus-visible {
-    border-color: var(--primary-text);
-    background: color-mix(in oklch, var(--background) 88%, var(--icon) 12%);
-    outline-color: var(--ring);
-    box-shadow:
-      inset 0 1px 0 color-mix(in oklch, white 55%, transparent),
-      0 0 0 3px color-mix(in oklch, var(--icon) 22%, transparent);
-  }
-
-  :global(html:not([data-theme="dark"])) .formLabel {
-    color: var(--foreground);
-    font-weight: 600;
-  }
-}
-
-:global(html[data-theme="light"]) .inputField {
+:global(html[data-color-scheme="light"]) .inputField {
   background: var(--background);
   border-color: color-mix(in oklch, var(--foreground) 18%, transparent);
   box-shadow:
@@ -163,16 +121,16 @@
     0 1px 2px var(--nav-shadow);
 }
 
-:global(html[data-theme="light"]) .inputField::placeholder {
+:global(html[data-color-scheme="light"]) .inputField::placeholder {
   color: var(--text-faint);
 }
 
-:global(html[data-theme="light"]) .inputField:hover:not(:focus-visible):not(:disabled) {
+:global(html[data-color-scheme="light"]) .inputField:hover:not(:focus-visible):not(:disabled) {
   border-color: color-mix(in oklch, var(--primary-text) 45%, transparent);
   background: color-mix(in oklch, var(--background) 92%, var(--icon) 8%);
 }
 
-:global(html[data-theme="light"]) .inputField:focus-visible {
+:global(html[data-color-scheme="light"]) .inputField:focus-visible {
   border-color: var(--primary-text);
   background: color-mix(in oklch, var(--background) 88%, var(--icon) 12%);
   outline-color: var(--ring);
@@ -181,7 +139,7 @@
     0 0 0 3px color-mix(in oklch, var(--icon) 22%, transparent);
 }
 
-:global(html[data-theme="light"]) .formLabel {
+:global(html[data-color-scheme="light"]) .formLabel {
   color: var(--foreground);
   font-weight: 600;
 }

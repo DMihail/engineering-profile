@@ -187,17 +187,7 @@
     cursor: default;
   }
 
-  @media (prefers-color-scheme: light) {
-    :root:not([data-theme="dark"]) .form-success-banner {
-      background: var(--success-text);
-      color: #ffffff;
-      color: oklch(0.99 0 0);
-      border-color: color-mix(in oklch, var(--success-text) 80%, black);
-      box-shadow: 0 1px 2px color-mix(in oklch, var(--success-text) 28%, transparent);
-    }
-  }
-
-  :root[data-theme="light"] .form-success-banner {
+  :root[data-color-scheme="light"] .form-success-banner {
     background: var(--success-text);
     color: #ffffff;
     color: oklch(0.99 0 0);
@@ -228,25 +218,13 @@
   }
 
   /* Light: soft wells + slightly heavier strokes for glyph punch */
-  @media (prefers-color-scheme: light) {
-    :root:not([data-theme="dark"]) .icon-well {
-      box-shadow:
-        0 1px 2px color-mix(in oklch, var(--icon) 12%, transparent),
-        inset 0 1px 0 color-mix(in oklch, white 65%, transparent);
-    }
-
-    :root:not([data-theme="dark"]) .icon-well :is(svg) {
-      stroke-width: 2.25;
-    }
-  }
-
-  :root[data-theme="light"] .icon-well {
+  :root[data-color-scheme="light"] .icon-well {
     box-shadow:
       0 1px 2px color-mix(in oklch, var(--icon) 12%, transparent),
       inset 0 1px 0 color-mix(in oklch, white 65%, transparent);
   }
 
-  :root[data-theme="light"] .icon-well :is(svg) {
+  :root[data-color-scheme="light"] .icon-well :is(svg) {
     stroke-width: 2.25;
   }
 
@@ -258,16 +236,7 @@
     background: none;
   }
 
-  @media (prefers-color-scheme: light) {
-    :root:not([data-theme="dark"]) .bg-hero-wash,
-    :root[data-theme="light"] .bg-hero-wash {
-      background:
-        radial-gradient(ellipse 80% 55% at 50% -10%, color-mix(in oklch, var(--primary) 28%, transparent), transparent 70%),
-        radial-gradient(ellipse 60% 40% at 85% 30%, color-mix(in oklch, var(--primary) 12%, transparent), transparent 65%);
-    }
-  }
-
-  :root[data-theme="light"] .bg-hero-wash {
+  :root[data-color-scheme="light"] .bg-hero-wash {
     background:
       radial-gradient(ellipse 80% 55% at 50% -10%, color-mix(in oklch, var(--primary) 28%, transparent), transparent 70%),
       radial-gradient(ellipse 60% 40% at 85% 30%, color-mix(in oklch, var(--primary) 12%, transparent), transparent 65%);

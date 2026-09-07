@@ -5,7 +5,7 @@ export function sectionHeadingId(sectionId: ContentSectionId): string {
   return `${sectionId}-heading`;
 }
 
-export function SectionLabelRow({ n, label }: { n: string; label: string }) {
+function SectionLabelRow({ n, label }: { n: string; label: string }) {
   return (
     <div className="flex items-center gap-3 mb-5" aria-hidden="true">
       <span className="mono-sm tracking-[0.15em] uppercase text-primary-text font-semibold">

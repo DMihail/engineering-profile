@@ -1,10 +1,10 @@
 import {
   applyThemePreference,
-  DEV_THEME_BOOTSTRAP_SCRIPT,
   isThemePreference,
   nextThemePreference,
   readStoredThemePreference,
   resolveColorScheme,
+  THEME_BOOTSTRAP_SCRIPT,
   THEME_STORAGE_KEY,
   writeStoredThemePreference,
 } from "@/lib/theme";
@@ -28,15 +28,21 @@ describe("theme preference", () => {
     expect(isThemePreference("nope")).toBe(false);
   });
 
-  it("applies and clears data-theme on the root", () => {
+  it("applies data-theme and data-color-scheme on the root", () => {
     const root = document.createElement("html");
-    applyThemePreference("light", root);
+    applyThemePreference("light", root, false);
     expect(root.getAttribute("data-theme")).toBe("light");
-    applyThemePreference("system", root);
+    expect(root.getAttribute("data-color-scheme")).toBe("light");
+
+    applyThemePreference("system", root, true);
     expect(root.hasAttribute("data-theme")).toBe(false);
+    expect(root.getAttribute("data-color-scheme")).toBe("light");
+
+    applyThemePreference("system", root, false);
+    expect(root.getAttribute("data-color-scheme")).toBe("dark");
   });
 
-  it("persists forced themes in session storage", () => {
+  it("persists forced themes in local storage", () => {
     const store = new Map<string, string>();
     const storage = {
       getItem: (key: string) => store.get(key) ?? null,
@@ -57,10 +63,11 @@ describe("theme preference", () => {
     expect(readStoredThemePreference(storage)).toBe("system");
   });
 
-  it("keeps a compact inline bootstrap for early data-theme restore", () => {
-    expect(DEV_THEME_BOOTSTRAP_SCRIPT).toContain(THEME_STORAGE_KEY);
-    expect(DEV_THEME_BOOTSTRAP_SCRIPT).toContain("sessionStorage");
-    expect(DEV_THEME_BOOTSTRAP_SCRIPT).toContain("data-theme");
-    expect(DEV_THEME_BOOTSTRAP_SCRIPT).not.toContain("\n");
+  it("keeps a compact inline bootstrap for early scheme restore", () => {
+    expect(THEME_BOOTSTRAP_SCRIPT).toContain(THEME_STORAGE_KEY);
+    expect(THEME_BOOTSTRAP_SCRIPT).toContain("localStorage");
+    expect(THEME_BOOTSTRAP_SCRIPT).toContain("data-theme");
+    expect(THEME_BOOTSTRAP_SCRIPT).toContain("data-color-scheme");
+    expect(THEME_BOOTSTRAP_SCRIPT).not.toContain("\n");
   });
 });

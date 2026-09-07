@@ -83,6 +83,11 @@ export function ExperienceSection() {
                             {xp.role}
                           </h3>
                           <p className="text-sm text-primary mt-0.5">{xp.company}</p>
+                          {xp.impact ? (
+                            <p className="text-sm text-text-secondary mt-2 max-w-prose text-pretty leading-snug">
+                              {xp.impact}
+                            </p>
+                          ) : null}
                         </div>
                         <div className="text-end">
                           <time className="mono-md text-muted-foreground">{xp.period}</time>

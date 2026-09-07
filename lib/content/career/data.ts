@@ -12,6 +12,8 @@ export const CAREER_EXPERIENCE: CareerExperienceEntry[] = [
     company: "Elementica",
     period: "03/2025 – 12/2025",
     location: "Uzhhorod",
+    impact:
+      "Shipped healthcare mobile to App Store & Google Play; delivered analytics admin features with the product team.",
     portfolio: {
       tags: [
         "React Native",
@@ -54,9 +56,9 @@ export const CAREER_EXPERIENCE: CareerExperienceEntry[] = [
     company: "NetGame",
     period: "06/2024 – 01/2025",
     location: "Kyiv",
-    portfolio: {
-      tags: ["React Native", "Expo", "Firebase Crashlytics", "App Store", "Google Play"],
-    },
+    impact:
+      "Owned production iOS/Android release cycles — features, Crashlytics triage, and post-release fixes.",
+    portfolio: { tags: ["React Native", "Expo", "Firebase Crashlytics", "App Store", "Google Play"] },
     bullets: [
       "Developed and maintained production mobile applications for iOS and Android.",
       "Delivered new features, bug fixes, and performance improvements.",
@@ -71,6 +73,8 @@ export const CAREER_EXPERIENCE: CareerExperienceEntry[] = [
     company: "Kultprosvet",
     period: "03/2021 – 12/2023",
     location: "Dnipro",
+    impact:
+      "Multi-year ownership of auction and workforce apps — offline-first, real-time sync, and RN upgrades in production.",
     portfolio: {
       tags: ["React Native", "React", "Node.js", "GraphQL", "Express", "WebSockets", "MySQL"],
     },
@@ -115,6 +119,7 @@ export const CAREER_EXPERIENCE: CareerExperienceEntry[] = [
     company: "Devsteam.mobi",
     period: "03/2020 – 03/2021",
     location: "Kiev",
+    impact: "Built offline audiobook playback and SQLite storage for a production React Native app.",
     portfolio: {
       tags: ["React Native", "SQLite", "REST APIs", "TypeScript"],
       relatedCaseId: "audiobook",
@@ -132,6 +137,7 @@ export const CAREER_EXPERIENCE: CareerExperienceEntry[] = [
     company: "Absolutist",
     period: "09/2018 – 07/2019",
     location: "Dnipro",
+    impact: "Migrated browser games from ActionScript to JavaScript/TypeScript in a live product codebase.",
     portfolio: {
       tags: ["JavaScript", "TypeScript", "ActionScript"],
     },
@@ -202,5 +208,8 @@ export const CAREER_EDUCATION: CareerEducationEntry[] = [
 export const CAREER_LANGUAGES: CareerLanguageEntry[] = [
   { language: "Ukrainian", level: "Native" },
   { language: "Russian", level: "Native" },
-  { language: "English", level: "Intermediate (B1)" },
+  {
+    language: "English",
+    level: "Working professional (B1+) — daily standups, written async, client calls",
+  },
 ];

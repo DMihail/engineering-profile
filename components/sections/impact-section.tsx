@@ -34,7 +34,7 @@ export function ImpactSection() {
                 <tr key={cap.id}>
                   <th scope="row">
                     <div className="flex items-center gap-2 mb-3">
-                      <div className={styles.iconBox}>
+                      <div className="icon-well icon-well-md">
                         <ContentIcon id={cap.icon} size={13} className="text-icon" />
                       </div>
                       <span className={styles.capRowTitle}>{cap.title}</span>

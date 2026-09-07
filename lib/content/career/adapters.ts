@@ -23,6 +23,7 @@ export function toXpEntries(entries: CareerExperienceEntry[]): XP[] {
     current: false,
     tags: entry.portfolio?.tags ?? [],
     items: entry.bullets ?? [],
+    impact: entry.impact,
     projects: entry.projects?.map((project) => ({
       title: project.title,
       items: project.bullets,

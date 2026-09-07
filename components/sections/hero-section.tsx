@@ -1,6 +1,13 @@
 import { Download, Mail } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
-import { SITE_AUTHOR, SITE_HERO_AVAILABILITY_LABEL, SITE_HERO_AVAILABILITY_TYPES, SITE_HERO_INTRO, SITE_LOCATION, SITE_ROLE } from "@/lib/config";
+import {
+  SITE_AUTHOR,
+  SITE_HERO_AVAILABILITY_LABEL,
+  SITE_HERO_AVAILABILITY_TYPES,
+  SITE_HERO_INTRO,
+  SITE_LOCATION,
+  SITE_ROLE,
+} from "@/lib/config";
 import { HERO_CTA, HERO_STATS } from "@/lib/content/hero";
 import { UI_LABELS } from "@/lib/content/ui-labels";
 import styles from "@/styles/sections/hero-section.module.css";
@@ -51,9 +58,13 @@ export function HeroSection() {
           <div
             role="group"
             aria-label={UI_LABELS.hero.primaryActions}
-            className="flex flex-col sm:flex-row flex-wrap gap-3 justify-center lg:justify-start mb-12"
+            className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 justify-center lg:justify-start mb-12"
           >
-            <a href={HERO_CTA.cv} download className="btn-primary no-underline min-h-11">
+            <a href={HERO_CTA.contact} className="btn-primary no-underline min-h-11">
+              <Mail size={15} aria-hidden />
+              {UI_LABELS.hero.contact}
+            </a>
+            <a href={HERO_CTA.cv} download className="btn-outline no-underline min-h-11">
               <Download size={15} aria-hidden />
               {UI_LABELS.hero.downloadCv}
             </a>
@@ -74,10 +85,6 @@ export function HeroSection() {
             >
               <LinkedinIcon size={15} aria-hidden />
               {UI_LABELS.hero.linkedin}
-            </a>
-            <a href={HERO_CTA.contact} className="btn-outline no-underline min-h-11">
-              <Mail size={15} aria-hidden />
-              {UI_LABELS.hero.contact}
             </a>
           </div>
 

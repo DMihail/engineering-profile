@@ -47,20 +47,10 @@
   color: var(--foreground);
 }
 
-@media (prefers-color-scheme: light) {
-  :global(html:not([data-theme="dark"])) .label {
-    color: var(--text-secondary);
-  }
-
-  :global(html:not([data-theme="dark"])) .checkbox {
-    accent-color: var(--primary-text);
-  }
-}
-
-:global(html[data-theme="light"]) .label {
+:global(html[data-color-scheme="light"]) .label {
   color: var(--text-secondary);
 }
 
-:global(html[data-theme="light"]) .checkbox {
+:global(html[data-color-scheme="light"]) .checkbox {
   accent-color: var(--primary-text);
 }

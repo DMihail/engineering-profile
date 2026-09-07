@@ -1,14 +1,5 @@
 import type { ContentIconId } from "@/lib/content/icon-ids";
 
-declare global {
-  interface Window {
-    grecaptcha: {
-      ready: (cb: () => void) => void;
-      execute: (siteKey: string, options: { action: string }) => Promise<string>;
-    };
-  }
-}
-
 interface SkillItem {
   name: string;
   primary: boolean;
@@ -58,6 +49,7 @@ export interface XP {
   current: boolean;
   tags: string[];
   items: string[];
+  impact?: string;
   projects?: XPProject[];
   applications?: string[];
   applicationsLabel?: string;

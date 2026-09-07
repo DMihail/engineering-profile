@@ -20,26 +20,12 @@ export async function CachedPortfolioSections() {
   cacheTag(CACHE_TAGS.portfolio);
 
   return (
-    <>
-      <SectionErrorBoundary>
-        <ImpactSection />
-      </SectionErrorBoundary>
-
-      <SectionErrorBoundary>
-        <CaseStudiesSection />
-      </SectionErrorBoundary>
-
-      <SectionErrorBoundary>
-        <SkillsSection />
-      </SectionErrorBoundary>
-
-      <SectionErrorBoundary>
-        <ExperienceSection />
-      </SectionErrorBoundary>
-
-      <SectionErrorBoundary>
-        <EducationSection />
-      </SectionErrorBoundary>
-    </>
+    <SectionErrorBoundary>
+      <ImpactSection />
+      <CaseStudiesSection />
+      <SkillsSection />
+      <ExperienceSection />
+      <EducationSection />
+    </SectionErrorBoundary>
   );
 }

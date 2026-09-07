@@ -12,10 +12,8 @@ import {
 import { ScrollHashBootstrap } from "@/components/layout/scroll-hash-bootstrap";
 import { SiteJsonLd } from "@/components/seo/site-json-ld";
 import { fontBodyClassName, fontVariableClassName } from "@/lib/fonts";
-import { DEV_THEME_BOOTSTRAP_SCRIPT } from "@/lib/theme";
+import { THEME_BOOTSTRAP_SCRIPT } from "@/lib/theme";
 import "./globals.css";
-
-const isDev = process.env.NODE_ENV === "development";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -72,13 +70,11 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className={`${fontBodyClassName} min-h-full`}>
-        {isDev ? (
-          <Script
-            id="dev-theme-bootstrap"
-            strategy="beforeInteractive"
-            dangerouslySetInnerHTML={{ __html: DEV_THEME_BOOTSTRAP_SCRIPT }}
-          />
-        ) : null}
+        <Script
+          id="theme-bootstrap"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }}
+        />
         <ScrollHashBootstrap />
         <SiteJsonLd />
         {children}

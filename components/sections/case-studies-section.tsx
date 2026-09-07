@@ -41,13 +41,18 @@ function CollapsibleBlock({
   );
 }
 
-function CaseStudyPanel({ cs }: { cs: CaseStudy }) {
+function CaseStudyPanel({ cs, defaultOpen = false }: { cs: CaseStudy; defaultOpen?: boolean }) {
   const [typePrimary, typeSecondary] = cs.type.split(" · ");
   const panelHeadingId = `${cs.id}-title`;
 
   return (
     <article aria-labelledby={panelHeadingId}>
-      <details id={projectFragmentId(cs.id)} className={`${styles.panel} case-details`} name="case-studies">
+      <details
+        id={projectFragmentId(cs.id)}
+        className={`${styles.panel} case-details`}
+        name="case-studies"
+        open={defaultOpen || undefined}
+      >
         <summary className={styles.summary}>
           <div className="flex items-start gap-4 sm:gap-5">
             <span className={`hidden sm:block shrink-0 font-mono font-bold tracking-[-0.05em] leading-none mt-0.5 ${styles.studyNum}`}>
@@ -203,7 +208,7 @@ export function CaseStudiesSection() {
         <SectionHeader sectionId="projects" />
         <div className="space-y-4 sm:space-y-5">
           {CASE_STUDIES.map((cs) => (
-            <CaseStudyPanel key={cs.id} cs={cs} />
+            <CaseStudyPanel key={cs.id} cs={cs} defaultOpen={cs.id === "vitadrop"} />
           ))}
         </div>
       </div>

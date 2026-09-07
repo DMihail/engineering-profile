@@ -185,18 +185,31 @@
   --surface-muted: color-mix(in oklch, var(--foreground) 4%, transparent);
   --surface-raised: color-mix(in oklch, var(--foreground) 6%, transparent);
   --surface-primary-subtle: color-mix(in oklch, var(--primary) 5%, transparent);
+  --surface-primary-subtle: oklch(from var(--primary) l c h / 0.05);
   --surface-primary-muted: color-mix(in oklch, var(--primary) 8%, transparent);
+  --surface-primary-muted: oklch(from var(--primary) l c h / 0.08);
   --surface-primary-soft: color-mix(in oklch, var(--primary) 10%, transparent);
+  --surface-primary-soft: oklch(from var(--primary) l c h / 0.1);
   --surface-primary-icon: color-mix(in oklch, var(--primary) 12%, transparent);
+  --surface-primary-icon: oklch(from var(--primary) l c h / 0.12);
   --surface-success-subtle: color-mix(in oklch, var(--success) 5%, transparent);
+  --surface-success-subtle: oklch(from var(--success) l c h / 0.05);
   --surface-success-muted: color-mix(in oklch, var(--success) 10%, transparent);
+  --surface-success-muted: oklch(from var(--success) l c h / 0.1);
   --border-primary-soft: color-mix(in oklch, var(--primary) 10%, transparent);
+  --border-primary-soft: oklch(from var(--primary) l c h / 0.1);
   --border-primary-muted: color-mix(in oklch, var(--primary) 15%, transparent);
+  --border-primary-muted: oklch(from var(--primary) l c h / 0.15);
   --border-primary-strong: color-mix(in oklch, var(--primary) 20%, transparent);
+  --border-primary-strong: oklch(from var(--primary) l c h / 0.2);
   --border-primary-emphasis: color-mix(in oklch, var(--primary) 30%, transparent);
+  --border-primary-emphasis: oklch(from var(--primary) l c h / 0.3);
   --border-primary-intense: color-mix(in oklch, var(--primary) 35%, transparent);
+  --border-primary-intense: oklch(from var(--primary) l c h / 0.35);
   --border-success-muted: color-mix(in oklch, var(--success) 12%, transparent);
+  --border-success-muted: oklch(from var(--success) l c h / 0.12);
   --border-success-strong: color-mix(in oklch, var(--success) 20%, transparent);
+  --border-success-strong: oklch(from var(--success) l c h / 0.2);
   --text-success-muted: color-mix(in oklch, var(--success) 55%, var(--foreground));
   --text-success-dim: color-mix(in oklch, var(--success) 70%, var(--foreground));
   --nav-bg: color-mix(in oklch, var(--background) 72%, var(--card));
@@ -218,114 +231,28 @@
 }
 
 /*
- * Light palette — same brand accents as dark (#38BDF8 sky + #22C55E green)
- * on an airy soft-sky canvas. Fills stay brand sky/green; body/muted ink and
- * primary-text (#0278B8) for labels; --icon (#0EA5E9) brighter for glyphs on paper.
- * Keep both blocks in sync: OS light (unless forced dark) + forced light (dev).
+ * Light palette — applied when resolved scheme is light
+ * (`data-color-scheme` from theme bootstrap / toggle; OS or forced).
  */
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) {
-    --background: #f5f9fc;
-    --background: oklch(0.982 0.008 230);
-    --foreground: #0a0f1a;
-    --foreground: oklch(0.16 0.03 255);
-    --card: #ffffff;
-    --card: oklch(1 0 0);
-    /* Brand fills match dark */
-    --primary: #38bdf8;
-    --primary: oklch(0.78 0.12 230);
-    --primary-hover: #7dd3fc;
-    --primary-hover: oklch(0.85 0.09 230);
-    /* Vivid sky for links/icons — higher chroma than slate-700, still AA on paper */
-    --primary-text: #0278b8;
-    --primary-text: oklch(0.55 0.145 230);
-    /* Brighter than labels — brand-near sky on soft paper/wells */
-    --icon: #0ea5e9;
-    --icon: oklch(0.7 0.14 230);
-    --on-primary: #0b0f17;
-    --on-primary: oklch(0.145 0.018 260);
-    /* Elevated band (About/Skills/…) — lighter than canvas, never a muddy darken */
-    --secondary: #ffffff;
-    --secondary: oklch(1 0 0);
-    /* Cool ink ladder — small type needs near-body contrast on paper */
-    --muted-foreground: #0f172a;
-    --muted-foreground: oklch(0.21 0.032 250);
-    --success: #22c55e;
-    --success: oklch(0.72 0.17 145);
-    --success-text: #15803d;
-    --success-text: oklch(0.48 0.12 145);
-    --error: #dc2626;
-    --error: oklch(0.58 0.22 25);
-    --text-secondary: #0f172a;
-    --text-secondary: oklch(0.21 0.032 250);
-    --text-dim: #1e293b;
-    --text-dim: oklch(0.28 0.03 250);
-    --text-faint: #334155;
-    --text-faint: oklch(0.35 0.025 250);
-    --border: color-mix(in oklch, var(--foreground) 10%, transparent);
-    --border-hover: color-mix(in oklch, var(--primary-text) 40%, transparent);
-    --ring: color-mix(in oklch, var(--primary-text) 45%, transparent);
-    --surface-subtle: color-mix(in oklch, var(--primary) 3.5%, var(--background));
-    --surface-muted: color-mix(in oklch, var(--primary) 5%, var(--background));
-    --surface-raised: color-mix(in oklch, var(--primary) 7%, var(--background));
-    --surface-primary-subtle: color-mix(in oklch, var(--primary) 16%, transparent);
-    --surface-primary-muted: color-mix(in oklch, var(--primary) 20%, transparent);
-    --surface-primary-soft: color-mix(in oklch, var(--primary) 26%, transparent);
-    /* Saturated well — sky-700 glyphs pop against cool tint */
-    --surface-primary-icon: color-mix(in oklch, var(--icon) 14%, white);
-    --border-primary-soft: color-mix(in oklch, var(--primary-text) 18%, transparent);
-    --border-primary-muted: color-mix(in oklch, var(--primary-text) 28%, transparent);
-    --border-primary-strong: color-mix(in oklch, var(--primary-text) 40%, transparent);
-    --border-primary-emphasis: color-mix(in oklch, var(--primary-text) 52%, transparent);
-    --border-primary-intense: color-mix(in oklch, var(--primary-text) 64%, transparent);
-    --border-success-muted: color-mix(in oklch, var(--success) 28%, transparent);
-    --border-success-strong: color-mix(in oklch, var(--success) 42%, transparent);
-    --surface-success-subtle: color-mix(in oklch, var(--success) 14%, transparent);
-    --surface-success-muted: color-mix(in oklch, var(--success) 20%, transparent);
-    /* Green labels: lean into ink for small-text AA */
-    --text-success-muted: color-mix(in oklch, var(--success) 35%, var(--foreground));
-    --text-success-dim: color-mix(in oklch, var(--success) 45%, var(--foreground));
-    --nav-bg: color-mix(in oklch, white 90%, var(--primary));
-    --nav-bg-solid: color-mix(in oklch, white 96%, var(--primary));
-    --nav-glass-bg: color-mix(in oklch, white 88%, var(--primary));
-    --nav-drawer-bg: color-mix(in oklch, white 94%, var(--primary));
-    --overlay-backdrop: color-mix(in oklch, oklch(0.16 0.03 255) 28%, transparent);
-    --nav-shadow: color-mix(in oklch, var(--foreground) 8%, transparent);
-    --shadow-primary: color-mix(in oklch, var(--primary) 18%, transparent);
-    --shadow-primary-lg: color-mix(in oklch, var(--primary) 26%, transparent);
-    --grid-line: color-mix(in oklch, var(--primary) 12%, transparent);
-    --study-num: color-mix(in oklch, var(--primary-text) 55%, transparent);
-    --study-num-open: color-mix(in oklch, var(--primary-text) 92%, transparent);
-    --content-deep: color-mix(in oklch, var(--background) 55%, white);
-    --panel-shadow: 0 1px 2px var(--nav-shadow), 0 8px 24px var(--shadow-primary);
-    --panel-shadow-hover: 0 2px 4px var(--nav-shadow), 0 12px 28px var(--shadow-primary);
-  }
-}
-
-:root[data-theme="light"] {
+:root[data-color-scheme="light"] {
   --background: #f5f9fc;
   --background: oklch(0.982 0.008 230);
   --foreground: #0a0f1a;
   --foreground: oklch(0.16 0.03 255);
   --card: #ffffff;
   --card: oklch(1 0 0);
-  /* Brand fills match dark */
   --primary: #38bdf8;
   --primary: oklch(0.78 0.12 230);
   --primary-hover: #7dd3fc;
   --primary-hover: oklch(0.85 0.09 230);
-  /* Vivid sky for links/icons — higher chroma than slate-700, still AA on paper */
   --primary-text: #0278b8;
   --primary-text: oklch(0.55 0.145 230);
-  /* Brighter than labels — brand-near sky on soft paper/wells */
   --icon: #0ea5e9;
   --icon: oklch(0.7 0.14 230);
   --on-primary: #0b0f17;
   --on-primary: oklch(0.145 0.018 260);
-  /* Elevated band (About/Skills/…) — lighter than canvas, never a muddy darken */
   --secondary: #ffffff;
   --secondary: oklch(1 0 0);
-  /* Cool ink ladder — small type needs near-body contrast on paper */
   --muted-foreground: #0f172a;
   --muted-foreground: oklch(0.21 0.032 250);
   --success: #22c55e;
@@ -343,13 +270,13 @@
   --border: color-mix(in oklch, var(--foreground) 10%, transparent);
   --border-hover: color-mix(in oklch, var(--primary-text) 40%, transparent);
   --ring: color-mix(in oklch, var(--primary-text) 45%, transparent);
+  /* Relative-tint surfaces from primary on paper */
   --surface-subtle: color-mix(in oklch, var(--primary) 3.5%, var(--background));
   --surface-muted: color-mix(in oklch, var(--primary) 5%, var(--background));
   --surface-raised: color-mix(in oklch, var(--primary) 7%, var(--background));
   --surface-primary-subtle: color-mix(in oklch, var(--primary) 16%, transparent);
   --surface-primary-muted: color-mix(in oklch, var(--primary) 20%, transparent);
   --surface-primary-soft: color-mix(in oklch, var(--primary) 26%, transparent);
-  /* Saturated well — sky-700 glyphs pop against cool tint */
   --surface-primary-icon: color-mix(in oklch, var(--icon) 14%, white);
   --border-primary-soft: color-mix(in oklch, var(--primary-text) 18%, transparent);
   --border-primary-muted: color-mix(in oklch, var(--primary-text) 28%, transparent);
@@ -360,7 +287,6 @@
   --border-success-strong: color-mix(in oklch, var(--success) 42%, transparent);
   --surface-success-subtle: color-mix(in oklch, var(--success) 14%, transparent);
   --surface-success-muted: color-mix(in oklch, var(--success) 20%, transparent);
-  /* Green labels: lean into ink for small-text AA */
   --text-success-muted: color-mix(in oklch, var(--success) 35%, var(--foreground));
   --text-success-dim: color-mix(in oklch, var(--success) 45%, var(--foreground));
   --nav-bg: color-mix(in oklch, white 90%, var(--primary));
@@ -377,7 +303,6 @@
   --content-deep: color-mix(in oklch, var(--background) 55%, white);
   --panel-shadow: 0 1px 2px var(--nav-shadow), 0 8px 24px var(--shadow-primary);
   --panel-shadow-hover: 0 2px 4px var(--nav-shadow), 0 12px 28px var(--shadow-primary);
-
 }
 
 @supports (height: 100dvh) {

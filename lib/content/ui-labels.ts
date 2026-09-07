@@ -8,7 +8,7 @@ export const UI_LABELS = {
     downloadCv: "Download CV",
     github: "GitHub",
     linkedin: "LinkedIn",
-    contact: "Contact",
+    contact: "Let's talk",
   },
   nav: {
     main: "Main navigation",
@@ -16,12 +16,11 @@ export const UI_LABELS = {
     noScript: "Section navigation without JavaScript",
     portfolio: "md://portfolio",
     letsTalk: "Let's talk",
-    /** Dev-only theme toggle labels */
-    devTheme: {
+    theme: {
       system: "System",
       light: "Light",
       dark: "Dark",
-      toggle: (mode: string) => `Cycle color theme (dev): ${mode}`,
+      toggle: (mode: string) => `Color theme: ${mode}. Click to cycle.`,
     },
   },
   subpage: {
@@ -72,10 +71,11 @@ export const UI_LABELS = {
   },
   education: {
     degrees: "Degrees",
+    englishCertificate: "English course certificate (PDF)",
   },
   contact: {
     availability: "Open to full-time, contract, and freelance",
-    linksHeading: "Links",
+    linksHeading: "Reach me directly",
     resumeHeading: "Resume",
     phone: "Phone",
     telegram: "Telegram",
@@ -95,7 +95,7 @@ export const UI_LABELS = {
     companyPlaceholder: "Company or agency",
     messagePlaceholder: "e.g. Senior RN role, Expo stack, remote EU, start Q3…",
     toastRegion: "Form notifications",
-    emailAlternative: "Prefer email, or if the form is hard to use?",
+    emailAlternative: "Prefer email or Telegram? Same channels — I reply within 24 hours.",
     noScriptMessage: "JavaScript is required for the contact form. Email directly instead:",
     noScriptMailSubject: "Portfolio inquiry",
     accessibilityMailSubject: "Accessibility feedback",
