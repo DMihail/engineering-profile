@@ -31,7 +31,7 @@ export function EducationSection() {
         <article className="panel max-w-2xl" aria-labelledby="education-institution">
           <div className="p-5 sm:p-6 flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-5">
             <div className="icon-well icon-well-md shrink-0 self-start">
-              <GraduationCap size={16} className="text-primary" aria-hidden />
+              <GraduationCap size={16} className="text-icon" aria-hidden />
             </div>
             <div className="min-w-0 flex-1">
               <h3 id="education-institution" className="text-base font-semibold text-foreground tracking-[-0.01em]">

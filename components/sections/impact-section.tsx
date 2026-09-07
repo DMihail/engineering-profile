@@ -35,7 +35,7 @@ export function ImpactSection() {
                   <th scope="row">
                     <div className="flex items-center gap-2 mb-3">
                       <div className={styles.iconBox}>
-                        <ContentIcon id={cap.icon} size={13} className="text-primary" />
+                        <ContentIcon id={cap.icon} size={13} className="text-icon" />
                       </div>
                       <span className={styles.capRowTitle}>{cap.title}</span>
                     </div>
@@ -66,7 +66,7 @@ export function ImpactSection() {
                 <div className="flex items-start gap-3 mb-3">
                   <div className="flex items-center gap-2 min-w-0 flex-1">
                     <div className="icon-well icon-well-md">
-                      <ContentIcon id={cap.icon} size={14} className="text-primary" />
+                      <ContentIcon id={cap.icon} size={14} className="text-icon" />
                     </div>
                     <h3 className="font-sans text-sm font-semibold text-foreground leading-snug">{cap.title}</h3>
                   </div>

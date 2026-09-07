@@ -67,7 +67,7 @@ export function ExperienceSection() {
                   <div
                     className={`absolute hidden md:block w-2.5 h-2.5 rounded-full -inset-s-1.25 top-5.5 border-2 ${
                       xp.current
-                        ? "bg-primary border-primary shadow-primary-glow"
+                        ? "bg-primary-fill border-primary-fill shadow-primary-glow"
                         : "bg-card border-border-primary-emphasis"
                     }`}
                     aria-hidden

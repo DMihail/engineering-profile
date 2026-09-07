@@ -5,15 +5,45 @@
   width: 28px;
   height: 28px;
   border-radius: 8px;
-  background: rgba(56, 189, 248, 0.1);
-  border: 1px solid rgba(56, 189, 248, 0.12);
+  background: var(--surface-primary-icon);
+  border: 1px solid var(--border-primary-strong);
   flex-shrink: 0;
+  color: var(--icon);
+}
+
+.iconBox :is(svg) {
+  color: var(--icon);
+}
+
+@media (prefers-color-scheme: light) {
+  :global(html:not([data-theme="dark"])) .iconBox {
+    box-shadow:
+      0 1px 2px color-mix(in oklch, var(--icon) 12%, transparent),
+      inset 0 1px 0 color-mix(in oklch, white 65%, transparent);
+  }
+
+  :global(html:not([data-theme="dark"])) .iconBox :is(svg) {
+    stroke-width: 2.25;
+  }
+}
+
+:global(html[data-theme="light"]) .iconBox {
+  box-shadow:
+    0 1px 2px color-mix(in oklch, var(--icon) 12%, transparent),
+    inset 0 1px 0 color-mix(in oklch, white 65%, transparent);
+}
+
+:global(html[data-theme="light"]) .iconBox :is(svg) {
+  stroke-width: 2.25;
 }
 
 .capTable {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
+  border-radius: var(--radius-panel);
+  overflow: hidden;
+  box-shadow: var(--panel-shadow);
 }
 
 .capTable col:nth-child(1) {
@@ -28,7 +58,7 @@
 .capTable thead th {
   padding: 9px 1.5rem;
   text-align: left;
-  background: rgba(255, 255, 255, 0.025);
+  background: var(--surface-subtle);
   border-bottom: 1px solid var(--border);
 }
 
@@ -53,11 +83,13 @@
 }
 
 .capTable tbody tr:nth-child(even) {
-  background: rgba(17, 24, 39, 0.6);
+  background: var(--surface-muted);
 }
 
-.capTable tbody tr:hover {
-  background: rgba(56, 189, 248, 0.04);
+@media (hover: hover) and (pointer: fine) {
+  .capTable tbody tr:hover {
+    background: var(--surface-primary-subtle);
+  }
 }
 
 .capRowTitle {

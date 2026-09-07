@@ -20,7 +20,7 @@ function TelegramCard() {
       className={`${styles.linkCard} group no-underline`}
     >
       <div className="icon-well icon-well-md">
-        <Send size={14} className="text-primary" aria-hidden />
+        <Send size={14} className="text-icon" aria-hidden />
       </div>
       <div className="flex-1 min-w-0">
         <div className="text-xs font-semibold text-foreground">{UI_LABELS.contact.telegram}</div>
@@ -42,7 +42,7 @@ function CalendlyLink() {
       className={`${styles.linkCard} w-full no-underline`}
     >
       <div className="icon-well icon-well-md">
-        <ExternalLink size={14} className="text-primary" aria-hidden />
+        <ExternalLink size={14} className="text-icon" aria-hidden />
       </div>
       <div className="flex-1 min-w-0">
         <div className="text-xs font-semibold text-foreground">{UI_LABELS.contact.bookCall}</div>
@@ -69,7 +69,7 @@ export function ContactSidebar() {
           <div className={styles.emailRow}>
             <a href={emailLink.href} className={`${styles.linkCard} ${styles.emailLink} no-underline`}>
               <div className="icon-well icon-well-md">
-                <ContentIcon id={emailLink.icon} size={14} className="text-primary" />
+                <ContentIcon id={emailLink.icon} size={14} className="text-icon" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="text-xs font-semibold text-foreground">{emailLink.label}</div>
@@ -93,7 +93,7 @@ export function ContactSidebar() {
             className={`${styles.linkCard} group no-underline`}
           >
             <div className="icon-well icon-well-md">
-              <ContentIcon id={link.icon} size={14} className="text-primary" />
+              <ContentIcon id={link.icon} size={14} className="text-icon" />
             </div>
             <div className="flex-1 min-w-0">
               <div className="text-xs font-semibold text-foreground">{link.label}</div>

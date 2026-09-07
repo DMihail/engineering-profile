@@ -27,3 +27,37 @@
     animation: none !important;
   }
 }
+
+/*
+ * Theme morph — interpolate registered @property colors on <html>.
+ * Prefer this over View Transitions for theme: VT snapshots often look like
+ * an instant cut when only custom properties change.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  html.theme-animating {
+    transition:
+      --background 420ms cubic-bezier(0.4, 0, 0.2, 1),
+      --foreground 420ms cubic-bezier(0.4, 0, 0.2, 1),
+      --card 420ms cubic-bezier(0.4, 0, 0.2, 1),
+      --primary 420ms cubic-bezier(0.4, 0, 0.2, 1),
+      --primary-hover 420ms cubic-bezier(0.4, 0, 0.2, 1),
+      --primary-text 420ms cubic-bezier(0.4, 0, 0.2, 1),
+      --icon 420ms cubic-bezier(0.4, 0, 0.2, 1),
+      --on-primary 420ms cubic-bezier(0.4, 0, 0.2, 1),
+      --secondary 420ms cubic-bezier(0.4, 0, 0.2, 1),
+      --muted-foreground 420ms cubic-bezier(0.4, 0, 0.2, 1),
+      --success 420ms cubic-bezier(0.4, 0, 0.2, 1),
+      --success-text 420ms cubic-bezier(0.4, 0, 0.2, 1),
+      --error 420ms cubic-bezier(0.4, 0, 0.2, 1),
+      --text-secondary 420ms cubic-bezier(0.4, 0, 0.2, 1),
+      --text-dim 420ms cubic-bezier(0.4, 0, 0.2, 1),
+      --text-faint 420ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Sections use background-color (not only inherited custom props on self) */
+  html.theme-animating .section-dark,
+  html.theme-animating .section-surface,
+  html.theme-animating body {
+    transition: background-color 420ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}

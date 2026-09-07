@@ -30,7 +30,7 @@
 }
 
 .metaBadgePrimary {
-  color: var(--primary);
+  color: var(--primary-text);
   background: var(--surface-primary-subtle);
   border-color: var(--border-primary-soft);
 }
@@ -249,14 +249,14 @@
 
 @media (hover: hover) and (pointer: fine) {
   .panel:not([open]):hover {
-    border-color: var(--border-primary-emphasis);
-    box-shadow: 0 0 3.75rem var(--shadow-primary-lg);
+    border-color: var(--border-primary-muted);
+    box-shadow: var(--panel-shadow-hover);
   }
 }
 
 .panel[open] {
-  border-color: var(--border-primary-emphasis);
-  box-shadow: 0 0 3.75rem var(--shadow-primary-lg);
+  border-color: var(--border-primary-muted);
+  box-shadow: var(--panel-shadow-hover);
   view-transition-name: case-open;
 }
 
@@ -326,7 +326,7 @@
 }
 
 .content {
-  border-block-start: 1px solid var(--border-primary-soft);
+  border-block-start: 1px solid var(--border);
   background: var(--content-deep);
   padding-block: 1.25rem 1.5rem;
   padding-inline: 1.125rem;

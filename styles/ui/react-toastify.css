@@ -106,3 +106,13 @@
     animation: none !important;
   }
 }
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --toastify-toast-shadow: 0 12px 28px color-mix(in oklch, var(--primary) 18%, transparent);
+  }
+}
+
+:root[data-theme="light"] {
+  --toastify-toast-shadow: 0 12px 28px color-mix(in oklch, var(--primary) 18%, transparent);
+}

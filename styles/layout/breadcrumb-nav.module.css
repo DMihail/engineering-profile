@@ -40,7 +40,7 @@
 
 @media (hover: hover) and (pointer: fine) {
   .link:hover {
-    color: var(--primary);
+    color: var(--primary-text);
   }
 }
 

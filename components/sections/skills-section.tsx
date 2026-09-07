@@ -38,7 +38,7 @@ export function SkillsSection() {
                     <ContentIcon
                       id={skill.icon}
                       size={11}
-                      className={`shrink-0 ${skill.primary ? "text-primary" : "text-muted-foreground"}`}
+                      className={`shrink-0 ${skill.primary ? "text-icon" : "text-muted-foreground"}`}
                     />
                     <span className={`${styles.chipLabel} ${skill.primary ? styles.chipLabelPrimary : ""}`}>
                       {skill.name}

@@ -13,6 +13,7 @@ export function HeroSection() {
       aria-labelledby="hero-heading"
     >
       <div className="absolute inset-0 pointer-events-none bg-grid" aria-hidden />
+      <div className="absolute inset-0 pointer-events-none bg-hero-wash" aria-hidden />
       <div className="absolute inset-0 pointer-events-none bg-vignette" aria-hidden />
       <div className={`absolute top-0 inset-x-0 h-px pointer-events-none ${styles.heroLine}`} aria-hidden />
 
@@ -87,7 +88,7 @@ export function HeroSection() {
             {HERO_STATS.map((m) => (
               <li
                 key={m.label}
-                className="text-center py-4 px-2 rounded-xl bg-card border border-border"
+                className="text-center py-4 px-2 rounded-xl bg-card border border-border shadow-[var(--panel-shadow)]"
               >
                 <p className="font-sans text-hero-stat font-bold text-foreground tracking-[-0.03em] m-0">
                   {m.value}

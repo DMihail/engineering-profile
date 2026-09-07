@@ -16,6 +16,13 @@ export const UI_LABELS = {
     noScript: "Section navigation without JavaScript",
     portfolio: "md://portfolio",
     letsTalk: "Let's talk",
+    /** Dev-only theme toggle labels */
+    devTheme: {
+      system: "System",
+      light: "Light",
+      dark: "Dark",
+      toggle: (mode: string) => `Cycle color theme (dev): ${mode}`,
+    },
   },
   subpage: {
     backToPortfolio: "← Back to portfolio",

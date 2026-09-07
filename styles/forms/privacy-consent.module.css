@@ -11,7 +11,7 @@
   inline-size: 1.125rem;
   block-size: 1.125rem;
   margin-block-start: 0.125rem;
-  accent-color: var(--primary);
+  accent-color: var(--primary-text);
   cursor: pointer;
 }
 
@@ -38,7 +38,7 @@
 }
 
 .link {
-  color: var(--primary);
+  color: var(--primary-text);
   text-decoration: underline;
   text-underline-offset: 0.15em;
 }
@@ -47,8 +47,20 @@
   color: var(--foreground);
 }
 
-.link:focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 2px;
-  border-radius: 2px;
+@media (prefers-color-scheme: light) {
+  :global(html:not([data-theme="dark"])) .label {
+    color: var(--text-secondary);
+  }
+
+  :global(html:not([data-theme="dark"])) .checkbox {
+    accent-color: var(--primary-text);
+  }
+}
+
+:global(html[data-theme="light"]) .label {
+  color: var(--text-secondary);
+}
+
+:global(html[data-theme="light"]) .checkbox {
+  accent-color: var(--primary-text);
 }
