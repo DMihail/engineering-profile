@@ -37,6 +37,9 @@ describe("theme preference", () => {
     applyThemePreference("system", root, true);
     expect(root.hasAttribute("data-theme")).toBe(false);
     expect(root.getAttribute("data-color-scheme")).toBe("light");
+
+    applyThemePreference("system", root, false);
+    expect(root.getAttribute("data-color-scheme")).toBe("dark");
   });
 
   it("persists forced themes in local storage", () => {
