@@ -21,12 +21,12 @@ describe("ThemeToggle", () => {
     }));
   });
 
-  it("renders on all viewports and cycles preference", async () => {
+  it("renders and cycles preference", async () => {
     const user = userEvent.setup();
     render(<ThemeToggle />);
 
     const button = await screen.findByRole("button", { name: /color theme/i });
-    expect(button.className).not.toMatch(/hidden/);
+    expect(button).toBeInTheDocument();
 
     await user.click(button);
     expect(document.documentElement.getAttribute("data-theme")).toBe("light");

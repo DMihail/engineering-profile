@@ -79,7 +79,9 @@ export async function sendReplyEmail({
   }
 
   const from = process.env.MAIL_FROM!.trim();
-  const fromName = process.env.MAIL_FROM_NAME?.trim() || "Mykhailo Dzhezhelo";
+  const fromName = sanitizeEmailHeaderValue(
+    process.env.MAIL_FROM_NAME?.trim() || "Mykhailo Dzhezhelo",
+  );
   const replyTo = process.env.MAIL_REPLY_TO?.trim() || from;
 
   const text = `${trimmed}\n\n--\n${formatQuotedOriginal(contact)}`;

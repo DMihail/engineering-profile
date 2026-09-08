@@ -3,6 +3,7 @@
  */
 import { POST, OPTIONS } from "@/app/api/inbox/test-push/route";
 import { NextRequest } from "next/server";
+import { resetRateLimitStore } from "@/lib/rate-limit";
 
 const mockVerifyIdToken = jest.fn();
 const mockSendTestPush = jest.fn();
@@ -34,6 +35,7 @@ function makeRequest(headers: Record<string, string> = {}) {
 
 beforeEach(() => {
   jest.clearAllMocks();
+  resetRateLimitStore();
   process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID = "test-project";
   process.env.INBOX_APP_URL = "http://localhost:5173";
   mockVerifyIdToken.mockResolvedValue({ uid: "admin-uid", email: "me@example.com" });
@@ -71,5 +73,16 @@ describe("POST /api/inbox/test-push", () => {
     mockSendTestPush.mockResolvedValueOnce({ sent: false, reason: "no-token" });
     const res = await POST(makeRequest());
     expect(res.status).toBe(404);
+  });
+
+  it("returns 429 after the per-uid test-push limit", async () => {
+    for (let i = 0; i < 10; i++) {
+      const ok = await POST(makeRequest());
+      expect(ok.status).toBe(200);
+    }
+    const limited = await POST(makeRequest());
+    expect(limited.status).toBe(429);
+    expect(limited.headers.get("Retry-After")).toBeTruthy();
+    expect(mockSendTestPush).toHaveBeenCalledTimes(10);
   });
 });

@@ -19,5 +19,22 @@ jobs:
 
       - run: npm ci
       - run: npm run lint
-      - run: npm test -- --watchAll=false
+      - run: npm test -- --watchAll=false --watchman=false
       - run: npm run build
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright smoke
+        run: npm run test:e2e
+        env:
+          CI: true
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7

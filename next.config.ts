@@ -6,7 +6,7 @@ const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
 
-const allowedDevOrigins = (process.env.ALLOWED_DEV_ORIGINS ?? "192.168.1.144")
+const allowedDevOrigins = (process.env.ALLOWED_DEV_ORIGINS ?? "")
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);

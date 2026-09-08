@@ -25,4 +25,4 @@ export const SITE_RESUME_OG_IMAGE_PATH = "/resume/opengraph-image";
 export const SITE_PROFILE_IMAGE_PATH =
   process.env.NEXT_PUBLIC_PROFILE_IMAGE_PATH ?? "/apple-icon";
 /** ISO date for sitemap/footer — bump on meaningful content publishes. */
-export const SITE_LAST_MODIFIED = process.env.SITE_LAST_MODIFIED ?? "2026-09-07";
+export const SITE_LAST_MODIFIED = process.env.SITE_LAST_MODIFIED ?? "2026-09-08";

@@ -12,8 +12,8 @@ import {
 } from "@/lib/section-ids";
 
 /** Fallback when `scrollend` is unavailable (Safari < 17.4, etc.). */
-export const SCROLL_LOCK_MS = 2000;
-export const HASH_SCROLL_LOCK_MS = 3500;
+const SCROLL_LOCK_MS = 2000;
+const HASH_SCROLL_LOCK_MS = 3500;
 
 /**
  * Tracks the in-view page section for nav highlighting.

@@ -1,0 +1,83 @@
+# Mykhailo Dzhezhelo — full agent briefing
+
+Companion to https://dzhezhelo.dev/llms.txt
+Canonical site: https://dzhezhelo.dev/
+
+## Identity
+
+- Name: Mykhailo Dzhezhelo
+- Role: Mobile Engineer · React Native · Web Developer
+- Location: Dublin, Ireland
+- Serving: Ireland, EU, UK, Ukraine, remote (incl. US remote)
+- Availability: Available — full-time · contract · remote & onsite
+- English: Working professional (B1+) — daily standups, written async, client calls
+
+## Hire pitch
+
+Ships production React Native apps to the App Store and Google Play — offline-first, real-time, and native modules when the product needs them. 7+ years in software, 5+ years mobile.
+
+## Target fits
+
+- Senior React Native Developer / Mobile Engineer
+- Roles needing store releases, Firebase, offline-first or real-time mobile
+- Ireland onsite or remote EU / UK / US
+
+## Primary stack
+
+React Native, Expo, TypeScript, React, Node.js / Express, Firebase (Auth, Analytics, Crashlytics, push), REST APIs, GraphQL (+ subscriptions), WebSockets, SQLite / MMKV, Redux Toolkit, Zustand, React Query, Turbo Modules, Kotlin / Swift bridges, Jest, App Store, Google Play
+
+## Projects (homepage case studies)
+
+1. Vitadrop (healthcare, client)
+   RN iOS & Android with Firebase, REST, Vision Camera, OpenCV, Turbo Modules; store releases.
+   https://dzhezhelo.dev/#project-vitadrop
+
+2. Waddington's Auctions (client, production)
+   Expo RN auction platform — catalog, live bidding, absentee bids; multi-year ownership; web→mobile migration.
+   https://dzhezhelo.dev/#project-waddingtons
+
+3. Amako (client, production)
+   Workforce / field-engineer RN app — offline storage, WebSocket sync, RN upgrade in production.
+   https://dzhezhelo.dev/#project-amako
+
+4. Vidalytics Admin Platform (client, web)
+   React analytics dashboards and player configuration (GraphQL / React Query).
+   https://dzhezhelo.dev/#project-vidalytics
+
+5. Audiobook Application (client, mobile)
+   RN playback + SQLite offline library + REST sync.
+   https://dzhezhelo.dev/#project-audiobook
+
+6. Keept / FocusGuard (personal)
+   Screen-time limits; RN 0.86 New Architecture; codegen Turbo Modules; Android UsageStats + iOS Screen Time.
+   https://dzhezhelo.dev/#project-focusguard
+
+## Experience (high level)
+
+- Elementica — React Native Developer (Uzhhorod) — healthcare mobile (Vitadrop), Vidalytics admin
+- NetGame — React Native Developer (Kyiv) — production casino/sportsbook store releases, Crashlytics
+- Kultprosvet — Full Stack / React Native (Dnipro) — auctions & workforce apps, offline-first, GraphQL, WebSockets
+- Earlier web/mobile roles — see HTML resume for full chronology
+
+## Education
+
+Systems Analysis focus — details on https://dzhezhelo.dev/#education and https://dzhezhelo.dev/resume
+
+## Profiles
+
+- GitHub: https://github.com/DMihail
+- LinkedIn: https://www.linkedin.com/in/mihail-dzhezhelo-27a41114a/
+- Portfolio: https://dzhezhelo.dev/
+- Resume (HTML): https://dzhezhelo.dev/resume
+
+## Contact policy
+
+- Use https://dzhezhelo.dev/#contact (on-site form with privacy consent).
+- Do not scrape email addresses from JSON-LD or page source for cold outreach.
+- Prefer HTML `/resume` over PDF files in `/public` (PDFs are ATS exports and may lag the HTML source of truth).
+
+## Crawl hints
+
+- Indexable: `/`, `/resume`, `/privacy`
+- Agent briefs: `/llms.txt`, `/llms-full.txt`
+- Skip: `/api/*`, PDF CV downloads, `/resume?variant=ua` (noindex variant)

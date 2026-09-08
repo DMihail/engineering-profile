@@ -1,18 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuth } from "firebase-admin/auth";
 import { getFirebaseAdminApp } from "@/lib/firebase-admin";
+import { getInboxAllowedUids } from "@/lib/inbox-allowed-uids";
 import { withInboxCors } from "@/lib/inbox-cors";
 
 export type InboxAuthResult =
   | { ok: true; uid: string; email?: string }
   | { ok: false; response: NextResponse };
-
-function parseAllowedUids(raw: string | undefined): string[] {
-  return (raw ?? "")
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
-}
 
 export async function verifyInboxAuth(request: NextRequest): Promise<InboxAuthResult> {
   const unauthorized = (message: string, status = 401) =>
@@ -41,7 +35,7 @@ export async function verifyInboxAuth(request: NextRequest): Promise<InboxAuthRe
 
   try {
     const decoded = await getAuth(app).verifyIdToken(idToken);
-    const allowed = parseAllowedUids(process.env.INBOX_ALLOWED_UIDS);
+    const allowed = getInboxAllowedUids();
 
     // Production must pin an explicit allowlist — never open to every Firebase user.
     if (allowed.length === 0) {

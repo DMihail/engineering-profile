@@ -6,7 +6,7 @@ export type ColorScheme = "light" | "dark";
 
 export const THEME_STORAGE_KEY = "theme-preference";
 
-export const THEME_PREFERENCE_ORDER: ThemePreference[] = ["system", "light", "dark"];
+const THEME_PREFERENCE_ORDER: ThemePreference[] = ["system", "light", "dark"];
 
 export function isThemePreference(value: unknown): value is ThemePreference {
   return value === "system" || value === "light" || value === "dark";
@@ -66,9 +66,12 @@ export function nextThemePreference(current: ThemePreference): ThemePreference {
 }
 
 /** Same-tab notification after `writeStoredThemePreference` (storage event is cross-tab only). */
-export const THEME_PREFERENCE_CHANGE_EVENT = "theme-preference-change";
+const THEME_PREFERENCE_CHANGE_EVENT = "theme-preference-change";
+
+let themePreferenceEpoch = 0;
 
 export function notifyThemePreferenceChange(): void {
+  themePreferenceEpoch += 1;
   if (typeof window === "undefined") return;
   window.dispatchEvent(new Event(THEME_PREFERENCE_CHANGE_EVENT));
 }
@@ -87,6 +90,7 @@ export function subscribeThemePreference(onStoreChange: () => void): () => void 
 }
 
 export function getStoredThemePreferenceSnapshot(): ThemePreference {
+  void themePreferenceEpoch;
   try {
     return readStoredThemePreference(window.localStorage);
   } catch {

@@ -33,7 +33,7 @@ export default function Error({
             {UI_LABELS.errorPage.title}
           </h1>
           <p className="text-sm text-muted-foreground mb-6" role="alert">
-            {error.message || UI_LABELS.errorPage.fallbackMessage}
+            {UI_LABELS.errorPage.fallbackMessage}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3">
             <button type="button" onClick={reset} className="btn-primary">

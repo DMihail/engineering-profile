@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ResumeDocument } from "@/components/resume/resume-document";
 import { ResumeToolbar } from "@/components/resume/resume-toolbar";
+import { SITE_URL } from "@/lib/config";
 import { parseResumeVariant, type ResumeVariant } from "@/lib/resume-content";
 import { MAIN_CONTENT_ID } from "@/lib/section-ids";
 import styles from "@/styles/resume/resume-shell.module.css";
@@ -18,7 +19,12 @@ export async function generateMetadata({ searchParams }: ResumePageProps): Promi
   const { variant } = await searchParams;
   if (parseResumeVariant(variant) === "ua") {
     return {
+      title: { absolute: "Resume (UA) — Mykhailo Dzhezhelo" },
+      description:
+        "ATS-friendly resume (Ukraine contact details). Prefer the Ireland URL without ?variant for indexing.",
       robots: { index: false, follow: true },
+      openGraph: { url: `${SITE_URL}/resume?variant=ua` },
+      alternates: { canonical: `${SITE_URL}/resume` },
     };
   }
 

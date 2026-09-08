@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { PRIVACY_CONSENT_FIELD, PRIVACY_CONSENT_VALUE } from "@/lib/privacy-consent";
 import { clearContactFieldValidity } from "@/lib/contact-form-rules";
+import { UI_LABELS } from "@/lib/content/ui-labels";
 import styles from "@/styles/forms/privacy-consent.module.css";
 
 interface PrivacyConsentFieldProps {
@@ -36,11 +37,11 @@ export function PrivacyConsentField({
         className={styles.checkbox}
       />
       <label htmlFor={id} className={styles.label}>
-        I have read the{" "}
+        {UI_LABELS.privacyConsent.beforeLink}{" "}
         <Link href="/privacy" className={styles.link}>
-          privacy policy
+          {UI_LABELS.privacyConsent.privacyPolicy}
         </Link>{" "}
-        and understand how this enquiry will be handled
+        {UI_LABELS.privacyConsent.afterLink}
       </label>
     </div>
   );

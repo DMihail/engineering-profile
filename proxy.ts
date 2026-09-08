@@ -59,6 +59,8 @@ const ALLOWED_EXACT = new Set([
   "/icon.svg",
   "/robots.txt",
   "/sitemap.xml",
+  "/llms.txt",
+  "/llms-full.txt",
   "/manifest.webmanifest",
 ]);
 

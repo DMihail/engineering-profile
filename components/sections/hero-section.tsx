@@ -1,4 +1,5 @@
-import { Download, Mail } from "lucide-react";
+import Link from "next/link";
+import { FileText, Mail } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
 import {
   SITE_AUTHOR,
@@ -64,10 +65,10 @@ export function HeroSection() {
               <Mail size={15} aria-hidden />
               {UI_LABELS.hero.contact}
             </a>
-            <a href={HERO_CTA.cv} download className="btn-outline no-underline min-h-11">
-              <Download size={15} aria-hidden />
-              {UI_LABELS.hero.downloadCv}
-            </a>
+            <Link href={HERO_CTA.resume} className="btn-outline no-underline min-h-11">
+              <FileText size={15} aria-hidden />
+              {UI_LABELS.hero.viewResume}
+            </Link>
             <a
               href={HERO_CTA.github}
               target="_blank"

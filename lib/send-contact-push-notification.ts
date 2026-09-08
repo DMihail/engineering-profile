@@ -2,7 +2,7 @@ import { getFirebaseAdminApp } from "@/lib/firebase-admin";
 import {
   type FcmDeviceRegistration,
   dedupeFcmRegistrationsByToken,
-  listAllFcmDeviceRegistrations,
+  listContactPushFcmRegistrations,
   pruneStaleFcmDeviceRegistrations,
 } from "@/lib/fcm-tokens";
 import { buildInboxFcmMulticastFields } from "@/lib/build-inbox-fcm-message";
@@ -42,11 +42,11 @@ export async function sendContactPushNotification(
   }
 
   const registrations = dedupeFcmRegistrationsByToken(
-    await listAllFcmDeviceRegistrations(app),
+    await listContactPushFcmRegistrations(app),
   );
   if (registrations.length === 0) {
     console.warn(
-      "[api/contact] No FCM device tokens in Firestore — enable push in the inbox PWA and check fcmTokens/{uid}/devices",
+      "[api/contact] No FCM tokens for INBOX_ALLOWED_UIDS — enable push in the inbox PWA and check fcmTokens/{uid}/devices",
     );
     return { sent: 0, failed: 0, targets: [] };
   }

@@ -52,36 +52,27 @@ function themeStorage(): Storage | null {
 }
 
 function systemPrefersLight(): boolean {
-  if (typeof window.matchMedia !== "function") return false;
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") return false;
   return window.matchMedia("(prefers-color-scheme: light)").matches;
 }
 
 /** Cycles system → light → dark. Preference persists in localStorage. */
 export function ThemeToggle() {
-  const isClient = useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false,
-  );
   const preference = useSyncExternalStore(
     subscribeThemePreference,
     getStoredThemePreferenceSnapshot,
     getServerThemePreferenceSnapshot,
   );
 
-  // Align DOM with storage after hydrate (bootstrap usually already did this).
   useEffect(() => {
-    if (!isClient) return;
     applyThemePreference(
       getStoredThemePreferenceSnapshot(),
       document.documentElement,
       systemPrefersLight(),
     );
-  }, [isClient]);
+  }, []);
 
-  // Keep resolved scheme in sync when OS preference changes under `system`
   useEffect(() => {
-    if (!isClient) return;
     const mq = window.matchMedia("(prefers-color-scheme: light)");
     const onChange = () => {
       if (getStoredThemePreferenceSnapshot() !== "system") return;
@@ -89,18 +80,16 @@ export function ThemeToggle() {
     };
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
-  }, [isClient]);
+  }, []);
 
   const cycle = useCallback(() => {
     const next = nextThemePreference(preference);
     writeStoredThemePreference(next, themeStorage());
-    notifyThemePreferenceChange();
     runWithThemeTransition(() => {
       applyThemePreference(next, document.documentElement, systemPrefersLight());
     });
+    notifyThemePreferenceChange();
   }, [preference]);
-
-  if (!isClient) return null;
 
   const Icon = THEME_ICONS[preference];
   const label = UI_LABELS.nav.theme[preference];
@@ -110,10 +99,12 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={cycle}
+      data-testid="theme-toggle"
       className="inline-flex items-center justify-center size-9 rounded-md border border-border bg-surface-subtle text-muted-foreground hover:text-primary hover:border-border-primary-muted transition-colors cursor-pointer"
       aria-label={UI_LABELS.nav.theme.toggle(label)}
       title={`Theme: ${label}`}
       data-color-scheme={scheme}
+      suppressHydrationWarning
     >
       <Icon size={16} aria-hidden />
     </button>

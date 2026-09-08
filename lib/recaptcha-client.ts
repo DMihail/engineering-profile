@@ -1,5 +1,21 @@
 let loadPromise: Promise<void> | null = null;
 
+function ensureRecaptchaPreconnect(): void {
+  if (typeof document === "undefined") return;
+  const origins = [
+    "https://www.google.com",
+    "https://www.gstatic.com",
+  ] as const;
+  for (const href of origins) {
+    if (document.querySelector(`link[rel="preconnect"][href="${href}"]`)) continue;
+    const link = document.createElement("link");
+    link.rel = "preconnect";
+    link.href = href;
+    link.crossOrigin = "anonymous";
+    document.head.appendChild(link);
+  }
+}
+
 /** Loads reCAPTCHA v3 script once — call on form focus, not on page load. */
 export function ensureRecaptchaLoaded(): Promise<void> {
   if (typeof window === "undefined") return Promise.resolve();
@@ -11,6 +27,8 @@ export function ensureRecaptchaLoaded(): Promise<void> {
   }
 
   if (loadPromise) return loadPromise;
+
+  ensureRecaptchaPreconnect();
 
   loadPromise = new Promise((resolve, reject) => {
     const existing = document.querySelector<HTMLScriptElement>(

@@ -1,6 +1,7 @@
 import { cacheLife, cacheTag } from "next/cache";
 import { buildSiteJsonLd } from "@/lib/json-ld";
 import { CACHE_TAGS } from "@/lib/cache-tags";
+import { stringifyJsonLd } from "@/lib/stringify-json-ld";
 
 /** Structured data for crawlers — cached; valid in document body per schema.org / Google. */
 export async function SiteJsonLd() {
@@ -13,7 +14,7 @@ export async function SiteJsonLd() {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      dangerouslySetInnerHTML={{ __html: stringifyJsonLd(jsonLd) }}
     />
   );
 }
