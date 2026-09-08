@@ -10,7 +10,6 @@ import {
   ROOT_SITE_METADATA,
 } from "@/lib/site-metadata";
 import { ScrollHashBootstrap } from "@/components/layout/scroll-hash-bootstrap";
-import { ThemeSync } from "@/components/layout/theme-sync";
 import { SiteJsonLd } from "@/components/seo/site-json-ld";
 import { fontBodyClassName, fontVariableClassName } from "@/lib/fonts";
 import { THEME_BOOTSTRAP_SCRIPT } from "@/lib/theme";
@@ -77,7 +76,6 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }}
         />
         <ScrollHashBootstrap />
-        <ThemeSync />
         <SiteJsonLd />
         {children}
       </body>

@@ -10,13 +10,33 @@ test.describe("homepage smoke", () => {
     await expect(skip).toHaveAttribute("href", /#main-content/);
   });
 
-  test("color scheme follows the device preference", async ({ page }) => {
-    await page.emulateMedia({ colorScheme: "light" });
+  test("theme toggle cycles resolved color scheme", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce", colorScheme: "dark" });
+    await page.addInitScript(() => {
+      try {
+        localStorage.removeItem("theme-preference");
+      } catch {
+        /* ignore */
+      }
+    });
     await page.goto("/");
-    await expect(page.locator("html")).toHaveAttribute("data-color-scheme", "light");
-    await expect(page.getByTestId("theme-toggle")).toHaveCount(0);
+    const toggle = page.getByTestId("theme-toggle");
+    await expect(toggle).toBeVisible();
+    await expect(toggle).toHaveAttribute("aria-label", /System/i);
 
-    await page.emulateMedia({ colorScheme: "dark" });
+    await toggle.click();
+    await expect
+      .poll(async () => page.evaluate(() => localStorage.getItem("theme-preference")))
+      .toBe("light");
+    await expect(toggle).toHaveAttribute("aria-label", /Light/i);
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+    await expect(page.locator("html")).toHaveAttribute("data-color-scheme", "light");
+
+    await toggle.click();
+    await expect
+      .poll(async () => page.evaluate(() => localStorage.getItem("theme-preference")))
+      .toBe("dark");
+    await expect(toggle).toHaveAttribute("aria-label", /Dark/i);
     await expect(page.locator("html")).toHaveAttribute("data-color-scheme", "dark");
   });
 
@@ -36,6 +56,13 @@ test.describe("contrast", () => {
   for (const scheme of ["dark", "light"] as const) {
     test(`home has no serious contrast issues in ${scheme}`, async ({ page }) => {
       await page.emulateMedia({ colorScheme: scheme });
+      await page.addInitScript(() => {
+        try {
+          localStorage.removeItem("theme-preference");
+        } catch {
+          /* ignore */
+        }
+      });
       await page.goto("/");
       await expect(page.locator("html")).toHaveAttribute("data-color-scheme", scheme);
 

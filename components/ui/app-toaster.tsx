@@ -31,7 +31,7 @@ function useResolvedToastTheme(): "light" | "dark" {
     const observer = new MutationObserver(read);
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ["data-color-scheme"],
+      attributeFilter: ["data-color-scheme", "data-theme"],
     });
     const mq =
       typeof window.matchMedia === "function"

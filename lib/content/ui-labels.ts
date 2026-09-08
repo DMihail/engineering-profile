@@ -17,6 +17,12 @@ export const UI_LABELS = {
     noScript: "Section navigation without JavaScript",
     portfolio: "md://portfolio",
     letsTalk: "Let's talk",
+    theme: {
+      system: "System",
+      light: "Light",
+      dark: "Dark",
+      toggle: (mode: string) => `Color theme: ${mode}. Click to cycle.`,
+    },
   },
   subpage: {
     backToPortfolio: "← Back to portfolio",
