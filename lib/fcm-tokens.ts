@@ -1,5 +1,6 @@
 import type { App } from "firebase-admin/app";
 import { getFirestore, type Firestore } from "firebase-admin/firestore";
+import { getInboxAllowedUids } from "@/lib/inbox-allowed-uids";
 
 export interface FcmDeviceRegistration {
   uid: string;
@@ -42,7 +43,33 @@ export async function listFcmDeviceRegistrations(
   return registrations;
 }
 
-/** Every registered device for all operators (contact form → inbox push). */
+/**
+ * Devices for contact-form push. Production only fans out to `INBOX_ALLOWED_UIDS`
+ * (never a raw collectionGroup of every Firebase user with a token).
+ * Non-production with an empty allowlist falls back to collectionGroup for local DX.
+ */
+export async function listContactPushFcmRegistrations(
+  app?: App,
+): Promise<FcmDeviceRegistration[]> {
+  const allowed = getInboxAllowedUids();
+
+  if (allowed.length === 0) {
+    if (process.env.NODE_ENV === "production") {
+      console.error(
+        "[fcm] INBOX_ALLOWED_UIDS is required in production for contact push — refusing fan-out",
+      );
+      return [];
+    }
+    return listAllFcmDeviceRegistrations(app);
+  }
+
+  const perUid = await Promise.all(
+    allowed.map((uid) => listFcmDeviceRegistrations(uid, app)),
+  );
+  return perUid.flat();
+}
+
+/** @internal Dev/test fallback — do not use for production contact PII push. */
 export async function listAllFcmDeviceRegistrations(app?: App): Promise<FcmDeviceRegistration[]> {
   const db = firestore(app);
   const all: FcmDeviceRegistration[] = [];

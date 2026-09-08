@@ -17,6 +17,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  applicationName: SITE_AUTHOR,
   title: {
     default: DEFAULT_SITE_TITLE,
     template: `%s | ${SITE_AUTHOR}`,
@@ -24,6 +25,7 @@ export const metadata: Metadata = {
   description: SITE_DESCRIPTION,
   authors: [{ name: SITE_AUTHOR, url: SITE_URL }],
   creator: SITE_AUTHOR,
+  category: "portfolio",
   verification: {
     google: "lle48wjp7HiGdH_6SV2SEHd7_ShE51gH92oFBCJVLYA",
     yandex: "0b930a278e22c1b1",

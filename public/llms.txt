@@ -1,0 +1,16 @@
+# Mykhailo Dzhezhelo — engineering portfolio
+
+> Mobile Engineer · React Native · Web Developer (Dublin / remote EU, UK & US)
+
+## Canonical pages
+
+- Home: https://dzhezhelo.dev/
+- Resume (HTML, Ireland): https://dzhezhelo.dev/resume
+- Privacy: https://dzhezhelo.dev/privacy
+- Sitemap: https://dzhezhelo.dev/sitemap.xml
+
+## Notes for agents
+
+- Prefer the HTML resume at `/resume` over PDF downloads.
+- Contact is via the on-site form at `/#contact` (not scraped email from schema).
+- Site language is en-IE; `/resume?variant=ua` is a noindex contact-detail variant.

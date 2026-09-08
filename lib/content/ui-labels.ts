@@ -6,7 +6,6 @@ export const UI_LABELS = {
     primaryActions: "Primary actions",
     careerHighlights: "Career highlights",
     viewResume: "View resume",
-    downloadCv: "Download CV",
     github: "GitHub",
     linkedin: "LinkedIn",
     contact: "Let's talk",

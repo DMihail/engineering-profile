@@ -1,6 +1,7 @@
 import { buildSiteJsonLd, type JsonLdPerson, type JsonLdItemList } from "@/lib/json-ld";
 import { CASE_STUDIES } from "@/lib/content/portfolio/case-studies";
 import { SITE_EMAIL, SITE_LOCATION } from "@/lib/config";
+import { stringifyJsonLd } from "@/lib/stringify-json-ld";
 
 function isPersonNode(node: { "@type": string }): node is JsonLdPerson {
   return node["@type"] === "Person";
@@ -46,5 +47,12 @@ describe("buildSiteJsonLd", () => {
     expect(list?.itemListElement[0]?.item?.url).toBe(
       `https://dzhezhelo.dev/#project-${CASE_STUDIES[0]?.id}`,
     );
+  });
+});
+
+describe("stringifyJsonLd", () => {
+  it("escapes angle brackets for safe inline script embedding", () => {
+    expect(stringifyJsonLd({ note: "</script><img>" })).toContain("\\u003c/script>");
+    expect(stringifyJsonLd({ note: "</script><img>" })).not.toContain("</script>");
   });
 });

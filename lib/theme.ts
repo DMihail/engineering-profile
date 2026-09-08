@@ -6,7 +6,7 @@ export type ColorScheme = "light" | "dark";
 
 export const THEME_STORAGE_KEY = "theme-preference";
 
-export const THEME_PREFERENCE_ORDER: ThemePreference[] = ["system", "light", "dark"];
+const THEME_PREFERENCE_ORDER: ThemePreference[] = ["system", "light", "dark"];
 
 export function isThemePreference(value: unknown): value is ThemePreference {
   return value === "system" || value === "light" || value === "dark";
@@ -19,11 +19,6 @@ export function resolveColorScheme(
   if (preference === "light") return "light";
   if (preference === "dark") return "dark";
   return systemIsLight ? "light" : "dark";
-}
-
-/** @deprecated Use `resolveColorScheme("system", systemIsLight)`. */
-export function resolveSystemColorScheme(systemIsLight: boolean): ColorScheme {
-  return resolveColorScheme("system", systemIsLight);
 }
 
 /** Apply preference + resolved scheme on `<html>`. */
@@ -40,16 +35,6 @@ export function applyThemePreference(
     root.setAttribute("data-theme", preference);
   }
   root.setAttribute("data-color-scheme", resolveColorScheme(preference, systemIsLight));
-}
-
-/** Apply OS scheme only (no forced `data-theme`). */
-export function applySystemColorScheme(
-  root: HTMLElement = document.documentElement,
-  systemIsLight: boolean = typeof window !== "undefined"
-    ? window.matchMedia("(prefers-color-scheme: light)").matches
-    : false,
-): void {
-  applyThemePreference("system", root, systemIsLight);
 }
 
 export function readStoredThemePreference(storage: Pick<Storage, "getItem"> | null): ThemePreference {
@@ -81,7 +66,7 @@ export function nextThemePreference(current: ThemePreference): ThemePreference {
 }
 
 /** Same-tab notification after `writeStoredThemePreference` (storage event is cross-tab only). */
-export const THEME_PREFERENCE_CHANGE_EVENT = "theme-preference-change";
+const THEME_PREFERENCE_CHANGE_EVENT = "theme-preference-change";
 
 let themePreferenceEpoch = 0;
 

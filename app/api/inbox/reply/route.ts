@@ -105,8 +105,14 @@ export async function POST(request: NextRequest) {
     );
   } catch (err) {
     console.error("[api/inbox/reply] Send failed:", err);
-    const message = err instanceof Error ? err.message : "Failed to send email";
-    const status = message.includes("too short") ? 400 : 502;
-    return withInboxCors(request, NextResponse.json({ error: message }, { status }));
+    const isClient =
+      err instanceof Error && /too short|too long|invalid/i.test(err.message);
+    return withInboxCors(
+      request,
+      NextResponse.json(
+        { error: isClient ? "Invalid reply" : "Failed to send email" },
+        { status: isClient ? 400 : 502 },
+      ),
+    );
   }
 }

@@ -89,7 +89,9 @@ export async function POST(request: NextRequest) {
     );
   } catch (err) {
     console.error("[api/inbox/test-push] Send failed:", err);
-    const message = err instanceof Error ? err.message : "Failed to send test push";
-    return withInboxCors(request, NextResponse.json({ error: message }, { status: 502 }));
+    return withInboxCors(
+      request,
+      NextResponse.json({ error: "Failed to send test push" }, { status: 502 }),
+    );
   }
 }

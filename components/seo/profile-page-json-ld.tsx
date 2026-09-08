@@ -1,5 +1,6 @@
 import { SITE_URL } from "@/lib/config";
 import { SEO_IDS } from "@/lib/content/seo";
+import { stringifyJsonLd } from "@/lib/stringify-json-ld";
 
 export type ProfilePageJsonLd = {
   "@context": "https://schema.org";
@@ -38,7 +39,7 @@ export function ProfilePageJsonLdScript({ data }: { data: ProfilePageJsonLd }) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      dangerouslySetInnerHTML={{ __html: stringifyJsonLd(data) }}
     />
   );
 }
