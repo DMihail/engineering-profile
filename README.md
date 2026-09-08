@@ -18,7 +18,7 @@ Readable production code: typed route handlers, Cache Components, tests, and a d
 - **SEO** — Metadata API, JSON-LD, sitemap (HTML routes only), robots, OG image; canonical `/resume` (Ireland) is indexable
 - **Contact** — validation, reCAPTCHA v3, per-IP rate limit, Firestore, optional Telegram + FCM to a companion inbox PWA
 - **Accessibility** — landmarks, skip link, live regions, axe smoke tests, reduced-motion support
-- **Quality** — ESLint 9, TypeScript ~5.9, Jest, GitHub Actions (Node 22)
+- **Quality** — ESLint 9, TypeScript ~5.9, Jest, Playwright smoke, GitHub Actions (Node 22)
 
 ## Tech stack
 
@@ -124,7 +124,7 @@ Allowed tags: `portfolio`, `site-json-ld` (see `lib/cache-tags.ts`).
 | `SITE_LAST_MODIFIED` | Optional sitemap `lastModified` override (ISO date) |
 | `ALLOWED_DEV_ORIGINS` | Comma-separated hosts for `next dev` LAN / HMR |
 
-Contact rate limiting is **in-process memory** (burst control on reused instances). Prefer Vercel Firewall / WAF for stronger abuse limits.
+Contact rate limiting is **in-process memory** (burst control on reused instances). The same helper also limits authenticated inbox reply / test-push by UID. Prefer **Vercel Firewall / WAF** rules on `/api/contact` and `/api/inbox/*` for multi-instance abuse control.
 
 ### API overview
 
@@ -139,10 +139,13 @@ Contact rate limiting is **in-process memory** (burst control on reused instance
 
 | Surface | Role |
 |---------|------|
-| `/resume` | Canonical HTML resume (**Ireland**, indexed). Print → PDF |
+| `/resume` | **Source of truth** — canonical HTML resume (Ireland, indexed). Print → Save as PDF |
 | `/resume?variant=ua` | UA HTML variant (`noindex`) |
-| Contact aside CV download | Region from `contact-region` cookie (geo on `/` only) |
-| `public/*_CV_Ireland.pdf` / `*_CV_UK.pdf` | ATS files (`noindex`); UA still uses the historical `*_CV_UK.pdf` name |
+| Hero **View resume** | Links to `/resume` (always current) |
+| Contact aside | HTML resume link + region ATS PDF download |
+| `public/*_CV_Ireland.pdf` / `*_CV_UK.pdf` | ATS files (`noindex`); UA keeps historical `*_CV_UK.pdf` name |
+
+After career/content edits: update HTML via `lib/content/career/*`, then re-export PDFs from `/resume` (browser Print → Save as PDF) and bump `CV_PDF_EXPORTED_AT` in `lib/content/cv.ts`. Also set `SITE_LAST_MODIFIED` (or the default in `lib/config.ts`) so sitemap/footer stay honest.
 
 ## Security notes
 
@@ -164,9 +167,12 @@ Built for **Vercel**:
 
 ```bash
 npm test
+npm run test:e2e   # Playwright smoke (skip-link, theme, contrast light/dark)
 ```
 
-CI runs Jest on push/PR to `main` (Node 22). Lint locally with `npm run lint`.
+Install browsers once: `npx playwright install chromium`.
+
+CI runs lint → Jest → build → Playwright on push/PR to `main`/`dev` (Node 22). Lint locally with `npm run lint`.
 
 ## Forking & reuse
 

@@ -8,7 +8,6 @@ import { UI_LABELS } from "@/lib/content/ui-labels";
 import { navigateToSection, unlockPageScroll } from "@/lib/section-navigation";
 import { useActiveSection } from "@/hooks/use-active-section";
 import { useMobileMenu } from "@/hooks/use-mobile-menu";
-import { ThemeToggle } from "@/components/layout/theme-toggle";
 import styles from "@/styles/layout/nav-bar.module.css";
 
 const MOBILE_NAV_ID = "mobile-nav-menu";
@@ -95,7 +94,6 @@ export function NavBarClient({ logo, desktopLinks, contactCta, mobileLinks }: Na
           )}
 
           <div className={`${styles.navActions} relative z-10 flex items-center gap-3`}>
-            <ThemeToggle />
             {contactCta}
             <button
               type="button"

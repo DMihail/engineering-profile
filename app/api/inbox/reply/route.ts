@@ -4,8 +4,13 @@ import {
   markContactMessageReplied,
 } from "@/lib/contact-message";
 import { inboxOptionsResponse, withInboxCors } from "@/lib/inbox-cors";
+import { checkRateLimit } from "@/lib/rate-limit";
 import { isMailConfigured, sendReplyEmail, MAX_REPLY_BODY } from "@/lib/send-reply-email";
 import { verifyInboxAuth } from "@/lib/verify-inbox-auth";
+
+/** 20 replies per authenticated UID per 10 minutes. */
+const INBOX_REPLY_RATE_LIMIT = 20;
+const INBOX_REPLY_RATE_WINDOW_MS = 10 * 60 * 1000;
 
 export async function OPTIONS(request: NextRequest) {
   return inboxOptionsResponse(request);
@@ -15,6 +20,23 @@ export async function POST(request: NextRequest) {
   const auth = await verifyInboxAuth(request);
   if (!auth.ok) {
     return auth.response;
+  }
+
+  const rate = checkRateLimit(`inbox-reply:${auth.uid}`, {
+    limit: INBOX_REPLY_RATE_LIMIT,
+    windowMs: INBOX_REPLY_RATE_WINDOW_MS,
+  });
+  if (!rate.ok) {
+    return withInboxCors(
+      request,
+      NextResponse.json(
+        { error: "Too many requests — please wait before sending again" },
+        {
+          status: 429,
+          headers: { "Retry-After": String(rate.retryAfterSec) },
+        },
+      ),
+    );
   }
 
   if (!isMailConfigured()) {

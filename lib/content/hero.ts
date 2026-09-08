@@ -1,6 +1,8 @@
-import { CV_DOWNLOADS } from "@/lib/content/cv";
+import { CV_DOWNLOADS, RESUME_HREF } from "@/lib/content/cv";
 
 export const HERO_CTA = {
+  // HTML resume is source of truth; ATS PDFs stay in the contact aside.
+  resume: RESUME_HREF,
   // SSR-stable Ireland/intl PDF. Region-specific file is offered in the contact sidebar.
   cv: CV_DOWNLOADS.intl.file,
   github: "https://github.com/DMihail",

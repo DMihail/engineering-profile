@@ -5,6 +5,7 @@ export const UI_LABELS = {
   hero: {
     primaryActions: "Primary actions",
     careerHighlights: "Career highlights",
+    viewResume: "View resume",
     downloadCv: "Download CV",
     github: "GitHub",
     linkedin: "LinkedIn",
@@ -16,12 +17,6 @@ export const UI_LABELS = {
     noScript: "Section navigation without JavaScript",
     portfolio: "md://portfolio",
     letsTalk: "Let's talk",
-    theme: {
-      system: "System",
-      light: "Light",
-      dark: "Dark",
-      toggle: (mode: string) => `Color theme: ${mode}. Click to cycle.`,
-    },
   },
   subpage: {
     backToPortfolio: "← Back to portfolio",
@@ -67,7 +62,6 @@ export const UI_LABELS = {
     relatedProject: "Related project:",
     applications: "Applications:",
     technologiesAt: (company: string) => `Technologies at ${company}`,
-    degrees: "Degrees",
   },
   education: {
     degrees: "Degrees",
@@ -77,11 +71,13 @@ export const UI_LABELS = {
     availability: "Open to full-time, contract, and freelance",
     linksHeading: "Reach me directly",
     resumeHeading: "Resume",
+    htmlResume: "HTML resume",
+    htmlResumeHint: "Always up to date",
     phone: "Phone",
     telegram: "Telegram",
     bookCall: "Book a call",
     bookCallHint: "15-minute intro",
-    pdfDownload: "PDF download",
+    pdfDownload: "ATS PDF download",
     emailCopied: "Email copied",
     copyEmail: (email: string) => `Copy ${email}`,
     formLegend: "Contact form",
@@ -115,9 +111,15 @@ export const UI_LABELS = {
     sending: "Sending…",
     sent: "Message sent",
   },
-  privacyConsent: "I have read the privacy policy and understand how this enquiry will be handled",
+  privacyConsent: {
+    beforeLink: "I have read the",
+    privacyPolicy: "privacy policy",
+    afterLink: "and understand how this enquiry will be handled",
+  },
   errorBoundary: {
+    label: "// section_error",
     unavailable: "Section unavailable",
+    failedToLoad: "This section failed to load.",
     retry: "Retry",
   },
 } as const;

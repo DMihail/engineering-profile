@@ -12,7 +12,9 @@
     "start": "next start",
     "lint": "eslint",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
     "firebase-admin": "^14.3.0",
@@ -24,7 +26,9 @@
     "react-toastify": "^11.1.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@next/bundle-analyzer": "^16.3.3",
+    "@playwright/test": "^1.63.0",
     "@tailwindcss/postcss": "^4.3.3",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",

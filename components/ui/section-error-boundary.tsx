@@ -1,6 +1,7 @@
 "use client";
 
 import { Component, type ReactNode } from "react";
+import { UI_LABELS } from "@/lib/content/ui-labels";
 
 interface Props {
   children: ReactNode;
@@ -27,16 +28,16 @@ export class SectionErrorBoundary extends Component<Props, State> {
       if (this.props.fallback) return this.props.fallback;
       return (
         <div className="py-16 px-4 text-center" role="alert">
-          <p className="mono-label mb-2">{"// section_error"}</p>
-          <h2 className="sr-only">Section unavailable</h2>
+          <p className="mono-label mb-2">{UI_LABELS.errorBoundary.label}</p>
+          <h2 className="sr-only">{UI_LABELS.errorBoundary.unavailable}</h2>
           <p className="text-sm text-muted-foreground">
-            This section failed to load.{" "}
+            {UI_LABELS.errorBoundary.failedToLoad}{" "}
             <button
               type="button"
               onClick={() => this.setState({ error: null })}
               className="text-primary underline cursor-pointer"
             >
-              Retry
+              {UI_LABELS.errorBoundary.retry}
             </button>
           </p>
         </div>

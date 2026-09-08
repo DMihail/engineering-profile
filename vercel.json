@@ -3,12 +3,12 @@
   "redirects": [
     {
       "source": "/(index|default|home).(html|htm|php|asp)",
-      "destination": "https://dzhezhelo.dev/",
+      "destination": "/",
       "statusCode": 308
     },
     {
       "source": "/(index|default|home).(html|htm|php|asp)/",
-      "destination": "https://dzhezhelo.dev/",
+      "destination": "/",
       "statusCode": 308
     }
   ]

@@ -3,6 +3,7 @@
  */
 import { POST, OPTIONS } from "@/app/api/inbox/reply/route";
 import { NextRequest } from "next/server";
+import { resetRateLimitStore } from "@/lib/rate-limit";
 
 const mockVerifyIdToken = jest.fn();
 const mockGetMessage = jest.fn();
@@ -56,6 +57,7 @@ const contact = {
 
 beforeEach(() => {
   jest.clearAllMocks();
+  resetRateLimitStore();
   mockIsMailConfigured.mockReturnValue(true);
   delete process.env.INBOX_ALLOWED_UIDS;
   process.env.INBOX_APP_URL = "http://localhost:5173";
@@ -124,5 +126,16 @@ describe("POST /api/inbox/reply", () => {
     const res = await POST(makeRequest({ messageId: "msg-1", body: "Thanks!" }));
     expect(res.status).toBe(503);
     expect(mockSendReplyEmail).not.toHaveBeenCalled();
+  });
+
+  it("returns 429 after the per-uid reply limit", async () => {
+    for (let i = 0; i < 20; i++) {
+      const ok = await POST(makeRequest({ messageId: "msg-1", body: `Thanks ${i}` }));
+      expect(ok.status).toBe(200);
+    }
+    const limited = await POST(makeRequest({ messageId: "msg-1", body: "One more" }));
+    expect(limited.status).toBe(429);
+    expect(limited.headers.get("Retry-After")).toBeTruthy();
+    expect(mockSendReplyEmail).toHaveBeenCalledTimes(20);
   });
 });

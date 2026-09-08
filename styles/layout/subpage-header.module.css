@@ -8,15 +8,21 @@
   padding: 1rem 1rem 0;
 }
 
+/* Prefer --resume-* when nested in the ATS paper shell (always light). */
 .brand {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: var(--primary-text);
+  color: var(--resume-fg, var(--foreground));
   font-family: var(--font-mono), monospace;
   font-size: var(--text-mono-base);
+  font-weight: 600;
   letter-spacing: 0.02em;
   text-decoration: none;
+}
+
+.brand:hover {
+  color: var(--resume-accent, var(--primary-text));
 }
 
 .brandText {
@@ -25,12 +31,13 @@
 
 .backLink {
   font-size: var(--text-sm);
-  color: var(--text-secondary);
+  font-weight: 600;
+  color: var(--resume-fg, var(--foreground));
   text-decoration: none;
 }
 
 .backLink:hover {
-  color: var(--foreground);
+  color: var(--resume-accent, var(--primary-text));
 }
 
 @media (width >= 40rem) {

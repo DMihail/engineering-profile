@@ -245,8 +245,8 @@
   --primary: oklch(0.78 0.12 230);
   --primary-hover: #7dd3fc;
   --primary-hover: oklch(0.85 0.09 230);
-  --primary-text: #0278b8;
-  --primary-text: oklch(0.55 0.145 230);
+  --primary-text: #015f8c;
+  --primary-text: oklch(0.48 0.13 230);
   --icon: #0ea5e9;
   --icon: oklch(0.7 0.14 230);
   --on-primary: #0b0f17;
