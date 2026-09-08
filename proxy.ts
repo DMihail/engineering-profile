@@ -60,6 +60,7 @@ const ALLOWED_EXACT = new Set([
   "/robots.txt",
   "/sitemap.xml",
   "/llms.txt",
+  "/llms-full.txt",
   "/manifest.webmanifest",
 ]);
 

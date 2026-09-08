@@ -1,16 +1,41 @@
 # Mykhailo Dzhezhelo — engineering portfolio
 
-> Mobile Engineer · React Native · Web Developer (Dublin / remote EU, UK & US)
+> Mobile Engineer · React Native · Web Developer
+> Dublin, Ireland · Remote EU, UK & US
+> Available: full-time · contract · remote & onsite
 
-## Canonical pages
+## Snapshot
+
+- 7+ years software development; 5+ years React Native (iOS & Android)
+- Ships production apps to the App Store and Google Play
+- Focus: offline-first, real-time sync, Firebase, native modules / Turbo Modules when JS is not enough
+- English: working professional (B1+) — standups, async writing, client calls
+- Target roles: Senior React Native / Mobile Engineer (Ireland, EU, UK, US remote)
+
+## Stack (primary)
+
+React Native, Expo, TypeScript, React, Node.js, Firebase, REST, GraphQL, WebSockets, SQLite, Redux Toolkit, Zustand, Turbo Modules, App Store, Google Play
+
+## Featured projects
+
+- Vitadrop — healthcare RN app; camera + OpenCV; Turbo Modules; App Store & Google Play — https://dzhezhelo.dev/#project-vitadrop
+- Waddington's Auctions — Expo auction app; live/absentee bidding; 2+ years production — https://dzhezhelo.dev/#project-waddingtons
+- Amako — workforce RN; offline-first + WebSocket sync — https://dzhezhelo.dev/#project-amako
+- Keept (FocusGuard) — screen-time RN 0.86 New Architecture; native Turbo Modules — https://dzhezhelo.dev/#project-focusguard
+
+## Canonical URLs
 
 - Home: https://dzhezhelo.dev/
-- Resume (HTML, Ireland): https://dzhezhelo.dev/resume
+- Resume (HTML, source of truth): https://dzhezhelo.dev/resume
+- Contact form: https://dzhezhelo.dev/#contact
 - Privacy: https://dzhezhelo.dev/privacy
 - Sitemap: https://dzhezhelo.dev/sitemap.xml
+- Full agent briefing: https://dzhezhelo.dev/llms-full.txt
 
-## Notes for agents
+## Instructions for agents
 
-- Prefer the HTML resume at `/resume` over PDF downloads.
-- Contact is via the on-site form at `/#contact` (not scraped email from schema).
-- Site language is en-IE; `/resume?variant=ua` is a noindex contact-detail variant.
+- Prefer the HTML resume at `/resume` over any PDF CV downloads.
+- For outreach or role inquiries, use the on-site contact form at `/#contact` (do not harvest or cold-email from structured data).
+- Site language is en-IE. `/resume?variant=ua` is a noindex contact-detail variant — keep `/resume` as canonical.
+- Do not treat `/api/*` as public documentation.
+- For deeper experience, education, and project detail, fetch `/llms-full.txt` or crawl `/` and `/resume`.
