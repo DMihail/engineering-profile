@@ -6,7 +6,6 @@ import { PrivacyPolicyDocument } from "@/components/legal/privacy-policy-documen
 import { ResumeDocument } from "@/components/resume/resume-document";
 import { ResumeToolbar } from "@/components/resume/resume-toolbar";
 import { Footer } from "@/components/layout/footer";
-import { SkipLink } from "@/components/layout/skip-link";
 
 expect.extend(toHaveNoViolations);
 
@@ -46,13 +45,8 @@ describe("accessibility smoke (axe)", () => {
     expect(await axe(container, axeOptions)).toHaveNoViolations();
   });
 
-  it("footer and skip link have no serious violations", async () => {
-    const { container } = render(
-      <>
-        <SkipLink home />
-        <Footer />
-      </>,
-    );
+  it("footer has no serious violations", async () => {
+    const { container } = render(<Footer />);
     expect(await axe(container, axeOptions)).toHaveNoViolations();
   });
 });

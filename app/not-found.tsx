@@ -4,7 +4,6 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import { absoluteTitle, titledPage } from "@/lib/page-metadata";
 import { buildOpenGraph, buildTwitter } from "@/lib/site-metadata";
-import { SkipLink } from "@/components/layout/skip-link";
 import { SubpageHeader } from "@/components/layout/subpage-header";
 import { MAIN_CONTENT_ID } from "@/lib/section-ids";
 
@@ -29,7 +28,6 @@ export const metadata: Metadata = {
 function NotFoundShell({ pathname }: { pathname: string | null }) {
   return (
     <>
-      <SkipLink />
       <SubpageHeader />
       <main
         id={MAIN_CONTENT_ID}

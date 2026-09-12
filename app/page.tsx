@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { NavBar } from "@/components/layout/nav-bar";
 import { NavBarNoScript } from "@/components/layout/nav-bar-noscript";
 import { SectionHashScroll } from "@/components/layout/section-hash-scroll";
-import { SkipLink } from "@/components/layout/skip-link";
 import { HeroSection } from "@/components/sections/hero-section";
 import { HomeSections } from "@/components/sections/home-sections";
 import { Footer } from "@/components/layout/footer";
@@ -29,7 +28,6 @@ export default function Home() {
   return (
     <>
       <WebPageJsonLdScript data={homeWebPageJsonLd} />
-      <SkipLink home />
       <NavBar />
       <NavBarNoScript />
       <SectionHashScroll />

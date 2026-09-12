@@ -2,14 +2,6 @@ import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 test.describe("homepage smoke", () => {
-  test("skip link targets main content", async ({ page }) => {
-    await page.goto("/");
-    const skip = page.getByRole("link", { name: /skip to content/i });
-    await skip.focus();
-    await expect(skip).toBeVisible();
-    await expect(skip).toHaveAttribute("href", /#main-content/);
-  });
-
   test("theme toggle cycles resolved color scheme", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce", colorScheme: "dark" });
     await page.addInitScript(() => {
