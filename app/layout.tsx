@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   category: "portfolio",
   verification: {
     google: "lle48wjp7HiGdH_6SV2SEHd7_ShE51gH92oFBCJVLYA",
-    yandex: "0b930a278e22c1b1",
+    yandex: "c241546e3753e046",
   },
   openGraph: ROOT_SITE_METADATA.openGraph,
   twitter: ROOT_SITE_METADATA.twitter,
