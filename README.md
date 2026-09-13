@@ -19,7 +19,7 @@ Readable production code: typed route handlers, Cache Components, tests, and a d
 - **SEO** — Metadata API, JSON-LD, sitemap (HTML routes only), robots (API + PDF disallow), OG images; canonical `/resume` (Ireland) is indexable
 - **Agent briefs** — `/llms.txt` + `/llms-full.txt` for AI crawlers / sourcing agents
 - **Contact** — validation, reCAPTCHA v3, per-IP rate limit, Firestore, optional Telegram + FCM (allowlisted UIDs only)
-- **Accessibility** — landmarks, skip link, live regions, axe smoke (Jest + Playwright), reduced-motion support
+- **Accessibility** — landmarks, live regions, axe smoke (Jest + Playwright), reduced-motion support
 - **Quality** — ESLint 9, TypeScript ~5.9, Jest, Playwright smoke, GitHub Actions on `main`/`dev` (Node 22)
 
 ## Tech stack
@@ -38,7 +38,7 @@ Readable production code: typed route handlers, Cache Components, tests, and a d
 ```
 app/                    Pages, layouts, API routes, metadata routes
 components/
-  layout/               Nav (server + client), theme toggle, footer, skip link
+  layout/               Nav (server + client), theme toggle, footer
   sections/             Hero, cached portfolio body, contact
   contact/              Form, sidebar islands, submit action
   seo/                  JSON-LD scripts
@@ -184,7 +184,7 @@ Built for **Vercel**:
 
 ```bash
 npm test
-npm run test:e2e   # Playwright smoke (skip-link, theme toggle, contrast light/dark, hero CTAs)
+npm run test:e2e   # Playwright smoke (theme toggle, contrast light/dark, hero CTAs)
 ```
 
 Install browsers once: `npx playwright install chromium`.

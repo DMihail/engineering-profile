@@ -16,23 +16,6 @@ export default function GlobalError({
         <meta name="robots" content="noindex, nofollow" />
       </head>
       <body style={{ background: "#0B0F17", color: "#E5E7EB", fontFamily: "system-ui, sans-serif", margin: 0, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <a
-          href={`#${MAIN_CONTENT_ID}`}
-          style={{
-            position: "absolute",
-            left: "1rem",
-            top: "1rem",
-            padding: "0.5rem 1rem",
-            background: "#38BDF8",
-            color: "#0B0F17",
-            fontSize: "0.875rem",
-            fontWeight: 600,
-            borderRadius: "0.375rem",
-            textDecoration: "none",
-          }}
-        >
-          Skip to content
-        </a>
         <main id={MAIN_CONTENT_ID} tabIndex={-1} style={{ textAlign: "center", padding: "2rem" }}>
           <p style={{ fontFamily: "monospace", fontSize: "0.75rem", color: "#8891A0", marginBottom: "0.75rem" }}>
             {"// runtime_error"}

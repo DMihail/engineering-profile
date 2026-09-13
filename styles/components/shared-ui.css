@@ -2,36 +2,6 @@
 
 @layer components {
 
-  .skip-link {
-    position: absolute;
-    inset-inline-start: 1rem;
-    top: 1rem;
-    z-index: 100;
-    padding-block: var(--space-2);
-    padding-inline: var(--space-4);
-    border-radius: var(--radius-md);
-    background: var(--color-card);
-    border: 1px solid var(--color-border-hover);
-    color: var(--color-primary-text);
-    font-family: var(--font-mono), serif;
-    font-size: var(--text-xs);
-    text-decoration: none;
-    transform: translateY(-200%);
-    transition: transform 150ms ease;
-  }
-
-  .skip-link:focus-visible {
-    transform: translateY(0);
-    outline: 2px solid var(--color-ring);
-    outline-offset: 2px;
-  }
-
-  @media print {
-    .skip-link {
-      display: none !important;
-    }
-  }
-
   /* Scroll reveal — visible by default; animated where view() is supported */
   @supports (animation-timeline: view()) {
     @keyframes revealOnScroll {

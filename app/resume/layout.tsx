@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { BreadcrumbNav } from "@/components/layout/breadcrumb-nav";
-import { SkipLink } from "@/components/layout/skip-link";
 import { SubpageHeader } from "@/components/layout/subpage-header";
 import { BreadcrumbJsonLdScript, buildBreadcrumbJsonLd, type BreadcrumbItem } from "@/components/seo/breadcrumb-json-ld";
 import {
@@ -44,7 +43,6 @@ export default function ResumeLayout({
     <div className={styles.root}>
       <ProfilePageJsonLdScript data={resumeProfilePageJsonLd} />
       <BreadcrumbJsonLdScript data={resumeBreadcrumbJsonLd} />
-      <SkipLink />
       <SubpageHeader />
       <BreadcrumbNav items={resumeBreadcrumbItems} />
       {children}

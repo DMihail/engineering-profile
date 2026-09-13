@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { SkipLink } from "@/components/layout/skip-link";
 import { SubpageHeader } from "@/components/layout/subpage-header";
 import { UI_LABELS } from "@/lib/content/ui-labels";
 import { MAIN_CONTENT_ID } from "@/lib/section-ids";
@@ -20,7 +19,6 @@ export default function Error({
 
   return (
     <>
-      <SkipLink />
       <SubpageHeader />
       <main
         id={MAIN_CONTENT_ID}

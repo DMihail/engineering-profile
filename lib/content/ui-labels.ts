@@ -1,7 +1,6 @@
 /** UI chrome and component labels — not portfolio narrative copy. */
 
 export const UI_LABELS = {
-  skipToContent: "Skip to content",
   hero: {
     primaryActions: "Primary actions",
     careerHighlights: "Career highlights",
