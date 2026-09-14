@@ -1,6 +1,6 @@
 import { OG_COLORS } from "@/lib/og/constants";
 
-export function OgGridBackground() {
+function OgGridBackground() {
   return (
     <div
       style={{

@@ -1,4 +1,4 @@
-import { isModifiedNavigation } from "@/lib/focus-main-content";
+import { isModifiedNavigation } from "@/lib/is-modified-navigation";
 
 describe("isModifiedNavigation", () => {
   it("detects modifier keys", () => {

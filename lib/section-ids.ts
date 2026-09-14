@@ -15,7 +15,7 @@ export function isPageSectionId(id: string): id is PageSectionId {
   return (PAGE_SECTION_IDS as readonly string[]).includes(id);
 }
 
-export function isProjectFragmentId(id: string): boolean {
+function isProjectFragmentId(id: string): boolean {
   return id.startsWith("project-");
 }
 

@@ -2,7 +2,7 @@
 
 import { type MouseEvent, type ReactNode, useEffect, useEffectEvent, useRef } from "react";
 import { Menu, X } from "lucide-react";
-import { isModifiedNavigation } from "@/lib/focus-main-content";
+import { isModifiedNavigation } from "@/lib/is-modified-navigation";
 import { HERO_ID, isPageSectionId, SECTION_LABELS } from "@/lib/section-ids";
 import { UI_LABELS } from "@/lib/content/ui-labels";
 import { navigateToSection, unlockPageScroll } from "@/lib/section-navigation";

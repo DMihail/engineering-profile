@@ -1,10 +1,8 @@
 import { PRIVACY_CONSENT_ERROR, PRIVACY_CONSENT_FIELD, isPrivacyConsentGiven } from "@/lib/privacy-consent";
 import { validateEmail } from "@/lib/validate-email";
 
-/** Validation order: first failing field wins. */
-export const CONTACT_FIELD_ORDER = ["name", "email", "message", "consent"] as const;
-
-export type ContactFormField = (typeof CONTACT_FIELD_ORDER)[number];
+/** Contact fields validated in this order: name → email → message → consent. */
+export type ContactFormField = "name" | "email" | "message" | "consent";
 
 export const CONTACT_FIELD_DOM_IDS: Record<ContactFormField, string> = {
   name: "contact-name",

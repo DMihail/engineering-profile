@@ -3,7 +3,7 @@ export interface ResumeSkillGroup {
   skills: string;
 }
 
-export interface ResumeProjectBlock {
+interface ResumeProjectBlock {
   title: string;
   bullets: string[];
 }
