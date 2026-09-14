@@ -1,25 +1,8 @@
 export {
-  CAREER_EDUCATION,
-  CAREER_EXPERIENCE,
-  CAREER_FEATURED_PROJECTS,
-  CAREER_LANGUAGES,
-} from "@/lib/content/career/data";
-
-export {
-  RESUME_OG,
   RESUME_ROLE,
   RESUME_SKILL_GROUPS,
   RESUME_SUMMARY,
 } from "@/lib/content/career/resume-meta";
-
-export type {
-  ResumeEducationEntry,
-  ResumeExperienceEntry,
-  ResumeLanguageEntry,
-  ResumeProjectBlock,
-  ResumeProjectEntry,
-  ResumeSkillGroup,
-} from "@/lib/content/resume-types";
 
 import {
   CAREER_EDUCATION,

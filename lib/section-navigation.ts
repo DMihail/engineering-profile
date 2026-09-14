@@ -30,7 +30,7 @@ export function unlockPageScroll(): void {
   document.body.style.touchAction = "";
 }
 
-export function getSectionScrollBehavior(): ScrollBehavior {
+function getSectionScrollBehavior(): ScrollBehavior {
   if (typeof window === "undefined" || typeof window.matchMedia !== "function") return "auto";
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
 }

@@ -1,4 +1,4 @@
-export interface CareerProject {
+interface CareerProject {
   title: string;
   caseStudyId?: string;
   bullets: string[];

@@ -26,8 +26,6 @@ import type { ContentIconId } from "@/lib/content/icon-ids";
 import type { ContentIconComponent } from "@/components/ui/content-icon-types";
 import { SocialContentIcon, type SocialContentIconId } from "@/components/ui/social-icons";
 
-export type { ContentIconComponent } from "@/components/ui/content-icon-types";
-
 const CONTENT_ICONS: Partial<Record<ContentIconId, ContentIconComponent>> = {
   smartphone: Smartphone,
   layers: Layers,
