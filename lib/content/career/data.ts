@@ -187,5 +187,6 @@ export const CAREER_EDUCATION: CareerEducationEntry[] = [
 
 export const CAREER_LANGUAGES: CareerLanguageEntry[] = [
   { language: "Ukrainian", level: "Native" },
+  { language: "Russian", level: "Native" },
   { language: "English", level: "Intermediate (B1), taking classes in Dublin" },
 ];
