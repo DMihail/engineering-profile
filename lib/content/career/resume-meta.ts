@@ -1,23 +1,27 @@
 import type { ResumeSkillGroup } from "@/lib/content/resume-types";
 
-export const RESUME_ROLE = "Mobile Engineer | React Native | Web Developer";
+export const RESUME_ROLE = "React Native Developer (iOS & Android)";
 
 export const RESUME_SUMMARY = {
   ireland:
-    "Mobile Engineer with 7+ years of software development experience, including 5+ years building production mobile applications with React Native. Experienced in App Store and Google Play releases, Firebase, REST APIs, GraphQL, WebSockets, offline-first applications, and production support. Based in Dublin, Ireland and eligible to work under Temporary Protection.",
+    "React Native developer with 5+ years building and shipping iOS and Android apps, and 7+ years in software development. Delivered healthcare, betting, auction and field-service apps to the App Store and Google Play, from new features to React Native upgrades and production crash fixing. Currently building a screen-time app on the React Native New Architecture with native Kotlin and Swift modules. Based in Dublin with full right to work in Ireland, no visa sponsorship required.",
   ua:
-    "Mobile Engineer with 7+ years of software development experience, including 5+ years building production mobile applications with React Native. Experienced in App Store and Google Play releases, Firebase, REST APIs, GraphQL, WebSockets, offline-first applications, and production support.",
+    "React Native developer with 5+ years building and shipping iOS and Android apps, and 7+ years in software development. Delivered healthcare, betting, auction and field-service apps to the App Store and Google Play, from new features to React Native upgrades and production crash fixing. Currently building a screen-time app on the React Native New Architecture with native Kotlin and Swift modules.",
 } as const;
 
 export const RESUME_SKILL_GROUPS: ResumeSkillGroup[] = [
   {
     label: "React Native",
     skills:
-      "React Native CLI, Expo, Navigation, State Management, Push Notifications, Deep Linking, Offline Storage, App Store & Google Play Releases",
+      "React Native CLI, Expo, New Architecture (Turbo Modules), Navigation, Reanimated, Push Notifications, Deep Linking, Offline Storage, App Store & Google Play Releases",
   },
   {
     label: "TypeScript & JavaScript",
     skills: "ES6+, TypeScript, Async Programming, API Integration, Performance Optimization",
+  },
+  {
+    label: "Native",
+    skills: "Kotlin, Swift (native modules), Android foreground services, iOS Screen Time APIs",
   },
   {
     label: "React",
@@ -29,7 +33,7 @@ export const RESUME_SKILL_GROUPS: ResumeSkillGroup[] = [
   },
   {
     label: "Backend Development",
-    skills: "Node.js, Express, REST APIs, GraphQL, GraphQL Subscriptions",
+    skills: "Node.js, NestJS, Express, REST APIs, GraphQL, GraphQL Subscriptions, React Admin",
   },
   {
     label: "Real-Time Applications",
@@ -41,7 +45,7 @@ export const RESUME_SKILL_GROUPS: ResumeSkillGroup[] = [
   },
   {
     label: "Development Tools",
-    skills: "Git, Docker, Postman, Firebase Crashlytics, App Store Connect, Google Play Console",
+    skills: "Jest, ESLint, Husky, Git, Docker, Postman, Firebase Crashlytics, App Store Connect, Google Play Console",
   },
   {
     label: "Collaboration & Leadership",

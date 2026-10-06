@@ -35,7 +35,7 @@ describe("resume-content", () => {
   });
 
   it("matches CV heading and skill groups", () => {
-    expect(getResumeHeading().role).toBe("Mobile Engineer | React Native | Web Developer");
+    expect(getResumeHeading().role).toBe("React Native Developer (iOS & Android)");
     const groups = getResumeSkillGroups();
     expect(groups[0]?.label).toBe("React Native");
     expect(groups.some((g) => g.label === "Collaboration & Leadership")).toBe(true);
@@ -47,7 +47,10 @@ describe("resume-content", () => {
       "Vitadrop (Healthcare Mobile Application)",
       "Vidalytics Admin Platform",
     ]);
-    expect(getResumeProjects().length).toBe(3);
+    expect(getResumeProjects().map((p) => p.title)).toEqual([
+      "Keept (FocusGuard), Screen-Time App",
+      "Nudge, Gamified To-Do App",
+    ]);
   });
 
   it("uses PDF email and region-specific phone numbers", () => {
@@ -57,9 +60,9 @@ describe("resume-content", () => {
     expect(getResumeContact("ua").phone).toBe(PHONE_UA.display);
   });
 
-  it("includes Temporary Protection only in Ireland summary", () => {
-    expect(getResumeVariantContent("ireland").summary).toContain("Temporary Protection");
-    expect(getResumeVariantContent("ua").summary).not.toContain("Temporary Protection");
+  it("states right to work only in Ireland summary", () => {
+    expect(getResumeVariantContent("ireland").summary).toContain("full right to work in Ireland");
+    expect(getResumeVariantContent("ua").summary).not.toContain("right to work");
   });
 
   it("formats resume periods as ISO 8601 intervals", () => {

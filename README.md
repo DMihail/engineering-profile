@@ -6,7 +6,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178c6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![CI](https://github.com/DMihail/engineering-profile/actions/workflows/ci.yml/badge.svg)](https://github.com/DMihail/engineering-profile/actions/workflows/ci.yml)
 
-Public source for **[dzhezhelo.dev](https://dzhezhelo.dev)** — the portfolio of **Mykhailo Dzhezhelo**, Mobile Engineer (React Native) & web developer.
+Public source for **[dzhezhelo.dev](https://dzhezhelo.dev)** — the portfolio of **Mykhailo Dzhezhelo**, React Native Developer (iOS & Android).
 
 Readable production code: typed route handlers, Cache Components, tests, and a deployable Next.js 16 app — not a theme kit.
 

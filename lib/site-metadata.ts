@@ -11,10 +11,10 @@ export const DEFAULT_OG_IMAGE = {
   url: SITE_OG_IMAGE_PATH,
   width: 1200,
   height: 630,
-  alt: `${SITE_AUTHOR} — Mobile Engineer · React Native · Web Developer`,
+  alt: `${SITE_AUTHOR} — React Native Developer · iOS & Android`,
 } as const;
 
-export const DEFAULT_SITE_TITLE = `${SITE_AUTHOR} — Mobile Engineer · React Native · Web Developer`;
+export const DEFAULT_SITE_TITLE = `${SITE_AUTHOR} — React Native Developer · iOS & Android`;
 
 type OpenGraphOverrides = NonNullable<Metadata["openGraph"]>;
 

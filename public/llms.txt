@@ -1,6 +1,6 @@
 # Mykhailo Dzhezhelo — engineering portfolio
 
-> Mobile Engineer · React Native · Web Developer
+> React Native Developer · iOS & Android
 > Dublin, Ireland · Remote EU, UK & US
 > Available: full-time · contract · remote & onsite
 
@@ -9,7 +9,8 @@
 - 7+ years software development; 5+ years React Native (iOS & Android)
 - Ships production apps to the App Store and Google Play
 - Focus: offline-first, real-time sync, Firebase, native modules / Turbo Modules when JS is not enough
-- English: working professional (B1+) — standups, async writing, client calls
+- English: intermediate (B1), taking classes in Dublin
+- Right to work: full right to work in Ireland, no visa sponsorship required
 - Target roles: Senior React Native / Mobile Engineer (Ireland, EU, UK, US remote)
 
 ## Stack (primary)
@@ -21,7 +22,7 @@ React Native, Expo, TypeScript, React, Node.js, Firebase, REST, GraphQL, WebSock
 - Vitadrop — healthcare RN app; camera + OpenCV; Turbo Modules; App Store & Google Play — https://dzhezhelo.dev/#project-vitadrop
 - Waddington's Auctions — Expo auction app; live/absentee bidding; 2+ years production — https://dzhezhelo.dev/#project-waddingtons
 - Amako — workforce RN; offline-first + WebSocket sync — https://dzhezhelo.dev/#project-amako
-- Keept (FocusGuard) — screen-time RN 0.86 New Architecture; native Turbo Modules — https://dzhezhelo.dev/#project-focusguard
+- Keept (FocusGuard) — screen-time RN 0.87 New Architecture; native Kotlin/Swift Turbo Modules; Google Play closed testing — https://dzhezhelo.dev/#project-focusguard
 
 ## Canonical URLs
 

@@ -243,9 +243,9 @@ export const CASE_STUDIES: CaseStudy[] = [
     num: "06",
     title: "Keept",
     type: "Personal project · Screen time",
-    version: "React Native 0.86 · New Architecture · iOS & Android",
+    version: "React Native 0.87 · New Architecture · iOS & Android · Google Play closed testing",
     summary:
-      "Cross-platform screen-time app (repo: FocusGuard) — track distracting apps, warn as limits approach, and block access when exceeded. React Native 0.86 with New Architecture, codegen Turbo Module on both platforms, and native enforcement via Android foreground service plus iOS Screen Time extensions.",
+      "Cross-platform screen-time app (repo: FocusGuard) — track distracting apps, warn as limits approach, and block access when exceeded. React Native 0.87 with New Architecture, codegen Turbo Module on both platforms, and native enforcement via Android foreground service plus iOS Screen Time extensions.",
     stack: [
       "React Native",
       "TypeScript",
@@ -264,14 +264,14 @@ export const CASE_STUDIES: CaseStudy[] = [
       "iOS: Family Controls, DeviceActivity monitor and report extensions, ManagedSettings shields",
       "Zustand stores persisted to MMKV — shared with native monitor via multi-process storage",
       "Per-app warning and hard-block limits, strict mode, statistics with usage history (120 days)",
-      "Bilingual UI (en/ru), deep links (`keept://`), Firebase Crashlytics, 119 Jest tests",
+      "Bilingual UI (en/ru), deep links (`keept://`), Firebase Crashlytics, 130+ Jest tests",
     ],
     context:
       "Keept helps people reduce phone distraction by monitoring selected apps, nudging before limits are hit, and blocking when limits are exceeded. All limits and usage data stay on device — no account or cloud sync.",
     problem:
       "Screen-time enforcement needs OS APIs JavaScript cannot access: UsageStats and overlays on Android, Screen Time and shields on iOS. Monitoring must survive backgrounding, reboots, and permission edge cases without corrupting user trust.",
     solution:
-      "React Native 0.86 with New Architecture for shared UI and business logic. A codegen Turbo Module exposes permissions, catalogs, monitor control, and config sync to platform-specific native code. Android runs a foreground service with overlay blocking; iOS uses DeviceActivity extensions and App Group shared state.",
+      "React Native 0.87 with New Architecture for shared UI and business logic. A codegen Turbo Module exposes permissions, catalogs, monitor control, and config sync to platform-specific native code. Android runs a foreground service with overlay blocking; iOS uses DeviceActivity extensions and App Group shared state.",
     constraints: [
       "UsageStats, overlays, and Screen Time APIs require native integration on both platforms",
       "Monitor process must read the same limits as the JS app (MMKV + snapshot sync)",
@@ -292,8 +292,8 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Reanimated theme transitions with reduced-motion support",
     ],
     results: [
-      { metric: "119", label: "Jest tests (on-device product)" },
-      { metric: "RN 0.86", label: "New Architecture + Turbo Modules" },
+      { metric: "130+", label: "Jest tests (on-device product)" },
+      { metric: "RN 0.87", label: "New Architecture + Turbo Modules" },
       { metric: "Privacy", label: "no cloud sync — data stays local" },
     ],
   },

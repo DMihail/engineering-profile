@@ -12,7 +12,7 @@ import styles from "@/styles/resume/resume-shell.module.css";
 
 const resumeTitle = titledPage("Resume", " — ");
 const resumeDescription =
-  "ATS-friendly resume for Mykhailo Dzhezhelo — Mobile Engineer, React Native and Web Developer. Print or save as PDF.";
+  "ATS-friendly resume for Mykhailo Dzhezhelo — React Native Developer (iOS & Android). Print or save as PDF.";
 
 /** Ireland resume is the sole indexable / canonical URL; UA is `/resume?variant=ua` (noindex). */
 export const metadata: Metadata = buildRouteMetadata({
