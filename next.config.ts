@@ -14,7 +14,9 @@ const allowedDevOrigins = (process.env.ALLOWED_DEV_ORIGINS ?? "")
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   reactCompiler: true,
+  // Next.js 16.4 Cache Components model (partialPrefetching is part of the recommended pair).
   cacheComponents: true,
+  partialPrefetching: true,
   poweredByHeader: false,
   compress: true,
 
@@ -39,6 +41,15 @@ const nextConfig: NextConfig = {
       {
         source: "/favicon.ico",
         headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
+      {
+        // Short agent briefs — revalidate weekly so crawl caches stay fresh with content edits.
+        source: "/llms.txt",
+        headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }],
+      },
+      {
+        source: "/llms-full.txt",
+        headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }],
       },
       {
         // PDF CVs are application downloads — keep them out of the search index.

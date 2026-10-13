@@ -2,7 +2,6 @@ import { CASE_STUDIES } from "@/lib/content/portfolio/case-studies";
 import {
   SITE_AUTHOR,
   SITE_DESCRIPTION,
-  SITE_EMAIL,
   SITE_LOCATION,
   SITE_ROLE,
   SITE_URL,
@@ -52,7 +51,6 @@ export type JsonLdPerson = {
   name: string;
   url: string;
   image: string;
-  email: string;
   jobTitle: string;
   worksFor: { "@type": "Organization"; name: string };
   address: {
@@ -64,6 +62,12 @@ export type JsonLdPerson = {
   areaServed: string[];
   sameAs: string[];
   knowsAbout: string[];
+  contactPoint: {
+    "@type": "ContactPoint";
+    contactType: string;
+    url: string;
+    availableLanguage: string[];
+  };
 };
 
 type JsonLdItemListNode = JsonLdItemList;
@@ -115,11 +119,10 @@ export function buildSiteJsonLd(): SiteJsonLd {
         name: SITE_AUTHOR,
         url: SITE_URL,
         image: `${SITE_URL}${SITE_PROFILE_IMAGE_PATH}`,
-        email: SITE_EMAIL,
         jobTitle: SITE_ROLE,
         worksFor: {
           "@type": "Organization",
-          name: "Freelance",
+          name: "Available for hire",
         },
         address: {
           "@type": "PostalAddress",
@@ -133,6 +136,13 @@ export function buildSiteJsonLd(): SiteJsonLd {
         areaServed: [...SEO_AREA_SERVED],
         sameAs: buildSameAs(),
         knowsAbout: buildKnowsAbout(),
+        // Prefer the contact form over harvesting email from structured data.
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "hiring inquiries",
+          url: `${SITE_URL}/#contact`,
+          availableLanguage: ["en", "uk"],
+        },
       },
       buildCaseStudiesItemList(),
     ],

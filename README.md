@@ -1,7 +1,7 @@
 # dzhezhelo.dev
 
 [![Live site](https://img.shields.io/badge/live-dzhezhelo.dev-38BDF8?style=flat-square)](https://dzhezhelo.dev)
-[![Next.js 16](https://img.shields.io/badge/Next.js-16.3-black?style=flat-square&logo=next.js)](https://nextjs.org)
+[![Next.js 16](https://img.shields.io/badge/Next.js-16.4-black?style=flat-square&logo=next.js)](https://nextjs.org)
 [![React 19](https://img.shields.io/badge/React-19.3-149eca?style=flat-square&logo=react)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178c6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![CI](https://github.com/DMihail/engineering-profile/actions/workflows/ci.yml/badge.svg)](https://github.com/DMihail/engineering-profile/actions/workflows/ci.yml)
@@ -12,8 +12,8 @@ Readable production code: typed route handlers, Cache Components, tests, and a d
 
 ## Highlights
 
-- **Next.js 16 App Router** — Cache Components (`use cache` / `cacheLife`), App Router pages, Node API routes, `proxy.ts` for CSP headers, section redirects, and geo cookie
-- **React 19** — `useActionState`, `useFormStatus`, React Compiler (`reactCompiler: true`)
+- **Next.js 16.4 App Router** — Cache Components + Partial Prefetching (`use cache` / `cacheLife`), App Router pages, Node API routes, `proxy.ts` for CSP headers, section redirects, and geo cookie
+- **React 19.3** — `useActionState`, `useFormStatus`, React Compiler (`reactCompiler: true`)
 - **Theme** — light / dark / system via `data-theme` + `data-color-scheme`, bootstrap before paint, nav toggle
 - **Performance** — cached portfolio sections, client islands for nav/contact only, `content-visibility` on below-fold blocks
 - **SEO** — Metadata API, JSON-LD, sitemap (HTML routes only), robots (API + PDF disallow), OG images; canonical `/resume` (Ireland) is indexable
@@ -26,7 +26,7 @@ Readable production code: typed route handlers, Cache Components, tests, and a d
 
 | Layer | Tools |
 |-------|--------|
-| Framework | Next.js 16.3, React 19.3, TypeScript 5.9 |
+| Framework | Next.js 16.4, React 19.3, TypeScript 5.9 |
 | Styling | Tailwind CSS 4, CSS Modules, design tokens (`styles/tokens/`) |
 | Backend | Route Handlers, Firebase Admin, Firestore, nodemailer 10 |
 | Security | reCAPTCHA v3, CSP + hardening headers, inbox CORS + UID allowlist |

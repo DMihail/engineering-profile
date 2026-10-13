@@ -30,6 +30,15 @@ export const metadata: Metadata = {
     google: "lle48wjp7HiGdH_6SV2SEHd7_ShE51gH92oFBCJVLYA",
     yandex: "c241546e3753e046",
   },
+  // Discoverable agent brief (llms.txt) without putting it in the HTML sitemap.
+  alternates: {
+    types: {
+      "text/plain": [
+        { url: `${SITE_URL}/llms.txt`, title: "LLMs" },
+        { url: `${SITE_URL}/llms-full.txt`, title: "LLMs full" },
+      ],
+    },
+  },
   openGraph: ROOT_SITE_METADATA.openGraph,
   twitter: ROOT_SITE_METADATA.twitter,
   robots: {
