@@ -18,7 +18,7 @@ export function HeroSection() {
     <section
       id="hero"
       className="relative min-h-hero flex items-center overflow-hidden bg-background pt-(--nav-h)"
-      aria-labelledby="hero-heading"
+      aria-labelledby="person"
     >
       <div className="absolute inset-0 pointer-events-none bg-grid" aria-hidden />
       <div className="absolute inset-0 pointer-events-none bg-hero-wash" aria-hidden />
@@ -42,7 +42,7 @@ export function HeroSection() {
           </div>
 
           <h1
-            id="hero-heading"
+            id="person"
             className="font-sans font-extrabold mb-3 tracking-[-0.045em] leading-[0.98] text-foreground text-hero-name text-balance"
           >
             {SITE_AUTHOR.split(" ")[0]}

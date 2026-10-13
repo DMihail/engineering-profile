@@ -1,6 +1,6 @@
 import { buildSiteJsonLd, type JsonLdPerson, type JsonLdItemList } from "@/lib/json-ld";
 import { CASE_STUDIES } from "@/lib/content/portfolio/case-studies";
-import { SITE_EMAIL, SITE_LOCATION } from "@/lib/config";
+import { SITE_LOCATION, SITE_URL } from "@/lib/config";
 import { stringifyJsonLd } from "@/lib/stringify-json-ld";
 
 function isPersonNode(node: { "@type": string }): node is JsonLdPerson {
@@ -21,10 +21,15 @@ describe("buildSiteJsonLd", () => {
     expect(types).toContain("ItemList");
   });
 
-  it("uses square profile image for Person", () => {
+  it("uses square profile image and contactPoint (no harvestable email)", () => {
     const person = buildSiteJsonLd()["@graph"].find(isPersonNode);
     expect(person?.image).toMatch(/apple-icon$/);
-    expect(person?.email).toBe(SITE_EMAIL);
+    expect(person).not.toHaveProperty("email");
+    expect(person?.contactPoint).toMatchObject({
+      "@type": "ContactPoint",
+      contactType: "hiring inquiries",
+      url: `${SITE_URL}/#contact`,
+    });
     expect(person?.address).toMatchObject({
       addressLocality: "Dublin",
       addressCountry: "IE",
