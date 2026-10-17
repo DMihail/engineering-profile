@@ -1,8 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import Link from "next/link";
-import { Download, FileText, Phone } from "lucide-react";
+import { Download, Phone } from "lucide-react";
 import {
   getContactRegionFromClient,
   getServerContactRegion,
@@ -39,29 +38,19 @@ export function ContactPhoneCard() {
   );
 }
 
-export function ContactResumeButton() {
+/** Region-aware PDF download — HTML `/resume` link lives in the server sidebar. */
+export function ContactCvDownload() {
   const cv = useCvLink();
 
   return (
-    <div className="grid gap-2">
-      <Link href="/resume" className={`${styles.linkCard} w-full no-underline`}>
-        <div className="icon-well icon-well-md">
-          <FileText size={14} className="text-icon" aria-hidden />
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="text-xs font-semibold text-foreground">{UI_LABELS.contact.htmlResume}</div>
-          <div className="mono-sm text-text-dim">{UI_LABELS.contact.htmlResumeHint}</div>
-        </div>
-      </Link>
-      <a href={cv.file} download className={`${styles.linkCard} w-full no-underline`}>
-        <div className="icon-well icon-well-md">
-          <Download size={14} className="text-icon" aria-hidden />
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="text-xs font-semibold text-foreground">{cv.label}</div>
-          <div className="mono-sm text-text-dim">{UI_LABELS.contact.pdfDownload}</div>
-        </div>
-      </a>
-    </div>
+    <a href={cv.file} download className={`${styles.linkCard} w-full no-underline`}>
+      <div className="icon-well icon-well-md">
+        <Download size={14} className="text-icon" aria-hidden />
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="text-xs font-semibold text-foreground">{cv.label}</div>
+        <div className="mono-sm text-text-dim">{UI_LABELS.contact.pdfDownload}</div>
+      </div>
+    </a>
   );
 }

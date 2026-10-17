@@ -25,6 +25,9 @@ export const UI_LABELS = {
   subpage: {
     backToPortfolio: "← Back to portfolio",
   },
+  a11y: {
+    skipToContent: "Skip to main content",
+  },
   breadcrumb: {
     label: "Breadcrumb",
   },

@@ -152,7 +152,7 @@ Contact rate limiting is **in-process memory** (burst control on reused instance
 | Contact aside | HTML resume link + region ATS PDF download |
 | `public/*_CV_Ireland.pdf` / `*_CV_UK.pdf` | ATS files (`noindex` + robots disallow); UA keeps historical `*_CV_UK.pdf` name |
 
-After career/content edits: update HTML via `lib/content/career/*`, then re-export PDFs from `/resume` (browser Print → Save as PDF) and bump `CV_PDF_EXPORTED_AT` in `lib/content/cv.ts`. Also set `SITE_LAST_MODIFIED` (or the default in `lib/config.ts`) so sitemap/footer stay honest. Keep `public/llms.txt` / `llms-full.txt` in sync when the hire pitch or projects change.
+After career/content edits: update HTML via `lib/content/career/*`, then re-export PDFs from `/resume` (browser Print → Save as PDF) and bump `SITE_LAST_MODIFIED` (env or default in `lib/config.ts`) so sitemap/footer stay honest. Keep `public/llms.txt` / `llms-full.txt` in sync when the hire pitch or projects change.
 
 ### Agent discovery
 

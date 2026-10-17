@@ -1,0 +1,30 @@
+.skipLink {
+  position: absolute;
+  inset-inline-start: 1rem;
+  inset-block-start: 1rem;
+  z-index: 100;
+  padding-block: 0.625rem;
+  padding-inline: 1rem;
+  border-radius: var(--radius-button);
+  background: var(--primary);
+  color: var(--color-on-primary);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-decoration: none;
+  /* Visually hidden until keyboard focus */
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.skipLink:focus,
+.skipLink:focus-visible {
+  clip-path: none;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  outline: 0.125rem solid var(--color-ring);
+  outline-offset: 0.125rem;
+}

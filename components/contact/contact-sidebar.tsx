@@ -1,4 +1,5 @@
-import { ExternalLink, Send } from "lucide-react";
+import Link from "next/link";
+import { ExternalLink, FileText, Send } from "lucide-react";
 import { TELEGRAM } from "@/lib/contact-region";
 import { SOCIAL_LINKS } from "@/lib/content/portfolio/social-links";
 import { SITE_CALENDLY_URL } from "@/lib/config";
@@ -6,8 +7,8 @@ import { UI_LABELS } from "@/lib/content/ui-labels";
 import { ContentIcon } from "@/components/ui/content-icons";
 import { ContactCopyEmailButton } from "@/components/contact/contact-copy-email-button";
 import {
+  ContactCvDownload,
   ContactPhoneCard,
-  ContactResumeButton,
 } from "@/components/contact/contact-region-links";
 import styles from "@/styles/sections/contact-aside.module.css";
 
@@ -106,7 +107,18 @@ export function ContactSidebar() {
 
       <div className="pt-4 border-t border-border mt-4">
         <h3 className="mono-label mb-2.5">{UI_LABELS.contact.resumeHeading}</h3>
-        <ContactResumeButton />
+        <div className="grid gap-2">
+          <Link href="/resume" className={`${styles.linkCard} w-full no-underline`}>
+            <div className="icon-well icon-well-md">
+              <FileText size={14} className="text-icon" aria-hidden />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-xs font-semibold text-foreground">{UI_LABELS.contact.htmlResume}</div>
+              <div className="mono-sm text-text-dim">{UI_LABELS.contact.htmlResumeHint}</div>
+            </div>
+          </Link>
+          <ContactCvDownload />
+        </div>
       </div>
     </aside>
   );

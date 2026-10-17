@@ -11,7 +11,7 @@
   }
 }
 
-@media (min-width: 1280px) {
+@media (width >= 80rem) {
   .grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
