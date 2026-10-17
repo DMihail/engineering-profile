@@ -5,7 +5,7 @@ import type { ContactRegion } from "@/lib/contact-region";
  *
  * **Source of truth:** HTML `/resume` (and `/resume?variant=ua`), generated from
  * `lib/content/career/*`. After content changes, re-export PDFs via the resume
- * page (Print → Save as PDF) and refresh `CV_PDF_EXPORTED_AT`.
+ * page (Print → Save as PDF) and bump `SITE_LAST_MODIFIED`.
  *
  * Note: `ua` file keeps the historical `*_CV_UK.pdf` filename (outbound links).
  */
@@ -21,12 +21,6 @@ export const CV_DOWNLOADS = {
     label: "Resume (UA)",
   },
 } as const;
-
-/**
- * Last manual PDF export date (ISO). Bump when regenerating files in `public/`.
- * Used for docs / drift awareness — HTML `/resume` is always newer for web.
- */
-export const CV_PDF_EXPORTED_AT = "2026-06-08";
 
 export type CvDownload = (typeof CV_DOWNLOADS)[keyof typeof CV_DOWNLOADS];
 

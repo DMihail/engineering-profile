@@ -6,7 +6,7 @@ import styles from "@/styles/layout/subpage-header.module.css";
 export function SubpageHeader() {
   return (
     <header className={styles.header}>
-      <Link href="/" className={styles.brand} aria-label={UI_LABELS.subpage.backToPortfolio}>
+      <Link href="/" className={styles.brand}>
         <MDLogo size={20} aria-hidden />
         <span className={styles.brandText}>{UI_LABELS.nav.portfolio}</span>
       </Link>

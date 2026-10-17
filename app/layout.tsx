@@ -10,6 +10,7 @@ import {
   ROOT_SITE_METADATA,
 } from "@/lib/site-metadata";
 import { ScrollHashBootstrap } from "@/components/layout/scroll-hash-bootstrap";
+import { SkipLink } from "@/components/layout/skip-link";
 import { SiteJsonLd } from "@/components/seo/site-json-ld";
 import { fontBodyClassName, fontVariableClassName } from "@/lib/fonts";
 import { THEME_BOOTSTRAP_SCRIPT } from "@/lib/theme";
@@ -86,6 +87,7 @@ export default function RootLayout({
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }}
         />
+        <SkipLink />
         <ScrollHashBootstrap />
         <SiteJsonLd />
         {children}

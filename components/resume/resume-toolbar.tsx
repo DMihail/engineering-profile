@@ -1,14 +1,13 @@
-"use client";
-
 import Link from "next/link";
-import { Printer } from "lucide-react";
 import { resumePath, type ResumeVariant } from "@/lib/resume-content";
+import { PrintResumeButton } from "@/components/resume/print-resume-button";
 import styles from "@/styles/resume/resume-toolbar.module.css";
 
 interface ResumeToolbarProps {
   variant: ResumeVariant;
 }
 
+/** Server toolbar — variant links stay in the RSC payload; print is a client island. */
 export function ResumeToolbar({ variant }: ResumeToolbarProps) {
   return (
     <nav className={styles.toolbar} aria-label="Resume actions">
@@ -34,10 +33,7 @@ export function ResumeToolbar({ variant }: ResumeToolbarProps) {
 
       <div className={styles.toolbarGroup}>
         <p className={styles.toolbarHint}>Use Print → Save as PDF for ATS upload</p>
-        <button type="button" className={styles.toolbarButtonPrimary} onClick={() => window.print()}>
-          <Printer size={14} aria-hidden />
-          Print / Save PDF
-        </button>
+        <PrintResumeButton />
       </div>
     </nav>
   );

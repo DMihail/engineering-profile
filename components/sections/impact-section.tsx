@@ -37,7 +37,7 @@ export function ImpactSection() {
                       <div className="icon-well icon-well-md">
                         <ContentIcon id={cap.icon} size={13} className="text-icon" />
                       </div>
-                      <span className={styles.capRowTitle}>{cap.title}</span>
+                      <h3 className={styles.capRowTitle}>{cap.title}</h3>
                     </div>
                     <div className="flex flex-wrap gap-1 mb-2">
                       {cap.tags.slice(0, 3).map((tag) => (
@@ -72,7 +72,7 @@ export function ImpactSection() {
                   </div>
                   <div className="text-end shrink-0 max-w-[42%]">
                     <div className={styles.capKpiMobile}>{cap.kpi}</div>
-                    <div className="mono-2xs text-success-dim leading-snug">{cap.kpiSub}</div>
+                    <div className="mono-xs text-success-dim leading-snug">{cap.kpiSub}</div>
                   </div>
                 </div>
                 <p className="text-xs text-text-secondary leading-body mb-2 text-pretty">{cap.desc}</p>
