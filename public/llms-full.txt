@@ -6,11 +6,12 @@ Canonical site: https://dzhezhelo.dev/
 ## Identity
 
 - Name: Mykhailo Dzhezhelo
-- Role: Mobile Engineer · React Native · Web Developer
+- Role: React Native Developer · iOS & Android
 - Location: Dublin, Ireland
 - Serving: Ireland, EU, UK, Ukraine, remote (incl. US remote)
 - Availability: Available — full-time · contract · remote & onsite
-- English: Working professional (B1+) — daily standups, written async, client calls
+- English: Intermediate (B1), taking classes in Dublin
+- Right to work: full right to work in Ireland, no visa sponsorship required
 
 ## Hire pitch
 
@@ -49,13 +50,14 @@ React Native, Expo, TypeScript, React, Node.js / Express, Firebase (Auth, Analyt
    https://dzhezhelo.dev/#project-audiobook
 
 6. Keept / FocusGuard (personal)
-   Screen-time limits; RN 0.86 New Architecture; codegen Turbo Modules; Android UsageStats + iOS Screen Time.
+   Screen-time limits; RN 0.87 New Architecture; Google Play closed testing; codegen Turbo Modules; Android UsageStats + iOS Screen Time.
    https://dzhezhelo.dev/#project-focusguard
 
 ## Experience (high level)
 
-- Elementica — React Native Developer (Uzhhorod) — healthcare mobile (Vitadrop), Vidalytics admin
-- NetGame — React Native Developer (Kyiv) — production casino/sportsbook store releases, Crashlytics
+- 2026 — Dublin: relocation, English classes, personal projects Keept and Nudge
+- Elementica — React Native Developer, contract (Uzhhorod) — healthcare mobile (Vitadrop), Vidalytics admin
+- NetGame — React Native Developer, contract (Kyiv) — production casino/sportsbook store releases, Crashlytics
 - Kultprosvet — Full Stack / React Native (Dnipro) — auctions & workforce apps, offline-first, GraphQL, WebSockets
 - Earlier web/mobile roles — see HTML resume for full chronology
 
