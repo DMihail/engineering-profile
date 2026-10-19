@@ -8,7 +8,25 @@ import type {
 /** Single source of truth for work history — portfolio and resume derive from here. */
 export const CAREER_EXPERIENCE: CareerExperienceEntry[] = [
   {
-    role: "React Native Developer",
+    role: "Relocation to Ireland and personal projects",
+    company: "Self-directed",
+    period: "01/2026 – Present",
+    location: "Dublin",
+    impact:
+      "Moved to Dublin; building Keept on the React Native New Architecture with native Kotlin and Swift modules.",
+    portfolio: {
+      tags: ["React Native", "New Architecture", "Turbo Modules", "Kotlin", "Swift", "Expo", "Jest"],
+      relatedCaseId: "focusguard",
+      relatedCaseTitle: "Keept",
+    },
+    bullets: [
+      "Moved to Dublin; taking English classes.",
+      "Building Keept, a screen-time app on React Native 0.87 (New Architecture) with native Kotlin and Swift modules, now in closed testing on Google Play.",
+      "Building Nudge, a gamified to-do app with Expo; learning Kotlin and Jetpack Compose for a planned Wear OS companion.",
+    ],
+  },
+  {
+    role: "React Native Developer (Contract)",
     company: "Elementica",
     period: "03/2025 – 12/2025",
     location: "Uzhhorod",
@@ -31,28 +49,22 @@ export const CAREER_EXPERIENCE: CareerExperienceEntry[] = [
         title: "Vitadrop (Healthcare Mobile Application)",
         caseStudyId: "vitadrop",
         bullets: [
-          "Developed and maintained a healthcare mobile application using React Native.",
-          "Implemented Firebase Authentication, REST API integrations, push notifications, and core application features.",
-          "Integrated camera functionality and OpenCV-based image analysis workflows.",
-          "Worked with iOS and Android native projects to integrate third-party SDKs and platform-specific functionality.",
-          "Participated in application releases for App Store and Google Play.",
-          "Collaborated with backend developers and stakeholders to deliver new features and improvements.",
+          "Built core features of a healthcare app in React Native and TypeScript: Firebase Authentication, REST API integration and push notifications.",
+          "Added camera capture with VisionCamera and image analysis with OpenCV, including native iOS and Android SDK integration.",
+          "Prepared and shipped releases to the App Store and Google Play.",
         ],
       },
       {
         title: "Vidalytics Admin Platform",
         caseStudyId: "vidalytics",
         bullets: [
-          "Contributed to the development of a video analytics and player management platform using React.",
-          "Developed analytics dashboards and player configuration features.",
-          "Implemented new functionality and improvements based on business requirements.",
-          "Worked closely with product managers, designers, and engineers in an Agile environment.",
+          "Built analytics dashboards and video player settings in React, working with product managers and designers in Agile sprints.",
         ],
       },
     ],
   },
   {
-    role: "React Native Developer",
+    role: "React Native Developer (Contract)",
     company: "NetGame",
     period: "06/2024 – 01/2025",
     location: "Kyiv",
@@ -60,10 +72,9 @@ export const CAREER_EXPERIENCE: CareerExperienceEntry[] = [
       "Owned production iOS/Android release cycles — features, Crashlytics triage, and post-release fixes.",
     portfolio: { tags: ["React Native", "Expo", "Firebase Crashlytics", "App Store", "Google Play"] },
     bullets: [
-      "Developed and maintained production mobile applications for iOS and Android.",
-      "Delivered new features, bug fixes, and performance improvements.",
-      "Investigated and resolved production issues using Firebase Crashlytics and analytics tools.",
-      "Supported release cycles and post-release maintenance.",
+      "Developed features for production betting and casino apps on iOS and Android.",
+      "Triaged and fixed top production crashes found in Firebase Crashlytics.",
+      "Supported regular release cycles and post-release monitoring.",
     ],
     applicationsLabel: "Applications:",
     applications: ["BetKing Casino & Sportsbook", "777 UA Casino"],
@@ -76,40 +87,32 @@ export const CAREER_EXPERIENCE: CareerExperienceEntry[] = [
     impact:
       "Multi-year ownership of auction and workforce apps — offline-first, real-time sync, and RN upgrades in production.",
     portfolio: {
-      tags: ["React Native", "React", "Node.js", "GraphQL", "Express", "WebSockets", "MySQL"],
+      tags: ["React Native", "React", "Node.js", "NestJS", "GraphQL", "Express", "WebSockets", "MySQL"],
     },
     bullets: [
-      "Developed mobile and web applications using React Native, React, TypeScript, and Node.js.",
-      "Built backend services and APIs using Express, GraphQL, GraphQL Subscriptions, and MySQL.",
-      "Participated in code reviews, sprint planning, task estimation, and mentoring activities.",
-      "Worked directly with clients and stakeholders throughout the development lifecycle.",
+      "Took part in code reviews, sprint planning and estimation, and mentored junior developers.",
     ],
     projects: [
       {
         title: "Waddingtons Auctions",
         caseStudyId: "waddingtons",
         bullets: [
-          "Developed and maintained a mobile auction platform built with Expo and React Native.",
-          "Implemented new features and enhancements while supporting the application over a two-year period.",
-          "Helped migrate auction functionality from a web platform to mobile applications.",
+          "Moved live auction features from the web platform to new iOS and Android apps (Expo) and supported them for two years.",
         ],
       },
       {
         title: "Amako",
         caseStudyId: "amako",
         bullets: [
-          "Maintained and enhanced a workforce management application used by field engineers.",
-          "Implemented offline data storage and WebSocket-based real-time synchronization.",
-          "Upgraded the project from an outdated React Native version to a modern release.",
-          "Delivered new features and performance improvements while maintaining existing business workflows.",
+          "Upgraded the app from an outdated React Native version to a modern release while keeping releases running for field engineers.",
+          "Built offline data storage and real-time sync over WebSockets, so engineers could work without a connection.",
         ],
       },
       {
-        title: "Education Platform",
+        title: "Education Platform (classroom focus app)",
         bullets: [
-          "Developed functionality for an educational platform used by teachers and students.",
-          "Built backend services, administration features, and real-time functionality.",
-          "Worked with React Native, React, GraphQL, and GraphQL Subscriptions to support mobile and web applications.",
+          "Built a React Native app where teachers start a lesson and students join it; once joined, an on-device VPN blocks social media (Instagram, Facebook and others).",
+          "Built and maintained the NestJS, GraphQL and MySQL backend with GraphQL Subscriptions for real-time classroom control, and a React Admin panel for teachers.",
         ],
       },
     ],
@@ -118,7 +121,7 @@ export const CAREER_EXPERIENCE: CareerExperienceEntry[] = [
     role: "Junior React Native Developer",
     company: "Devsteam.mobi",
     period: "03/2020 – 03/2021",
-    location: "Kiev",
+    location: "Kyiv",
     impact: "Built offline audiobook playback and SQLite storage for a production React Native app.",
     portfolio: {
       tags: ["React Native", "SQLite", "REST APIs", "TypeScript"],
@@ -126,10 +129,7 @@ export const CAREER_EXPERIENCE: CareerExperienceEntry[] = [
       relatedCaseTitle: "Audiobook Application",
     },
     bullets: [
-      "Contributed to the development of a React Native audiobook application.",
-      "Implemented audio playback functionality and offline content storage using SQLite.",
-      "Integrated REST APIs for content synchronization and user management.",
-      "Improved application stability and performance through bug fixing and maintenance.",
+      "Built audio playback and offline downloads (SQLite) for an audiobook app, with REST API sync.",
     ],
   },
   {
@@ -142,51 +142,31 @@ export const CAREER_EXPERIENCE: CareerExperienceEntry[] = [
       tags: ["JavaScript", "TypeScript", "ActionScript"],
     },
     bullets: [
-      "Participated in migration of browser games from ActionScript to JavaScript and TypeScript.",
-      "Implemented new functionality and maintained existing game codebases.",
-      "Worked on bug fixing, performance improvements, and feature development.",
-      "Collaborated with developers, designers, and QA engineers throughout the development process.",
+      "Migrated browser games from ActionScript to JavaScript and TypeScript.",
     ],
   },
 ];
 
+/** Personal projects — client work lives under CAREER_EXPERIENCE so the resume does not repeat it. */
 export const CAREER_FEATURED_PROJECTS: CareerFeaturedProject[] = [
   {
-    title: "Vitadrop",
-    period: "03/2025 – 06/2025",
-    caseStudyId: "vitadrop",
+    title: "Keept (FocusGuard), Screen-Time App",
+    period: "05/2026 – Present",
+    caseStudyId: "focusguard",
     bullets: [
-      "Developed and maintained a healthcare mobile application using React Native.",
-      "Implemented Firebase Authentication, REST API integrations, push notifications, and core application features.",
-      "Integrated camera functionality and OpenCV-based image analysis workflows.",
-      "Worked with iOS and Android native projects to integrate third-party SDKs and platform-specific functionality.",
-      "Participated in App Store and Google Play release processes.",
-      "Collaborated closely with backend developers and stakeholders to deliver new features and improvements.",
+      "Building a cross-platform app that tracks distracting apps, warns before limits and blocks them; now in closed testing on Google Play.",
+      "Wrote native code for both platforms: Kotlin foreground service, UsageStatsManager, overlay blocking and home-screen widget on Android; Swift Screen Time (Family Controls, DeviceActivity) extensions on iOS, connected through a Turbo Module.",
+      "Set up Zustand + MMKV storage, Reanimated charts, i18n (EN/RU), Firebase Crashlytics, and a quality gate with ESLint, Prettier, TypeScript and Jest (130+ tests).",
     ],
-    technologies: "React Native, TypeScript, Firebase, REST API, VisionCamera, OpenCV Integration",
+    technologies: "React Native 0.87 (New Architecture), React 19, TypeScript, Turbo Modules, Kotlin, Swift, Zustand, MMKV, Jest",
   },
   {
-    title: "Waddingtons Auctions, Mobile Auction Platform",
-    period: "09/2021 – 12/2023",
-    caseStudyId: "waddingtons",
+    title: "Nudge, Gamified To-Do App",
+    period: "08/2026 – Present",
     bullets: [
-      "Developed and maintained a production mobile auction platform built with React Native and Expo.",
-      "Helped migrate auction functionality from a web platform to mobile applications.",
-      "Implemented new features and enhancements while supporting the application over a two-year period.",
-      "Collaborated with backend developers and product stakeholders to improve user experience and platform functionality.",
+      "Building a to-do app with XP, streaks and scheduled reminders; learning Kotlin and Jetpack Compose for a planned Wear OS companion.",
     ],
-    technologies: "React Native, Expo, TypeScript, REST API",
-  },
-  {
-    title: "Education Platform",
-    period: "06/2022 – 12/2022",
-    bullets: [
-      "Participated in development of an educational platform for teachers and students.",
-      "Developed mobile and web functionality using React Native and React.",
-      "Built backend services using Node.js, GraphQL, and GraphQL Subscriptions.",
-      "Implemented real-time classroom management and user synchronization features.",
-      "Developed administration functionality for teacher and lesson management.",
-    ],
+    technologies: "React Native, Expo, Expo Router, TypeScript, Zustand",
   },
 ];
 
@@ -198,7 +178,7 @@ export const CAREER_EDUCATION: CareerEducationEntry[] = [
     location: "Dnipro",
   },
   {
-    degree: "Bachelor Degree in Systems Analysis",
+    degree: "Bachelor's Degree in Systems Analysis",
     institution: "Oles Honchar Dnipro National University",
     period: "09/2015 – 06/2019",
     location: "Dnipro",
@@ -208,8 +188,5 @@ export const CAREER_EDUCATION: CareerEducationEntry[] = [
 export const CAREER_LANGUAGES: CareerLanguageEntry[] = [
   { language: "Ukrainian", level: "Native" },
   { language: "Russian", level: "Native" },
-  {
-    language: "English",
-    level: "Working professional (B1+) — daily standups, written async, client calls",
-  },
+  { language: "English", level: "Intermediate (B1), taking classes in Dublin" },
 ];
